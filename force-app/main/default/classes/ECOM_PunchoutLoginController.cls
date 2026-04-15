@@ -297,7 +297,7 @@ public static void validateContactAndContactAddress(User userRecord, ERP_Address
                 }
                 //VRa Changes for ECOM 2357: end
 
-                System.debug('Updated Contact Record:: ' + JSON.serialize(contactRecord));
+                //System.debug('Updated Contact Record:: ' + JSON.serialize(contactRecord));
 
                 //RWPS-5938
                 if (ECOM_CustomLoginController.getMagicLinkImplementationActivationStatus() == true) {
