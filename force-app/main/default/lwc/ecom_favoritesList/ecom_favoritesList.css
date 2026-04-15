@@ -1,0 +1,298 @@
+/* RWPS-3740 START */
+.fav-card-outer {
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.fav-spinner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.7);
+		z-index: 1;
+}
+
+.fav-msg-container {
+    margin-bottom: 24px;
+}
+
+.fav-card {
+	padding: 24px;
+	display: flex;
+	width: 100%;
+	gap: 24px;
+	border: 1px solid #e3e3e3;
+	border-radius: 8px;
+}
+
+.card-img-outer {
+	--image-width: 62px;
+
+	width: var(--image-width);
+	min-width: var(--image-width);
+
+	a {
+		display: block;
+
+		img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+	}
+}
+
+.card-content-outer {
+	flex-grow: 1;
+	display: flex;
+	align-items: stretch;
+	gap: 24px;
+
+	.card-info {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+
+		.card-title {
+			margin-bottom: 16px;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 24px;
+
+			a {
+				color: #000;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: none;
+				}
+			}
+		}
+
+		.card-sub-info {
+			margin-bottom: 16px;
+			flex-grow: 1;
+
+			.card-sub-info-item {
+				margin-bottom: 4px;
+				color: #525252;
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 20px;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+
+    .card-discontinued-section {
+			margin-bottom: 16px;
+
+			.card-discontinued-label-outer {
+				display: inline;
+				position: relative;
+
+				.card-discontinued-label {
+					display: inline-flex;
+					gap: 8px;
+					align-items: center;
+					font-weight: 400;
+					font-size: 14px;
+					line-height: 20px;
+					color: #dc0101;
+					cursor: pointer;
+
+					&[data-cursor="true"] {
+						cursor: default;
+					}
+
+					.discontinued-icon {
+						.discontinued-icon-svg {
+								display: block;
+
+								&:focus:not(:focus-visible) {
+									outline: none;
+								}
+						}
+					}
+				}
+			}
+
+		}
+
+		.card-secondary-action {
+			display: flex;
+			align-items: center;
+
+			&[data-add-to-cart="true"] {
+				min-height: 48px;
+			}
+
+			.remove-fav-btn {
+				background: #fff;
+				border: none;
+				color: #7f03b0;
+				display: flex;
+				gap: 8px;
+				align-items: center;
+				font-weight: 500;
+				font-size: 16px;
+				line-height: 24px;
+				cursor: pointer;
+				padding: 0;
+			}
+		}
+	}
+
+	.card-actions-outer {
+		--actions-width: 144px;
+
+		width: var(--actions-width);
+		min-width: var(--actions-width);
+		display: flex;
+		flex-direction: column;
+
+		.qty-section {
+			flex-grow: 1;
+
+			.qty-counter {
+				width: 100%;
+				display: flex;
+				gap: 10px;
+				border: 1px solid #e3e3e3;
+				border-radius: 8px;
+				padding: 5px;
+
+				--qty-btn-size: 33px;
+
+				.qty-counter-item {
+					height: var(--qty-btn-size);
+				}
+
+				.qty-counter-btn {
+					width: var(--qty-btn-size);
+					min-width: var(--qty-btn-size);
+					background: #fff;
+					border: none;
+					cursor: pointer;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+
+				.qty-counter-input-outer {
+					flex-grow: 1;
+
+					input {
+						width: 100%;
+						border: none;
+						text-align: center;
+						font-size: 16px;
+						line-height: 22px;
+						font-weight: 400;
+
+						appearance: textfield;
+						-moz-appearance: textfield;
+
+						&::-webkit-outer-spin-button,
+						&::-webkit-inner-spin-button {
+							-webkit-appearance: none;
+							margin: 0;
+						}
+
+						&:focus {
+							outline: none;
+						}
+					}
+				}
+			}
+		}
+
+		.card-primary-action {
+			text-align: right;
+
+			.add-to-cart-btn {
+				background: #7f03b0;
+				border: none;
+				color: #fff;
+				font-weight: 500;
+				font-size: 18px;
+				line-height: 24px;
+				padding: 12px 20px;
+				border-radius: 40px;
+				cursor: pointer;
+				transition: 0.2s;
+				width: max-content;
+
+				&:hover {
+					background: #690290;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 600px) {
+	.card-content-outer {
+		flex-direction: column;
+
+		.card-info {
+			.card-secondary-action {
+				min-height: auto;
+			}
+		}
+
+		.card-actions-outer {
+			width: 100%;
+			min-width: 100%;
+			flex-direction: row;
+			align-items: center;
+			gap: 16px;
+
+			.card-primary-action {
+				text-align: right;
+				align-self: center;
+			}
+		}
+	}
+}
+
+@media (max-width: 460px) {
+	.fav-card {
+		flex-direction: column;
+	}
+
+	.card-img-outer {
+		width: 100%;
+
+		a {
+			img {
+				height: 200px;
+				object-fit: contain;
+				object-position: center;
+			}
+		}
+	}
+
+	.card-content-outer {
+		.card-info {
+			.card-title {
+				font-size: 16px;
+				line-height: 22px;
+			}
+		}
+
+		.card-actions-outer {
+			.card-primary-action {
+				.add-to-cart-btn {
+					font-size: 16px;
+				}
+			}
+		}
+	}
+}
+/* RWPS-3740 END */

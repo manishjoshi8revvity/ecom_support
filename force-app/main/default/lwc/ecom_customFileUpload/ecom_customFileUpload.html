@@ -1,0 +1,19 @@
+<!--
+  @description       : Custom file upload element for ECOM site
+  @author            : Abhishek Joshi (abhishek.joshi@revvity.com) 2025.02.18 - RWPS-2631
+  @last modified on  : -
+  @last modified by  : -
+-->
+
+<template>
+  <div class="cfu-outer">
+    <input type="file" accept={_accept} onchange={handleChange} id="fileInput" aria-label="fileInput" class="cfu-upload-inp" lwc:ref="fileInput">
+    <label for="fileInput" class="cfu-drag-box" ondragover={handleDrag} ondragenter={handleDrag} ondragleave={handleDrag} ondrop={handleDrop} data-drag={isDragover}>
+      <span class="cfu-upload-btn">
+        <svg focusable="false" aria-hidden="true" viewBox="0 0 520 520" part="icon" data-key="upload" class="cfu-upload-svg"><g><path d="M485 310h-30c-8 0-15 8-15 15v100c0 8-7 15-15 15H95c-8 0-15-7-15-15V325c0-7-7-15-15-15H35c-8 0-15 8-15 15v135a40 40 0 0040 40h400a40 40 0 0040-40V325c0-7-7-15-15-15zM270 24c-6-6-15-6-21 0L114 159c-6 6-6 15 0 21l21 21c6 6 15 6 21 0l56-56c6-6 18-2 18 7v212c0 8 6 15 14 15h30c8 0 16-8 16-15V153c0-9 10-13 17-7l56 56c6 6 15 6 21 0l21-21c6-6 6-15 0-21z"></path></g></svg>
+        <span>{buttonText}</span>
+      </span>
+      <span class="cfu-upload-drop">{dropzoneText}</span>
+    </label>
+  </div>
+</template>

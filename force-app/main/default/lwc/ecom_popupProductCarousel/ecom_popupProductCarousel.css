@@ -1,0 +1,327 @@
+@keyframes fadein{
+	0%{opacity:0;display:block;}
+	100%{opacity:1;}
+}
+
+@-webkit-keyframes fadein{
+	0%{opacity:0;display:block;}
+	100%{opacity:1;}
+}
+
+@keyframes fadeout{
+	0%{opacity:1;display:block;}
+	99%{opacity:0;}
+	100%{opacity:0;display: none;}
+}
+
+@-webkit-keyframes fadeout{
+	0%{opacity:1;display:block;}
+	99%{opacity:0;}
+	100%{opacity:0;display: none;}
+}
+
+.popup-top-parent {
+	position: absolute;
+	top: 100%;
+	left: var(--popup-left);
+	width: var(--popup-width);
+	padding-top: 28px;
+	cursor: auto;
+	filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.2));
+	color: #000;
+  	z-index: 4; /*RWPS-5181*/
+	display: none;
+
+	&.popup-fadein {
+		animation: fadein 0.3s linear;
+		-webkit-animation: fadein 0.3s linear;
+		display: block;
+	}
+
+	&.popup-fadeout {
+		animation: fadeout 0.3s linear;
+		-webkit-animation: fadeout 0.3s linear;
+		display: none;
+	}
+
+	.popup-pointer {
+		position: absolute;
+		top: 4px;
+		left: var(--pointer-left);
+		transform: translateX(-50%);
+	}
+
+	.pop-content {
+		background: #fff;
+		width: 100%;
+		position: relative;
+		border-radius: 8px;
+		padding: 16px;
+
+		.pop-over-discontinued-banner {
+			width: 100%;
+			display: flex;
+			align-items: flex-start;
+			gap: 8px;
+			margin-bottom: 16px;
+			padding: 8px 16px;
+			color: #DC0101;
+			font-style: italic;
+			font-weight: 400;
+			font-size: 18px;
+			line-height: 24px;
+			background: #FFFDE7;
+			border: 1px dashed #A8A8A8;
+			border-radius: 8px;
+
+			.pop-over-discontinued-icon {
+				padding-top: 4px;
+
+				svg {
+					display: block;
+				}
+			}
+		}
+
+		.pop-upper-text {
+			color: #525252;
+			margin-bottom: 8px;
+			font-size: 18px;
+			font-weight: 500;
+			line-height: 24px;
+		}
+
+		.carousel-msg-container {
+			margin-bottom: 24px;
+			display: flex;
+			align-items: center;
+			width: 100%;
+			padding: 8px;
+			gap: 8px;
+			border-radius: 8px;
+
+			&[data-status="error"] {
+				border: 1px solid #e81511;
+				background-color: #f09391;
+			}
+
+			&[data-status="success"] {
+				border: 1px solid #029333;
+				background-color: #E6F4EB;
+			}
+
+			.carousel-msg {
+				flex-grow: 1;
+			}
+
+			.msg-close-btn {
+				width: fit-content;
+				min-width: fit-content;
+				background: transparent;
+				border: none;
+				cursor: pointer;
+
+				svg {
+					width: 16px;
+					height: 16px;
+				}
+			}
+		}
+
+		.popup-carousel-section {
+
+			.carousel-spinner {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background: rgba(255, 255, 255, 0.7);
+				z-index: 1;
+			}
+
+			.product-carousel {
+				display: block;
+				width: 100%;
+				overflow: hidden;
+				position: relative;
+
+				.product-carousel-inner {
+					--carousel-item-gap: 8px;
+					margin: 0 calc(-1 * var(--carousel-item-gap));
+					width: calc(100% + (2 * var(--carousel-item-gap)));
+					display: flex;
+					transition: 0.3s;
+
+					.carousel-item-outer {
+						padding: 0 var(--carousel-item-gap);
+						width: 100%;
+						min-width: 100%;
+						flex-basis: 100%;
+						max-width: 100%;
+
+						.carousel-item {
+							width: 100%;
+							border: 1px solid #e3e3e3;
+							border-radius: 8px;
+							padding: 16px;
+							display: flex;
+							gap: 16px;
+							align-items: stretch;
+
+							.carousel-item-img {
+								--carousel-img-width: 40px;
+
+								min-width: var(--carousel-img-width);
+								flex-basis: var(--carousel-img-width);
+
+								a {
+									display: block;
+
+									img {
+										width: 100%;
+										height: auto;
+										max-height: calc(var(--carousel-img-width) * 2);
+										object-fit: contain;
+										object-position: center top;
+										display: block;
+									}
+								}
+							}
+
+							.carousel-item-info {
+								flex-grow: 1;
+								min-width: 0;
+
+								.carousel-item-info-data {
+									display: flex;
+									width: 100%;
+									gap: 16px;
+									margin-bottom: 16px;
+
+									.carousel-item-data-lhs {
+										flex-grow: 1;
+										min-width: 0;
+										overflow: hidden;
+
+										.carousel-item-name {
+											font-weight: 500;
+											font-size: 18px;
+											line-height: 24px;
+											margin-bottom: 4px;
+
+											a,
+											a:hover {
+												text-decoration: none;
+												color: #000;
+											}
+										}
+
+										.carousel-item-pn {
+											font-weight: 400;
+											font-size: 14px;
+											line-height: 20px;
+
+											.carousel-item-pn-label {
+												color: #525252;
+												display: inline-block;
+												margin-right: 4px;
+											}
+
+											.carousel-item-pn-value {
+												color: #333;
+												display: inline-block;
+											}
+										}
+									}
+
+									.carousel-item-data-rhs {
+										text-align: right;
+										min-width: 30%;
+
+										.carousel-item-price-label {
+											color: #525252;
+											margin-bottom: 4px;
+											font-weight: 400;
+											font-size: 14px;
+											line-height: 20px;
+										}
+
+										.carousel-item-price-value {
+											font-weight: 700;
+											font-size: 18px;
+											line-height: 24px;
+										}
+									}
+								}
+
+								.carousel-item-actions {
+									display: flex;
+									gap: 8px;
+									justify-content: flex-end;
+
+									.carousel-item-action-button {
+										font-weight: 500;
+										font-size: 16px;
+										line-height: 22px;
+										padding: 10px 18px;
+										border: 2px solid #7f03b0;
+										border-radius: 40px;
+										transition: 0.2s;
+										cursor: pointer;
+
+										&.carousel-item-action-button-secondary {
+											background: #fff;
+											color: #7f03b0;
+
+											&:hover {
+												background: #7f03b0;
+												color: #fff;
+											}
+										}
+
+										&.carousel-item-action-button-primary {
+											background: #7f03b0;
+											color: #fff;
+
+											&:hover {
+												background: #690290;
+												border-color: #690290;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.product-carousel-controls {
+				margin-top: 16px;
+				display: flex;
+				justify-content: flex-end;
+				gap: 16px;
+				align-items: center;
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 20px;
+
+				.product-carousel-control-button {
+					background: transparent;
+					border: none;
+					padding: 0;
+					cursor: pointer;
+
+					&:disabled {
+						opacity: 0.5;
+					}
+
+					svg {
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,67 @@
+<!--
+  @description       : Component to showcase and edit E-Invoice Requirements
+  @author            : sveeraraghavan@rafter.one
+  @group             : 
+  @last modified on  : 05-13-2024
+  @last modified by  : sveeraraghavan@rafter.one
+-->
+<template>
+    <template if:true={showSpinner}>
+        <div class="backdrop">
+            <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+            </lightning-spinner>
+        </div>
+    </template>
+    <div class={containerClass}>
+        <div class="message-container slds-grid slds-wrap">
+            <div class="slds-col">
+                <c-ecom_inline-message type={type} message={message} show={show}
+                    onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message>
+            </div>
+        </div>
+        <div class={containerDataClass}>
+            <template for:each={validateFields} for:item="field">
+                <div key={field.label} if:true={isInvoiceOrderMode}>
+                    <div if:true={device.isMobile}>
+                        <div if:true={field.isReadOnly} class="ecom-mt-8">
+                            <span class="ecom-address-label">{field.label}</span>
+                            <div class="ecom-address-details">{field.value}</div> 
+                        </div>
+                    </div>
+                    <div if:false={device.isMobile}>
+                        <span if:true={field.isReadOnly}>
+                            <span class="ecom-address-label">{field.label}:<span class="ecom-address-details slds-p-left_medium">{field.value}</span></span>
+                        </span>
+                    </div>
+                </div>
+                <div key={field.label} if:true={isInvoiceReadMode}>
+                    <div if:true={field.isReadOnly}  class="ecom-mt-32">
+                        <span class="ecom-address-label">{field.label}</span>
+                        <div class="ecom-address-details ecom-mt-8">{field.value}</div> 
+                    </div>
+                </div>
+                <div key={field.label} if:true={isInvoiceEditMode}>
+                    <lightning-input 
+                        type="text" 
+                        class="ecom-addr-text ecom-mt-32" 
+                        label={field.label}  
+                        max-length={field.validation.max}
+                        required={field.isRequired} 
+                        data-id={field.fieldAPIName} 
+                        data-validate="true"
+                        pattern={field.validation.regex}
+                        message-when-pattern-mismatch={field.validation.errorMessage}
+                        value={field.value}
+                        onchange={handleValueChange}
+                        onkeypress={handleKeyPress}>
+                    </lightning-input>
+                </div>
+            </template>
+        </div>
+        <div if:true={isInvoiceEditMode}>
+            <button class="ecom-placeorder-btn ecom-mt-32" onclick={handleInvoiceFieldsSave} >
+            <span>{labels.ECOM_SaveAndContinue} </span>
+            </button>
+        </div>
+    </div>
+</template>

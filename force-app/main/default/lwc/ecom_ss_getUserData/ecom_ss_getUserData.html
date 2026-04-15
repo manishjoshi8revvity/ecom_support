@@ -1,0 +1,18 @@
+<template>
+  <div class="ecom-ss-get-user-data-error" lwc:if={error}>
+    <div class="ecom-ss-get-user-data-error">
+      Unknown error occurred. Try logging in again!!
+    </div>
+  </div>
+
+  <div class="ecom-ss-get-user-data-error" lwc:elseif={success}>
+    Hi {name}, redirecting you home page...
+  </div>
+
+  <div class="slds-is-fixed ecom-ss-get-user-data-loader" lwc:else>
+    <lightning-spinner
+      alternative-text="Loading"
+      size="large"
+    ></lightning-spinner>
+  </div>
+</template>

@@ -1,0 +1,164 @@
+<!--
+  @description       :
+  @author            : Abhishek
+  @group             :
+  @last modified on  : 04-10-2025
+  @last modified by  : mkumar@rafter.one
+-->
+<!-- RWPS-3740 START -->
+<template >
+    <div class="fav-card-outer">
+        <div if:true={showSpinner} class="fav-spinner">
+            <lightning-spinner>
+            </lightning-spinner>
+        </div>
+
+        <div class="fav-msg-container" lwc:if={show}>
+            <c-ecom_inline-message type={type} message={message} show={show}
+            onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message>
+        </div>
+
+        <div class="fav-card">
+            <div class="card-img-outer">
+                <a href="javascript:void(0);" onclick={navigateToPDP}>
+                    <img
+                        src={favorite.productDetail.defaultImage.url}
+                        alt="Product Image"
+                    />
+                </a>
+            </div>
+
+            <div class="card-content-outer">
+                <div class="card-info">
+                    <div class="card-title">
+                        <a href="javascript:void(0);" onclick={navigateToPDP}>
+                            <lightning-formatted-rich-text value={displayName}>
+                            </lightning-formatted-rich-text>
+                        </a>
+                    </div>
+
+                    <div class="card-sub-info">
+                        <template for:each={fields} for:item="field">
+                            <div key={field.name} if:true={field.value} class="card-sub-info-item">
+                                <span if:true={field.name}>{field.name}:</span> {field.value}
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="card-discontinued-section" lwc:if={showDiscontinuedSection}>
+                        <div class="card-discontinued-label-outer" onmouseenter={handleDiscontinuedMouseEnter} onmouseleave={handleDiscontinuedMouseLeave}>
+                            <div class="card-discontinued-label" onclick={handleDiscontinuedLabelClick} title={discontinuedTooltip} data-cursor={defaultCursorFlagOnDiscontinued}>
+                                <span class="discontinued-icon">
+                                    <svg lwc:ref="discontinuedSVG" onfocus={handleDiscontinuedFocus} onblur={handleDiscontinuedBlur} tabindex="0" class="discontinued-icon-svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                                        <path
+                                            d="M2.59465 13.6566C1.83057 12.9187 1.22111 12.0359 0.801838 11.0599C0.382566 10.0839 0.161876 9.03409 0.152646 7.97186C0.143415 6.90962 0.345829 5.85619 0.748076 4.87302C1.15032 3.88985 1.74435 2.99663 2.49549 2.24549C3.24663 1.49435 4.13985 0.900323 5.12302 0.498076C6.10619 0.0958289 7.15962 -0.106585 8.22186 -0.0973542C9.28409 -0.0881237 10.3339 0.132566 11.3099 0.551838C12.2859 0.97111 13.1687 1.58057 13.9066 2.34465C15.3639 3.85347 16.1703 5.87428 16.152 7.97186C16.1338 10.0694 15.2925 12.0759 13.8092 13.5592C12.3259 15.0425 10.3194 15.8838 8.22186 15.902C6.12428 15.9203 4.10347 15.1139 2.59465 13.6566ZM12.7786 12.5286C13.9795 11.3277 14.6542 9.69898 14.6542 8.00065C14.6542 6.30232 13.9795 4.67355 12.7786 3.47265C11.5777 2.27175 9.94898 1.59709 8.25065 1.59709C6.55232 1.59709 4.92355 2.27175 3.72265 3.47265C2.52175 4.67355 1.84709 6.30232 1.84709 8.00065C1.84709 9.69898 2.52175 11.3277 3.72265 12.5286C4.92355 13.7295 6.55232 14.4042 8.25065 14.4042C9.94898 14.4042 11.5777 13.7295 12.7786 12.5286ZM7.45065 4.00065H9.05065V8.80065H7.45065V4.00065ZM7.45065 10.4006H9.05065V12.0006H7.45065V10.4006Z"
+                                            fill="#DC0101"
+                                        />
+                                    </svg>
+                                </span>
+                                <!-- <i lwc:if={directReplacement}>Direct replacement available</i>
+                                <i lwc:elseif={alternativeReplacements}>Alternative replacement available</i>
+                                <i lwc:elseif={discontinuedProduct}>Discontinued</i>
+                                <i lwc:else>Not sellable</i> -->
+                                <i>{labels.discontinuedText}</i>
+                            </div>
+
+                            <c-ecom_popup-product-carousel lwc:ref="popupCarousel" lwc:if={showReplacements} parent-rect={discontinuedIconRect} products={replacementData} pricing={replacementPriceMap} effective-account-id={effectiveAccountId} onrequestnewrect={handlePopupRequestNewRect} onpopupfocusout={handleDiscontinuedBlur}></c-ecom_popup-product-carousel>
+                        </div>
+                    </div>
+
+                    <div class="card-secondary-action" data-add-to-cart={showAddToCart}>
+                        <button class="remove-fav-btn" aria-label="Remove from Favorites" data-name={favorite.Product2.Name} data-id={favorite.Id} onclick={handleRemoveFromFav}>
+                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" aria-hidden="true">
+                                <path
+                                    d="M15.75 5.6H20.25V7.4H18.45V19.1C18.45 19.5971 18.0471 20 17.55 20H4.95C4.45295 20 4.05 19.5971 4.05 19.1V7.4H2.25V5.6H6.75V2.9C6.75 2.40295 7.15295 2 7.65 2H14.85C15.3471 2 15.75 2.40295 15.75 2.9V5.6ZM16.65 7.4H5.85V18.2H16.65V7.4ZM8.55 10.1H10.35V15.5H8.55V10.1ZM12.15 10.1H13.95V15.5H12.15V10.1ZM8.55 3.8V5.6H13.95V3.8H8.55Z"
+                                    fill="#7F03B0"
+                                />
+                            </svg>
+
+                            <span>{labels.ECOM_Remove_Favorites}</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-actions-outer" if:true={showAddToCart}>
+                    <div class="qty-section">
+                        <div class="qty-counter">
+                            <button
+                                class="qty-counter-btn qty-counter-item"
+                                aria-label="Decrease Quantity"
+                                onclick={handleQuantityDecrement}
+                            >
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                                    <g clip-path="url(#clip0_49857_2223)">
+                                        <path
+                                            d="M1.71484 6L10.8011 6"
+                                            stroke="black"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_49857_2223">
+                                            <rect
+                                                width="10.9035"
+                                                height="11"
+                                                fill="white"
+                                                transform="translate(0.636719 0.5)"
+                                            />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </button>
+
+                            <div class="qty-counter-input-outer">
+                                <input
+                                    type="number"
+                                    class="qty-counter-item"
+                                    name="qty-input"
+                                    id="qty-input"
+                                    placeholder="1"
+                                    value={quantity}
+                                    min={minQuantity}
+                                    max={maxQuantity}
+                                    onkeyup={handleQuantityChange}
+                                    onblur={handleQuantityBlur} 
+                                /><!--RWPS-5852-->
+                            </div>
+
+                            <button
+                                class="qty-counter-btn qty-counter-item"
+                                aria-label="Increase Quantity"
+                                onclick={handleQuantityIncrement}
+                            >
+                                <svg width="17" height="15" viewBox="0 0 17 15" fill="none" aria-hidden="true">
+                                    <path
+                                        d="M8.26953 13.3438L8.26953 1.00401"
+                                        stroke="black"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                    <path
+                                        d="M1.83594 7.4043L15.204 7.4043"
+                                        stroke="black"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-primary-action">
+                        <button class="add-to-cart-btn" data-name={displayName} data-id={favorite.Product2.Id} onclick={handleAddToCart}>
+                            {labels.ECOM_AddToCart}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <c-ecom_show-toast></c-ecom_show-toast>
+    </div>
+</template>
+<!-- RWPS-3740 END -->

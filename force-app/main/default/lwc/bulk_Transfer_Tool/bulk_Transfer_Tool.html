@@ -1,0 +1,177 @@
+<template >
+    
+    <div class="spinner">
+        <template if:true={isLoading}>
+             <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+             </lightning-spinner>
+        </template>
+    </div>
+    <div class="slds-grid slds-wrap slds-m-around_medium slds-box slds-theme_default">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-6 slds-large-size_12-of-12">
+            <div class="slds-text-heading_medium slds-clearfix slds-float_left">Bulk Transfer Tool</div>
+            <lightning-button class="slds-clearfix slds-float_right" label="Reset" onclick={refreshComponent}></lightning-button>
+        </div>
+      <!--<template if:true={isfilter}>-->  
+	  <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 slds-medium-size_6-of-6 slds-large-size_12-of-12 slds-grid_vertical-align-end">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+            <legend class="slds-form-element__legend slds-form-element__label">Select Object</legend>
+            <lightning-combobox
+            name="Sobject Selection"
+            label="Select Object"
+            variant="label-hidden"
+            value={value}
+            placeholder="Select Object"
+            show-row-number-column =true
+            options={options}
+            onchange={handleChange} ></lightning-combobox>
+            
+        </div> 
+        
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 slds-p-left_small">
+          <!--  <label class="slds-form-element__label" for="form-element-01">Select Owner to filter</label> -->
+            <legend class="slds-form-element__legend slds-form-element__label">Select Current Owner</legend>
+            
+            <template if:true={usergroupvalue}>    
+            <lightning-radio-group name="radioGroup"
+                options={usergroup}
+                value={usergroupvalue}
+                onchange={handleChangeusergrp}
+                variant="label-hidden"
+                required
+                type="button"></lightning-radio-group>
+            </template>
+            <c-dynamiclookup data-id="1" itemname="class1" onselected={userSelected} ownertypeit={usergroupvalue} objectnameit={objectnameit}> </c-dynamiclookup>
+           
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-p-left_small slds-p-top_large">
+            <template if:true={listOptions}>
+                <lightning-button variant="brand" label="Get Records" title="fetchdata action" onclick={fetchdata} class="slds-m-right_x-small"></lightning-button>
+           </template>
+        </div>
+        <template if:true={listSObjectRecords}>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+            <!-- <label class="slds-form-element__label" for="form-element-01">Select New Owner to Update</label> -->
+             <legend class="slds-form-element__legend slds-form-element__label">Select New Owner</legend>
+             <lightning-radio-group name="radioGroup2"
+                options={newusergroup}
+                value={newusergroupvalue}
+                onchange={newhandleChangeusergrp}
+                variant="label-hidden"
+                required
+                type="button"></lightning-radio-group>
+            <c-dynamiclookup data-id="2" itemname="class2" onselected={userSelected} ownertypeit={newusergroupvalue} objectnameit={objectnameit}> </c-dynamiclookup>
+              </div>
+
+             <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 slds-p-left_small slds-p-top_large">
+                 <lightning-button variant="brand" label="Transfer To New Owner" title="Update Data" onclick={handleselectedrow} class="slds-m-right_x-small"></lightning-button>  
+             
+             </div>
+          </template>
+		  </div>
+          <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+        </div>
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+            <template if:true={selecteduser}>
+                <span class="slds-p-left_small">
+                   <b>Selected User to filter:</b>  {selecteduser.Name}
+                </span>
+            </template> 
+        </div>
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+         </div>
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+            <template if:true={UpdatedUser}>
+                <span>
+                    <b>Selected User to Transfer: </b>{UpdatedUser.Name}
+                </span>
+            </template> 
+        </div>
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+       </div>
+
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+         </div>
+         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+           <div class="slds-grid slds-wrap">
+             <template if:true={listSObjectRecords} for:each={listOptions} for:item="opt">
+                <template if:false={opt.isdate} >
+                <div key={opt.value} class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_3-of-12 slds-p-around_xxx-small">
+                    <legend class="slds-form-element__legend slds-form-element__label">{opt.label}</legend>
+                    <lightning-input class="inpppp" variant="label-hidden" type={opt.type} data-id={opt.value} name={opt.value}  label={opt.label} value={searchkey} onchange={filterrow}></lightning-input>
+                </div> 
+                </template>
+                <template if:true={opt.isdate} >
+                    <div key={opt.value} class="slds-col slds-grid slds-wrap slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_xxx-small">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_xxx-small">
+                        <legend class="slds-form-element__legend slds-form-element__label">From: {opt.label}</legend>
+                        <lightning-input class="inpppp" variant="label-hidden" type="Date" data-id={opt.value} data-name="From"  label={opt.label} value={searchkey} onchange={filterrow}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_xxx-small">
+                       <legend class="slds-form-element__legend slds-form-element__label">To: {opt.label}</legend>
+                        <lightning-input class="inpppp" variant="label-hidden" type="Date" data-id={opt.value} data-name="To"  label={opt.label} value={searchkey} onchange={filterrow}></lightning-input>
+                        </div>
+                    </div> 
+                    </template>
+             </template>
+           </div>
+        </div>
+    
+       <!--
+</template>
+       --> 
+         
+        
+        <template if:true={listSObjectRecords}>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-p-top_medium">
+                <div class="slds-text-heading_small slds-clearfix slds-float_left"> {selectedrecords} records selected of {totalRecords} records in filter </div>
+            </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-p-top_medium">
+           <lightning-datatable 
+           data={listSObjectRecords} 
+           show-row-number-column=true 
+           columns={columns} 
+           key-field="Id" 
+           onrowselection={countrow} 
+           sorted-by={sortBy}
+           sorted-direction={sortDirection}
+           onsort={handleSortData}>
+            </lightning-datatable>
+            <div slot="actions" class="slds-float_right">
+                <lightning-button
+                variant="neutral"
+                title="first"
+                label="First"
+                icon-name="utility:chevronleft"
+                icon-position="left"
+                onclick={handleClick}
+                ></lightning-button>
+                <lightning-button
+                variant="neutral"
+                title="previous"
+                label="Previous"
+                icon-name="utility:chevronleft"
+                icon-position="left"
+                onclick={handleClick}
+                ></lightning-button>
+          &nbsp;&nbsp;
+                <lightning-button
+                variant="neutral"
+                title="next"
+                label="Next"
+                icon-name="utility:chevronright"
+                icon-position="right"
+                onclick={handleClick}
+                ></lightning-button>
+                <lightning-button
+                variant="neutral"
+                title="last"
+                label="Last"
+                icon-name="utility:chevronright"
+                icon-position="right"
+                onclick={handleClick}
+                ></lightning-button>
+            </div>
+        </div> 
+        </template>   
+    </div> 
+    </template>

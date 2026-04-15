@@ -1,0 +1,50 @@
+<template>
+  <div class="ecom-ss-boxed-container">
+    <h2 class="ecom-ss-3-col-cards-main-heading">{componentTitle}</h2>
+    <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-stretch">
+      <template for:each={cardData.cardDetails} for:item="currentItem" for:index="index">
+        <div
+          class={cardData.cardClass}
+          key={currentItem.key}
+        >
+          <div class="ecom-ss-3-col-cards-card-outer">
+            <div class="ecom-ss-3-col-cards-card-image-outer">
+              <img
+                src={currentItem.bgSvg}
+                alt=""
+                class="ecom-ss-3-col-cards-card-image-bg"
+              />
+            <!--RWPS-4134-->
+              <img
+                src={currentItem.imageUrl}
+                alt={currentItem.title}
+                class="ecom-ss-3-col-cards-card-image"
+              />
+            </div>
+            <!--RWPS-4134-->          
+            <div class="ecom-ss-3-col-cards-card-title" role="heading" aria-level="2">{currentItem.title}</div>
+
+            <p
+              class="ecom-ss-3-col-cards-card-desc"
+              lwc:if={currentItem.description}
+            >
+              {currentItem.description}
+            </p>
+
+            <div
+              class="ecom-ss-3-col-cards-card-btn-outer"
+              lwc:if={currentItem.showButton}
+            >
+              <c-ecom_ss_button
+                label={currentItem.buttonLabel}
+                type="secondary"
+                tag="a"
+                attributes={currentItem.buttonAttributes}
+              ></c-ecom_ss_button>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,91 @@
+<template>
+    <div class="carousel-outer" lwc:ref="carouselOuter">
+      <div class="spinner-container">
+        <div class="spinner-outer">
+          <lightning-spinner></lightning-spinner>
+        </div>
+      </div>
+
+      <div class="carousel-title" lwc:if={title}>{title}</div>
+
+      <div lwc:ref="carouselMessageBox" class="carousel-message-box">
+        <div class="carousel-message" lwc:if={message}>
+          <c-ecom_inline-message type={messageType} message={message} show={messageStatus}
+              onmessageaction={handleUpdateMessage} timespan={messageTimeSpan}></c-ecom_inline-message>
+        </div>
+      </div>
+
+      <div class="carousel-container">
+        <div class="carousel" style={carouselState.translate}>
+          <template for:each={products} for:item="product">
+            <div class="card" style={carouselState.cardStyle} key={product.Id}>
+              <div class="card-inner">
+
+                <div class="card-upper">
+                  <!-- RWPS-3003 -->
+                  <a onclick={handlePDPNavigation} data-sfid={product.Id} data-sku={product.Part_Number__c} target="_self" href={product.DisplayUrl} tabindex={product.tabindex}><!--RWPS-4086-->
+                    <!-- RWPS-3826 -->
+                    <img src={product.ECOM_Product_Media_URI__c} alt="Product image">
+                  </a>
+                </div>
+
+                <div class="card-lower">
+
+                  <div class="card-lower-up">
+                    <div class="card-title">
+                      <!-- RWPS-3003 -->
+                      <a onclick={handlePDPNavigation} data-sfid={product.Id} data-sku={product.Part_Number__c} target="_self" href={product.DisplayUrl} class="card-link-text" tabindex={product.tabindex}><!--RWPS-4086-->
+                        <lightning-formatted-rich-text
+                          value={product.Product_Display_Name__c}
+                        ></lightning-formatted-rich-text>
+                      </a>
+                    </div>
+                    <div class="card-pn">
+                      <a onclick={handlePDPNavigation} data-sfid={product.Id} data-sku={product.Part_Number__c} target="_self" href={product.DisplayUrl} class="card-link-text" tabindex={product.tabindex}><!--RWPS-4086-->
+                        Part number: <span class="card-pn-u">{product.Part_Number__c}</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="card-lower-down">
+                    <div class="card-price">{product.price}</div>
+
+                    <div class="card-cta-outer">
+                      <!-- RWPS-3003 start -->
+                       <!-- RWPS-4086 start -->
+                      <a onclick={handlePDPNavigation} data-sfid={product.Id} data-sku={product.Part_Number__c} target="_self" href={product.DisplayUrl} class="card-cta" tabindex={product.tabindex}>{labels.ViewDetailsCTA}</a>
+                      <button class="card-cta" data-pricing={product.price} data-sfid={product.Id} data-sku={product.Part_Number__c} data-name={product.Product_Display_Name__c} onclick={handleAddToCart} tabindex={product.tabindex}>
+                        {labels.AddToCartCTA}
+                      </button>
+                      <!-- RWPS-4086 end -->
+                      <!-- RWPS-3003 end -->
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <div class="carousel-controls-outer" lwc:if={carouselState.enableControls}>
+        <div class="carousel-control control-left" tabindex="0" onkeypress={handleAccessibilityButton} onclick={carouselLeft} style={leftStyle}><!--RWPS-4086-->
+          <svg width="33" height="32" viewBox="0 0 33 32" fill="none">
+            <path d="M31.75 16C31.75 24.5604 24.8104 31.5 16.25 31.5C7.68959 31.5 0.75 24.5604 0.75 16C0.75 7.43959 7.68959 0.5 16.25 0.5C24.8104 0.5 31.75 7.43959 31.75 16Z" stroke="black"/>
+            <path d="M18.25 11L13.25 16L18.25 21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="carousel-controls-text">{carouselState.currentIndicator} of {carouselState.totalItems}</div>
+
+        <div class="carousel-control control-right" tabindex="0" onkeypress={handleAccessibilityButton} onclick={carouselRight} style={rightStyle}><!--RWPS-4086-->
+          <svg width="33" height="32" viewBox="0 0 33 32" fill="none">
+            <path d="M0.75 16C0.75 7.43959 7.68959 0.5 16.25 0.5C24.8104 0.5 31.75 7.43959 31.75 16C31.75 24.5604 24.8104 31.5 16.25 31.5C7.68959 31.5 0.75 24.5604 0.75 16Z" stroke="black"/>
+            <path d="M14.25 21L19.25 16L14.25 11" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+</template>

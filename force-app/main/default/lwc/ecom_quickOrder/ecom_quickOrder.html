@@ -1,0 +1,279 @@
+<!--
+  @description       :
+  @author            : Vipul Goyal
+  @group             :
+  @last modified on  : 2025.02.18
+  @last modified by  : Abhishek Joshi (abhishek.joshi@revvity.com) 2025.02.18 - RWPS-2631
+-->
+<template>
+    <template if:true={showSpinner}>
+        <div class="spinner-style">
+            <lightning-spinner></lightning-spinner>
+        </div>
+    </template>
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class={modalSize}>
+
+            <!-- RWPS-3826 -->
+            <div class="slds-modal__container main-quickorder-modal" tabindex="0" lwc:ref="mainModalContainer">
+                <div class="slds-modal__header ecom-qo-noborder">
+                    <div>
+                        <button class="slds-button slds-button_icon ecom-qo-closebtn" onclick={closeModal}>
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                        </button>
+                    </div>
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate slds-m-top_large fontCSS">{labels.ECOM_QuickOrder}</h1>
+                </div>
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large ecom-no-border minHeight" id="1">
+                    <div>
+                        <span class="slds-modal__content" id="2">
+                            <div class="ecom_padding">
+                                <c-ecom_inline-message type={type} message={message} show={showMessage} timespan={timeSpan}></c-ecom_inline-message>
+                             </div>
+                            <p class="ecom_modal_note">
+                                {labels.ECOM_EnterPartNumberAndQuantities}
+                            </p>
+                        </span>
+                        <div class="slds-grid slds-wrap slds-m-top_large ecom-grayBorder">
+                            <div class="slds-col slds-size_8-of-12">
+                                <div>
+                                    <span>{labels.ECOM_PartNumber}</span>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_3-of-12">
+                                <div>
+                                    <span>{labels.ECOM_Qty}</span>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-12">
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div for:each={quickOrderRows} for:item="item" key={item.index} class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_8-of-12">
+                            <!-- <lightning-input data-index={item.index} data-part-code={item.partNumber} data-label="partNumber" type="text" value={item.partNumber} class="slds-m-right_medium ecom_qo_partnumber_tb" onchange={valueChanged}></lightning-input> -->
+                            <c-ecom_searchable-combobox
+                                onselectoption={valueChanged}
+                                data-index={item.index}
+                                data-part-code={item.PartNumber}
+                                data-label="PartNumber"
+                                value={item.PartNumber}
+                                selected-part-number={selectedPartNumber}>
+                            </c-ecom_searchable-combobox>
+                        </div>
+                        <div class="slds-col slds-size_3-of-12">
+                            <!-- RWPS-3826 -->
+                            <lightning-input aria-label="Product quantity" data-index={item.index} min={minQuantity} message-when-range-underflow="Min. 1 qty." message-when-range-overflow="Max. 999 qty." max={maxQuantity} data-label="Quantity" data-partnumber={item.PartNumber} data-part-qty={item.PartNumber}  type="number" value={item.Quantity} class="ecom_qo_partnumber_nr" onchange={valueChanged}></lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12 slds-m-top--x-large">
+                           <!-- <img if:true={item.showDelete} data-index={item.index} class="slds-button__icon slds-button__icon_medium slds-button__icon_left slds-m-left_large slds-m-top_medium ecom-qo-deleteitem-btn" aria-hidden="true" src={images.qodelete} onclick={removeFromList}>-->
+                            <!-- RWPS-3826 -->
+                            <img if:true={item.showDelete} data-index={item.index} data-active-icon-src={images.blackdelete} data-inactive-icon-src={images.qodelete} data-hover-icon-src={images.purpledelete} class="slds-button__icon slds-button__icon_medium slds-button__icon_left slds-m-left_large slds-m-top_medium ecom-qo-deleteitem-btn" aria-hidden="true" src={item.imgSrc} onmouseenter={showHoverIcon} onmouseleave={showOriginalIcon} tabindex="0" onkeypress={removeFromListEnter} onclick={removeFromList}>
+
+                        </div>
+                    </div>
+                    <div class="slds-m-top_xx-large slds-m-bottom_xx-large" id="3">
+                        <!-- RWPS-3826 -->
+                        <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={addToList}>
+                            <span class="slds-text-selected slds-align_absolute-left ecom_btn-addmore">
+                                <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.addmore}>
+                                <span class="slds-p-top_xx-small">{labels.ECOM_AddMoreItem}</span></span>
+                        </button>
+                    </div>
+                </div><!--body ended-->
+
+            <div class={footerCSS}>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 slds-p-bottom_small">
+                        <button class="ecom_btn-qorder" onclick={closeModal}>
+                            <span>{labels.ECOM_Cancel}</span>
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 slds-p-bottom_small slds-p-left_x-small">
+                        <button class={addToCartButtonCSS} onclick={handleAddToCart} disabled ={isAddToCartDisabled}>
+                            <span>{labels.ECOM_AddToCart}</span>
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 slds-p-bottom_small">
+                        <button class="ecom_btn-qorder" onclick={showUpload}>
+                            <span>{labels.ECOM_UploadTemplate}</span>
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 slds-p-bottom_small slds-p-left_x-small">
+                        <button class="ecom_btn-qorder" onclick={downloadCSVFile}>
+                            <span>Download CSV Template</span>
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 slds-p-bottom_small slds-p-left_x-small btn-width">
+                        <button class="ecom_btn-qorder" onclick={downloadExcelFile}>
+                            <span>Download Excel Template</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={showMessagePage}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class={modalSize}>
+            <div class="slds-modal__container success-failure-modal">
+
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content success-failure-modal slds-p-around_medium ecom-sf-border-top" id="modal-content-id-2">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-normal slds-float_right" title="Close" onclick={handleMessageScreenClose}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="normal"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">{labels.ECOM_Close}</span>
+                    </button>
+                    <template if:true={showErrorMessage}>
+                        <template for:each={errorMessage} for:item="item">
+                            <div key={item}>
+                                <lightning-formatted-text value={item}></lightning-formatted-text>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:false={showErrorMessage}>
+                        <div if:true={showSuccessParts} class="slds-m-around_small slds-p-bottom_xx-small slds-p-top_large">
+                            <span class="ecom-qo-label slds-p-bottom_large slds-align_absolute-center">{labels.ECOM_SuccessCartAddition}</span>
+                            <div class="slds-grid slds-wrap slds-p-around_small slds-m-top_large ecom-qo-card">
+                                <template for:each={successfulParts} for:item="item">
+
+                                    <div  key={item.partNumber} class="ecom-qo-details slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-text-align_left">
+                                        <span>{labels.ECOM_PartNumber}</span>
+                                    </div>
+                                    <div  key={item.PartNumber} class="ecom-qo-details slds-col slds-size_8-of-12  slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-text-align_left">
+                                        <span>{item.PartNumber}</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div if:true={showErrorParts} class="slds-m-around_small slds-p-bottom_large slds-p-top_large">
+                            <span class="ecom-qo-label slds-p-bottom_large slds-align_absolute-center">{labels.ECOM_FailedCartAddition}</span>
+                            <div class="slds-grid slds-wrap slds-p-around_small slds-m-top_x-small slds-m-bottom_large ecom-qo-card">
+                                <div  class="ecom-qo-failed-label slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-text-align_left">
+                                    <span>{labels.ECOM_PartNumber}</span>
+                                </div>
+                                <div class="ecom-qo-failed-label slds-col slds-size_8-of-12  slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-text-align_left">
+                                    <span>{labels.ECOM_Reason}</span>
+                                </div>
+                                <template for:each={erroneousPartsToDisplay} for:item="item" >
+                                    <!-- RWPS - 3772 -->
+                                    <div  key={item.partNumber} class="ecom-qo-details slds-p-top_x-small slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-text-align_left">
+                                        <span>{item.partNumber}</span>
+                                    </div>
+                                    <div  key={item.partNumber} class="ecom-qo-details slds-p-top_x-small slds-col slds-size_8-of-12  slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-text-align_left">
+                                        <span>{item.reason}</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <!-- <div if:true={showErrorParts}>
+                            <h1>{labels.ECOM_PartNumber} that failed : </h1>
+                            <table>
+                                <tr>
+                                    <th>{labels.ECOM_PartNumber}</th>
+                                    <th>Reason</th>
+                                </tr>
+                                <template for:each={erroneousPartsToDisplay} for:item="item" class="slds-grid slds-wrap">
+                                    <tr key={item.partNumber}>
+                                        <td>{item.partNumber}</td>
+                                        <td>{item.reason}</td>
+                                    </tr>
+                                </template>
+                            </table>
+                        </div> -->
+                    </template>
+
+                </div>
+                <div class="slds-modal__footer ecom-sf-border-bottom">
+
+                    <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_12-of-12">
+
+                    <button class="ecom_btn-qorder2 slds-m-left_medium slds-m-right_medium" onclick={handleMessageScreenBack}>
+                        <span>{labels.ECOM_Back}</span>
+                    </button>
+                    </div>
+                    <!-- <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_12-of-12 slds-p-top_small"> -->
+                    <div class={footerCloseCss}>
+                        <button class="ecom_btn-qorder2 slds-m-left_medium slds-m-bottom_small slds-m-right_medium" onclick={handleMessageScreenClose}>
+                        <span>{labels.ECOM_Close}</span>
+                    </button>
+                    </div>
+                </div>
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_12-of-12 slds-p-top_small">
+
+                    <button if:true={showGoToCartButton} class="ecom_btn-qorder2 slds-m-left_medium" onclick={handleMessageScreenRedirectToCart} >
+                        <span>{labels.ECOM_GoToCart}</span>
+                    </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={showUploadModal}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container upload-model">
+                <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeUpload}>
+                    <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button> -->
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium ecom-qo-uf-grayborder" id="modal-content-id-1">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-normal slds-float_right" title="Close" onclick={closeUpload}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="normal"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">{labels.ECOM_Close}</span>
+                    </button>
+                    <h3 id="modal-heading-02" class="slds-modal__title slds-hyphenate slds-m-top_large slds-text-align_center ecom-qo-label">{labels.ECOM_UploadTemplate}</h3>
+
+                    <!--  Abhishek Joshi (abhishek.joshi@revvity.com) 2025.02.18 - RWPS-2631 start -->
+                    <!-- <lightning-input
+                        type="file"
+                        accept={acceptedFormats}
+                        onchange={handleFileUpload}
+                        class="uploadSection slds-p-left_xx-large"
+                     ></lightning-input> -->
+                     <!--  Abhishek Joshi (abhishek.joshi@revvity.com) 2025.02.18 - RWPS-2631 -->
+                     <c-ecom_custom-file-upload button-text={labels.ECOM_UploadButtonText} dropzone-text={labels.ECOM_UploadDropzoneText} accept={acceptedFormats} onchange={handleFileUpload}></c-ecom_custom-file-upload>
+                     <!--  Abhishek Joshi (abhishek.joshi@revvity.com) 2025.02.18 - RWPS-2631 end -->
+
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <c-ecom_show-toast>
+    </c-ecom_show-toast>
+
+    <!-- Small screen Modal Changes -->
+
+    <!-- End of Change Password Modal -->
+    <!-- Small screen modal changes end -->
+
+</template>
+
+<!-- modal end -->

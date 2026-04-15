@@ -1,0 +1,112 @@
+<template>
+    <template lwc:if={displayLoginPage}>
+        <!-- <div class="ecom-background-color"> -->
+        <div class={userPageStyling}>
+            <div class="ecom-body ecom-padding-left-12 ecom-padding-right-12 ecom-generic-container">
+                <!-- Revvity Login Header-->
+                <div class="slds-show_medium">
+                    <div class="ecom-padding-sides-116">
+                        <div class="ecom-header ecom-font-size-56 ecom-font-weight-300">
+                            {labels.ECOM_LBL_ACCOUNT_LOGIN}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-hide_medium slds-show_small">
+                    <div class="ecom-padding-sides-28">
+                        <div class="ecom-header ecom-font-size-36 ecom-font-weight-300">
+                            {labels.ECOM_LBL_ACCOUNT_LOGIN}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-hide_small">
+                    <div class="ecom-padding-sides-28"> <!--ecom-small-screen-->
+                        <div class="ecom-header  ecom-font-size-36 ecom-font-weight-300">
+                            {labels.ECOM_LBL_ACCOUNT_LOGIN}
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Revvity Login Cards-->
+                <div class="slds-show_medium ">
+                    <div class="ecom-padding-sides-116 ecom-margin-bottom-80">
+                        <div class="ecom-login-page-container">
+                            <lightning-layout multiple-rows="true" vertical-align="stretch">
+                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" padding="right-medium" flexibility="auto">
+                                    <div class="ecom-margin-bottom-80 ecom-max-width-528">
+                                        <!-- RWPS -5938 -->
+                                        <template if:false={showMagicLinkWizard}>
+                                            <c-ecom_login-card input-card-style="ecom-padding-bottom-23" onopenmagiclinkwizard={handleOpenMagicLinkWizard}></c-ecom_login-card>
+                                        </template>
+                                        <template if:true={showMagicLinkWizard}>
+                                            <c-ecom_secure-access-link-wizard quote-number={quoteNumber} user-record={userRecord} redirected-email={userEmail}></c-ecom_secure-access-link-wizard>
+                                        </template>
+                                        <!-- RWPS -5938 -->
+                                    </div>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" flexibility="auto">
+                                    <div class="ecom-margin-left-71 ecom-max-width-464">
+                                        <c-ecom_login-description-card is-login-page="true" is-display-omvics-card="true"></c-ecom_login-description-card>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-hide_medium slds-show_small">
+                    <div>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12" flexibility="auto" >
+                            <div class="ecom-margin-bottom-32">
+                                    <!-- RWPS -5938 -->
+                                    <template if:false={showMagicLinkWizard}>
+                                            <c-ecom_login-card input-card-style="ecom-padding-bottom-23" onopenmagiclinkwizard={handleOpenMagicLinkWizard}></c-ecom_login-card>
+                                        </template>
+                                    <template if:true={showMagicLinkWizard}>
+                                        <c-ecom_secure-access-link-wizard quote-number={quoteNumber} user-record={userRecord} redirected-email={userEmail}></c-ecom_secure-access-link-wizard>
+                                    </template>
+                                    <!-- RWPS -5938 -->
+                                </div>
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" flexibility="auto">
+                                <div class="ecom-margin-bottom-32">
+                                    <c-ecom_login-description-card is-login-page="true" is-display-omvics-card="true"></c-ecom_login-description-card>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+                <div class="slds-hide_small">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12" flexibility="auto">
+                            <div class="ecom-margin-bottom-32">
+                                <!-- RWPS -5938 -->
+                                <template if:false={showMagicLinkWizard}>
+                                    <c-ecom_login-card input-card-style="ecom-padding-bottom-23" onopenmagiclinkwizard={handleOpenMagicLinkWizard}></c-ecom_login-card>
+                                </template>
+                                <template if:true={showMagicLinkWizard}>
+                                    <c-ecom_secure-access-link-wizard quote-number={quoteNumber} user-record={userRecord} redirected-email={userEmail}></c-ecom_secure-access-link-wizard>
+                                </template>
+                                <!-- RWPS -5938 -->
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" flexibility="auto">
+                            <div class="ecom-margin-bottom-32">
+                                <c-ecom_login-description-card is-login-page="true" is-display-omvics-card="true"></c-ecom_login-description-card>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </div>
+
+            <!-- Revvity Logo Image-->
+            <div >
+                <!-- RWPS-3826 -->
+                <img src={images.loginpagelogo} alt="Revvity Logo" height="600" class="ecom-background-image">
+            </div>
+        </div>
+    </template>
+</template>

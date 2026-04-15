@@ -1,0 +1,17 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+[data-visible="false"] {
+  display: none;
+}
+
+.option-label {
+  &.option-label-focussed {
+    background: rgb(154, 217, 245);
+  }
+
+  &:hover {
+    background: rgb(191, 230, 247);
+  }
+}

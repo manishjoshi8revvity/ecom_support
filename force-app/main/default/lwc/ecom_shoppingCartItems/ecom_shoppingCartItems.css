@@ -1,0 +1,238 @@
+.cart-product-container{
+    border-radius: 8px;
+    border: 1px solid #E3E3E3
+}
+.ecom-cart-product-border{
+    border: 1px solid #E3E3E3;
+    padding:16px;
+    border-bottom: none;
+}
+.radiun-top{
+  border-radius: 8px 8px 0px 0px;
+}
+.radiun-bottom{
+  border-radius: 0px 0px 8px 8px;
+}
+.ecom-prod-img{
+    width:60px;
+    height:69px;
+    margin: 10px
+}
+.ecom-prod-name{
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:#000000
+}
+.ecom-prod-desc{
+    width:436px;
+    min-height:52px;
+}
+
+.ecom-cart-prod-qty-ctr{
+    margin: 10px;
+    padding-left:60px;
+    width: 95%;
+}
+.ecom-qty-ctr-border{
+    border-radius: 8px;
+    border: 1px solid #E3E3E3;
+}
+.cart-product-img{
+    width:60px;
+    height:69px;
+    margin: 10px
+}
+.cart-product-name{
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:#000000
+}
+.cart-product-price{
+    font-family: Hanken Grotesk;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: end;
+}
+.cart-product-details{
+    font-family: Hanken Grotesk;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;color:#525252;
+
+}
+.cart-icon-color{
+    color:#7F03B0;
+
+}
+.vl {
+    height: 12px;
+    border-left: 1px solid #E3E3E3;
+    width: 17.000000000000014px;
+    margin:10px
+  }
+.topmargin16px{
+    margin-top: 16px
+}
+.cart-shipping-box{
+    border: 1px solid #E3E3E3;
+    height: 82px;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px;
+}
+.cart-shipping-label{
+font-family: Hanken Grotesk;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+vertical-align: top;
+}
+.cart-shipping-label-date{
+font-family: Hanken Grotesk;
+font-size: 14px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color:#525252;
+}
+.ecom-brand-color{
+    color:#7F03B0;
+
+}
+.ecom-cart-help{
+font-family: Hanken Grotesk;
+font-size: 14px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color: #525252;
+
+}
+.ecom-ellipse-container {
+    display: inline-block;
+    border-radius: 50%;
+    border:1px solid #A8A8A8;
+    overflow: hidden;
+    width: 24px; /* Set the desired width for the ellipse */
+    height: 24px; /* Set the desired height for the ellipse */
+  }
+
+  .ellipse-container img {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+  }
+
+  .container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default radio button */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the radio button is checked, add a blue background */
+  .container input:checked ~ .checkmark {
+    background-color: #7F03B0;
+  }
+  
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .container .checkmark:after {
+      top: 9px;
+      left: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+  }
+  .cart-item-card{
+    padding: 16px;
+  }
+  .ecom-closebtn{
+    margin-left: 95%;
+  }
+  .ecom-height{
+    /*height: 100%;*/
+  }
+.ecom_btn-inverse{
+  color:#7F03B0;
+  background-color: white;
+  border-radius: 40px;
+  border: 2px solid #7F03B0;
+  font-family: Hanken Grotesk;
+  font-size: 16px;
+  font-weight:normal;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+  padding: 5px 12px 5px 18px;
+}
+.ecom_btn-brand{
+  color:white;
+  background-color: #7F03B0;
+  border-radius: 40px;
+  border: 2px solid #7F03B0;
+  font-family: Hanken Grotesk;
+  font-size: 16px;
+  font-weight:normal;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+  padding: 5px 12px 5px 18px;
+}

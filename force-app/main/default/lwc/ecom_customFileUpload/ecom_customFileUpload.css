@@ -1,0 +1,80 @@
+.cfu-outer {
+  position: relative;
+}
+
+/* RWPS-4086 start */
+
+.cfu-upload-inp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+}
+
+.cfu-upload-inp:focus {
+  outline: none;
+}
+
+/* RWPS-4086 end */
+
+.cfu-drag-box {
+  display: flex;
+  width: 100%;
+  min-width: max-content;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px;
+  border: 2px dashed transparent;
+  transition-delay: 0.2s;
+}
+
+.cfu-drag-box[data-drag="yes"] {
+  border-color: #7F03B0;
+  transition-delay: 0s;
+}
+
+/* RWPS-4086 start */
+
+.cfu-upload-inp:focus-visible ~ .cfu-drag-box {
+  outline: 1px solid #000;
+  outline-offset: 2px;
+}
+
+/* RWPS-4086 end */
+
+.cfu-upload-btn {
+  display: inline-flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  color: #7F03B0;
+  background-color: #fff;
+  border-radius: 40px;
+  border: 2px solid #7F03B0;
+  font-family: Hanken Grotesk;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 20px;
+  letter-spacing: 0em;
+  height: 48px;
+  padding: 0 16px;
+  transition: 0.2s;
+}
+
+.cfu-upload-svg {
+  width: 14px;
+  height: 14px;
+  fill: #7F03B0;
+  transition: 0.2s;
+}
+
+.cfu-upload-btn:hover {
+  color: #fff;
+  background-color: #7F03B0;
+}
+
+.cfu-upload-btn:hover .cfu-upload-svg {
+  fill: #fff;
+}

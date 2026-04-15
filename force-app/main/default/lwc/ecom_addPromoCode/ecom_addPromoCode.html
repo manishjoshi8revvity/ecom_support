@@ -1,0 +1,55 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 06-12-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <template if:true={showModal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+    aria-describedby="modal-content-id-1" class={modalSize}>
+    
+    <div class="slds-modal__container">
+        
+        <div class="slds-modal__header ecom-noborder">
+            <div>   
+        <button class="slds-button slds-button_icon ecom-closebtn slds-p-top_small slds-p-right_small" onclick={closeModal}>
+            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            </svg>
+            <span class="slds-assistive-text">Cancel and close</span>
+        </button>
+    </div>
+            <h1 id="modal-heading-01" class="ecom-align-title slds-hyphenate slds-m-top_large">Promo Code</h1>
+        
+    </div>
+        <!-- modal body start -->
+        <div class="slds-modal__content slds-p-left_medium ecom-no-border margin-paddings" id="1">
+            <div> 
+                <span class="slds-modal__content" id="2">
+                    <p class="ecom_modal_note">Add Promo Code</p>
+                </span> 
+                <lightning-input data-index=1  data-label="promoCode" type="text" value={promoCode} class="ecom_partnumber_tb" max-length="12" onchange={promoCodeChanged}  onkeydown={promoCodeKeyDown} ></lightning-input><!--RWPS-3234 Added onkeydownevent-->
+
+        </div>
+        
+        </div> 
+        <div class="slds-modal__footer">
+            <div class="slds-col slds-size_1-of-3 ecom-active-acn-label slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-3 "></div>
+            <div class="slds-col slds-size_3-of-3 ecom-active-acn-label slds-large-size_3-of-3 slds-medium-size_2-of-3 slds-size_3-of-3 ecom-btn-pos">
+                        <button class="ecom_btn-promo-cancel slds-m-right_small" onclick={closeModal}>
+                            <span>Cancel</span>
+                        </button>
+                        <button class="ecom_btn-promo-apply" onclick={handleAddPromoCode} disabled={isBtnDisabled}>
+                            <span>Apply</span>
+                        </button>            
+                </div>
+            </div>
+    </div>
+    
+</div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

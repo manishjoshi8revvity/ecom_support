@@ -1,0 +1,110 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 06-19-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <div if:true={renderSideBar}> <!-- RWPS-4196 Added flag so that the component renders after web/punchout user is identified -->
+    <template if:false={device.isMobile}>
+        
+        <div class="ecom-account-sidebar-box ecom-mt-64">
+            <div class="ecom-dashboard-box ecom-gray-border-b">
+                <div><img class="ecom-account-sb-icon" src={dashboardImg} alt="Dashboard"></div>
+                <a href="javascript:void(0)" class="ecom-account-db-label dashboard-menu-font no-underline sidebar-link" data-id="dashboard" role="button" tabindex="0" onclick={handleDashboardClick}>Dashboard</a><!-- RWPS-3764-->
+            </div>
+            <div class="ecom-account-options-box ecom-gray-border">
+            <!-- VRa : Punchout Changes - Begin -->
+                <template lwc:if={isViewProfileAndSetting}>
+                    <a href="javascript:void(0)" class="ecom-account-db-label dashboard-menu-font no-underline sidebar-link" data-id="profile" role="button" tabindex="0" onclick={onProfileAndSettings}>Profile & Settings</a><!-- RWPS-3764-->
+                </template>
+            <!-- <br> -->
+                <template lwc:if={isViewAccount}>
+                    <!-- RWPS:4759 : Added  <template if:false={isDealer}> -->
+                    <template if:false={isDealer}>
+                        <a href="javascript:void(0)" class="ecom-account-sb-label dashboard-menu-font no-underline sidebar-link" data-id="accounts" role="button" tabindex="0" onclick={handleAccountClick}>Accounts</a><!-- RWPS-3764-->
+                    </template>
+                </template>
+                 <!-- VRa : Punchout Changes - End -->
+            <!-- <br> -->
+                <a href="javascript:void(0)" class={orderLabelStyling} data-id="orders" role="button" tabindex="0"  onclick={handleRecentOrderClick}>{system_labels.ORDERS}</a><!-- RWPS-3764-->
+ 
+                <a href="javascript:void(0)" class="ecom-account-sb-label dashboard-menu-font no-underline sidebar-link"  data-id="approvalNeeded" role="button" tabindex="0"  onclick={handleApprovalNeeded} if:true={showOrderApproval}>{labels.ECOM_OrderApprovalNeeded}</a><!-- RWPS-3764-->
+             <a href="javascript:void(0)" class="ecom-account-sb-label dashboard-menu-font no-underline sidebar-link"  data-id="fav" role="button" tabindex="0" onclick={handleFavoritesClick}>Favorites</a><!-- RWPS-3764-->
+            <!-- <br> -->
+            <!-- VRa : Punchout Changes - Begin -->
+                <template lwc:if={isViewFrequentlyPurchasedProducts}>
+                    <a href="javascript:void(0)" class="ecom-account-sb-label dashboard-menu-font no-underline sidebar-link" data-id="frequentlypurchased" role="button" tabindex="0" onclick={handleFrequentlyPurchasedClick}>{system_labels.FREQUENTLY_PURCHASED}</a><!-- RWPS-3764-->
+                </template>
+                <template lwc:if={isViewQuickOrder}>
+                    <a href="javascript:void(0)" class="ecom-account-sb-label dashboard-menu-font no-underline sidebar-link"  data-id="quickorders" role="button" tabindex="0" onclick={handleQuickOrderClick}>Quick Order</a><!-- RWPS-3764-->
+                </template>
+
+            <!-- VRa : Punchout Changes - End -->
+             <!-- RWPS-592 Begin -->
+                <template lwc:if={isCDLAvailable}>
+                    <a href="javascript:void(0)" class="dashboard-menu-font no-underline sidebar-link" data-id="downlaodpdf" role="button" tabindex="0" onclick={handlePDFDownload}>{labels.ECOM_DownloadPDF}</a><!-- RWPS-3764-->
+                </template>
+            <!-- RWPS-592 End -->
+            <!-- <br> -->
+            </div>
+            <!-- VRa : Punchout Changes - Begin -->
+            <div class={customerCareStyling}>
+                <!-- RWPS-3764-->
+                <a href="javascript:void(0)" class="ecom-inline-display no-underline sidebar-link" role="button" tabindex="0" onclick={navigateToContactUsPage}>
+                    <div class="ecom-mr-16 ecom-inline-display">
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.25 15.0022C20.249 17.8731 18.2316 20.2726 15.5372 20.8616L14.8992 18.9476C16.1032 18.7511 17.1265 18.0171 17.7149 17H15.25C14.1454 17 13.25 16.1046 13.25 15V11C13.25 9.8954 14.1454 9 15.25 9H18.1881C17.696 5.05369 14.3296 2 10.25 2C6.17038 2 2.80399 5.05369 2.31189 9H5.25C6.35457 9 7.25 9.8954 7.25 11V15C7.25 16.1046 6.35457 17 5.25 17H2.25C1.14543 17 0.25 16.1046 0.25 15V10C0.25 4.47715 4.72715 0 10.25 0C15.7728 0 20.25 4.47715 20.25 10V10.9987V11V15V15.0022ZM18.25 15V11H15.25V15H18.25ZM2.25 11V15H5.25V11H2.25Z" fill="black"></path>
+                        </svg>
+                    </div>
+                    <span class="ecom-account-db-label">Customer Care</span>
+                </a>
+ <!-- VRa : Punchout Changes - End -->
+            <!-- VRa : Punchout Changes - Begin -->
+            <template lwc:if={isViewLogout}>
+                <a href="javascript:void(0)" class="ecom-inline-display ecom-mt-32 no-underline sidebar-link" role="button" tabindex="0" onclick={handleLogout}>
+                  <img class="ecom-account-sb-icon" src={images.logout} alt="">
+                  <span class="ecom-account-db-label">Logout</span>
+                </a> <!-- RWPS-3764 -->
+              </template>
+            <!-- VRa : Punchout Changes - End -->         
+            </div>
+        </div>
+    </template>
+                            <!-- placeholder="Dashboard" -->
+
+    <div if:true={device.isMobile} class="register_section">
+        <lightning-combobox
+            data-id="selection-id"
+            name="progress"
+            value={selectedLabel}
+            placeholder={selectedLabel}
+            options={options}
+            class="select-field ecom-sp-instructions-box"
+            onchange={handleSelectionChange} 
+            variant="label-hidden">
+        </lightning-combobox>
+    </div>
+    <!--GAr punchout change-->
+    <div if:true={customerCareModal} class="demo-only">
+        <section role="dialog" tabindex="0" aria-modal="true" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt">
+          <div class="slds-modal__container">
+            <div class="slds-modal__header">
+              <h1 class="slds-text-heading_medium" id="prompt-heading-id"></h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+              <p>{labels.ECOM_140004}</p>
+            </div>
+            <div class="slds-modal__footer slds-theme_default">
+              <button onclick={closeCCModal} class="slds-button slds-button_neutral">Close</button>
+            </div>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+      </div>
+      <!-- RWPS-592 Begin-->
+      <c-ecom_show-toast></c-ecom_show-toast>
+      <!-- RWPS-592 End-->
+    </div>
+</template>

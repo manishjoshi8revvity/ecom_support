@@ -1,0 +1,585 @@
+.ecom_modal_header{
+    font-family: Hanken Grotesk;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 40px;
+    letter-spacing: 0em;
+    text-align: center;
+    border-bottom:1px solid white;
+
+    }
+
+    /*ECOM-3500 - Gaurang - UI Fix - 19 July 2024*/
+    .minHeight{
+        min-height: 200px;
+    }
+
+    .fontCSS{
+        font-size:32px;
+        margin-left:5%; /*ECOM-3500 - Gaurang - UI Fix - 19 July 2024*/
+    }
+    .btn-width{
+        width: 51%;
+        margin-left: -7px;
+    }
+    .ecom_modal_note{
+    font-family: Hanken Grotesk;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+
+    }
+    .ecom_modal_container{
+        /* top: 155px; */
+        left: 340px;
+        /* padding: 60px 93px 60px 93px; */
+        border-radius: 20px;
+        margin: 16px
+
+    }
+    .ecom_modal_header_container{
+        /* width: 263.5px;
+        height: 50px; */
+        padding: 10px;
+        border: 0px 0px 1px 0px;
+        background-color: #FFFFFF;
+        border-color:#7F03B0;
+
+    }
+    .ecom_modal_grayborder{
+        /* border-width: 0px, 0.5px, 0.5px, 0.5px !important;
+        border-style: solid;
+        border-color: #A8A8A8; */
+        background-color: none;
+
+        /* Set no border on left, right, and top */
+        border-left: none;
+        border-right: none;
+        border-top: none;
+
+        /* Set red bottom border */
+        border-bottom: 1px solid red;
+    }
+    .slds-table thead th{
+        background-color: white;
+    }
+    .ecom_modal_no_lrborder{
+        border-left:1px solid white;
+        border-right: 1px solid white;
+        border-bottom: 1px solid #7F03B0
+    }
+    .ecom-icon-right{
+        float: right;
+    }
+    .ecom-align-title{
+        text-align:center
+    }
+    .slds-modal__container{
+        position: sticky; /*ECOM-3500 - Gaurang - 19 July 2024 - UI Fix*/
+        top: 4%; /*ECOM-3500 - Gaurang - 19 July 2024 - UI Fix*/
+        /*left: 37%;*/
+        margin:0 auto;
+        max-width: fit-content;
+        min-width: inherit;
+
+    }
+
+    .ecom_qo_partnumber_tb{
+        margin: 0px 16px 0px 0px;
+        line-height: 7px;
+        width: auto;
+    }
+    .ecom_qo_partnumber_nr{
+        margin: 16px 5px 0px 0px;
+        line-height: 5px;
+    }
+
+    .ecom-qo-deleteitem-btn{
+        cursor: pointer;
+        width: 20px;
+        height:20px;
+        margin:11px 0px 5px 25px
+    }
+    /* RWPS-3826 start */
+    .ecom-qo-deleteitem-btn:focus-visible {
+        outline: 1px solid #7F03B0;
+        outline-offset: 2px;
+    }
+    /* RWPS-3826 end */
+    .ecom_btn-qorder{
+        color:#7F03B0;
+        background-color: white;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        width: 90%;
+        height: 48px;
+    }
+
+    .ecom_btn-qorder:hover{
+        color:white;
+        background-color: #7F03B0;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        height: 48px;
+    }
+
+    .ecom_btn-qorder2{
+        color:#7F03B0;
+        background-color: white;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        width: 90%;
+        height: 48px;
+    }
+
+    .ecom_btn-qorder2:hover{
+        color:white;
+        background-color: #7F03B0;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        height: 48px;
+    }
+
+
+    .button-css{
+        width: 90%;
+    }
+    .ecom_btn-addmore{
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+        color:#7F03B0;
+    }
+
+    .ecom_btn-addmore:hover{
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+        color:#7F03B0;
+    }
+
+    .ecom_btn-addmore:active{
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+        color:#7F03B0;
+    }
+
+
+    .ecom-icon-size{
+        width: 24px;
+        height: 27px;
+        padding-bottom: 3px;
+    }
+    .ecom_btn-qorder-add-to-cart{
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 30px;
+        letter-spacing: 0em;
+        text-align: left;
+        color:#FFFFFF;
+        background-color:#A8A8A8;
+        border: 1px solid #A8A8A8;
+        border-radius: 24px;
+        height: 48px;
+    }
+
+    .ecom_btn-brand{
+        color:white;
+        background-color: #7F03B0;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        height: 48px;
+      }
+      .ecom_btn-brand:hover{
+        color:white;
+        background-color: #5A027D;
+        border-radius: 40px;
+        border: 2px solid #5A027D;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        height: 48px;
+      }
+      .ecom_btn-brand-disabled{
+        color:white;
+        background-color: #A8A8A8;
+        border-radius: 40px;
+        border: 2px solid #A8A8A8;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        height: 48px;
+      }
+
+    .ecom-qo-noborder{
+        border-bottom: 0px;
+    }
+    .ecom-qo-closebtn{
+        float:right;
+        bottom:10px
+    }
+    .ecom-no-border{
+        border:2px solid white
+    }
+    .download-link {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .spinner-style{
+        z-index: 10000 !important;
+        position: fixed;
+        top: 0;
+        bottom : 0;
+        right:0;
+        left:0;
+    }
+    .ecom-card-label{
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 32px;
+        letter-spacing: 0em;
+        text-align: left;
+        color:#000000;
+    }
+    .ecom-qo-card{
+        /* padding: 16px; */
+        border-radius: 8px;
+        border: 1px solid #E3E3E3
+    }
+    .ecom-qo-label{
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 32px;
+        letter-spacing: 0em;
+        color: #000000;
+    }
+    .ecom-qo-details{
+        word-break: break-word;
+        font-size: 16px;
+        font-weight: 400;
+        /* line-height: 34px; */
+        letter-spacing: 0em;
+        text-align: left;
+        color: #000000;
+        /*line-break: anywhere;*/
+        padding-right: 16px;
+    }
+    .ecom-qo-failed-label{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 34px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #000000;
+    }
+    .ecom-qo-uf-grayborder{
+        border: 2px solid #E3E3E3;
+        border-radius: 8px;
+    }
+
+/*RWPS-3339 Start*/
+.slds-modal__container.upload-model {
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 auto;
+    max-width: fit-content;
+    min-width: 380px;
+} /*RWPS-3339 End*/
+
+
+.slds-modal__container.success-failure-modal{
+
+    position: sticky; /*ECOM-3500-Gaurang-UI Fix- 19 July 2024*/
+    /* top: 10%;
+    left: 40%; */
+    left:32%; /*ECOM-3500-Gaurang-UI Fix- 19 July 2024*/
+    margin: 0 auto;
+    max-width: fit-content;
+    min-width: inherit;
+}
+
+
+   /* .uploadSection .span.slds-file-selector_button.slds-button.slds-button_neutral{ */
+    /* .uploadSection{
+    color: purple !important;
+    border-radius: 20px !important;
+    border: 2px solid purple !important;
+    } */
+    .uploadSection .slds-file-selector {
+        border: 2px solid red; /* Change border color to red */
+    }
+
+    /* Custom styling for the upload icon */
+    .uploadSection .slds-file-selector__dropzone-icon {
+        fill: purple; /* Change icon color to purple */
+    }
+
+    .ecom_padding{
+        padding-top:10px;
+        padding-bottom:10px;
+    }
+
+    .modalCSS{
+        width: 100%; /*ECOM-3500-Gaurang-UI Fix- 19 July 2024*/
+        height: 100%; /*ECOM-3500-Gaurang-UI Fix- 19 July 2024*/
+        align-self: center;
+        align-items: center;
+    }
+.ecom-sf-border-top{
+    border-radius: 8px 8px 0px 0px;
+}
+.ecom-sf-border-bottom{
+    border-radius: 0px 0px 8px 8px;
+    padding-top: 5%;
+}
+
+@media (min-width:700px) and (max-width: 1200px){
+
+    .modalCSS{
+        align-self: center;
+        align-items: center;
+    }
+    /* RWPS-3339 start */
+    .slds-modal__container{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    /* RWPS-3339 end */
+
+    .slds-modal__container.upload-model{
+        /*RWPS-3339 Start*/
+        position: fixed;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        margin: 0 auto;
+        max-width: fit-content;
+        min-width: 380px;
+        /*RWPS-3339 End*/
+    }
+    .slds-modal__container.success-failure-modal {
+        /* RWPS-3339 Start*/
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /*RWPS-3339 End */
+        margin: 0 auto;
+        max-width: fit-content;
+        min-width: inherit;
+    }
+}
+
+@media (min-width:410px) and (max-width:440px){
+    .slds-modal__container{
+        top:0px;
+        left:0px;
+        position: absolute;
+        margin:0 auto;
+        max-width: fit-content;
+        min-width: inherit;
+
+    }
+
+    .slds-modal__container.upload-model {
+        /*top: -8%;*/
+        left: 5%;
+        margin: 0 auto;
+        max-width: fit-content;
+        min-width: inherit;
+    }
+
+    .slds-modal__container.success-failure-modal {
+        position: absolute;
+        left: 0%;
+        margin: 0 auto;
+        /* max-width: fit-content; */
+        max-width: -webkit-fill-available;
+        min-width: inherit;
+    }
+}
+
+@media (min-width:300px) and (max-width:410px){
+
+    .ecom-qo-label{
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0em;
+        color: #000000;
+    }
+
+    .fontCSS{
+        font-size: 24px;
+    }
+    .slds-modal__container{
+        top:0%;
+        left:0%;
+        margin: 0;
+        max-width: none;
+        height: 100%;
+
+    }
+
+    .button-css{
+        width: 100%;
+    }
+
+    .ecom_btn-qorder{
+        color:#7F03B0;
+        background-color: white;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        width: 100%;
+        height: 48px;
+    }
+    .ecom_btn-qorder:hover{
+        color:white;
+        background-color: #7F03B0;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        height: 48px;
+        width: 100%;
+
+    }
+
+    .ecom_btn-qorder2{
+        color:#7F03B0;
+        background-color: white;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        width: 90%;
+        height: 48px;
+    }
+    .ecom_btn-qorder2:hover{
+        color:white;
+        background-color: #7F03B0;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        font-family: Hanken Grotesk;
+        font-size: 16px;
+        font-weight:normal;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        padding: 5px 12px 5px 12px;
+        height: 48px;
+        width: 90%;
+
+    }
+
+
+    .slds-modal__container.upload-model {
+        /*top: -8%;*/
+        left: 5%;
+        margin: 0 auto;
+        max-width: fit-content;
+        min-width: inherit;
+    }
+    .slds-modal__container{
+        position: absolute;
+        margin:0 auto;
+        max-width: fit-content;
+        min-width: inherit;
+
+    }
+
+    .slds-modal__container.success-failure-modal {
+        position: absolute;
+        left: 0%;
+        margin: 0 auto;
+        /* max-width: fit-content; */
+        max-width: -webkit-fill-available;
+        min-width: inherit;
+    }
+
+
+}
+
+/* RWPS-3826 start */
+.main-quickorder-modal:focus {
+    outline: none;
+}
+/* RWPS-3826 end */

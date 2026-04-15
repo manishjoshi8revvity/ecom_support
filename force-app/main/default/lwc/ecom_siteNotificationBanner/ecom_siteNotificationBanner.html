@@ -1,0 +1,23 @@
+<template>
+    <div class="snb-outer" lwc:ref="bannerOuter">
+      <div lwc:ref="heightRef">
+        <div class="snb-outer-flex" data-theme={bannerTheme}>
+          <div class="snb-text-outer">
+            <div class="snb-text-inner">
+              <div class="snb-text-inner-inner" data-scroll={scrollBanner} lwc:ref="bannerTextWidthRef">
+                <div class="snb-text" lwc:ref="bannerTextRegion" lwc:dom="manual">
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="snb-cancel" lwc:if={cancellable}>
+            <!-- RWPS-3826 start -->
+            <svg tabindex="0" onkeypress={closeBannerEnter} onclick={closeBanner} width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M12 1L1 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 1L12 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <!-- RWPS-3826 end -->
+          </div>
+        </div>
+      </div>
+    </div>
+</template>

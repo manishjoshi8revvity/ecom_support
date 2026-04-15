@@ -1,0 +1,325 @@
+<!--
+  @description       : 
+  @author            : Vipul Goyal
+  @group             : 
+  @last modified on  : 05-10-2024
+  @last modified by  : Vipul Goyal
+-->
+<template>
+
+    <div class="spinner-style" lwc:if={showSpinner}>
+        <lightning-spinner > </lightning-spinner>
+    </div>
+
+    <div class="background">
+        <div class="container slds-align_absolute-center">
+            <div class=" body">
+                <div class="slds-grid slds-wrap">
+                    <div class={sidebarCSS}>
+                        <c-ecom_account-sidebar></c-ecom_account-sidebar>
+                    </div>
+
+                    <div class={middleSpaceCSS}></div>
+
+                    <div class={mainSectionCSS}>
+                        <div class="header slds-col slds-size_1-of-1">
+                            {labels.ECOM_OrderApprovalNeeded}
+                        </div>
+                        <div class="subHeader slds-col slds-size_1-of-1">
+                            <span if:true={fromRecords}>{fromRecords}-</span>{toRecords} out of {totalOrders} orders
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <button class={tab1class} onclick={handleTabClick} data-tab="tab1">{labels.ECOM_OrderPendingForApproval}</button>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <button class={tab2class} onclick={handleTabClick} data-tab="tab2">{labels.ECOM_OrderApproved}</button>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <button class={tab3class} onclick={handleTabClick} data-tab="tab3">{labels.ECOM_OrderRejected}</button>
+                        </div>
+
+                        <div class="message-container slds-grid slds-wrap lds-col slds-size_1-of-1" style="paddinng-top:20px">
+                            <div class="slds-col">
+                                <c-ecom_inline-message type={type} message={message} show={showError} timespan={timeSpan}></c-ecom_inline-message>
+                            </div>
+                        </div>
+
+                        <div  class="slds-grid slds-wrap slds-col slds-size_1-of-1" lwc:if={isTab1Selected}>
+
+                            <template for:each={ordersToDisplay} for:item="order" >
+
+                                <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 boxPadding" key={order.order.Id}>
+                                    <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 orderBorder">
+                                        <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 orderPadding">
+                                            <div class="slds-col slds-size_1-of-1 orderNumberPadding orderNumber">
+                                                {labels.ECOM_OrderNumber} : {order.order.OrderNumber}
+                                            </div>
+                                            <div class="slds-grid slds-wrap slds-col slds-size_1-of-1">
+                                                <div class="slds-grid slds-wrap  slds-col slds-size_12-of-12 slds-large-size_7-of-12"> 
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12">
+                                                        <span class="ecom-order-hd-label">Date Ordered</span>
+                
+                                                        <div class="ecom-order-hd-details"><lightning-formatted-date-time
+                                                                time-zone="UTC" value={order.order.OrderedDate} year="numeric"
+                                                                month="2-digit"
+                                                                day="2-digit"
+                                                                >
+                                                                </lightning-formatted-date-time>
+                                                            </div>
+                                                    </div>
+                                                
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12">
+                                                        <span class="ecom-order-hd-label">Order Status</span>
+                                                        <div class="ecom-order-hd-details">{order.order.Status}</div>
+                                                    </div>  
+                
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12 mobilePaddingTop">
+                                                        <span class="ecom-order-hd-label">Order Total</span>
+                                                        <div class="ecom-order-hd-details ecom-pr-22">
+                                                            <lightning-formatted-number value={order.order.GrandTotalAmount} format-style="currency" minimum-fraction-digits="2" currency-code={order.order.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                        </div>
+                                                    </div>  
+                
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12 mobilePaddingTop">
+                                                        <span class="ecom-order-hd-label">Items</span>
+                                                        <div class="ecom-order-hd-details">{order.order.ECOM_Total_Items__c}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_6-of-12 slds-large-size_2-of-12 mobilePaddingTop">
+                                                    <span class="ecom-order-hd-label" if:true={order.submitterName}>Submitted By</span>
+                                                    <div class="ecom-order-hd-details" if:true={order.submitterName}>{order.submitterName}</div>
+                                                </div>
+                                                <div class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 url-style"> 
+                                                    <a href={order.orderLink}>View order details</a>
+                                                </div>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 greyBox" lwc:if={order.showApprovalButton}>
+
+                                        <div class="slds-col slds-size_1-of-1 greyBoxPadding">
+
+                                            <div class="slds-grid slds-wrap slds-grid_align-end">
+                                                <div class="slds-col ">
+                                                    <button class="ecom-btn-brand slds-m-left_medium" onclick={handleApproveOrderAction} data-id={order.order.Id}>
+                                                        <span>{labels.ECOM_ApproveOrder}</span>
+                                                    </button>
+                                                    <button class="ecom-btn-neutral slds-m-left_medium" onclick={handleRejectOrderAction} data-id={order.order.Id}>
+                                                        <span>{labels.ECOM_RejectOrder}</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                                
+                            </template>
+                            <div if:false={isOrdersAvailable} class="subHeader slds-align_absolute-center slds-p-vertical_xx-large">
+                                {labels.ECOM_Approval_No_Pending_Review_Orders}
+                            </div>
+                        </div>
+                        <div  class="slds-grid slds-wrap slds-col slds-size_1-of-1" lwc:elseif={isTab2Selected}>
+
+                            <template for:each={ordersToDisplay} for:item="order" >
+
+                                <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 boxPadding" key={order.Id}>
+                                    <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 orderBorder">
+                                        <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 orderPadding">
+                                            <div class="slds-col slds-size_1-of-1 orderNumberPadding orderNumber">
+                                                {labels.ECOM_OrderNumber} : {order.order.OrderNumber}
+                                            </div>
+                                            <div class="slds-grid slds-wrap slds-col slds-size_1-of-1">
+                                                <div class="slds-grid slds-wrap  slds-col slds-size_12-of-12 slds-large-size_7-of-12"> 
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12">
+                                                        <span class="ecom-order-hd-label">Date Ordered</span>
+                
+                                                        <div class="ecom-order-hd-details"><lightning-formatted-date-time
+                                                                time-zone="UTC" value={order.order.OrderedDate} year="numeric"
+                                                                month="2-digit"
+                                                                day="2-digit"
+                                                                >
+                                                                </lightning-formatted-date-time>
+                                                            </div>
+                                                    </div>
+                                                
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12">
+                                                        <span class="ecom-order-hd-label">Order Status</span>
+                                                        <div class="ecom-order-hd-details">{order.order.Status}</div>
+                                                    </div>  
+                
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12 mobilePaddingTop">
+                                                        <span class="ecom-order-hd-label">Order Total</span>
+                                                        <div class="ecom-order-hd-details ecom-pr-22">
+                                                            <lightning-formatted-number value={order.order.GrandTotalAmount} format-style="currency" minimum-fraction-digits="2" currency-code={order.order.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                        </div>
+                                                    </div>  
+                
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12 mobilePaddingTop">
+                                                        <span class="ecom-order-hd-label">Items</span>
+                                                        <div class="ecom-order-hd-details">{order.order.ECOM_Total_Items__c}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_6-of-12 slds-large-size_2-of-12 mobilePaddingTop">
+                                                    <!-- RWPS-1885 -->
+                                                    <span class="ecom-order-hd-label" if:true={order.order.Owner.Email}>Submitted By</span>
+                                                    <div class="ecom-order-hd-details" if:true={order.order.Owner.Email}>{order.order.Owner.Email}</div>
+                                                </div>
+                                                <div class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 url-style"> 
+                                                    <a href={order.orderLink}>View order details</a>
+                                                </div>                                              
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </template>
+                            <div if:false={isOrdersAvailable} class="subHeader slds-align_absolute-center slds-p-vertical_xx-large">
+                                {labels.ECOM_Approval_No_Approved_Orders}
+                            </div>
+                        </div>
+                        <div  class="slds-grid slds-wrap slds-col slds-size_1-of-1" lwc:elseif={isTab3Selected}>
+
+
+                            <template for:each={ordersToDisplay} for:item="order" >
+
+                                <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 boxPadding" key={order.Id}>
+                                    <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 orderBorder">
+                                        <div class="slds-grid slds-wrap slds-col slds-size_1-of-1 orderPadding">
+                                            <div class="slds-col slds-size_1-of-1 orderNumberPadding orderNumber">
+                                                {labels.ECOM_OrderNumber} : {order.order.OrderNumber}
+                                            </div>
+                                            <div class="slds-grid slds-wrap slds-col slds-size_1-of-1">
+                                                <div class="slds-grid slds-wrap  slds-col slds-size_12-of-12 slds-large-size_7-of-12"> 
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12">
+                                                        <span class="ecom-order-hd-label">Date Ordered</span>
+                
+                                                        <div class="ecom-order-hd-details"><lightning-formatted-date-time
+                                                                time-zone="UTC" value={order.order.OrderedDate} year="numeric"
+                                                                month="2-digit"
+                                                                day="2-digit"
+                                                                >
+                                                                </lightning-formatted-date-time>
+                                                            </div>
+                                                    </div>
+                                                
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12">
+                                                        <span class="ecom-order-hd-label">Order Status</span>
+                                                        <div class="ecom-order-hd-details">{order.order.Status}</div>
+                                                    </div>  
+                
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12 mobilePaddingTop">
+                                                        <span class="ecom-order-hd-label">Order Total</span>
+                                                        <div class="ecom-order-hd-details ecom-pr-22">
+                                                            <lightning-formatted-number value={order.order.GrandTotalAmount} format-style="currency" minimum-fraction-digits="2" currency-code={order.order.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                        </div>
+                                                    </div>  
+                
+                                                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12 mobilePaddingTop">
+                                                        <span class="ecom-order-hd-label">Items</span>
+                                                        <div class="ecom-order-hd-details">{order.order.ECOM_Total_Items__c}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_6-of-12 slds-large-size_2-of-12 mobilePaddingTop">
+                                                    <span class="ecom-order-hd-label" if:true={order.isApprovalDetails}>Rejected By</span>
+                                                    <div class="ecom-order-hd-details" if:true={order.isApprovalDetails}>{order.order.ECOM_ApprovedRejectedBy__r.Email}</div>
+                                                </div>
+                                                <div class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 url-style"> 
+                                                    <a href={order.orderLink}>View order details</a>
+                                                </div>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </template>
+                            <div if:false={isOrdersAvailable} class="subHeader slds-align_absolute-center slds-p-vertical_xx-large">
+                                {labels.ECOM_Approval_No_Rejected_Orders}
+                            </div>
+                        </div>
+
+                        <template if:true={isLoadMoreEnabled} class="slds-grid slds-wrap slds-col slds-size_1-of-1">
+                            <div class="slds-grid slds-wrap slds-col slds-size_1-of-1" style="padding-top:25px;">
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                                    <c-ecom_paginator 
+                                    ongotopage={pageChanged} 
+                                    page-size={defaultListSize}
+                                    current-page-number={currentPageNumber} 
+                                    total-records={totalOrders}
+                                    ></c-ecom_paginator>
+                                </div>
+                            </div>
+                        </template>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <template if:true={showPopUp}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container ecom-fo-modal">
+
+        <!--Model Body-->
+        <div class="ecom-outer-box" style="background:white;border-radius: 10px;">
+
+            <button class="ecom-modal-close-btn slds-float_right" title="Close" onclick={closePopup}>
+                <lightning-icon icon-name="utility:close"
+                alternative-text="close"
+                variant="inverse"
+                size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+            </button>
+
+
+            <div class="slds-align_absolute-center slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 popUpHeader">
+                    <h1>{popUpHeader}</h1>
+                </div>
+                <div class="slds-col slds-size_1-of-1 popUpSubText">
+                    {popUpSubText}
+                </div>
+                <div class="slds-col slds-size_1-of-12">
+                </div>
+                <div class="slds-col slds-size_10-of-12 popupTextArea">
+                    <lightning-textarea name={popUpText} label={popUpText} placeholder={popUpPlaceHolder} value={approvalRejectionReason} onchange={handleApprovalRejectionReason}></lightning-textarea>
+                </div>
+                <div class="slds-col slds-size_1-of-12">
+                </div>
+                <div class="slds-col slds-size_1-of-12">
+                </div>
+                <div class="slds-col slds-size_10-of-12" style="text-align:right;padding-bottom:48px;">
+                    <span>
+                        <button class="ecom-btn-neutral slds-m-left_medium" onclick={closePopup}>
+                            <span>{labels.ECOM_Cancel}</span>
+                        </button>
+                        <button if:true={disableButton} class="ecom-btn-disable slds-m-left_medium">
+                            <span>{popupButtonText}</span>
+                        </button>
+                        <button if:false={disableButton} class="ecom-btn-brand slds-m-left_medium" onclick={handleApproveRejectOrder}>
+                            <span>{popupButtonText}</span>
+                        </button>
+                    </span>
+                </div>
+                <div class="slds-col slds-size_1-of-12">
+                </div>
+            </div>
+            
+        </div>
+
+
+
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    
+</template>

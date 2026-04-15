@@ -1,0 +1,52 @@
+<template>
+    <div class="slds-p-left_medium">
+        <div class="ecom_cart_inline ecom-emptycart-align">
+            <button class="slds-button" aria-label="Cart icon"><!--RWPS-4086-->
+                <span class="slds-text-selected ecom-emptycart-icon">
+                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-emptycart-icon " aria-hidden="true" src={images.emptycarticonsvg}>
+                </span>
+            </button>
+        </div>
+
+        <c-ecom_quick-order effective-account-id={effectiveAccountId} onquickorderclose={handleQuickorderClose}>
+        </c-ecom_quick-order>
+
+        <div>
+            <p class="ecom_emptycart_text ecom-pt-40 ecom-pb-40">
+                {labels.ECOM_Cart_Empty}
+            </p>
+                <div class="slds-m-left_xx-large ecom_cart_emptybox">
+                    <div class="ecom_cart_inline ecom-hyperlink">
+                        <a href="javascript:void(0)" class="" onclick={handleBackToShopping}><!--RWPS-4086-->
+                            <div class="slds-text-selected ecom-cart-label ecom-d-inline">
+                                <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.shopbag}>
+                                <p class="ecom-mt-3">{labels.ECOM_Back_to_Shopping}</p></div>
+                        </a>
+                    </div>
+
+                    <template lwc:if={isViewQuickOrder}>
+                        <div class="ecom_cart_inline ecom-ml-48 ecom-hyperlink">
+                            <div class="cart-redirect-button">
+                                <div class="cart-redirect-container ecom-hyperlink">
+                                    <a href="javascript:void(0)" class="" onclick={handleOpenQuickOrder}><!--RWPS-4086-->
+                                        <div class="slds-text-selected ecom-cart-label ecom-d-inline cart-redirect-icon-color">
+                                            <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.quickordersvg}>
+                                            <p class="ecom-mt-3">{labels.ECOM_QuickOrder}</p></div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <div class="ecom_cart_inline ecom-ml-48 ecom-hyperlink">
+                        <a href="javascript:void(0)" class="" onclick={navigateToFavoritesPage}><!--RWPS-4086-->
+                            <div class="slds-text-selected ecom-cart-label ecom-d-inline">
+                                <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.favsvg}>
+                                <p class="ecom-mt-3">{labels.ECOM_Favorites}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+        </div>
+    </div>
+</template>

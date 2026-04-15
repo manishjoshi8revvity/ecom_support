@@ -1,0 +1,119 @@
+<!--
+@description       : This component provides a dialog for SF partners to login as a customer user
+@author            : vramachandran@rafter.one
+@group             : Punchout module
+@last modified on  : 30-Nov-2023
+@last modified by  : vramachandran@rafter.one
+-->
+<template>
+    <div lwc:if={showLoader} class="ecom-spinner-style">
+        <lightning-spinner></lightning-spinner>
+    </div>
+
+    <div class="ecom-margin-auto">
+        <!-- Header : Begin-->
+        <div>
+            <!-- Top badging color-->
+            <div class="ecom-height-20 ecom-full-width ecom-fill-primary">
+            </div>
+            <div class="ecom-margin-top-10">
+                <lightning-layout multiple-rows="false">
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                        <div class="ecom-text-42 ecom-text-color-primary">
+                            {system_labels.PUNCHOUT_URL_GENERATOR}
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </div>
+        <!-- Header : End-->
+
+        <!-- Body : Begin-->
+
+        <!-- Card : Begin -->
+        <div class="ecom-primary-card">
+            <div class="ecom-height-5 ecom-fill-primary">
+            </div>
+
+            <div class="ecom-padding-10">
+                <div class="ecom-margin-top-10 ecom-text-24">
+                    {system_labels.CUSTOMER_ATTRIBUTES}
+                </div>
+
+                <div class="ecom-margin-top-20 ">
+                    <lightning-layout multiple-rows="true" >
+                        <lightning-layout-item size="12" small-device-size="5" medium-device-size="12" large-device-size="12">
+                            <lightning-layout multiple-rows="true" horizontal-align="space" vertical-align="stretch">
+                                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
+                                    <div class="ecom-padding-10 ecom-text-align-right ecom-full-height">
+                                        <span class="ecom-line-height-85">{system_labels.CHOOSE_A_COMPANY}</span>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="7" large-device-size="7" class="ecom-align-self-center">
+                                    <div class="ecom-position-relative ecom-align-self-center">
+
+                                        <lightning-combobox
+                                            lwc:ref="selectedAccount"
+                                            name="account"
+                                            value={selectedAccount}
+                                            placeholder="Select Account"
+                                            options={sortedFetchedFilteredAccounts}
+                                            onchange={handleAccountSelected} ></lightning-combobox>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <!--<lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
+                                    <div class="ecom-padding-10 ecom-text-align-right ecom-full-height">
+                                        <span class="ecom-line-height-85">{system_labels.EMAIL_USERNAME}</span>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="7" large-device-size="7" class="ecom-align-self-center">
+                                    <lightning-input lwc:ref="username" ></lightning-input>
+                                </lightning-layout-item>
+                                -->
+
+                                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
+                                    <div class="ecom-padding-10 ecom-text-align-right ecom-full-height">
+                                        <span class="ecom-line-height-85">{system_labels.GENERATED_URL}</span>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="7" large-device-size="7" class="ecom-align-self-center">
+                                    <lightning-textarea lwc:ref="generatedurl" read-only="true" class="ecom-min-height-200"></lightning-textarea> <!-- RWPS-6863 - changed fixed height to min height -->
+                                </lightning-layout-item>
+
+                                <!-- error message row: begin-->
+                                <!-- <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
+                                    <div class="ecom-padding-10 ecom-full-height" ></div>
+                                </lightning-layout-item> -->
+                                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" >
+                                    <div class="ecom-padding-10 ecom-full-height">
+                                        <c-ecom_inline-message type="error" message={errorMessage} show={showErrorPane} timespan={errorCloseTimeout} onmessageaction={hanldeMessageAction}></c-ecom_inline-message>
+                                    </div>
+                                </lightning-layout-item>
+                                <!-- error message row: end-->
+
+                                <lightning-layout-item flexibility="auto" size="12" small-device-size="6" medium-device-size="4" large-device-size="4">
+                                    <div class="ecom-text-align-right ecom-full-height">
+                                        <lightning-button lwc:if={generateUrlButtonVisibility} data-target-id="generate" variant="brand" label={system_labels.GENERATE_URL} onclick={generateLoginUrl}  class="ecom-primary-btn ecom-width-300 ecom-height-30"></lightning-button>
+                                        <lightning-button lwc:else data-target-id="login" variant="brand" label={system_labels.LOGIN} onclick={handleLoginAction}  class="ecom-primary-btn ecom-width-300 ecom-height-30"></lightning-button>
+                                    </div>
+
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" size="12" small-device-size="6" medium-device-size="7" large-device-size="7">
+                                    <div class="ecom-text-align-left ecom-full-height">
+                                        <lightning-button data-target-id="reset" variant="brand" label={system_labels.RESET} onclick={handleResetAction}  class="ecom-primary-btn ecom-width-300 ecom-height-30"></lightning-button>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </div>
+        </div>
+        <!-- Card : End -->
+
+        <!-- Body : End-->
+
+    </div>
+</template>

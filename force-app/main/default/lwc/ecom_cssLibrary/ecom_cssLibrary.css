@@ -1,0 +1,754 @@
+:host{
+
+    /** brand colors*/
+    --var-brand-revvity-orchid: #7F03B0;
+    --var-brand-revvity-dark-orchid: #5a027d;
+    --var-brand-revvity-black: #000000;
+    --var-brand-revvity-white:#FFFFFF;
+    --var-brand-revvity-grays-dark-grey: #525252;
+    --var-brand-revvity-grays-silver:#E3E3E3;
+    --var-brand-revvity-grays-disabled-button: #a8a8a8;
+    --var-brand-revvity-error-red: #dc0101;
+    --var-brand-revvity-error-background-pink: #dc010133;
+    
+    --ecom-brand-color: #ffeb10;
+    --ecom-brand-color-purple:#7f03b0;
+    --ecom-font-family: "Hanken Grotesk", sans-serif;
+
+    /** sizing */
+    --var-size-02:2px;
+    --var-size-04:4px;
+    --var-size-06:6px;
+    --var-size-08:8px;
+    --var-size-10:10px;
+    --var-size-12:12px;
+    --var-size-14:14px;
+    --var-size-16:16px;
+    --var-size-18:18px;
+    --var-size-20:20px;
+    --var-size-22:22px;
+    --var-size-24:24px;
+    --var-size-26:26px;
+    --var-size-28:28px;
+    --var-size-30:30px;
+    --var-size-32:32px;
+    --var-size-34:34px;
+    --var-size-36:36px;
+    --var-size-38:38px;
+    --var-size-40:40px;
+    --var-size-42:42px;
+    --var-size-44:44px;
+
+    /**  font weights*/
+    --var-font-weight-300:300;
+    --var-font-weight-400:400;
+    --var-font-weight-500:500;
+
+    /** font family */
+    --var-font-family: Hanken Grotesk;
+    font-family: "Hanken Grotesk", sans-serif;;
+
+}
+
+/** Border Styles */
+.ecom-border-bottom-solid-grey{
+    border-bottom: 1px solid var(--var-brand-revvity-grays-silver);
+}
+
+
+/*** Background styles*/
+.ecom-background-revvity-orchid{
+    background-color: var(--var-brand-revvity-orchid);
+}
+
+.ecom-background-revvity-dark-grey{
+    background-color: var(--var-brand-revvity-grays-dark-grey);
+}
+
+.ecom-background-revvity-brand-yellow {
+    background-color: var(--ecom-brand-color);
+}
+
+/** Border stylign */
+.ecom-border-styling-red {
+    border: 1px solid var(--var-brand-revvity-error-red);
+}
+
+/** position styling */
+.ecom-position-fixed {
+    position: fixed;
+}
+
+.ecom-position-relative { 
+    position: relative!important;
+}
+
+/*** Text styling */
+
+.ecom-text-color-black{
+    color: var(--var-brand-revvity-black);
+}
+
+.ecom-text-color-dark-grey{
+    color: var(--var-brand-revvity-grays-dark-grey);
+}
+
+.ecom-text-18{
+    font-family: var(--var-font-family);
+    font-size: var(--var-size-18);
+    font-style: normal;    
+}
+
+.ecom-text-24{
+    font-family: var(--var-font-family);
+    font-size: var(--var-size-24);
+    font-style: normal;    
+}
+
+.ecom-text-32{
+    font-family: var(--var-font-family);
+    font-size: var(--var-size-32);
+    font-style: normal;    
+}
+/** Text align styling */
+.ecom-text-align-center {
+    text-align: center;
+}
+
+/** height styling */
+.ecom-max-height-81{
+    max-height: 81px;
+}
+
+.ecom-max-height-256 {
+    max-height: 250px;
+}
+
+/** Width styling*/
+.ecom-width-80-percent{
+    width: 80%;
+}
+
+/** margin styling*/
+
+.ecom-max-width-528{
+    max-width: 528px;
+}
+
+.ecom-max-width-435 {
+    max-width: 435px;
+}
+
+.ecom-max-width-464 {
+    max-width: 464px;
+}
+
+
+.ecom-padding-sides-28{
+    padding-left: 28px;
+}
+
+
+.ecom-margin-top-12{
+    margin-top: var(--var-size-12);
+}
+
+.ecom-margin-top-28 {
+    margin-top: 28px;
+}
+
+.ecom-margin-top-24{
+    margin-top: 24px
+}
+
+.ecom-margin-top-80 {
+    margin-top: 80px;
+}
+
+.ecom-margin-left-71{
+    margin-left: 71px;
+}
+
+.ecom-margin-bottom-4{
+    margin-bottom: 4px;
+}
+
+.ecom-margin-bottom-8{
+    margin-top: 8px;
+}
+
+.ecom-margin-bottom-16{
+    margin-bottom: 16px;
+}
+
+.ecom-margin-bottom-24 {
+    margin-bottom: 24px;
+}
+
+.ecom-margin-top-16{
+    margin-top: 16px;
+}
+
+.ecom-margin-top-32{
+    margin-top: 32px;
+}
+
+.ecom-margin-top-42{
+    margin-top: 42px;
+}
+
+.ecom-margin-top-53{
+    margin-top: 53px;
+}
+
+.ecom-margin-bottom-32{
+    margin-bottom: 32px;
+}
+
+.ecom-padding-bottom-52{
+    padding-bottom: 52px;
+}
+
+.ecom-margin-bottom-80{
+    margin-bottom: 80px;
+}
+
+.ecom-padding-24{
+    padding: 24px;
+}
+
+.ecom-padding-bottom-23{
+    padding-bottom: 23px;
+}
+
+.ecom-padding-left-12{
+    padding-left: 12px;
+}
+
+.ecom-padding-left-24 {
+    padding-left: 24px;
+}
+
+.ecom-padding-right-12{
+    padding-right: 12px;
+}
+
+.ecom-padding-top-40{
+    padding-top: 40px;
+}
+
+.ecom-padding-bottom-16{
+    padding-bottom:16px;
+}
+
+.ecom-padding-bottom-32{
+    padding-bottom: 32px;
+}
+
+.ecom-padding-bottom-40{
+    padding-bottom: 40px;
+}
+
+.ecom-padding-sides-116{
+    padding-left: 116px;
+    padding-right: 116px;
+}
+
+.ecom-line-height-24 {
+    line-height: 24px;
+}
+
+.ecom-line-height-28 {
+    line-height: 28px;
+}
+
+.ecom-line-height-32 {
+    line-height: 32px;
+}
+
+.ecom-line-height-44{
+    line-height: 44px;
+}
+
+.ecom-line-height-48{
+    line-height: 48px;
+}
+
+.ecom-page{
+    font-family: var(--ecom-font-family);
+}
+
+.ecom-login-registration-page-padding{
+    padding-left: 59px;
+    padding-right: 59px;
+}
+
+.ecom-header{
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.ecom-cards{
+    padding-top: 40px;
+}
+
+.ecom-card{
+    background: var(--var-brand-revvity-white);
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,.2);
+    padding: 24px;
+}
+
+/** Font styling **/
+.ecom-text-color-default {
+    color: var(--var-brand-revvity-black);
+}
+
+.ecom-text-brand-color-purple{
+    color: var(--revvity-brand-purple) ;
+}
+
+.ecom-text-decoration-underline {
+    text-decoration:  underline !important;
+}
+
+.ecom-text-decoration-underline:hover {
+    color: #5A027D;
+}
+
+.ecom-text-overflow-wrap-anywhere {
+    overflow-wrap: anywhere;
+}
+
+.ecom-text-size-14{
+    font-size: 14px;
+}
+
+.ecom-text-size-16{
+    font-size: 16px;
+}
+
+.ecom-text-size-18{
+    font-size: 18px;
+}
+
+.ecom-text-size-24{
+    font-size: 24px;
+}
+
+.ecom-font-size-28 {
+    font-size: 28px;
+}
+
+.ecom-font-size-36 {
+    font-size: 36px;
+}
+
+.ecom-text-size-40{
+    font-size: 40px;
+}
+
+.ecom-font-size-56{
+    font-size: 56px;
+}
+
+
+.ecom-font-weight-200{
+    font-weight: 200;;
+}
+
+.ecom-font-weight-300{
+    font-weight: 300;
+}
+
+.ecom-font-weight-400{
+    
+    font-weight: 400 !important;
+}
+
+.ecom-text-weight-500{
+    font-weight: 500;
+}
+
+.ecom-text-weight-600 {
+    font-weight: 600;
+}
+
+.ecom-text-weight-700 {
+    font-weight: 700;
+}
+
+.ecom-text-weight-bold {
+    font-weight: bold;
+}
+
+.ecom-font-smoothening {
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.ecom-hyperlink-black-text {
+    color: #000000 !important;
+}
+
+/** display*/
+
+.ecom-display-flex {
+    display: flex !important;
+}
+
+.ecom-align-items-center{
+    align-items: center;
+}
+
+/** sizing */
+
+
+/** Image styling*/
+.ecom-background-imag-full-width{
+    width: 100%;
+}
+
+.ecom-brand-image-height {
+    height: 600px;
+}
+
+/** background colors */
+
+.ecom-background-color {
+    background-color: var(--ecom-brand-color);
+}
+
+/** button styling */
+.ecom-password-icon{
+	width: 3rem;
+    height: 1rem;
+}
+
+/** Card styling  */
+.ecom-secondary-card{
+    /* height: 432px; */
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,.2);
+    padding: 24px;
+}
+
+.ecom-tertiary-card{
+    /* max-width: 435px; */
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,.2);
+    padding: 24px;
+}
+
+.ecom-card-button{
+    color: var(--ecom-brand-color-purple);
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    display: inline-block;
+    border-width: 2px;
+    -webkit-border-radius: 40px;
+    border-radius: 40px;
+    border-style: solid;
+    border-color: var(--ecom-brand-color-purple);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    outline-width: 2px;
+    outline-style: solid;
+    outline-offset: 2px;
+    outline-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    text-align: center;
+}
+
+.ecom-error-text{
+    color: var(--var-brand-revvity-error-red);
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+.ecom-close-button{
+    height: 24px;
+    width: 24px;
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    transform: none;
+    text-align: center;
+    font-size: 0;
+    cursor: pointer;
+}
+
+.ecom-login{
+    padding: 12px 20px;
+    border-radius: 40px;
+    border: 2px solid var(--revvity-brand-purple);
+    background-color: var(--revvity-brand-purple);
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.ecom-error-message-block{
+    display: block;
+    background: var(--var-brand-revvity-error-background-pink);
+    border: 1px solid var(--var-brand-revvity-error-red);
+    box-shadow: none;
+    padding: 15px 55px 15px 15px;
+    margin-bottom: 25px;
+    position: relative;
+    color: #000000;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.ecom-register-button {
+    border-radius: 40px;
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--var-brand-revvity-white);
+    background: var( --var-brand-revvity-orchid);
+    transition: 0.2s;
+    border-style: none;
+}
+
+.ecom-register-button:hover {
+    background: #5A027D !important;
+}
+
+
+/** Tool tip styling */
+.ecom-tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+.ecom-tooltip .ecom-tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.ecom-tooltip:hover .ecom-tooltip-text {
+    visibility: visible;
+}
+
+.ecom-submit-button {
+    border-radius: 40px;
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #fff;
+    background: var(--var-brand-revvity-orchid);
+    transition: 0.2s;
+    border: none;
+}
+
+.ecom-submit-disabled-button {
+    font-family: "Hanken Grotesk", sans-serif;
+    border-radius: 40px;
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    line-height: 24px !important;
+    color: #fff !important;
+    background: var(--var-brand-revvity-grays-disabled-button);
+    pointer-events: none;
+    transition: 0.2s;
+    border: 0px !important;
+}
+
+.ecom-submit-button:hover{
+    background: var(--var-brand-revvity-dark-orchid);
+}
+
+.ecom-submit-disabled-button:hover {
+    color: #fff !important;
+    pointer-events: none;
+}
+
+.ecom-text-only-purple-button{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--var-brand-revvity-orchid);
+    text-decoration: none;
+}
+
+.ecom-text-only-purple-button-disabled {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--var-brand-revvity-grays-disabled-button) !important;
+    text-decoration: none;
+}
+
+.ecom-text-only-purple-button-disabled:hover {
+    color:var(--var-brand-revvity-grays-disabled-button) !important;
+    pointer-events: none !important;
+}
+
+.ecom-text-only-purple-button:hover{
+    text-decoration: none;
+    color: var(--var-brand-revvity-dark-orchid);
+}
+
+.ecom-text-only-purple:hover{
+    color: var(--var-brand-revvity-dark-orchid);
+}
+
+
+/** Custom Component Styling**/
+c-ecom_tooltip-popover{
+    /* width: max-content;
+    position: absolute; */
+    display: flow-root;
+    /* font-size: 16px; */
+    font-family: var(--ecom-font-family);
+}
+
+/** spinner container */
+.ecom-contained-spinner {
+    position: relative;
+}
+
+.ecom-spinner-positioning{
+    position: relative;
+    top: 185px;
+}
+
+/** Footer styling*/
+.ecom-footer {
+    bottom: 0px;
+    position: relative;
+    width: 100%;
+    left: 0px !important;
+}
+
+/** Positioning Styling */
+.ecom-position-relative {
+    position: relative;
+}
+
+.ecom-position-absolute {
+    position: absolute;
+}
+
+.ecom-right-8-percent {
+    right: 8%;
+}
+
+.ecom-top-5-percent {
+    top: 5%;
+}
+
+/** Modal styling */
+.ecom-modal-noborder {
+	border-bottom: 2px solid white;
+	border-top: 2px solid white;
+	border-radius: 16px 16px 0px 0px;
+}
+
+.ecom-modal-closebtn { 
+	float:right;
+	bottom:10px;
+	padding-top:24px;
+	padding-right:24px;
+	padding-left:24px;
+	padding-bottom:24px;
+}
+
+.ecom-modal-noborder {
+    border: 2px solid white;
+    border-radius: 0px 0px 16px 16px !important;
+}
+
+.ecom-modal-header-noborder {
+    border-bottom: 2px solid white;
+    border-top: 2px solid white;
+    border-radius: 16px 16px 0px 0px;
+}
+
+.ecom-modal-open-prevent-scroll {
+    overflow: hidden;
+}
+
+.ecom-locale-item {
+    /* padding-left: 46px; */
+    padding-bottom: 24px;
+}
+
+.ecom-locale-item img {
+    height: 24px;
+    width: 32px;
+    object-fit: contain;
+    object-position: center;
+}
+
+.ecom-locale-item span {
+    /* display: block; */
+    flex-grow: 1;
+    font-size: 16px;
+    line-height: 24px;
+    /* font-weight: 500; */
+    padding-left: 8px;
+}
+
+/** scrollable divs */
+.ecom-y-axis-scrollable-auto-div {
+    overflow-y: auto;
+}
+
+.ecom-x-axis-overflow-hidden {
+    overflow-x: hidden;
+}
+
+/** svg coloring */
+.ecom-svg-hover-styling:hover {
+    filter: brightness(0) saturate(100%) invert(10%) sepia(100%) saturate(7432%) hue-rotate(286deg) brightness(75%) contrast(102%);
+}
+
+.ecom-support-email-link{
+    font-size: 16px;
+    /* font-weight: 300; */
+    line-height: 24px;
+    color: var(--ecom-brand-color-purple);
+    text-decoration: underline !important;
+}
+
+.ecom-support-email-link:hover {
+    color: #5a027d;
+    text-decoration: none !important;
+}
+
+/* @media screen and (max-width: 495px) {
+    .ecom-margin-top-80{
+        margin-top: 77px;
+    }
+} */

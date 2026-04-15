@@ -1,0 +1,78 @@
+<template>
+  <div onclick={handleComponentClick}>
+    <div class="cursor-pointer" onclick={toggleOptions}>
+      <label for="mainInput" class="form-label">{label}</label>
+      <div>
+        <input
+          class="main-input form-control w-100 cursor-pointer"
+          readonly
+          id="mainInput"
+          value={currentValue}
+          lwc:ref="mainInput"
+          onkeydown={handleMainKeyDown}
+        />
+      </div>
+    </div>
+
+    <div class="position-relative">
+      <div
+        class="position-absolute top-0 start-0 z-2 w-100 mt-1 bg-white shadow overflow-hidden border border-secondary-subtle rounded"
+        lwc:ref="optionsOuter"
+        data-visible={optionsVisible}
+      >
+        <div class="d-flex w-100 align-items-center py-1 px-2 mb-1">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              checked={allChecked}
+              onchange={handleAllCheckedChange}
+            />
+          </div>
+          <div class="flex-grow-1">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Search"
+              oninput={handleSearchInput}
+              lwc:ref="searchInput"
+            />
+          </div>
+          <div class="ms-1">
+            <button
+              type="button"
+              class="btn-close d-block"
+              aria-label="Close"
+              onclick={closeOptions}
+            ></button>
+          </div>
+        </div>
+
+        <template for:each={options} for:item="option">
+          <label
+            for={option}
+            class="d-flex w-100 align-items-center py-1 px-2 mb-1 option-label cursor-pointer"
+            key={option}
+            data-value={option}
+          >
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                id={option}
+                value={option}
+                type="checkbox"
+                onchange={recalculateValue}
+                data-value={option}
+              />
+            </div>
+            <div class="flex-grow-1">{option}</div>
+          </label>
+        </template>
+
+        <div class="text-end text-secondary mb-1 px-1">
+          <small>{selectedOptionsCount}/{optionsCount} selected</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

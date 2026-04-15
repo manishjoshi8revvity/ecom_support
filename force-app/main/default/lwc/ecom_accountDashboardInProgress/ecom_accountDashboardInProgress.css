@@ -1,0 +1,356 @@
+.ecom-name-label{
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 56px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #333333;
+    }
+
+.ecom-profile-label{
+font-size: 24px;
+font-weight: 500;
+line-height: 32px;
+letter-spacing: 0em;
+text-align: left;
+color: black;
+}
+.ecom-edit-label{
+font-size: 18px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: right;
+color: #7F03B0;
+}
+.ecom-edit-icon{
+width: 16px;
+height: 16px;
+padding: 0.6px 2px 0.6px 6px;
+
+}
+.ecom-db-detail-label{
+font-size: 18px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color: black;
+}
+.ecom-db-detail{
+font-size: 16px;
+font-weight: 400;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: left;
+color: black;
+}
+.ecom-db-address-label{
+font-size: 14px;
+font-weight: 700;
+line-height: 24px;
+letter-spacing: 0.04em;
+text-align: left;
+color: black;
+}
+.ecom-db-address{
+font-size: 16px;
+font-weight: 400;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: left;
+color: black;
+}
+.grid-container {
+    display: inline;
+    /* grid-template-columns: 1fr 1fr; */
+    align-content: stretch;
+  }
+
+  .grid-item {
+   
+    padding-top: 10px;
+
+  }
+  .slds-box {
+    padding: 1rem;
+
+  }
+
+
+  /* Order History List  */
+  .dummy{
+	color : black;
+}
+.ecom_btn-orderDetails{
+	color:#7F03B0;
+	background-color: white;
+	border-radius: 40px;
+	border: 2px solid #7F03B0;
+	font-family: Hanken Grotesk;
+	font-size: 16px;
+	font-weight:normal;
+	line-height: 20px;
+	letter-spacing: 0em;
+	text-align: center;
+	padding: 5px 12px 5px 18px;
+}
+.ecom-button-top-margin{
+    margin-top:10px
+}
+
+.ecom-marginForLabel{
+    margin:16px
+}
+.ecom-grayBorder{
+    border: 1px solid #a8a8a8;
+	border-radius: 6px;
+}
+
+.order-history-header{
+	width: 80%;
+    display: inline-block;
+	/* font-size: 1.5em; */
+font-size: 24px;
+font-weight: 500;
+line-height: 32px;
+letter-spacing: 0em;
+text-align: left;
+
+}
+
+.order-count-sammary{
+    font-size: 1.25em;
+}
+
+.order-details-link{
+	color:#7F03B0;
+    float: right;
+}
+
+.reorder-utility-icon {
+    width: 20px;
+    height: 20px;
+    top: 2px;
+    left: 2px;
+    }
+
+.search-icon{
+    --sds-c-icon-color-foreground-default: #7F03B0;
+}
+
+.flex-display{
+    display: flex;
+}
+.order-again-btn{
+    width: 172px;
+    height: 48px;
+    padding: 12px 20px 12px 20px;
+    border-radius: 40px;
+    border-color: #7F03B0;
+    border:2px solid #7F03B0;
+    background: #7F03B0;
+    color: #FFFFFF;
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;    
+  align-items: center;
+  justify-content: center;
+}
+
+.order-load-more{
+    width: 170px;
+    height: 38px;
+    padding: 12px 20px 12px 20px;
+    border-radius: 40px;
+    border-color: #7F03B0;
+    background: white;
+    color: #7F03B0;
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+.ecom-ordernr-label{
+font-size: 24px;
+font-weight: 500;
+line-height: 32px;
+letter-spacing: 0em;
+text-align: left;
+color: black;
+}
+
+.ecom-order-hd-label{
+font-size: 14px;
+font-weight: 700;
+line-height: 24px;
+letter-spacing: 0.04em;
+text-align: left;
+color: #000000;
+}
+.ecom-order-hd-details{
+font-size: 18px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color: #000000;
+}
+.ecom-order-agn-label{
+font-size: 17px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color: #FFFFFF;
+}
+
+/* Dashboard Edit existing  */
+.account-header{
+	font-size: 1.5em;
+}
+.account-number{
+	font-size: 1.25em;
+}
+
+.account-sub-header{
+	width: 90%;
+    display: inline-block;
+	font-size: 1.5em;
+}
+
+.float-right{
+    float: right;
+}
+
+.link{
+	color:#7F03B0;
+}
+
+.btn{
+    width: 180px;
+    height: 38px;
+    padding: 12px 20px 12px 20px;
+    border-radius: 40px;
+    border-color: #7f03b000;
+    background: #7F03B0;
+    color: #FFFFFF;
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.btn-active{
+    width: 170px;
+    height: 38px;
+    padding: 12px 20px 12px 20px;
+    border-radius: 40px;
+    border-color: #f6ef2600;
+    background: #f6ef26;
+    color: #000000;
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+
+.ecom-grayBorder{
+    border: 1px solid #a8a8a8;
+	border-radius: 6px;
+}
+
+
+.order-load-more{
+    width: 170px;
+    height: 38px;
+    padding: 12px 20px 12px 20px;
+    border-radius: 40px;
+    border-color: #7F03B0;
+    background: white;
+    color: #7F03B0;
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.make-active-account{
+    width: 220px;
+    height: 38px;
+    padding: 12px 20px 12px 20px;
+    border-radius: 40px;
+    border-color: #7F03B0;
+    background: white;
+    color: #7F03B0;
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.flex-display{
+    display: flex;
+}
+
+.pop-up-close{
+    margin-top: auto;
+    padding-right: 25px;
+    padding-bottom: 25px;
+}
+
+.success-message{
+    border: 1px solid green;
+    background: #d5f5d5;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.billing-address-box{
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #333333;
+    margin: 4px;
+    width: fit-content;
+}
+
+.ecom-address-card {
+	padding: 10px;
+	border-radius: 8px;
+	border: 1px solid #525252;
+	background-color: linear-gradient(0deg, #525252, #525252),
+}
+
+.billing-address{
+    font-size: .9rem;
+}
+
+.btn{
+    width: 280px;
+    height: 38px;
+    padding: 12px 20px 12px 20px;
+    border-radius: 40px;
+    border-color: #7f03b000;
+    background: #7F03B0;
+    color: #FFFFFF;
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}

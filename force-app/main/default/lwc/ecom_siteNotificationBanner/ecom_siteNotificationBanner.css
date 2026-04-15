@@ -1,0 +1,106 @@
+:host {
+  --snb-svg-width: 13px;
+  --snb-svg-padding: 24px;
+}
+
+.snb-outer {
+  overflow: hidden;
+  transition: 0.5s;
+  width: 100%;
+  height: 0px;
+}
+
+.snb-outer-flex {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.snb-outer-flex[data-theme="Purple"] {
+  background: #7f03b0;
+  color: #fff;
+}
+
+.snb-outer-flex[data-theme="Grey"] {
+  background: #e3e3e3;
+  color: #000;
+  border-bottom: 2px solid #000;
+}
+
+.snb-text-outer {
+  flex-grow: 1;
+  overflow: hidden;
+  max-width: calc(100% - (2 * var(--snb-svg-padding)) - var(--snb-svg-width));
+}
+
+.snb-text-inner {
+  padding: 8px 0 8px var(--snb-svg-padding);
+}
+
+.snb-outer-flex[data-theme="Purple"] .snb-text-inner {
+  padding: 16px 0 16px var(--snb-svg-padding);
+}
+
+.snb-text {
+  text-align: center;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  white-space: nowrap;
+  width: fit-content;
+  min-width: 100%;
+}
+
+.snb-outer-flex[data-theme="Purple"] .snb-text {
+  font-size: 20px;
+}
+
+.snb-text-inner-inner[data-scroll="yes"] .snb-text {
+  animation-name: marquee;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  49.999999% {
+    transform: translateX(calc(-100% - var(--snb-svg-padding)));
+  }
+  50% {
+    transform: translateX(calc(100vw - var(--snb-svg-width) - (3 * var(--snb-svg-padding))));
+  }
+}
+
+.snb-text a, .snb-text a:hover {
+  text-decoration: none;
+}
+
+.snb-outer-flex[data-theme="Purple"] .snb-text a,
+.snb-outer-flex[data-theme="Purple"] .snb-text a:hover {
+  color: #fff;
+}
+
+.snb-outer-flex[data-theme="Grey"] .snb-text a,
+.snb-outer-flex[data-theme="Grey"] .snb-text a:hover {
+  color: #000;
+}
+
+.snb-cancel {
+  padding: 0 var(--snb-svg-padding);
+}
+
+.snb-cancel svg {
+  cursor: pointer;
+  height: var(--snb-svg-width);
+  width: var(--snb-svg-width);
+}
+
+.snb-outer-flex[data-theme="Purple"] .snb-cancel svg path {
+  stroke: #fff;
+}
+
+.snb-outer-flex[data-theme="Grey"] .snb-cancel svg path {
+  stroke: #000;
+}

@@ -1,0 +1,9 @@
+@import 'c/ecom_cssLibrary';
+
+.ecom-text-dark-grey{
+    color: var(--var-brand-revvity-grays-dark-grey);
+}
+
+.ecom-height-vh-60{
+    height: 60vh;
+}

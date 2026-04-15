@@ -1,0 +1,4 @@
+<apex:page standardController="FS_ServiceAlert__c">
+ <p>To create a new Service Alert, navigate to the appropriate Asset or Work Order</p>
+ <p>and use the Create Service Alert action.</p>
+ </apex:page>

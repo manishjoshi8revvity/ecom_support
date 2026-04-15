@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <description>This is used for redirecting the Customer based on the Page</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Ecom Navigation</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__AppPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property
+                    name="pageName"
+                    type="String"
+                    label="Page Name"
+                    description="Name of the page where component is invoked"
+                    datasource="apex://ECOM_SiteURL"
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

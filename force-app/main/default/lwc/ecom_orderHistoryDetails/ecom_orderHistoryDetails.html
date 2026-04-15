@@ -1,0 +1,1089 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 12-14-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <div class="background">
+        <div class="container slds-align_absolute-center">
+            <div class=" body">
+                <div if:false={device.isMobile}>
+                    <!-- <div class="message-container slds-grid slds-wrap">
+                        <div class="slds-col">
+                        <c-ecom_inline-message type={type} message={message} show={showError} timespan={timeSpan}></c-ecom_inline-message>
+                        </div>
+                    </div> -->
+                <div class="slds-grid slds-wrap">
+                    <div class={sidebarCSS}>
+                        <c-ecom_account-sidebar></c-ecom_account-sidebar>
+                    </div>
+                    <div class={middleSpaceCSS}></div>
+                    <div class={mainSectionCSS}>
+                        <div class="slds-grid slds-grid_vertical">
+                            <!-- action buttons-->
+                            <div class="m-top m-bottom slds-grid">
+                                <!-- <div class="slds-col slds-large-size_1-of-12 slds-small-size_1-of-12 slds-medium-size_1-of-1 slds-size_1-of-1">
+
+                                </div> -->
+                                <div class="slds-col slds-large-size_7-of-12 slds-small-size_10-of-12 slds-medium-size_7-of-12 slds-size_7-of-12">
+                                    <div class="">
+                                        <div class="ecom-gray-border-b p-bottom">
+                                           <button class="slds-no-print slds-button slds-button_icon ecom-brand-font" onclick={goBackToOrderHistory}>
+                                           <span class=""><img src={images.backicon} class="ecom-back-icon" alt="Back"> </span><!--RWPS-3764 added alt attribute-->
+                                           <span class="ecom-account-sb-label ecom-purple-font">Back</span>
+                                           </button>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="slds-no-print slds-col slds-large-size_5-of-12 slds-small-size_2-of-12 slds-medium-size_5-of-12 slds-size_5-of-12 align-right">
+                                    <div class="">
+                                        <div class="ecom-gray-border-b p-bottom">
+                                           <button class="slds-button slds-button_icon ecom-brand-font" onclick={handlePrintPage}>
+                                                <span class="slds-p-right--small"><img src={images.print} class="ecom-back-icon" alt="Print"> </span><!--RWPS-3764 added alt attribute-->
+                                                <span class=" ecom-account-sb-label ecom-purple-font">Print Page</span>
+                                           </button>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- order description with multipleTracking-->
+                            <div if:true={multipleTracking} class="slds-col">
+                                <div class="slds-grid">
+                                    <!-- <div class="slds-col slds-large-size_1-of-12 slds-small-size_1-of-12 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                    </div> -->
+                                    <div class="slds-col slds-large-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                        <div class="slds-grid slds-grid_vertical">
+                                            <div class="slds-col m-bottom">
+                                                <h1 class="flex">Order Number:
+                                                    <div if:false={sapOrderNumber} class="slds-m-left--x-small">
+                                                        {orderNumber}
+                                                    </div>
+                                                    <div if:true={sapOrderNumber} class="slds-m-left--x-small">
+                                                        {sapOrderNumber}
+                                                    </div>
+                                                </h1>
+                                            </div>
+                                            <div class="slds-grid">
+                                                <div class="slds-col slds-large-size_2-of-12 slds-small-size_4-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
+                                                    <div class="slds-col">
+                                                        <div class="order-sub-head">Order Date:</div>
+                                                        <!--UI fix - Gaurang - 31 July 2024-->
+                                                        <lightning-formatted-date-time
+                                                                        time-zone="UTC" value={orderDate} year="numeric"
+                                                                        month="2-digit"
+                                                                        day="2-digit"
+                                                                        >
+                                                        </lightning-formatted-date-time>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-large-size_2-of-12 slds-small-size_4-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
+                                                    <div class="slds-col">
+                                                        <div class="order-sub-head">Order Total:</div>
+                                                        <!-- <span>${orderTotal}</span> -->
+                                                        <lightning-formatted-number value={orderTotal}
+                                                            format-style="currency" minimum-fraction-digits="2" currency-code={orderCurrencyCode} currency-display-as={currencyDisplayAs}
+                                                            >
+                                                        </lightning-formatted-number>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-large-size_2-of-12 slds-small-size_4-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
+                                                    <div class="slds-col">
+                                                        <div class="order-sub-head">Items:</div>
+                                                        <span>{orderItemsCount}</span>
+                                                    </div>
+                                                </div>
+                                                <!-- RWPS-1885 -->
+                                                <div lwc:if={approvalRejectionComment} class="slds-col slds-large-size_2-of-12 slds-small-size_4-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
+                                                    <div class="slds-col">
+                                                        <div class="order-sub-head">Approval Comments:</div>
+                                                        <span>{approvalRejectionComment}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Shipping & Billing Info section-->
+                            <div class="slds-grid">
+                                <!-- <div class="slds-col slds-large-size_1-of-12 slds-small-size_1-of-12 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                </div> -->
+
+                                <!-- <div class="slds-col slds-col slds-large-size_10-of-12 slds-small-size_10-of-12 slds-medium-size_1-of-1 slds-size_1-of-1"> -->
+                                    <div class="slds-col slds-large-size_12-of-12 slds-small-size_10-of-12 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                    <div class="slds-grid slds-grid_vertical ecom-gray-border-b m-top2">
+                                        <div class="slds-col">
+                                            <div class="slds-col slds-m-bottom--large">
+                                                <h2>Shipping & Billing Information</h2>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-grid">
+                                                <div class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-size_12-of-12 m-bottom">
+                                                    <div class="order-sub-head">Active Account</div>
+                                                    <div>Account Number: {accNumber}</div>
+                                                    <div>Account Name: {accName}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-grid">
+                                                <div if:true={shippingAddress} class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                                    <div class="order-sub-head">Shipping Address</div>
+                                                    <div>{shippingAddress.street}</div>
+                                                    <div>{shippingAddress.city}, {shippingAddress.state} {shippingAddress.postalCode}</div>
+                                                    <div>{shippingAddress.country}</div>
+                                                </div>
+                                                <div if:true={billingAddress} class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large ipad-col-width"> <!--RWPS-3339-->
+                                                    <div class="order-sub-head">Billing Address</div>
+                                                    <div>{billingAddress.street}</div>
+                                                    <div>{billingAddress.city}, {billingAddress.state} {billingAddress.postalCode}</div>
+                                                    <div>{billingAddress.country}</div>
+                                                    <!--Changes done by sathiya on 2024/04/29 for ECOM-1933-->
+                                                    <template if:true={isValidatedFields} for:each={validationFields} for:item="field">
+                                                        <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-8">
+                                                           <div class="order-sub-head">{field.label}</div>
+                                                           <div>{field.value}</div>
+                                                        </div>
+                                                    </template>
+                                                    <!--Changes End-->
+                                                </div>
+                                                <!--Changes done by sathiya on 2024/05/13 for ECOM-1939-->
+                                                <div if:true={isInvoiceMailingAddress} class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                                    <div class="order-sub-head">{labels.ECOM_InvoiceMailingAddress}</div>
+                                                    <div>{mailingAddress.street}</div>
+                                                    <div>{mailingAddress.city}, {mailingAddress.state} {mailingAddress.postalCode}</div>
+                                                    <div>{mailingAddress.country}</div>
+                                                </div>
+                                                <!--Changes End-->
+                                            </div>
+                                        </div>
+                                        <div class="slds-col ecom-gray-border-t slds-p-top--xx-large">
+                                            <div class="slds-grid">
+                                                <div class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large break-word">
+                                                    <div class="order-sub-head">{labels.recipientTitle}</div><!--RWPS-4824-->
+                                                    <div>{recipient}</div>
+                                                </div>
+                                                <div class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                                    <div class="order-sub-head">{labels.deliveryInstructionNew}</div><!--RWPS-4825-->
+                                                    <div>{specialInstructions}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--E-Invoice Field Section-->
+                            <!--Changes done by sathiya on 2024/05/13 for ECOM-1947-->
+                            <div class="slds-grid ecom-line-break" if:true={isEInvoiceAvailable}>
+                                <div class="slds-col slds-col slds-large-size_12-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                    <div class="slds-grid slds-grid_vertical ecom-gray-border-b slds-m-top--x-large">
+                                        <div class="slds-grid slds-wrap ecom-mt-40 ecom-h-spacing">
+                                            <div class="ecom-shipping-label slds-col slds-size_12-of-12 ecom-active-acn-label slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-text-align_left">
+                                                <h2>{labels.ECOM_E_Invoice_Requirements}</h2>
+                                            </div>
+                                        </div>
+                                        <div if:true={effectiveAccountId} class="ecom-h-spacing m-bottom">
+                                            <c-ecom_checkout_einvoice-details
+                                            effective-account-id={effectiveAccountId}
+                                            cart-id={urlId}
+                                            is-invoice-read-mode={isInvoiceReadMode}
+                                            is-invoice-edit-mode={isInvoiceEditMode}
+                                            is-invoice-order-mode={isInvoiceOrderMode}
+                                            validate-fields={invoiceValidationFields}
+                                            >
+                                            </c-ecom_checkout_einvoice-details>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Changes End-->
+                            <!-- order items section -->
+                            <div class="slds-grid">
+                                <!-- <div class="slds-col slds-large-size_1-of-12 slds-small-size_1-of-12 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                </div> -->
+                                <div class="slds-col slds-col slds-large-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_1-of-1 slds-size_1-of-1">
+
+                                <!-- <div class="slds-col slds-col slds-large-size_10-of-12 slds-small-size_10-of-12 slds-medium-size_1-of-1 slds-size_1-of-1"> -->
+                                    <div class="slds-m-top--x-large">
+                                        <div class="slds-grid">
+                                            <div class="slds-col slds-large-size_9-of-12 slds-small-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-m-bottom--xx-large">
+                                                <h2>Items in your Order</h2>
+                                            </div>
+                                            <div if:false={allProductsDiscontinued} class="slds-col slds-large-size_3-of-12 slds-small-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-m-bottom--xx-large align-right"> <!-- RWPS-3740 -->
+                                                <button class="slds-no-print ecom_btn-inverse" onclick={handleOrderAgain}>
+                                                    <span>
+                                                        <img src={images.orderagain} alt="Image" class="slds-button__icon reorder-utility-icon slds-button__icon_left" />
+                                                        <span class="align-middle">Order Again</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-m-bottom--large">
+                                        <c-ecom_inline-message type={type} message={msg} show={show} timespan={timeSpan}></c-ecom_inline-message>
+                                    </div>
+                                    <div if:true={imagesFetched}>
+                                        <div if:true={orderItems}>
+                                            <template for:each={orderItems} for:item="items">
+                                                <c-ecom_order-items
+                                                    key={items.Id}
+                                                    item={items}
+                                                    order-sales-status={orderSalesStatus}
+                                                    prod-images={productImages}
+                                                    has-image={hasImage}
+                                                    multi-tracking={multipleTracking}
+                                                    oncreateandaddtolist={handleAddToWishlist}
+                                                    onremovefromfavorite={handleRemoveFromFav}
+                                                    is-promo-applied={isPromoApplied}
+                                                    wishlist={wishListdetails}
+                                                    is-sap-order={isSapOrder}
+                                                    is-large-pack-order={isLargePackOrder}
+                                                    order-currency-code={orderCurrencyCode}
+                                                    is-order-cancelled={isOrderCancelled}
+                                                    replacement-map={replacementMap}
+                                                    replacement-price-map={replacementContractPrice}> //RWPS-2554, RWPS-4602
+                                                </c-ecom_order-items>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-m-vertical--large">
+                                <!-- <div class="slds-col slds-large-size_1-of-12 slds-small-size_1-of-12 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                </div> -->
+                                <!-- Payment Information section-->
+                                <div class="slds-col slds-col slds-large-size_5-of-12 slds-small-size_6-of-12 slds-medium-size_6-of-12 slds-size_4-of-12">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col slds-m-bottom_large">
+                                            <h2>Payment Information</h2>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-grid ecom-ipad-payment-stack"> <!--RWPS-5625-->
+                                                <div if:true={poNumber} class="slds-col slds-large-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_1-of-1 slds-size_1-of-1 slds-m-bottom--xx-large ecom-ipad-payment-item"> <!--RWPS-5625-->
+                                                    <div class="order-sub-head">Payment Method</div>
+                                                    <div>PO Number</div>
+                                                    <div>{poNumber}</div>
+                                                </div>
+                                                <div if:false={poNumber} class="slds-col slds-large-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_1-of-1 slds-size_1-of-1 slds-m-bottom--xx-large ecom-ipad-payment-item"> <!--RWPS-5625-->
+                                                    <div class="">Payment Method</div>
+                                                    <div if:true={cardPayment} class="ecom-mt-16">
+                                                        <span class="ecom-address-details">
+                                                           {cardPayment.CardCategory}<br>
+                                                           <img if:true={showCardImg} class="ecom-mr-8" src={cardTypeImg}>
+                                                           <p class="ecom-card-details">x{cardPayment.CardLastFour}</p><br>
+                                                        </span>
+                                                     </div>
+                                                </div>
+                                                <div class="slds-col slds-large-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_1-of-1 slds-size_1-of-1 slds-m-bottom--xx-large ecom-ipad-payment-item"> <!--RWPS-5625-->
+                                                    <div if:true={promoCode} class="order-sub-head">Promo Code</div>
+                                                    <div>{promoCode}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-col slds-large-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_1-of-1 slds-size_1-of-1 slds-m-bottom--xx-large">
+                                                <div if:true={quoteNumber} class="order-sub-head">Quote Number</div>
+                                                <div>{quoteNumber}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-large-size_2-of-12">
+                                </div>
+                                <!-- Order Summary section-->
+                                <div class="slds-col slds-col slds-large-size_5-of-12 slds-small-size_6-of-12 slds-medium-size_6-of-12 slds-size_4-of-12">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <!-- <div class="slds-col">
+                                            <h2>Order Summary</h2>
+                                        </div> -->
+                                        <div class="slds-col">
+                                            <h2 class="heading slds-align_absolute-left slds-m-bottom--large">
+                                                Order Summary
+                                            </h2>
+                                            <div if:false={isSapOrder} class="border">
+                                                   <div class="order-summary-amt">
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header">
+                                                            Subtotal
+                                                        </div>
+                                                        <div class="order-summary-amt-val">
+                                                            <lightning-formatted-number if:true={orderSubTotal} value={orderSubTotal}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}
+                                                                >
+                                                            </lightning-formatted-number>
+                                                            <lightning-formatted-number if:false={orderSubTotal} value="0"
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}
+                                                                >
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                            <!-- Tariff Surcharge -->
+                                                    <div class="order-summary-amt-section" lwc:if={showTotalTariffSurcharge}>
+                                                        <div class="order-summary-amt-header">
+                                                            {labels.ECOM_Tariff_Surcharge}
+                                                        </div>
+                                                        <div class="order-summary-amt-val">
+                                                            <lightning-formatted-number value={orderTotalTariffSurcharge}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Shipping -->
+                                                         <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header">
+                                                            Shipping
+                                                        </div>
+                                                        <div class="order-summary-amt-val">
+                                                            <lightning-formatted-number value={orderShipping}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Tax -->
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header">
+                                                        Tax
+                                                        </div>
+                                                        <div if:true={orderTax} class="order-summary-amt-val">
+                                                            <lightning-formatted-number value={orderTax}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                        <div if:false={orderTax} class="order-summary-amt-val">
+                                                            <lightning-formatted-number value="0"
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Savings -->
+                                                    <!-- RWPS-5180 : Added lwc:if={orderSavings} -->
+                                                    <div lwc:if={orderSavings}>
+                                                        <div class="order-summary-amt-section">
+                                                            <div class="order-summary-amt-header">
+                                                                {labels.ECOM_Savings}
+                                                            </div>
+                                                            <div class="order-summary-amt-val">
+                                                                <lightning-formatted-number value={orderSavings}
+                                                                    format-style="currency" minimum-fraction-digits="2"
+                                                                    currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                                </lightning-formatted-number>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="slds-hr"/>
+                                                    <!-- Total Cost -->
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header cart-summary-text-total">
+                                                            Total Cost:
+                                                        </div>
+                                                        <div class="order-summary-amt-val  cart-summary-text-total">
+                                                            <lightning-formatted-number value={orderTotal}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div if:true={isSapOrder} class="border">
+                                                <div class="order-summary-amt">
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header">
+                                                            Subtotal (Includes Shipping)
+                                                        </div>
+                                                        <div class="order-summary-amt-val">
+                                                            <lightning-formatted-number if:true={orderSubTotal} value={orderSubTotal}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}
+                                                                >
+                                                            </lightning-formatted-number>
+                                                            <lightning-formatted-number if:false={orderSubTotal} value="0"
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}
+                                                                >
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                            <!-- Tariff Surcharge -->
+                                                    <div class="order-summary-amt-section" lwc:if={showTotalTariffSurcharge}>
+                                                        <div class="order-summary-amt-header">
+                                                            {labels.ECOM_Tariff_Surcharge}
+                                                        </div>
+                                                        <div class="order-summary-amt-val">
+                                                            <lightning-formatted-number value={orderTotalTariffSurcharge}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Tax -->
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header">
+                                                        Tax
+                                                        </div>
+                                                        <div if:true={orderTax} class="order-summary-amt-val">
+                                                            <lightning-formatted-number value={orderTax}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                        <div if:false={orderTax} class="order-summary-amt-val">
+                                                            <lightning-formatted-number value="0"
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Savings -->
+                                                    <!-- RWPS-5180 : Added lwc:if={orderSavings} -->
+                                                    <div lwc:if={orderSavings}>
+                                                        <div class="order-summary-amt-section">
+                                                            <div class="order-summary-amt-header">
+                                                                {labels.ECOM_Savings}
+                                                            </div>
+                                                            <div class="order-summary-amt-val">
+                                                                <lightning-formatted-number value={orderSavings}
+                                                                    format-style="currency" minimum-fraction-digits="2"
+                                                                    currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                                </lightning-formatted-number>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="slds-hr"/>
+                                                    <!-- Total Cost -->
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header cart-summary-text-total">
+                                                            Total Cost:
+                                                        </div>
+                                                        <div class="order-summary-amt-val  cart-summary-text-total">
+                                                            <lightning-formatted-number value={orderTotal}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template if:true={device.isMobile}>
+        <div class="">
+            <c-ecom_account-sidebar></c-ecom_account-sidebar>
+            <div class="">
+                <div class="">
+                    <!-- action buttons-->
+                    <div class="slds-grid">
+                        <div class="slds-col slds-large-size_8-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                            <div class="">
+                                <div class="m-top p-bottom ecom-gray-border-b">
+                                   <button class="slds-button slds-button_icon ecom-brand-font" onclick={goBackToOrderHistory}>
+                                   <span class=""><img src={images.backicon} class="ecom-back-icon"> </span>
+                                   <span class=" ecom-account-sb-label ecom-purple-font">Back</span>
+                                   </button>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-col slds-large-size_2-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1 align-right">
+                            <div class="">
+                                <div class="slds-m-top_x-large slds-p-bottom_medium ecom-gray-border-b">
+                                   <button class="slds-button slds-button_icon ecom-brand-font" onclick={handlePrintPage}>
+                                        <span class="slds-p-right--small"><img src={images.print} class="ecom-back-icon"> </span>
+                                        <span class=" ecom-account-sb-label ecom-purple-font">Print Page</span>
+                                   </button>
+                                </div>
+                                <br>
+                            </div>
+                        </div> -->
+                    </div>
+                    <!-- order description with multipleTracking-->
+                    <div if:true={multipleTracking} class="slds-col">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-large-size_12-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                <div class="slds-grid slds-grid_vertical">
+                                    <div class="slds-col m-bottom">
+                                        <h1 class="flex">Order Number:
+                                            <div if:false={sapOrderNumber} class="slds-m-left--x-small">
+                                                {orderNumber}
+                                            </div>
+                                            <div if:true={sapOrderNumber} class="slds-m-left--x-small">
+                                                {sapOrderNumber}
+                                            </div>
+                                        </h1>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <div class="slds-col slds-large-size_2-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_4-of-12">
+                                            <div class="slds-col">
+                                                <div class="order-sub-head">Order Date:</div>
+                                                <!--UI fix - Gaurang - 31 July 2024-->
+                                                <lightning-formatted-date-time
+                                                                        time-zone="UTC" value={orderDate} year="numeric"
+                                                                        month="2-digit"
+                                                                        day="2-digit"
+                                                                        >
+                                                </lightning-formatted-date-time>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-large-size_2-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_4-of-12">
+                                            <div class="slds-col">
+                                                <div class="order-sub-head">Order Total:</div>
+                                                <!-- <span>${orderTotal}</span> -->
+                                                <lightning-formatted-number value={orderTotal}
+                                                    format-style="currency" minimum-fraction-digits="2" currency-code={orderCurrencyCode}
+                                                    currency-display-as={currencyDisplayAs}>
+                                                </lightning-formatted-number>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-large-size_2-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_4-of-12">
+                                            <div class="slds-col">
+                                                <div class="order-sub-head">Items:</div>
+                                                <span>{orderItemsCount}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- order description without multipleTracking-->
+                    <div if:false={multipleTracking} class="slds-col slds-m-vertical--large">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-large-size_6-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                <div class="slds-grid slds-grid_vertical">
+                                    <div class="slds-col">
+                                        <h1>Order Number: {orderNumber}</h1>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="order-sub-head">Order Date:</div>
+                                        <!-- <span>{orderDate}</span> -->
+                                        <!--UI fix - Gaurang - 31 July 2024-->
+                                        <lightning-formatted-date-time
+                                                                        time-zone="UTC" value={orderDate} year="numeric"
+                                                                        month="2-digit"
+                                                                        day="2-digit"
+                                                                        >
+                                        </lightning-formatted-date-time>
+
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="order-sub-head">Order Total:</div>
+                                        <!-- <span>${orderTotal}</span> -->
+                                        <lightning-formatted-number value={orderTotal}
+                                            format-style="currency" minimum-fraction-digits="2" currency-code={orderCurrencyCode}
+                                            currency-display-as={currencyDisplayAs}>
+                                        </lightning-formatted-number>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="order-sub-head">Items:</div>
+                                        <span>{orderItemsCount}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="track-info slds-col slds-large-size_4-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                <div class="slds-grid slds-grid_vertical slds-m-around--large">
+                                    <div class="slds-col">
+                                        <div class="track-info-header">Tracking Information</div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="slds-progress slds-progress_vertical">
+                                            <ol class="slds-progress__list slds-m-vertical--medium">
+                                                <li class="slds-progress__item slds-is-completed">
+                                                    <span class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon slds-progress__marker_icon-success" title="Complete">
+                                                        <svg class="slds-icon slds-icon_xx-small" aria-hidden="true">
+                                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#success"></use>
+                                                        </svg>
+                                                        <span class="slds-assistive-text">Complete</span>
+                                                    </span>
+                                                    <div class="slds-progress__item_content slds-grid slds-grid_align-spread">Processing</div>
+                                                </li>
+                                                <li class="slds-progress__item slds-is-active">
+                                                    <div class="slds-progress__marker">
+                                                        <span class="slds-assistive-text">Active</span>
+                                                    </div>
+                                                    <div class="slds-progress__item_content slds-grid slds-grid_align-spread">Shipped</div>
+                                                </li>
+                                                <li class="slds-progress__item">
+                                                    <div class="slds-progress__marker"></div>
+                                                    <div class="slds-progress__item_content slds-grid slds-grid_align-spread">Delivered</div>
+                                                </li>
+                                            </ol>
+                                            <div aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" role="progressbar">
+                                                <span class="slds-assistive-text">Progress: 25%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <span class="ups">UPS: Z123456789</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Shipping & Billing Info section-->
+                    <div class="slds-grid ecom-line-break">
+                        <div class="slds-col slds-col slds-large-size_10-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                            <div class="slds-grid slds-grid_vertical ecom-gray-border-b m-top2">
+                                <div class="slds-col">
+                                    <div class="slds-col slds-m-bottom--large">
+                                        <h2>Shipping & Billing Information</h2>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                            <div class="order-sub-head">Active Account</div>
+                                            <div>Account Number: {accNumber}</div>
+                                            <div>Account Name: {accName}</div>
+                                            <!-- <div>Employee Mapping</div> -->
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div if:true={shippingAddress} class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                            <div class="order-sub-head">Shipping Address</div>
+                                            <div>{shippingAddress.street}</div>
+                                            <div>{shippingAddress.city}, {shippingAddress.state} {shippingAddress.postalCode}</div>
+                                            <div>{shippingAddress.country}</div>
+                                        </div>
+                                        <div if:true={billingAddress} class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                            <div class="order-sub-head">Billing Address</div>
+                                            <div>{billingAddress.street}</div>
+                                            <div>{billingAddress.city}, {billingAddress.state} {billingAddress.postalCode}</div>
+                                            <div>{billingAddress.country}</div>
+                                            <!--Changes done by sathiya on 2024/04/29 for ECOM-1933-->
+                                            <template if:true={isValidatedFields} for:each={validationFields} for:item="field">
+                                                <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-8">
+                                                <div class="order-sub-head">{field.label}</div>
+                                                <div>{field.value}</div>
+                                                </div>
+                                            </template>
+                                            <!--Changes End-->
+                                        </div>
+                                        <!--Changes done by sathiya on 2024/05/13 for ECOM-1939-->
+                                        <div if:true={isInvoiceMailingAddress} class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                            <div class="order-sub-head">{labels.ECOM_InvoiceMailingAddress}</div>
+                                            <div>{mailingAddress.street}</div>
+                                            <div>{mailingAddress.city}, {mailingAddress.state} {mailingAddress.postalCode}</div>
+                                            <div>{mailingAddress.country}</div>
+                                        </div>
+                                        <!--Changes End-->
+                                    </div>
+                                </div>
+
+                                <div class="slds-col ecom-gray-border-t slds-p-top--xx-large">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                            <div class="order-sub-head">{labels.recipientTitle}</div><!--RWPS-4824-->
+                                            <div>{recipient}</div>
+                                        </div>
+                                        <div class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                            <div class="order-sub-head">Special instructions for processing your order</div>
+                                            <div>{specialInstructions}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-id="targetDiv"></div><!--RWPS-3191-->
+                    <!--E-Invoice Field Section-->
+                    <!--Changes done by sathiya on 2024/05/13 for ECOM-1947-->
+                    <div class="slds-grid ecom-line-break" if:true={isEInvoiceAvailable}>
+                        <div class="slds-col slds-col slds-large-size_12-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                            <div class="slds-grid slds-grid_vertical ecom-gray-border-b slds-m-top--x-large">
+                                <div class="slds-grid slds-wrap ecom-mt-40 ecom-h-spacing">
+                                    <div class="ecom-shipping-label slds-col slds-size_12-of-12 ecom-active-acn-label slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-text-align_left">
+                                        <h2>{labels.ECOM_E_Invoice_Requirements}</h2>
+                                    </div>
+                                </div>
+                                <div if:true={effectiveAccountId} class="ecom-h-spacing m-bottom">
+                                    <c-ecom_checkout_einvoice-details
+                                    effective-account-id={effectiveAccountId}
+                                    cart-id={urlId}
+                                    is-invoice-read-mode={isInvoiceReadMode}
+                                    is-invoice-edit-mode={isInvoiceEditMode}
+                                    is-invoice-order-mode={isInvoiceOrderMode}
+                                    validate-fields={invoiceValidationFields}
+                                    >
+                                    </c-ecom_checkout_einvoice-details>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Changes End-->
+                    <!-- order items section -->
+                    <div class="slds-grid ecom-line-break">
+                        <div class="slds-col slds-col slds-large-size_10-of-12 slds-small-size_1-of-1 slds-medium-size_10-of-12 slds-size_12-of-12">
+                            <div class="slds-m-top--x-large">
+                                <div class="slds-grid slds-grid_vertical">
+                                    <div class="slds-col slds-large-size_10-of-12 slds-small-size_1-of-1 slds-medium-size_10-of-12 slds-size_10-of-12 slds-m-bottom--large">
+                                        <h2>Items in your Order</h2>
+                                    </div>
+                                    <div class="slds-col slds-large-size_2-of-12 slds-small-size_1-of-1 slds-medium-size_2-of-12 slds-size_1-of-1 slds-m-bottom--large">
+                                        <button class="ecom_btn-inverse" onclick={handleOrderAgain}>
+                                            <span>
+                                                <img src={images.orderagain} alt="Image" class="slds-button__icon reorder-utility-icon slds-button__icon_left" />
+                                                <span class="align-middle">Order Again</span>
+
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-m-bottom--large">
+                                <c-ecom_inline-message type={type} message={msg} show={show} timespan={timeSpan}></c-ecom_inline-message>
+                            </div>
+                            <div if:true={imagesFetched}>
+                                <div if:true={orderItems}>
+                                    <template for:each={orderItems} for:item="items">
+                                        <c-ecom_order-items
+                                            key={items.Id}
+                                            item={items}
+                                            order-sales-status={orderSalesStatus}
+                                            prod-images={productImages}
+                                            has-image={hasImage}
+                                            multi-tracking={multipleTracking}
+                                            oncreateandaddtolist={handleAddToWishlist}
+                                            onremovefromfavorite={handleRemoveFromFav}
+                                            is-promo-applied={isPromoApplied}
+                                            wishlist={wishListdetails}
+                                            is-sap-order={isSapOrder}
+                                            order-currency-code={orderCurrencyCode}
+                                            is-order-cancelled={isOrderCancelled}
+                                            replacement-map={replacementMap}> //RWPS-2554, RWPS-4602
+                                        </c-ecom_order-items>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-grid_vertical slds-m-vertical--large">
+                        <!-- Payment Information section-->
+                        <div class="slds-col slds-col slds-large-size_5-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-m-bottom_large">
+                                    <h2>Payment Information</h2>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="slds-grid">
+                                        <div if:true={poNumber} class="slds-col slds-large-size_6-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_6-of-12 slds-m-bottom--xx-large">
+                                            <div class="order-sub-head">Payment Method</div>
+                                            <div>PO Number</div>
+                                            <div>{poNumber}</div>
+                                        </div>
+                                        <div if:false={poNumber} class="slds-col slds-large-size_6-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_6-of-12 slds-m-bottom--xx-large">
+                                            <div class="">Payment Method</div>
+                                            <div if:true={cardPayment} class="ecom-mt-16">
+                                                <span class="ecom-address-details">
+                                                   {cardPayment.CardCategory}<br>
+                                                   <img if:true={showCardImg} class="ecom-mr-8" src={cardTypeImg}>
+                                                   <p class="ecom-card-details">x{cardPayment.CardLastFour}</p><br>
+                                                </span>
+                                             </div>
+                                        </div>
+                                        <div class="slds-col slds-large-size_6-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_6-of-12 slds-m-bottom--xx-large">
+                                            <div if:true={promoCode} class="order-sub-head">Promo Code</div>
+                                            <div>{promoCode}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="slds-col slds-large-size_6-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1 slds-m-bottom--xx-large">
+                                        <div if:true={quoteNumber} class="order-sub-head">Quote Number</div>
+                                        <div>{quoteNumber}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Order Summary section-->
+                        <div class="slds-col slds-col slds-large-size_5-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                            <div class="slds-grid slds-grid_vertical">
+                                <!-- <div class="slds-col">
+                                    <h2>Order Summary</h2>
+                                </div> -->
+                                <div class="slds-col">
+                                    <h2 class="heading slds-align_absolute-left slds-m-bottom--large">
+                                        Order Summary
+                                    </h2>
+                                      <div if:false={isSapOrder} class="border">
+                                                   <div class="order-summary-amt">
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header">
+                                                            Subtotal
+                                                        </div>
+                                                        <div class="order-summary-amt-val">
+                                                            <lightning-formatted-number if:true={orderSubTotal} value={orderSubTotal}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}
+                                                                >
+                                                            </lightning-formatted-number>
+                                                            <lightning-formatted-number if:false={orderSubTotal} value="0"
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}
+                                                                >
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                            <!-- Tariff Surcharge -->
+                                                    <div class="order-summary-amt-section" lwc:if={showTotalTariffSurcharge}>
+                                                        <div class="order-summary-amt-header">
+                                                            {labels.ECOM_Tariff_Surcharge}
+                                                        </div>
+                                                        <div class="order-summary-amt-val">
+                                                            <lightning-formatted-number value={orderTotalTariffSurcharge}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Shipping -->
+                                                         <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header">
+                                                            Shipping
+                                                        </div>
+                                                        <div class="order-summary-amt-val">
+                                                            <lightning-formatted-number value={orderShipping}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Tax -->
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header">
+                                                        Tax
+                                                        </div>
+                                                        <div if:true={orderTax} class="order-summary-amt-val">
+                                                            <lightning-formatted-number value={orderTax}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                        <div if:false={orderTax} class="order-summary-amt-val">
+                                                            <lightning-formatted-number value="0"
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Savings -->
+                                                    <!-- RWPS-5180 : Added lwc:if={orderSavings} -->
+                                                    <div lwc:if={orderSavings}>
+                                                        <div class="order-summary-amt-section">
+                                                            <div class="order-summary-amt-header">
+                                                                {labels.ECOM_Savings}
+                                                            </div>
+                                                            <div class="order-summary-amt-val">
+                                                                <lightning-formatted-number value={orderSavings}
+                                                                    format-style="currency" minimum-fraction-digits="2"
+                                                                    currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                                </lightning-formatted-number>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="slds-hr"/>
+                                                    <!-- Total Cost -->
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header cart-summary-text-total">
+                                                            Total Cost:
+                                                        </div>
+                                                        <div class="order-summary-amt-val  cart-summary-text-total">
+                                                            <lightning-formatted-number value={orderTotal}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        <div if:true={isSapOrder} class="border">
+                                            <div class="order-summary-amt">
+                                                <div class="order-summary-amt-section">
+                                                    <div class="order-summary-amt-header">
+                                                        Subtotal (Includes Shipping)
+                                                    </div>
+                                                    <div class="order-summary-amt-val">
+                                                        <lightning-formatted-number if:true={orderSubTotal} value={orderSubTotal}
+                                                            format-style="currency" minimum-fraction-digits="2"
+                                                            currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}
+                                                            >
+                                                        </lightning-formatted-number>
+                                                        <lightning-formatted-number if:false={orderSubTotal} value="0"
+                                                            format-style="currency" minimum-fraction-digits="2"
+                                                            currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}
+                                                            >
+                                                        </lightning-formatted-number>
+                                                    </div>
+                                                </div>
+                                                        <!-- Tariff Surcharge -->
+                                                <div class="order-summary-amt-section" lwc:if={showTotalTariffSurcharge}>
+                                                    <div class="order-summary-amt-header">
+                                                        {labels.ECOM_Tariff_Surcharge}
+                                                    </div>
+                                                    <div class="order-summary-amt-val">
+                                                        <lightning-formatted-number value={orderTotalTariffSurcharge}
+                                                            format-style="currency" minimum-fraction-digits="2"
+                                                            currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                        </lightning-formatted-number>
+                                                    </div>
+                                                </div>
+                                                <!-- Tax -->
+                                                <div class="order-summary-amt-section">
+                                                    <div class="order-summary-amt-header">
+                                                    Tax
+                                                    </div>
+                                                    <div if:true={orderTax} class="order-summary-amt-val">
+                                                        <lightning-formatted-number value={orderTax}
+                                                            format-style="currency" minimum-fraction-digits="2"
+                                                            currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                        </lightning-formatted-number>
+                                                    </div>
+                                                    <div if:false={orderTax} class="order-summary-amt-val">
+                                                        <lightning-formatted-number value="0"
+                                                            format-style="currency" minimum-fraction-digits="2"
+                                                            currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                        </lightning-formatted-number>
+                                                    </div>
+                                                </div>
+                                                <!-- Savings -->
+                                                <!-- RWPS-5180 : Added lwc:if={orderSavings} -->
+                                                <div lwc:if={orderSavings}>
+                                                    <div class="order-summary-amt-section">
+                                                        <div class="order-summary-amt-header">
+                                                            {labels.ECOM_Savings}
+                                                        </div>
+                                                        <div class="order-summary-amt-val">
+                                                            <lightning-formatted-number value={orderSavings}
+                                                                format-style="currency" minimum-fraction-digits="2"
+                                                                currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                            </lightning-formatted-number>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr class="slds-hr"/>
+                                                <!-- Total Cost -->
+                                                <div class="order-summary-amt-section">
+                                                    <div class="order-summary-amt-header cart-summary-text-total">
+                                                        Total Cost:
+                                                    </div>
+                                                    <div class="order-summary-amt-val  cart-summary-text-total">
+                                                        <lightning-formatted-number value={orderTotal}
+                                                            format-style="currency" minimum-fraction-digits="2"
+                                                            currency-display-as={currencyDisplayAs} currency-code={orderCurrencyCode}>
+                                                        </lightning-formatted-number>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template if:true={showMessagePage}>
+        <!-- Modal/Popup Box LWC starts here -->
+         <!--RWPS-4087 changed tabIndex -1 to 0 -->
+        <section role="dialog" tabindex="0" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class={modalSize}>
+            <div class="slds-modal__container success-failure-modal">
+
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content success-failure-modal slds-p-around_medium ecom-sf-border-top minHeight" id="modal-content-id-2">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-normal slds-float_right" title="Close" onclick={handleMessageScreenClose}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="normal"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div if:true={showSuccessParts} class="slds-m-around_small slds-p-bottom_xx-small slds-p-top_large">
+                        <span class="ecom-qo-label slds-p-bottom_large slds-align_absolute-center">Successful Cart Additions</span>
+                        <div class="slds-grid slds-wrap slds-p-around_small slds-m-top_large ecom-qo-card">
+                            <template for:each={successfulParts} for:item="item">
+
+                                <div  key={item.partNumber} class="ecom-qo-details slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-text-align_left">
+                                    <span>Part Number</span>
+                                </div>
+                                <div  key={item.partNumber} class="ecom-qo-details slds-col slds-size_8-of-12  slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-text-align_left">
+                                    <span>{item.partNumber}</span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div if:true={showErrorParts} class="slds-m-around_small slds-p-bottom_large slds-p-top_large">
+                        <span class="ecom-qo-label slds-p-bottom_large slds-align_absolute-center">Failed Cart Additions</span>
+                        <div class="slds-grid slds-wrap slds-p-around_small slds-m-top_x-small slds-m-bottom_large ecom-qo-card">
+                            <div  class="ecom-qo-failed-label slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-text-align_left">
+                                <span>Part Number</span>
+                            </div>
+                            <div class="ecom-qo-failed-label slds-col slds-size_8-of-12  slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-text-align_left">
+                                <span>Reason</span>
+                            </div>
+                            <template for:each={erroneousPartsToDisplay} for:item="item" >
+
+                                <div  key={item.partNumber} class="ecom-qo-details slds-p-top_x-small slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-text-align_left">
+                                    <span>{item.partNumber}</span>
+                                </div>
+                                <div  key={item.partNumber} class="ecom-qo-details slds-p-top_x-small slds-col slds-size_8-of-12  slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-text-align_left">
+                                    <span>{item.reason}</span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="slds-modal__footer ecom-sf-border-bottom">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12">
+                            <button class="ecom_btn-qorder2 slds-m-left_medium slds-m-bottom_small slds-m-right_medium" onclick={handleMessageScreenClose}>
+                            <span>Close</span>
+                        </button>
+                        </div>
+                        <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12">
+                            <button class="ecom_btn-qorder2" onclick={handleMessageScreenRedirectToCart} >
+                                <span>Go to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <div if:true={showSpinner} class="ecom-spinner-style">
+        <lightning-spinner></lightning-spinner>
+    </div>
+    <c-ecom_show-toast></c-ecom_show-toast>
+
+ </template>

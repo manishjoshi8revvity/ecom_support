@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__Tab</target>
+      </targets>
+      <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+          <property name="groupfieldapi" type="String" label="Field API By Which SOQL unpivot will group by" description="This field will work as Entity and group by for SOQL" role="inputOnly" />
+          <property name="soqlstring" type="String" label="Provide SOQL Query String" role="inputOnly" />
+          <property name="tablelabel" type="String" label="Table Header" role="inputOnly" default="Unpivot Table"/>
+       
+        </targetConfig>
+        <targetConfig targets="lightning__RecordPage,lightning__HomePage,lightning__AppPage">
+          <property name="groupfieldapi" type="String" label="Field API By Which SOQL unpivot will group by" description="This field will work as Entity and group by for SOQL"  />
+          <property name="soqlstring" type="String" label="Provide SOQL Query String"  />
+          <property name="tablelabel" type="String" label="Table Header"  default="Unpivot Table"/>
+       
+        </targetConfig>
+      </targetConfigs>
+</LightningComponentBundle>

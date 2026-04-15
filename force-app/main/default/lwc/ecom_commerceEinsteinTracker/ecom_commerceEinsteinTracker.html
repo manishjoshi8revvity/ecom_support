@@ -1,0 +1,15 @@
+<template>
+  <template for:each={recsIterator} for:item="rec">
+    <c-ecom_einstein-event-based-recommendation
+      key={rec.key}
+      rec-key={rec.key}
+      onrecoload={handleRecoLoad}
+      recommender-name={rec.subtype}
+      anchor-type={rec.anchorType}
+      anchor-value={rec.ref}
+      max-count={maxRecs}
+      sales-org={rec.salesOrg}
+    >
+    </c-ecom_einstein-event-based-recommendation>
+  </template>
+</template>

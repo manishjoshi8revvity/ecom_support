@@ -1,0 +1,289 @@
+:host {
+    --ecom-brand-color: #ffeb10;
+    --ecom-brand-color-purple:#7f03b0;
+    --ecom-font-family: "Hanken Grotesk", sans-serif;
+}
+
+.ecom-page{
+    font-family: var(--ecom-font-family);
+}
+
+.ecom-body{
+    padding-left: 59px;
+    padding-right: 59px;
+}
+
+.ecom-header{
+    padding-top: 60px;
+    padding-bottom: 80px;
+}
+
+.ecom-cards{
+    padding-top: 40px;
+}
+
+.ecom-font-size-56{
+    font-size: 56px;
+    line-height: 64px;
+}
+
+.ecom-font-size-36 {
+    font-size: 36px;
+}
+
+.ecom-font-weight-300{
+    font-weight: 300;
+}
+
+.ecom-background-color {
+    background-color: var(--ecom-brand-color);
+}
+
+
+.ecom-padding-top{
+    /* padding-top: 60px; */
+    margin-top: 80px;
+}
+
+.ecom-margin-left-71{
+    margin-left: 71px;
+}
+
+.ecom-margin-bottom-8{
+    margin-top: 8px;
+}
+
+.ecom-margin-bottom-16{
+    margin-bottom: 16px;
+}
+
+.ecom-margin-top-16{
+    margin-top: 16px;
+}
+
+.ecom-margin-top-32{
+    margin-top: 32px;
+}
+
+.ecom-margin-top-42{
+    margin-top: 42px;
+}
+
+.ecom-margin-top-53{
+    margin-top: 53px;
+}
+
+.ecom-margin-bottom-32{
+    margin-bottom: 32px;
+}
+
+.ecom-margin-bottom-80{
+    margin-bottom: 80px;
+}
+
+.ecom-padding-bottom-23{
+    padding-bottom: 23px;
+}
+
+.ecom-padding-left-12{
+    padding-left: 12px;
+}
+
+.ecom-padding-right-12{
+    padding-right: 12px;
+}
+
+.ecom-padding-bottom-16{
+    padding-bottom:16px;
+}
+
+.ecom-padding-sides-116{
+    padding-left: 116px;
+    padding-right: 116px;
+}
+
+.ecom-text-weight-500{
+    font-weight: 500;
+}
+
+.ecom-text-size-18{
+    font-size: 18px;
+}
+
+.ecom-text-size-24{
+    font-size: 24px;
+}
+
+.ecom-line-height-28{
+    line-height: 28px;
+}
+
+.ecom-line-height-32{
+    line-height: 32px;
+}
+
+.ecom-max-width-528{
+    max-width: 528px;
+}
+
+.ecom-padding-sides-28{
+    padding-left: 28px;
+}
+
+.ecom-support-email-link{
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    color: var(--ecom-brand-color-purple);
+    text-decoration: none;
+}
+
+.ecom-max-width-435 {
+    max-width: 435px;
+}
+
+.ecom-secondary-card{
+    /* height: 432px; */
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,.2);
+    padding: 24px;
+}
+
+.ecom-tertiary-card{
+    /* max-width: 435px; */
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,.2);
+    padding: 24px;
+}
+
+
+
+.ecom-card-button{
+    color: var(--ecom-brand-color-purple);
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    display: inline-block;
+    border-width: 2px;
+    -webkit-border-radius: 40px;
+    border-radius: 40px;
+    border-style: solid;
+    border-color: var(--ecom-brand-color-purple);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    outline-width: 2px;
+    outline-style: solid;
+    outline-offset: 2px;
+    outline-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    text-align: center;
+}
+
+.ecom-background-image {
+    width: 100%;
+    /* //background-image: url("https://www.revvity.com/modules/custom/lsdx_customer_management/images/revvity-logo.svg"); */
+}
+
+.ecom-margin-top-80{
+    margin-top: 80px;
+}
+
+@media screen and (min-width: 1540px) {
+    .ecom-generic-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    .ecom-padding-sides-116{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .ecom-max-width-464 {
+        max-width: 464px;
+    }
+}
+
+@media screen and (max-width: 1104px) {
+
+    .ecom-padding-sides-28{
+        padding-left: 0%;
+    }
+
+    .ecom-login-page-container .slds-medium-size_6-of-12{
+        width: 100% !important;
+    }
+
+    .ecom-login-page-container .ecom-max-width-528 {
+        max-width: 100%;
+    }
+
+    .ecom-login-page-container .ecom-margin-left-71 {
+        margin-left: 0px!important;
+    }
+
+    .ecom-login-page-container .ecom-margin-bottom-80{
+        margin-bottom: 32px!important;
+    }
+
+    .ecom-header{
+        padding-top: 40px;
+        padding-bottom: 40px;
+        padding-left: 12px;
+    }
+
+    .ecom-font-size-56{
+        font-size: 36px;
+        line-height: 44px;
+    }
+
+    /* .ecom-margin-top-80{
+        margin-top: 40px;
+    } */
+
+    .ecom-padding-top{
+        margin-top: 80px;
+        /* padding-top: 40px; */
+    }
+
+}
+
+@media screen and (max-width: 701px) {
+
+    .ecom-padding-sides-28{
+        padding-left: 0px;
+    }
+
+    .ecom-padding-top{
+        margin-top: 56px;
+    }
+    .ecom-margin-top-80{
+        margin-top: 56px;
+    }
+
+    .ecom-padding-left-12{
+        padding-left: 1rem;
+    }
+    
+    .ecom-padding-right-12{
+        padding-right: 1rem;
+    }
+}
+
+@media screen and (max-width: 495px){
+    .ecom-padding-sides-28{
+        padding-left: 12px;
+    }
+
+    .ecom-margin-top-80{
+        margin-top: 0px;
+        padding-top: 80px;
+    }
+
+    .ecom-small-screen{
+        padding-top: 56px;
+    }
+}

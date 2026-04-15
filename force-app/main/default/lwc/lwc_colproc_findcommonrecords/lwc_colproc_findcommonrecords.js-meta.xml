@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+<apiVersion>58.0</apiVersion>
+<isExposed>true</isExposed>
+  <targets>
+    <target>lightning__FlowScreen</target>
+  </targets>
+  <targetConfigs>
+    <targetConfig targets="lightning__FlowScreen">
+      <propertyType name="inputSObj1" extends="SObject" label="Input Type" description="Generic sObject data type used for input sObject properties"/>
+      <property name="sourceRecordCollection" type="{inputSObj1[]}" label="Collection 1" role="inputOnly" />
+      
+      <!--propertyType name="inputSObj2" extends="SObject" label="Input Type for Collection 2" description="Generic sObject data type used for input sObject properties" /-->
+      <property name="targetRecordCollection" type="{inputSObj1[]}" label="Collection 2" role="inputOnly"/>
+      <property name="targetField" type="String" label="Target Field" role="inputOnly"/>
+      <property name="sourceUniqueRecordCollection" type="{inputSObj1[]}" label="sourceUniqueRecordCollection" role="outputOnly"/>
+      <property name="commonRecordCollection" type="{inputSObj1[]}" label="commonRecordCollection" role="outputOnly"/>
+      <property name="targetUniqueRecordCollection" type="{inputSObj1[]}" label="targetUniqueRecordCollection" role="outputOnly"/>
+      <property name="uncommonRecordCollection" type="{inputSObj1[]}" label="uncommonRecordCollection" role="outputOnly"/>
+
+	  </targetConfig>
+  </targetConfigs>
+</LightningComponentBundle>

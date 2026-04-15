@@ -1,0 +1,15 @@
+<!--
+  @description       : lwc_colProc_sortCollections -Pass in a list if record collection and String SortKey (Field API) and returns a  collection of sorted record collection corresponding to that sortkey.
+  @author            : SS
+  @Source            : OM-201
+  @last modified on  : 10-12-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Related Apex      : 
+-->
+<template>
+    <lightning-tabset>
+        <span hidden><lightning-formatted-text value={inputValueList} onchange={handleOnChange}></lightning-formatted-text></span>
+        <span hidden><lightning-formatted-text value={SortKey} onchange={handleOnChange}></lightning-formatted-text></span>
+        <span hidden><lightning-formatted-text value={Order} onchange={handleOnChange}></lightning-formatted-text></span>
+    </lightning-tabset>   
+</template>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+      </targets>
+      <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <propertyType name="I" extends="SObject" label="Input Type" description="Generic sObjects data type used for input sObject properties" />
+			      <propertyType name="O" extends="SObject" label="Input Type" description="Generic sObjects data type used for output sObject properties" />
+		
+            <!--<property name="inputValue" type="{T}" label="input value" /> -->
+            
+            <property name="lookupcollection" type="{O[]}" label="output Sobject List" role="outputOnly" />
+            <property name="inputcollection" type="{I[]}" label="input Sobject List" role="inputOnly"  />
+            <property name="lookupobjectname" type="String" label="lookup object API" role="inputOnly" />
+            <property name="lookupfieldname" type="String" label="lookup field API" role="inputOnly" />
+            <property name="lookuprecordfieldscsv" type="String" label="comma separated field of Lookup object" role="inputOnly"  />
+        </targetConfig>
+      </targetConfigs>
+</LightningComponentBundle>

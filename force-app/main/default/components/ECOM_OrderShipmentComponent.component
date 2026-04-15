@@ -1,0 +1,626 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 2025.12.31
+  @last modified by  : Kushal Shah
+-->
+<apex:component controller="ECOM_OrderConfirmationEmailController" access="global">
+    <apex:attribute name="orderId" type="Id" description="Id of the Order" assignTo="{!orderRecordId}" />
+    <apex:attribute name="orderItems" type="OrderItem[]" description="Order Items" />
+    <apex:attribute name="orderNumber" type="String" description="orderNumber" />
+    <apex:attribute name="CreatedDate" type="Date" description="Created Date" />
+    <apex:attribute name="userFirstName" type="String" description="First Name of the Email Recipient" />
+    <apex:attribute name="userFullName" type="String" description="Full Name of the Email Recipient" />
+    <apex:attribute name="orderNumberSAP" type="String" description="orderNumberSAP" />
+    <apex:attribute name="orderNumberSF" type="String" description="orderNumberSF" />
+    <apex:attribute name="poNumber" type="String" description="PO Number" />
+    <apex:attribute name="BillingCountry" type="String" description="BillingCountry" />
+    <apex:attribute name="BillingCity" type="String" description="BillingCity" />
+    <apex:attribute name="BillingPostalCode" type="String" description="BillingPostalCode" />
+    <apex:attribute name="BillingState" type="String" description="BillingState" />
+    <apex:attribute name="BillingStreet" type="String" description="BillingStreet" />
+    <apex:attribute name="shippingCountry" type="String" description="Shipping Country" />
+    <apex:attribute name="shippingState" type="String" description="Shipping State" />
+    <apex:attribute name="shippingCity" type="String" description="ShippingCity" />
+    <apex:attribute name="shippingPostalCode" type="String" description="ShippingPostalCode" />
+    <apex:attribute name="shippingStreet" type="String" description="ShippingStreet" />
+    <apex:attribute name="attention" type="String" description="Attention/Recipient" />
+    <apex:attribute name="specialInstructions" type="String" description="Special Instructions" />
+    <apex:attribute name="deliveryDetails" type="String" description="Delivery Details" />
+    <apex:variable var="orderItemIndex" value="0" />
+    <style>
+        @media only screen {
+            html {
+                min-height: 100%;
+                background: #e3e3e3
+            }
+        }
+
+        @media only screen and (max-width:624px) {
+            table.body img {
+                width: auto;
+                height: auto
+            }
+
+            table.body center {
+                min-width: 0 !important
+            }
+
+            table.body .container {
+                width: 95% !important
+            }
+
+            table.body .columns {
+                height: auto !important;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                padding-left: 24px !important;
+                padding-right: 24px !important
+            }
+
+            table.body .collapse>tbody>tr>.columns {
+                padding-left: 0 !important;
+                padding-right: 0 !important
+            }
+
+            th.small-12 {
+                display: inline-block !important;
+                width: 100% !important
+            }
+
+            table.menu {
+                width: 100% !important
+            }
+
+            table.menu td,
+            table.menu th {
+                width: auto !important;
+                display: inline-block !important
+            }
+
+            table.menu[align=center] {
+                width: auto !important
+            }
+
+            th.callout-inner {
+                padding: 24px !important
+            }
+        }
+    </style>
+    <body style="-moz-box-sizing:border-box;-ms-text-size-adjust:100%;-webkit-box-sizing:border-box;-webkit-text-size-adjust:100%;Margin:0;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;min-width:100%;padding:0;text-align:left;width:100%!important">
+      <span class="preheader" style="color:#fbfbfb;display:none!important;font-size:1px;line-height:1px;max-height:0;max-width:0;mso-hide:all!important;opacity:0;overflow:hidden;visibility:hidden">Your order has been shipped, please find your order details in this email. Thank you for shopping at Revvity.com</span><!-- 90 characters minimum -->
+      <table class="body" style="Margin:0;background:#fbfbfb;border-collapse:collapse;border-spacing:0;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;height:100%;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;width:100%">
+         <tr style="padding:0;text-align:left;vertical-align:top">
+            <td class="center" align="center" valign="top" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+               <center style="width:100%">
+                  <table align="center" class="wrapper float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%">
+                     <tbody>
+                        <tr style="padding:0;text-align:left;vertical-align:top">
+                           <td class="wrapper-inner" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                              <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <td height="24" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:400;hyphens:auto;line-height:24px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <table align="center" class="wrapper header float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%">
+                     <tbody>
+                        <tr style="padding:0;text-align:left;vertical-align:top">
+                           <td class="wrapper-inner" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                              <table align="center" class="container" style="Margin:0 auto;background:#fff;border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0;text-align:inherit;vertical-align:top;width:800px">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <td style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                          <table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                             <tbody>
+                                                <tr style="padding:0;text-align:left;vertical-align:top">
+                                                   <th class="small-12 large-12 columns first last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:0;padding-right:0;text-align:left;vertical-align:top;width:820px;word-wrap:break-word">
+                                                      <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                                <a target="_blank" href="{!$Label.ECOM_RevvityURL}" style="color:#7f03b0;font-family:'Hanken Grotesk',sans-serif;font-weight:400;line-height:1.3;padding:0;text-align:left;text-decoration:none">
+                                                                <img src="{!$Label.ECOM_EmailHeaderLogo_URL}" alt="Revvity logo" style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:block;max-width:100%;outline:0;text-decoration:none;width:auto"/></a></th>
+                                                               <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </th>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <table align="center" class="container float-center" style="Margin:0 auto;background:#fff;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:800px">
+                     <tbody>
+                        <tr style="padding:0;text-align:left;vertical-align:top">
+                           <td style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                              <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <td height="16" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:16px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <th class="small-12 large-12 columns first last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:40px;padding-right:40px;text-align:left;vertical-align:top;width:760px;word-wrap:break-word">
+                                          <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                             <tbody>
+                                                <tr style="padding:0;text-align:left;vertical-align:top">
+                                                   <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                      <h1 style="Margin:0;Margin-bottom:16px;color:inherit;font-family:'Hanken Grotesk',sans-serif;font-size:40px;font-weight:300;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left;word-wrap:normal">
+                                                        {!$Label.ECOM_Order_Shipped_Title}
+                                                    </h1>
+                                                   </th>
+                                                   <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </th>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <th class="small-12 large-12 columns first last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:40px;padding-right:40px;text-align:left;vertical-align:top;width:760px;word-wrap:break-word">
+                                          <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                             <tbody>
+                                                <tr style="padding:0;text-align:left;vertical-align:top">
+                                                   <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                      <p class="lead" style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:20px;font-style:normal;font-weight:700;letter-spacing:.56px;line-height:1.6;margin:0;margin-bottom:16px;padding:0;text-align:left">Dear {!userFirstName},</p>
+                                                      <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:700;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left">{!$Label.ECOM_Shipping_Desc1}</p> <!-- RWPS-2054 -->
+                                                      <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left">{!$Label.ECOM_Shipping_Desc2}</p>
+                                                      <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left">
+                                                          {!$Label.ECOM_Shipping_Desc3}&nbsp;<apex:outputLink value="{!$Label.Ecom_SiteUrl}/orderDetails?id={!orderId}" style="Margin:default;color:#7f03b0;font-family:'Hanken Grotesk',sans-serif;font-weight:400;line-height:1.3;margin:default;padding:0;text-align:left;text-decoration:none;">click here</apex:outputLink>.
+                                                      </p>
+                                                      <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <td height="24" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:400;hyphens:auto;line-height:24px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                      <table class="callout" style="Margin-bottom:0;border-collapse:collapse;border-spacing:0;margin-bottom:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <th class="callout-inner thumbnail" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;background:#fff;border:1px solid #e3e3e3;border-collapse:collapse!important;border-radius:8px;box-shadow:none;box-sizing:border-box;color:#000;display:inline-block;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:0;margin:0;margin-bottom:0;max-width:100%;padding:24px;text-align:left;transition:none;vertical-align:top;width:100%;word-wrap:break-word">
+                                                                  
+                                                                  <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left"><strong>Order date:</strong> 
+                                                                    <apex:outputText value="{0, date, MMM d yyyy}">
+                                                                        <apex:param value="{!CreatedDate}" /> 
+                                                                    </apex:outputText>
+                                                                  </p>
+                                                                  <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left"><strong>Recipient:</strong> 
+                                                                    {!userFullName}
+                                                                  </p>
+                                                                  <!--RWPS-2456 - Start-->
+                                                                  <apex:outputPanel id="sf" style="width:100%" rendered="{!orderNumberSAP == null}">
+                                                                      <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left"><strong>Order number:</strong> 
+                                                                        {!orderNumberSF}
+                                                                      </p>                  
+                                                                  </apex:outputPanel>
+                                                                  <apex:outputPanel id="sf1" style="width:100%" rendered="{!orderNumberSAP != null}">
+                                                                      <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left"><strong>Order number:</strong> 
+                                                                        {!orderNumberSAP}
+                                                                      </p>                  
+                                                                  </apex:outputPanel>
+                                                                  <!--RWPS-2456 - End-->
+                                                                  <apex:outputPanel id="cc" style="width:100%" rendered="{!poNumber == null}">
+                                                                      <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left"><strong>Credit Card:</strong>
+                                                                         {!cardType} ending in {!cardLastFour}
+                                                                      </p>
+                                                                  </apex:outputpanel>
+                                                                  <apex:outputPanel id="po" style="width:100%" rendered="{!poNumber != null}">
+                                                                      <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left"><strong>Purchase Order:</strong>
+                                                                         {!poNumber}
+                                                                      </p>
+                                                                  </apex:outputpanel>
+                                                               </th>
+                                                               <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                      <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <td height="24" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:400;hyphens:auto;line-height:24px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                      <table class="callout" style="Margin-bottom:0;border-collapse:collapse;border-spacing:0;margin-bottom:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <!--RWPS-4824 START -->
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <th class="callout-inner thumbnail" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;background:#fff;border:1px solid #e3e3e3;border-collapse:collapse!important;border-radius:8px;box-shadow:none;box-sizing:border-box;color:#000;display:inline-block;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:0;margin:0;margin-bottom:0;max-width:100%;padding:24px;text-align:left;transition:none;vertical-align:top;width:100%;word-wrap:break-word">
+                                                                  <h4 style="Margin:0;Margin-bottom:16px;color:inherit;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:300;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left;word-wrap:normal">Shipping address</h4>
+                                                                   <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left">
+                                                                   <apex:outputPanel id="attentionRecipient" rendered="{!attentionRecipientOD != null}">
+                                                                   <h3 style="Margin:0;Margin-bottom:8px;color:inherit;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:300;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left;word-wrap:normal">{!$Label.ecom_Attention_Recipient_Title}</h3><!--RWPS-4824-->
+                                                                    <!--RWPS-3868 RWPS-4089 RWPS-4824 START -->
+                                                                   <p style="margin-bottom:23px;"><apex:outputText value="{!attentionRecipientOD}"/></p>
+                                                                  </apex:outputPanel>
+                                                                  <apex:outputPanel id="name" rendered="{!shippingCompanyName != null}">
+                                                                  <p style="margin-bottom:20px;"><apex:outputText value="{!shippingCompanyName}"/></p>
+                                                                  </apex:outputPanel>
+                                                                  <p style="margin-bottom:20px;">{!shippingStreet}</p><p style="margin-bottom:20px;">{!shippingCity} {!shippingState} {!shippingPostalCode}</p><p style="margin-bottom:20px;">{!shippingCountry}</p></p>
+                                                               </th>
+                                                               <!--RWPS-4824 END -->
+                                                               <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                      <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <td height="24" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:400;hyphens:auto;line-height:24px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                      <table class="callout" style="Margin-bottom:0;border-collapse:collapse;border-spacing:0;margin-bottom:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <th class="callout-inner thumbnail" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;background:#fff;border:1px solid #e3e3e3;border-collapse:collapse!important;border-radius:8px;box-shadow:none;box-sizing:border-box;color:#000;display:inline-block;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:0;margin:0;margin-bottom:0;max-width:100%;padding:24px;text-align:left;transition:none;vertical-align:top;width:100%;word-wrap:break-word">
+                                                                  <h4 style="Margin:0;Margin-bottom:16px;color:inherit;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:300;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left;word-wrap:normal">Billing address</h4>
+                                                                   <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left"><!--RWPS-4089 --><apex:outputPanel id="billName" rendered="{!billingCompanyName != null}"><apex:outputText value="{!billingCompanyName}"/><br/></apex:outputPanel>{!BillingStreet}<br/>{!BillingCity} {!BillingState} {!BillingPostalCode}<br/>{!BillingCountry}</p>
+                                                                   <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left">
+                                                                    <apex:outputPanel id="payerValue1" rendered="{!payerValue1 != null}"><strong>{!payerLabel1}:</strong> {!payerValue1}<br/></apex:outputPanel>
+                                                                    <apex:outputPanel id="payerValue2" rendered="{!payerValue2 != null}"><strong>{!payerLabel2}:</strong> {!payerValue2}<br/></apex:outputPanel>
+                                                                    <apex:outputPanel id="payerValue3" rendered="{!payerValue3 != null}"><strong>{!payerLabel3}:</strong> {!payerValue3}<br/></apex:outputPanel>
+                                                                    <apex:outputPanel id="payerValue4" rendered="{!payerValue4 != null}"><strong>{!payerLabel4}:</strong> {!payerValue4}<br/></apex:outputPanel>
+                                                                  </p>
+                                                               </th>
+                                                               <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                      <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <td height="24" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:400;hyphens:auto;line-height:24px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                      <apex:outputPanel id="invoiceMailingAddress" rendered="{!isInvoiceMailingAddress == true}">
+                                                        <table class="callout" style="Margin-bottom:0;border-collapse:collapse;border-spacing:0;margin-bottom:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                            <tbody>
+                                                               <tr style="padding:0;text-align:left;vertical-align:top">
+                                                                  <th class="callout-inner thumbnail" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;background:#fff;border:1px solid #e3e3e3;border-collapse:collapse!important;border-radius:8px;box-shadow:none;box-sizing:border-box;color:#000;display:inline-block;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:0;margin:0;margin-bottom:0;max-width:100%;padding:24px;text-align:left;transition:none;vertical-align:top;width:100%;word-wrap:break-word">
+                                                                     <h4 style="Margin:0;Margin-bottom:16px;color:inherit;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:300;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left;word-wrap:normal">Invoice mailing address</h4>
+                                                                      <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left"><apex:outputPanel id="mailName" rendered="{!mailingCompanyName != null}"><apex:outputText value="{!mailingCompanyName}"/></apex:outputPanel><br/>{!mailingStreet}<br/>{!mailingCity} {!mailingState} {!mailingPostalCode}<br/>{!mailingCountry}</p>
+                                                                  </th>
+                                                                  <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                               </tr>
+                                                            </tbody>
+                                                         </table>
+                                                         <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                            <tbody>
+                                                               <tr style="padding:0;text-align:left;vertical-align:top">
+                                                                  <td height="24" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:400;hyphens:auto;line-height:24px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                                               </tr>
+                                                            </tbody>
+                                                         </table>
+                                                      </apex:outputPanel>
+                                                      
+                                                      <apex:outputPanel id="einvoice" rendered="{!isEInvoiceFields == true}">
+                                                        <table class="callout" style="Margin-bottom:0;border-collapse:collapse;border-spacing:0;margin-bottom:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                            <tbody>
+                                                               <tr style="padding:0;text-align:left;vertical-align:top">
+                                                                  <th class="callout-inner thumbnail" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;background:#fff;border:1px solid #e3e3e3;border-collapse:collapse!important;border-radius:8px;box-shadow:none;box-sizing:border-box;color:#000;display:inline-block;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:0;margin:0;margin-bottom:0;max-width:100%;padding:24px;text-align:left;transition:none;vertical-align:top;width:100%;word-wrap:break-word">
+                                                                     <h4 style="Margin:0;Margin-bottom:16px;color:inherit;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:300;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left;word-wrap:normal">E-invoice requirements</h4>
+                                                                     <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left">
+                                                                        <apex:outputPanel id="invoiceValue1" rendered="{!invoiceValue1 != null}"><strong>{!invoiceLabel1}:</strong> {!invoiceValue1}<br/></apex:outputPanel>
+                                                                        <apex:outputPanel id="invoiceValue2" rendered="{!invoiceValue2 != null}"><strong>{!invoiceLabel2}:</strong> {!invoiceValue2}<br/></apex:outputPanel>
+                                                                        <apex:outputPanel id="invoiceValue3" rendered="{!invoiceValue3 != null}"><strong>{!invoiceLabel3}:</strong> {!invoiceValue3}<br/></apex:outputPanel>
+                                                                        <apex:outputPanel id="invoiceValue4" rendered="{!invoiceValue4 != null}"><strong>{!invoiceLabel4}:</strong> {!invoiceValue4}<br/></apex:outputPanel>
+                                                                        <apex:outputPanel id="invoiceValue5" rendered="{!invoiceValue5 != null}"><strong>{!invoiceLabel5}:</strong> {!invoiceValue5}<br/></apex:outputPanel>
+                                                                        <apex:outputPanel id="invoiceValue6" rendered="{!invoiceValue6 != null}"><strong>{!invoiceLabel6}:</strong> {!invoiceValue6}<br/></apex:outputPanel>
+                                                                     </p>
+                                                                  </th>
+                                                                  <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                               </tr>
+                                                            </tbody>
+                                                         </table>
+                                                      </apex:outputPanel>
+                                                   </th>
+                                                   <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </th>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <td height="24" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:400;hyphens:auto;line-height:24px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <th class="small-12 large-12 columns first last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:40px;padding-right:40px;text-align:left;vertical-align:top;width:760px;word-wrap:break-word">
+                                          <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                             <tbody>
+                                                <tr style="padding:0;text-align:left;vertical-align:top">
+                                                   <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                      <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <td height="40" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:40px;font-weight:400;hyphens:auto;line-height:40px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                      <table class="h-line" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tr style="padding:0;text-align:left;vertical-align:top">
+                                                            <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-bottom:1px solid #e3e3e3;border-collapse:collapse!important;border-left:0;border-right:0;border-top:0;box-sizing:border-box;clear:both;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:0;font-weight:400;height:0;hyphens:auto;line-height:0;margin:0;padding:0;padding-bottom:0;padding-top:0;text-align:center;vertical-align:top;width:800px;word-wrap:break-word">&nbsp;</th>
+                                                         </tr>
+                                                      </table>
+                                                      <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <td height="40" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:40px;font-weight:400;hyphens:auto;line-height:40px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </th>
+                                                   <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </th>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <!-- Shipped products - START -->
+                              <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <th class="small-12 large-12 columns first last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:40px;padding-right:40px;text-align:left;vertical-align:top;width:760px;word-wrap:break-word">
+                                          <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                             <tbody>
+                                                <tr style="padding:0;text-align:left;vertical-align:top">
+                                                   <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                      <p class="lead" style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:20px;font-style:normal;font-weight:700;letter-spacing:.56px;line-height:1.6;margin:0;margin-bottom:16px;padding:0;text-align:left">Items Shipped</p>
+                                                   </th>
+                                                   <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </th>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <apex:repeat var="mapKey" value="{!itemTrackings}">
+                                  <apex:repeat value="{!itemTrackings[mapKey]}" var="tracking">
+                                      <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                          <tbody>
+                                              <tr style="padding:0;text-align:left;vertical-align:top">
+                                                  <td height="24" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:400;hyphens:auto;line-height:24px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                      <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                          <tbody>
+                                              <tr style="padding:0;text-align:left;vertical-align:top">
+                                                  <th class="product-image small-12 large-2 columns first" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:40px;padding-right:0;text-align:left;vertical-align:top;width:93.3333333333px;word-wrap:break-word">
+                                                      <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                          <tbody>
+                                                              <tr style="padding:0;text-align:left;vertical-align:top">
+                                                                  <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                                      <img class="thumbnail" height="72" width="72" src="{!tracking.productMediaURI}" alt="{!tracking.productName}" style="-ms-interpolation-mode:bicubic;border:solid 1px #e3e3e3;border-radius:8px;box-shadow:none;clear:both;display:inline-block;line-height:0;margin-bottom:0;max-width:100%;outline:0;text-decoration:none;transition:none;width:auto"/>
+                                                                  </th>
+                                                              </tr>
+                                                          </tbody>
+                                                      </table>
+                                                  </th>
+                                                  <th class="small-12 large-10 columns last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:20px;padding-right:40px;text-align:left;vertical-align:top;width:626.6666666667px;word-wrap:break-word">
+                                                      <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                          <tbody>
+                                                              <tr style="padding:0;text-align:left;vertical-align:top">
+                                                                  <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                                      <p class="product-name" style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk';font-size:16px;font-style:normal;font-weight:500;line-height:22px;margin:0;margin-bottom:16px;padding:0;text-align:left">{!tracking.productName}</p>
+                                                                      <!--RWPS-3811 START-->
+                                                                      <!--RWPS-4195 START-->
+                                                                      <p style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left">
+                                                                          <apex:outputpanel rendered="{!IF(orderItemIdToParentPartNumberMap[tracking.orderItem] != 'false', TRUE, FALSE)}">
+                                                                              <img src="{!$Label.ECOM_FreeItem_Image}" height="24" style="height: 24px; Margin-bottom: 16px; margin-left: 16px; float: right;" align="right" alt="Free item"/>
+                                                                              <!--
+                                                                              <span style="color: #000000; background: #FFEB0F; padding: 6px 12px;  border-radius: 24px; line-height: 24px; font-size: 16px; Margin-bottom: 16px; margin-left: 387px;">
+                                                                                  {!$Label.ECOM_Free_Item}
+                                                                              </span>
+                                                                              -->
+                                                                          </apex:outputpanel>
+                                                                          <p style="margin: 0; padding-right: 44px;">
+                                                                          Part number: {!tracking.partNumber}
+                                                                          <br/> 
+                                                                         <!--RWPS-3811 END-->
+                                                                          QTY Ordered: <apex:outputText id="qty-o" value="{0, number, integer}"><apex:param value="{!tracking.quantityOrdered}" /></apex:outputText><br/>
+                                                                          QTY Shipped: <apex:outputText id="qty-s" value="{0, number, integer}"><apex:param value="{!tracking.quantityShipped}" /></apex:outputText><br/>
+                                                                          Shipment Method: {!tracking.carrierName}<br/>
+                                                                          Tracking Number: <a href="{!tracking.trackingURL}" style="Margin:default;color:#7f03b0;font-family:'Hanken Grotesk',sans-serif;font-weight:400;line-height:1.3;margin:default;padding:0;text-align:left;text-decoration:none">{!tracking.trackingNumber}</a><br/>
+                                                                          Date Shipped: <apex:outputText value="{0, date, MMMM d yyyy}"><apex:param value="{!tracking.trackingDate}" /></apex:outputText><br/>
+                                                                          </p>
+                                                                          <!--RWPS-4195 END-->
+                                                                      </p>
+                                    
+                                                                  </th>
+                                                              </tr>
+                                                          </tbody>
+                                                      </table>
+                                                  </th>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                  </apex:repeat>
+                              </apex:repeat>
+                              <!-- Shipped products - END -->
+                              <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <td height="40" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:40px;font-weight:400;hyphens:auto;line-height:40px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              
+                              <!-- Support callout - START -->
+                              <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <th class="small-12 large-12 columns first last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:40px;padding-right:40px;text-align:left;vertical-align:top;width:760px;word-wrap:break-word">
+                                          <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                             <tbody>
+                                                <tr style="padding:0;text-align:left;vertical-align:top">
+                                                   <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                      <table class="callout" style="Margin-bottom:0;border-collapse:collapse;border-spacing:0;margin-bottom:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <th class="callout-inner yellow thumbnail" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;background:#ffeb0f;border:none;border-collapse:collapse!important;border-radius:8px;box-shadow:none;box-sizing:border-box;color:#000;display:inline-block;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:0;margin:0;margin-bottom:0;max-width:100%;padding:24px;text-align:left;transition:none;vertical-align:top;width:100%;word-wrap:break-word">
+                                                                  <h3 style="Margin:0;Margin-bottom:16px;color:inherit;font-family:'Hanken Grotesk',sans-serif;font-size:32px;font-weight:300;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left;word-wrap:normal">{!$Label.ECOM_ET_Contact_Us}</h3>
+                                                                  <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                                                     <tbody>
+                                                                        <tr style="padding:0;text-align:left;vertical-align:top">
+                                                                           <th class="small-12 large-6 columns first" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:0!important;padding-right:0!important;text-align:left;vertical-align:top;width:50%;word-wrap:break-word">
+                                                                              <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                                                 <tbody>
+                                                                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                                                                       <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                                                          <p class="lead" style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:20px;font-style:normal;font-weight:700;letter-spacing:.56px;line-height:1.6;margin:0;margin-bottom:16px;padding:0;text-align:left">
+                                                                                            <a href="tel:{!customerCareNumber}" style="Margin:default;color:#7f03b0;font-family:'Hanken Grotesk',sans-serif;font-weight:400;line-height:1.3;margin:default;padding:0;text-align:left;text-decoration:none">{!customerCareNumber}</a></p>
+                                                                                       </th>
+                                                                                    </tr>
+                                                                                 </tbody>
+                                                                              </table>
+                                                                           </th>
+                                                                           <th class="small-12 large-6 columns last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:0!important;padding-right:0!important;text-align:left;vertical-align:top;width:50%;word-wrap:break-word">
+                                                                              <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                                                 <tbody>
+                                                                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                                                                       <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                                                          <p class="lead" style="Margin:0;Margin-bottom:16px;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:20px;font-style:normal;font-weight:700;letter-spacing:.56px;line-height:1.6;margin:0;margin-bottom:16px;padding:0;text-align:left">
+                                                                                            <a href="mailto:{!customerCareEmail}" style="Margin:default;color:#7f03b0;font-family:'Hanken Grotesk',sans-serif;font-weight:400;line-height:1.3;margin:default;padding:0;text-align:left;text-decoration:none">{!customerCareEmail}</a></p>
+                                                                                       </th>
+                                                                                    </tr>
+                                                                                 </tbody>
+                                                                              </table>
+                                                                           </th>
+                                                                        </tr>
+                                                                     </tbody>
+                                                                  </table>
+                                                               </th>
+                                                               <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </th>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </th>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <!-- Support callout - END -->
+                              <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <td height="64" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:64px;font-weight:400;hyphens:auto;line-height:64px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <table align="center" class="wrapper footer-transactional float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%">
+                     <tbody>
+                        <tr style="padding:0;text-align:left;vertical-align:top">
+                           <td class="wrapper-inner" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                              <table align="center" class="container" style="Margin:0 auto;background:#000;border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0;text-align:inherit;vertical-align:top;width:800px">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <td style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                          <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                             <tbody>
+                                                <tr style="padding:0;text-align:left;vertical-align:top">
+                                                   <th class="small-12 large-12 columns first last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:40px;padding-right:40px;text-align:left;vertical-align:top;width:760px;word-wrap:break-word">
+                                                      <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                                  <center style="width:100%"><img src="{!$Label.ECOM_MonogramRevvityLogo_URL}" align="center" class="float-center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;max-width:100%;outline:0;text-align:center;text-decoration:none;width:auto"/></center>
+                                                               </th>
+                                                               <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </th>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                          <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                                             <tbody>
+                                                <tr style="padding:0;text-align:left;vertical-align:top">
+                                                   <th class="small-12 large-12 columns first last" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0 auto;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0 auto;padding:0;padding-bottom:8px;padding-left:40px;padding-right:40px;text-align:left;vertical-align:top;width:760px;word-wrap:break-word">
+                                                      <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                                         <tbody>
+                                                            <tr style="padding:0;text-align:left;vertical-align:top">
+                                                               <th style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                                                                  <p class="text-center" style="Margin:0;Margin-bottom:16px;color:#fff;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:center">{!copyrightText}</p> <!--RWPS-5616-->
+                                                               </th>
+                                                               <th class="expander" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0!important;text-align:left;vertical-align:top;visibility:hidden;width:0;word-wrap:break-word"></th>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </th>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  <table align="center" class="wrapper float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%">
+                     <tbody>
+                        <tr style="padding:0;text-align:left;vertical-align:top">
+                           <td class="wrapper-inner" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+                              <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+                                 <tbody>
+                                    <tr style="padding:0;text-align:left;vertical-align:top">
+                                       <td height="24" style="-moz-box-sizing:border-box;-moz-hyphens:auto;-webkit-box-sizing:border-box;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;box-sizing:border-box;color:#000;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:400;hyphens:auto;line-height:24px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&nbsp;</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </center>
+            </td>
+         </tr>
+      </table>
+      <!-- prevent Gmail on iOS font size manipulation -->
+      <div style="display:none;white-space:nowrap;font:15px courier;line-height:0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
+   </body>
+</apex:component>

@@ -1,0 +1,23 @@
+.component-wrapper {
+  position: relative;
+  border: 1px solid grey;
+  border-radius: 8px;
+}
+
+.loading {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.text-error {
+  color: red;
+}

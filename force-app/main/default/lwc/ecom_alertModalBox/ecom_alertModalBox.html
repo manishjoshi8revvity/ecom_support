@@ -1,0 +1,28 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" class="custom-modal">
+        <div class="custom-modal__container">
+            <!-- Close Button -->
+            <button class="custom-close-btn" onclick={handleModalClose} title="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18" stroke="black" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M6 6L18 18" stroke="black" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+
+            <!-- Message -->
+            <div class="custom-modal__content">
+                <p class="custom-message"> 
+                    {labels.ECOM_Training_Confirmation}<br>
+                    {labels.ECOM_Training_Improper_Setup}
+                </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="custom-modal__footer">
+                <button class="btn-secondary" onclick={handleProceed}>{labels.ECOM_Proceed}</button>
+                <button class="btn-primary" onclick={handleCancel}>{labels.ECOM_Cancel}</button>
+            </div>
+        </div>
+    </section>
+    <div class="custom-backdrop"></div>
+</template>

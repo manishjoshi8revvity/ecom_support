@@ -1,0 +1,606 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 06-18-2024
+  @last modified by  : mkumar@rafter.one
+-->
+
+<template>
+   <div class="background">
+      <div class="container slds-align_absolute-center">
+          <div class=" body">
+    <div class="slds-grid slds-wrap ecom-yellow-bg">
+
+      <div class="slds-col slds-large-size_1-of-12 slds-medium-size_1-of-12 slds-size_1-of-12"></div>
+       <div class="slds-col slds-large-size_6-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 ecom-mt-40 ecom-mb-40 ecom-order-summary-box ecom-mr-25 ecom-white-bg">
+          <div class="">
+             <span class="ecom_thankyou_label" if:false={acceptanceRequired}>Thank you for your order</span>
+             <span class="ecom_thankyou_label" if:true={acceptanceRequired}>Your order is submitted for approval</span>
+             <div class="ecom_thankyou_text ecom-mt-32">
+                You’ll receive a confirmation email at <span class="ecom-brand-purple"> {userEmail} </span>with a link to track your order!
+             </div>
+             <!--RWPS-2547 changes start-->
+             <div if:true={orderNumDetails} class="ecom_order_box ecom-gap-t-32 gap-b-32">
+               <span class="ecom_order_details" if:true={acceptanceRequired}>Order Confirmation Number: {orderDetails.OrderNumber}</span>
+               <div if:true={contactInfo.ECOM_Is_Mapped__c} >
+                  <span class="ecom_order_details" if:true={SAPOrderNumber}>Order Confirmation Number: {SAPOrderNumber}</span>
+               </div>
+               <div if:false={contactInfo.ECOM_Is_Mapped__c} >
+                  <span class="ecom_order_details" if:false={acceptanceRequired}>Order Acknowledgment Number: {orderDetails.OrderNumber}</span>
+                 </div>
+                <!--RWPS-2547 changes End-->
+                <span class="ecom_order_details">
+                   Order Date:
+                   <lightning-formatted-date-time
+                      time-zone="UTC"
+                      value={orderDetails.EffectiveDate}
+                      >
+                   </lightning-formatted-date-time>
+                </span>
+                <br>
+             </div>
+             <div if:true={device.isMobile}>
+               <div if:true={emailCount} class="ecom-pb-24">
+             <!-- <span class="ecom-shipping-label ">Order Details</span> -->
+             <!-- <div class="ecom-address-label slds-m-top_medium">Email Notifications ({emailCount})</div> -->
+
+             <div class=" ecom-shipping-label ecom-mb-15 ecom-contact-gap">Contact</div>
+             <!-- <div if:true={device.isMobile} class="ecom-address-label slds-m-top_medium">Contact</div> -->
+            <div class="ecom-e-address-label">Email Addresses</div>
+             <div if:true={emailCount} class="ecom-mt-8">
+               <span class="ecom-e-address-details ecom-gray-font">{emailIdList}</span>
+             </div>
+             <div>
+               <!-- <div class="ecom-e-address-label ecom-mt-16">Additional Email Addresses</div> -->
+               <div if:true={formattedEmails}>
+                  <template for:each={formattedEmails} for:item   ="item">
+                      <div class="ecom-mt-16" key={item.id}>
+                          <span class="ecom-newuser-email">{item.email} </span> : <br>
+                           <span class="ecom-newuser-notification-label">{item.notificationTypes}</span>
+                          <br>
+                      </div>
+                  </template>
+              </div>
+             </div>
+          </div>
+       </div>
+             <div class="ecom-gap-t-32">
+                <div class="slds-grid slds-wrap">
+                   <div class="ecom-shipping-label slds-col slds-size_11-of-12 ecom-active-acn-label slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_11-of-12 slds-text-align_left">
+                      Shipping & Billing Information
+                   </div>
+                </div>
+                <div class="ecom-ship-bill-card">
+                   <div  class="">
+                      <div class="ecom-active-acn-label slds-text-align_left ecom-mt-16">
+                        <span class="ecom-address-label"> Active Account</span>
+                      </div>
+
+                     <div class="ecom-address-details ecom-mt-8">
+                        Account Number: {shipToModel.externalId}
+                        <div class="ecom-vh4"></div>
+                     </div>
+                  </div>
+                   <div class={gridForShippingInfo}>
+                      <div class="slds-col slds-size_1-of-1 ecom-active-acn-label slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-vp-ro ipad-ship-col-width"> <!--RWPS-3339-->
+                         <div class="ecom-pr-16">
+                           <span class="ecom-address-label">Shipping Address</span>
+                           <div class="ecom-vh8"></div>
+                           <span class="ecom-address-details">{shippingAddress.street}</span><br>
+                           <span class="ecom-address-details">{shippingAddress.city}, {shippingAddress.state} {shippingAddress.zip}</span><br>
+                           <span class="ecom-address-details">{shippingAddress.country}</span>
+                        </div>
+                      </div>
+                      <div class="slds-col ecom-active-acn-label slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-vp-ro ipad-bill-col-width"> <!--RWPS-3339-->
+                        <div class="ecom-pr-16">
+                        <span class="ecom-address-label">Billing Address</span>
+                         <div class="ecom-vh8"></div>
+                         <span class="ecom-address-details">{billingAddress.street}</span><br>
+                         <span class="ecom-address-details">{billingAddress.city}, {billingAddress.state} {billingAddress.zip}</span><br>
+                         <span class="ecom-address-details">{billingAddress.country}</span>
+                         <!--Changes done by sathiya on 2024/04/29 for ECOM-1933-->
+                         <template if:true={isValidatedFields} for:each={validationFields} for:item="field">
+                           <div if:true={field.isReadOnly} key={field.label}>
+                              <div class="ecom-vh8"></div>
+                              <div class="ecom-address-label">{field.label}</div>
+                              <div class="ecom-vh8"></div>
+                              <span class="ecom-address-details">{field.value}</span>
+                           </div>
+                         </template>
+                         <!--Changes End-->
+                         </div>
+                      </div>
+                      <div if:true={isInvoiceMailingAddress} class="slds-col slds-size_1-of-1 ecom-active-acn-label slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-vp-ro">
+                        <div class="ecom-pr-16">
+                          <span class="ecom-address-label">{labels.ECOM_InvoiceMailingAddress}</span>
+                          <div class="ecom-vh8"></div>
+                          <span class="ecom-address-details">{invoiceMailingAddress.street}</span><br>
+                          <span class="ecom-address-details">{invoiceMailingAddress.city}, {invoiceMailingAddress.state} {invoiceMailingAddress.zip}</span><br>
+                          <span class="ecom-address-details">{invoiceMailingAddress.country}</span>
+                        </div>
+                     </div>
+                   </div>
+                   <div class={gridForShippingInfo}>
+                      <div class="slds-col ecom-active-acn-label slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-vp-ro ipad-ship-col-width"> <!--RWPS-3339-->
+                        <div class="ecom-pr-16">
+                        <p class="ecom-address-label">{labels.recipientTitle}</p><!--RWPS 4824-->
+                         <div class="ecom-vh8"></div>
+                         <span class="ecom-address-details">{contactInfo.ECOM_Attention_Recipient__c}</span>
+                         <div class="ecom-mt-16"></div>
+                      </div>
+                     </div>
+                     <div class="slds-col ecom-active-acn-label slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-vp-ro ipad-bill-col-width"> <!--RWPS-3339-->
+                        <div class="ecom-pr-16">
+                         <span class="ecom-address-label">{labels.deliveryInstructionNew}</span> <!--RWPS 4825-->
+                         <div class="ecom-vh8"></div>
+                         <span class="ecom-address-details">{contactInfo.ECOM_Delivery_Details__c}</span>
+                           <div class="ecom-mt-16"></div>
+                      </div>
+                      </div>
+                   </div>
+                </div>
+                <!--Changes for Invoice Data in order for ECOM-1947 by sathiya-->
+                <div  class="ecom-gray-border" if:true={isEInvoiceAvailable}>
+                  <div class="slds-grid slds-wrap ecom-mt-40 ecom-h-spacing">
+                      <div class="ecom-shipping-label slds-col slds-size_12-of-12 ecom-active-acn-label slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-text-align_left">
+                          {labels.ECOM_E_Invoice_Requirements}
+                      </div>
+                  </div>
+                  <div if:true={effectiveAccountId} class="ecom-h-spacing ecom-mb-40">
+                      <c-ecom_checkout_einvoice-details
+                      effective-account-id={effectiveAccountId}
+                      cart-id={recordId}
+                      is-invoice-read-mode={isInvoiceReadMode}
+                      is-invoice-edit-mode={isInvoiceEditMode}
+                      is-invoice-order-mode={isInvoiceOrderMode}
+                      validate-fields={invoiceValidationFields}
+                      >
+                      </c-ecom_checkout_einvoice-details>
+                  </div>
+               </div>
+                <!--Change End-->
+                <div class="message-container">
+                  <c-ecom_inline-message type={type} message={message} show={show} onmessageaction={handleUpdateMessage}></c-ecom_inline-message>
+                </div>
+                <div class="ecom-pb-32 ecom-gray-border ecom-gap-t-32">
+                  <div class="ecom-shipping-label ">Items In your Order ({orderItemCount} Items)</div>
+                  <div class="ecom-total-cost-label ecom-mt-16 ">
+                     Total Cost: &nbsp;
+                     <lightning-formatted-number value={orderDetails.TotalAdjustedProductAmount} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                  </div>
+                  <div if:false={device.isMobile}>
+
+                     <template for:each={orderItems} for:item="item">
+                        <div class="slds-grid slds-wrap ecom-product-box ecom-m-top-32 box-pad" key={item.Id}> <!--RWPS-3339-->
+                           <div class="slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_2-of-12 ecom-prod-img">
+                              <!-- <span class="ecom-prod-img"> -->
+                              <img alt="Product image" if:true={item.productDetail.defaultImage.url} onclick={navigateToPDP} data-url={item.Product2.DisplayUrl} class="ecom-prod-img" src={item.productDetail.defaultImage.url}><!--RWPS-3826-->
+                              <!-- </span> -->
+                           </div>
+                           <div class="slds-size_7-of-12 slds-large-size_7-of-12 slds-medium-size_7-of-12 slds-small-size_7-of-12 ecom-pl-16 content-col-width"> <!--RWPS-3339-->
+                              <!--RWPS-2270 START-->
+                              <lightning-formatted-rich-text value={item.Product2.Product_Display_Name__c} onclick={navigateToPDP} data-url={item.Product2.DisplayUrl} class="ecom-prod-name ecom-mb-16">
+                              </lightning-formatted-rich-text>
+                              <!--RWPS-2270 END-->
+                              <!-- <span class="ecom-prod-desc">Part Number: {item.productDetail.fields.Part_Number__c}</span><br>
+                              <span class="ecom-prod-desc">Unit size: 1x25mL</span><br> -->
+                              <template for:each={item.displayFields} for:item="field">
+                                 <div key={field.name} if:true={field.value}>
+                                    <span class="ecom-prod-desc">{field.name}: </span>
+                                    <span class="ecom-prod-desc">{field.value}</span>
+                                 </div>
+                           </template>
+                           <div lwc:if={isLargePackOrder}>
+                           </div>
+                           <div lwc:else>
+                              <div if:false={item.hideShipDate}>
+                                 <div if:false={item.ECOM_Parent_Item__c}> <!-- RWPS-3811 -->
+                                 <div if:true={item.isShippingDateSelected}>
+                                       <span class="ecom-prod-desc">Shipment Date: <lightning-formatted-date-time time-zone="UTC" value={item.ECOM_Selected_Shipping_Date__c} ></lightning-formatted-date-time></span><br>
+                                 </div>
+                                 <div if:false={item.isShippingDateSelected}>
+                                    <span class="ecom-prod-desc">Shipment Date: <lightning-formatted-date-time time-zone="UTC"  value={item.ECOM_Earliest_Shipping_Date__c} ></lightning-formatted-date-time></span><br>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- RWPS-3026 start RWPS-4896-->
+                           <div if:false={item.isTrainingProduct}>
+                              <div if:true={item.showTariffSurcharge}>
+                                 <span class="ecom-prod-desc">{labels.ECOM_Tariff_Surcharge}: </span>
+                                 <span class="ecom-prod-desc"><lightning-formatted-number value={item.Tariff_Surcharge__c}
+                                 format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}>
+                                    </lightning-formatted-number></span>
+                              </div>
+                            </div>
+                            <!-- RWPS-3026 RWPS-4896 end -->
+                           <div if:false={item.isTrainingProduct} class="ecom-mt-24 slds-no-print"><!--RWPS-4896-->
+                              <button if:false={item.isWishListItem} class="slds-button" aria-live="assertive" aria-pressed="true" data-id={item.Product2Id} data-name={item.Description} onclick={handleAddToFavourite}>
+                              <span class="slds-text-selected slds-align_absolute-center">
+                              <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-favourite-icon" aria-hidden="true" src={images.favourite}>
+                              <span class="ecom-favourites-label ">Save to favorites</span></span>
+                              </button>
+                              <button if:true={item.isWishListItem} class="slds-button" aria-live="assertive" aria-pressed="true" data-id={item.Product2Id} data-name={item.Description} data-wishlist={item.wishListItemId} onclick={handleRemoveFromFavourite}>
+                                 <span class="slds-text-selected slds-align_absolute-center">
+                                 <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-favourite-icon" aria-hidden="true" src={images.deleteimg}>
+                                 <span class="ecom-favourites-label">Remove from favorites</span></span>
+                              </button>
+                           </div>
+                           </div>
+                           <div if:false={item.ECOM_Parent_Item__c} class="slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_3-of-12 price-col-width" style="text-align: end;"> <!--RWPS-3339-->
+                              <template if:true={item.specialPriceAvailable}>
+                                 <span class="ecom-price-details ecom-red-font">
+                                    <lightning-formatted-number class="ecom-price-details ecom-red-font" value={item.TotalPrice} format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}>
+                                    </lightning-formatted-number>
+                                 </span>
+                                 <br >
+                              </template>
+                              <template if:false={item.specialPriceAvailable}>
+                                 <div class="ecom-price-details ecom-mb-p-8" >
+                                    <lightning-formatted-number class="ecom-price-details ecom-black-font" value={item.TotalPrice} format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}>
+                                    </lightning-formatted-number>
+                                 </div>
+                              </template>
+                              <template if:true={item.specialPriceAvailable}>
+                                 <span class="ecom-price-details ecom-strikethrough-price" >
+                                    <lightning-formatted-number class="ecom-price-details ecom-strikethrough-price" value={item.ListPrice} format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}>
+                                    </lightning-formatted-number>
+                                 </span>
+                                 <br >
+                              </template>
+                              <div if:false={device.isMobile} class="ecom-price-specific ecom-black-font ">
+                                 <lightning-formatted-number value={item.UnitPrice} format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+
+                              <span class="ecom-gray-font">/each</span>
+                              </div>
+                              <!-- <template if:false={device.isMobile}>
+                              <div if:true={isPromoApplied} class="ecom-price-specific ecom-black-font ecom-strikethrough-price ecom-mt-p-8">
+                                 <lightning-formatted-number value={item.ListPrice} format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+
+                                 <span if:true={isPromoApplied} class="ecom-gray-font">/each</span>
+                              </div>
+                           </template> -->
+                              <div class="ecom-price-details ecom-mt-p-8">QTY: {item.Quantity}</div>
+                           </div>
+                           <div if:true={item.ECOM_Parent_Item__c} class="slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_3-of-12 price-col-width" style="text-align: end;"> <!--RWPS-3339-->
+                              <div class="free-item-label-outer"><span class="free-item-label">{labels.ECOM_Free_Item}</span></div>
+                              <div class="ecom-price-details ecom-mt-p-8">QTY: {item.Quantity}</div>
+                           </div>
+                        </div>
+                     </template>
+                  </div>
+                  <div if:true={device.isMobile}>
+                     <template for:each={orderItems} for:item="item">
+                        <div class="slds-grid slds-wrap ecom-product-box ecom-prod-gap" key={item.Id}>
+                           <div class="slds-size_2-of-12 ecom-prod-img">
+                              <!-- <span class="ecom-prod-img"> -->
+                              <img alt="Product image" if:true={item.productDetail.defaultImage.url} data-url={item.Product2.DisplayUrl}  onclick={navigateToPDP} class="ecom-prod-img" src={item.productDetail.defaultImage.url}><!--RWPS-3826-->
+                              <!-- </span> -->
+                           </div>
+                           <div class="slds-size_9-of-12 ecom-pl-16">
+                              <span class="ecom-prod-name" data-url={item.Product2.DisplayUrl}  onclick={navigateToPDP}>{item.Product2.Name}</span><br>
+                              <!-- <span class="ecom-prod-desc">Part Number: {item.productDetail.fields.Part_Number__c}</span><br>
+                              <span class="ecom-prod-desc">Unit size: 1x25mL</span><br> -->
+                              <template for:each={item.displayFields} for:item="field">
+                                <div key={field.name} if:true={field.value} >
+                                    <span class="ecom-prod-desc">{field.name}: </span>
+                                    <span class="ecom-prod-desc">{field.value}</span>
+                                </div>
+                            </template>
+                           <div lwc:if={isLargePackOrder}>
+                           </div>
+                           <div lwc:else>
+                              <div if:false={item.hideShipDate}>
+                                 <div if:false={item.ECOM_Parent_Item__c}> <!-- RWPS-3811 -->
+                                 <div if:true={item.isShippingDateSelected}>
+                                       <span class="ecom-prod-desc">Shipment Date: <lightning-formatted-date-time  time-zone="UTC" value={item.ECOM_Selected_Shipping_Date__c} ></lightning-formatted-date-time></span><br>
+                                 </div>
+                                 <div if:false={item.isShippingDateSelected}>
+                                       <span class="ecom-prod-desc">Shipment Date: <lightning-formatted-date-time time-zone="UTC" value={item.ECOM_Earliest_Shipping_Date__c} ></lightning-formatted-date-time></span><br>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- RWPS-3026 RWPS-4896 start -->
+                           <div if:false={item.isTrainingProduct}>
+                              <div if:true={item.showTariffSurcharge}>
+                                 <span class="ecom-prod-desc">{labels.ECOM_Tariff_Surcharge}: </span>
+                                    <span class="ecom-prod-desc"><lightning-formatted-number value={item.Tariff_Surcharge__c}
+                                    format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}>
+                                    </lightning-formatted-number></span>
+                              </div>
+                           </div>
+                          </div> 
+                          <!-- RWPS-3026 RWPS-4896 end -->
+                             <div if:false={item.ECOM_Parent_Item__c} class="ecom-mt-16 ecom-mt-17"><!-- RWPS-3191 -->
+
+                              <span class="ecom-price-details" >
+                                 <lightning-formatted-number class="ecom-price-details ecom-black-font" value={item.TotalPrice} format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}>
+                                 </lightning-formatted-number>
+                              </span>
+                             <!-- <br >
+
+                            <span class="ecom-price-specific ecom-black-font ">
+                             <lightning-formatted-number value={item.UnitPrice} format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                          </span>
+                          <span class="ecom-gray-font">/each</span><br>
+                           <span if:true={isPromoApplied} class="ecom-price-specific ecom-black-font ecom-strikethrough-price">
+                              <lightning-formatted-number value={item.ListPrice} format-style="currency" minimum-fraction-digits="2" currency-code={item.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                           </span>
+                           <span if:true={isPromoApplied} class="ecom-gray-font">/each</span><br> -->
+                           <div class="ecom-price-details ecom-mt-16">QTY: {item.Quantity}</div>
+                        </div>
+                        <div if:true={item.ECOM_Parent_Item__c}> <!--RWPS-3811 Add logic to show free item -->
+                           <div class="free-item-label-outer"><span class="free-item-label">{labels.ECOM_Free_Item}</span></div>
+                           <div class="ecom-price-details ecom-mt-16">QTY: {item.Quantity}</div>
+                        </div>
+                              <div if:false={item.isTrainingProduct} class="ecom-mt-16 slds-no-print"><!--RWPS-4896-->
+                                 <button if:false={item.isWishListItem} class="slds-button" aria-live="assertive" aria-pressed="true" data-id={item.Product2Id} data-name={item.Description} onclick={handleAddToFavourite}>
+                                 <span class="slds-text-selected slds-align_absolute-center">
+                                 <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-favourite-icon" aria-hidden="true" src={images.favourite}>
+                                 <span class="ecom-favourites-label">Save to favorites</span></span>
+                                 </button>
+                                 <button if:true={item.isWishListItem} class="slds-button" aria-live="assertive" aria-pressed="true" data-id={item.Product2Id} data-name={item.Description} data-wishlist={item.wishListItemId} onclick={handleRemoveFromFavourite}>
+                                   <span class="slds-text-selected slds-align_absolute-center">
+                                   <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-favourite-icon" aria-hidden="true" src={images.deleteimg}>
+                                   <span class="ecom-favourites-label">Remove from favorites</span></span>
+                                   </button>
+                              </div>
+                           </div>
+                           <!-- <div class="slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_12-of-12" style="text-align: end;">
+
+                                 <span class="ecom-price-details" >
+                                    <lightning-formatted-number class="ecom-price-details ecom-black-font" value={item.TotalPrice} format-style="currency" minimum-fraction-digits="2">
+                                    </lightning-formatted-number>
+                                 </span>
+                                 <br >
+
+                              <span class="ecom-price-specific ecom-black-font ">
+                                <lightning-formatted-number value={item.UnitPrice} format-style="currency" minimum-fraction-digits="2"></lightning-formatted-number>
+                             </span>
+                             <span class="ecom-gray-font">/each</span><br>
+                              <span if:true={isPromoApplied} class="ecom-price-specific ecom-black-font ecom-strikethrough-price">
+                                 <lightning-formatted-number value={item.ListPrice} format-style="currency" minimum-fraction-digits="2"></lightning-formatted-number>
+                              </span>
+                              <span if:true={isPromoApplied} class="ecom-gray-font">/each</span><br>
+                              <span class="ecom-price-details">QTY: {item.Quantity}</span><br>
+                           </div> -->
+                     </template>
+                    </div>
+                </div>
+                <div if:false={device.isMobile}>
+                  <div if:true={displayNoticationSec} class=" ecom-gap-t-32 ecom-gray-border">
+                <!-- <span class="ecom-shipping-label ">Order Details</span> -->
+                <!-- <div class="ecom-address-label slds-m-top_medium">Email Notifications ({emailCount})</div> -->
+
+                <div class="ecom-shipping-label ecom-mb-32">Email Notifications</div>
+                <!-- <div if:true={device.isMobile} class="ecom-address-label slds-m-top_medium">Contact</div> -->
+               <div if:true={emailCount} class="ecom-e-address-label">Email Addresses
+                <div class="ecom-mt-16 ecom-mb-32">
+                  <span class="ecom-e-address-details">Email Addresses: {emailIdList}</span>
+                </div>
+               </div>
+                <div>
+                  <div if:true={additionalEmailCount} class="ecom-e-address-label ecom-mt-16">Additional Email Addresses
+                  <div class="ecom-mt-16">
+                     <template for:each={formattedEmails} for:item="item">
+                         <div class="ecom-mt-8" key={item.id}>
+                             <span class="ecom-newuser-email">{item.email} </span> : <span class="ecom-newuser-notification-label ecom-ml-20">{item.notificationTypes}</span>
+                             <br>
+                         </div>
+                     </template>
+                 </div>
+               </div>
+                </div>
+                <br>
+             </div>
+          </div>
+                <div class="ecom-mtop-24">
+                   <span class="ecom-shipping-label ">Payment Information</span>
+                   <div class="ecom-ship-bill-card ecom-mt-16">
+                      <div class="">
+                         <div class="ecom-active-acn-label slds-text-align_left">
+                            <span class="ecom-address-label">Payment Method</span><br>
+                            <!-- <span class="ecom-address-details">
+                            <img class="slds-m-right_small" src={images.visaimg}><br>
+                            x1234<br>
+                            </span> -->
+                            <div if:true={cardPayment} class="ecom-mt-16">
+                              <span class="ecom-address-details">
+                                 {cardPayment.CardCategory}<br>
+                                 <img alt="" if:true={showCardImg} class="ecom-mr-8" src={cardTypeImg}><!--RWPS-3826-->
+                                 x{cardPayment.CardLastFour}<br>
+                              </span>
+                           </div>
+                           <div if:true={orderDetails.PoNumber} class="ecom-mt-16">
+                              <span class="ecom-address-details">
+                              Purchase Order<br>
+                              {orderDetails.PoNumber}<br>
+                              </span>
+                           </div>
+                           <br>
+                         </div>
+                         <div if:true={orderDetails.ECOM_Promo_Code__c} class="ecom-active-acn-label slds-text-align_left ecom-mt-16">
+                           <div>
+                              <span class="ecom-address-label">Promo Code</span><br>
+                              <span class="ecom-address-details">{orderDetails.ECOM_Promo_Code__c}</span><br>
+                           </div>
+                         </div>
+                         <div class="ecom-active-acn-label slds-text-align_left ecom-mt-16">
+                           <div if:true={orderDetails.ECOM_Quote_Number__c}>
+                              <span class="ecom-address-label">Quote Number</span><br>
+                              <span class="ecom-address-details">{orderDetails.ECOM_Quote_Number__c}</span><br>
+                           </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+
+             </div>
+          </div>
+       </div>
+
+         <template if:false={device.isMobile}>
+       <div class="slds-col slds-large-size_4-of-12  slds-size_12-of-12 ecom-border-r ecom-mt-40 ecom-box-shadow ecom-white-bg">
+         <!-- ecom-order-summary-box -->
+         <div class="ecom-summary-box">
+         <div class="ecom-web-fill">
+             <span class="ecom-order-summary-label">Order Summary</span>
+             <div class="ecom-vh16"></div>
+             <div class="slds-grid slds-wrap slds-wrap fv-text  ecom-summary-hline" if:true={orderDetails}>
+                <div class="slds-col slds-size_4-of-12  slds-medium-size_4-of-12 slds-large-size_4-of-12 ecom-order-summary-details">
+                   Subtotal
+                   <!-- RWPS-3026 start -->
+                   <template if:true={showTotalTariffSurcharge}>
+                     <div class="ecom-vh8"></div>
+                     <div>{labels.ECOM_Tariff_Surcharge} </div>
+                    </template>
+                     <!-- RWPS-3026 start -->
+                   <div class="ecom-vh8"></div>
+                   Shipping
+                   <div class="ecom-vh8"></div>
+                   Tax
+                   <span if:true={showSavings}>
+                   <div class="ecom-vh8"></div>
+                     {labels.ECOM_Savings}
+                  </span>
+                  <div class="ecom-vh16 ecom-mt-8"></div>
+                   <span class="ecom-order-summary-label">Total Cost</span>
+                </div>
+                <div class="slds-col slds-size_8-of-12 slds-large-size_8-of-12 slds-medium-size_8-of-12 ecom-align-right">
+                   <span class="ecom-order-summary-details">
+                      <lightning-formatted-number value={orderDetails.TotalAdjustedProductAmount} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                   </span>
+                   <!-- RWPS-3026 start -->
+                   <template if:true={showTotalTariffSurcharge}>
+                     <div  class="ecom-vh8"></div>
+                     <span  class="ecom-order-summary-details">
+                        <lightning-formatted-number value={orderTotalTariffSurcharge} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                     </span>
+                   </template><!-- RWPS-3026 end -->
+                   <div class="ecom-vh8"></div>
+                   <span class="ecom-order-summary-details">
+                      <lightning-formatted-number value={totalShippingCost} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                   </span>
+                   <div class="ecom-vh8"></div>
+                   <span class="ecom-order-summary-details">
+                      <lightning-formatted-number value={orderDetails.TotalTaxAmount} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                   </span>
+                   <!--div class="ecom-vh8"></div-->
+                   <span if:true={showSavings} class="ecom-order-summary-details" >
+                   <div class="ecom-vh8"></div>
+                     <lightning-formatted-number value={orderDetails.ECOM_Total_Savings__c} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                   </span>
+                   <div class="ecom-vh16"></div>
+                   <span class="ecom-order-summary-label">
+                      <!-- <b> -->
+                         <lightning-formatted-number value={orderDetails.GrandTotalAmount} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                      <!-- </b> -->
+                   </span>
+                   <br>
+                </div>
+             </div>
+          </div>
+         </div>
+          <div class="ecom-print-box">
+             <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={handlePrintPage}>
+             <span class="slds-text-selected slds-align_absolute-center ecom-hyperlink">
+             <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-print-icon slds-no-print" aria-hidden="true" src={images.print}>
+             <span class="ecom-print-label slds-no-print">Print Page</span></span>
+             </button>
+          </div>
+       </div>
+       <!-- </div> -->
+      </template>
+
+
+         <template if:true={device.isMobile}>
+
+            <!-- Outer box -->
+             <div class="ecom-full-width">
+               <div class="ecom-summary-card">
+                  <span class="ecom-order-summary-label">Order Summary</span>
+                  <div class="ecom-vh16"></div>
+                  <div class="slds-grid slds-wrap slds-wrap fv-text ecom-summary-hline" if:true={orderDetails}>
+                     <div class="slds-col slds-size_4-of-12 slds-large-size_4-of-12 ecom-order-summary-details">
+                        Subtotal
+                        <!-- RWPS-3026 start -->
+                        <template if:true={showTotalTariffSurcharge}>
+                           <div class="ecom-vh8"></div>
+                           <div>{labels.ECOM_Tariff_Surcharge}</div>
+                        </template><!-- RWPS-3026 end -->
+                        <div class="ecom-vh8"></div>
+                        Shipping
+                        <div class="ecom-vh8"></div>
+                        Tax
+                        <div class="ecom-vh8"></div>
+                        Savings
+                        <div class="ecom-vh16"></div>
+                        <span class="ecom-order-summary-label">Total Cost</span>
+                     </div>
+                     <div class="slds-col slds-size_8-of-12 slds-large-size_8-of-12 ecom-align-right">
+                        <span class="ecom-order-summary-details">
+                           <lightning-formatted-number value={orderDetails.TotalAdjustedProductAmount} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                        </span>
+                        <!-- RWPS-3026 start -->
+                        <template if:true={showTotalTariffSurcharge}>
+                           <div  class="ecom-vh8"></div>
+                           <span  class="ecom-order-summary-details">
+                              <lightning-formatted-number value={orderTotalTariffSurcharge} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                           </span>
+                        </template><!-- RWPS-3026 end -->
+                        <div class="ecom-vh8"></div>
+                        <span class="ecom-order-summary-details">
+                           <lightning-formatted-number value={totalShippingCost} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                        </span>
+                        <div class="ecom-vh8"></div>
+                        <span class="ecom-order-summary-details">
+                           <lightning-formatted-number value={orderDetails.TotalTaxAmount} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                        </span>
+                        <div class="ecom-vh8"></div>
+                        <span class="ecom-order-summary-details">
+                          <lightning-formatted-number value={orderDetails.ECOM_Total_Savings__c} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                        </span>
+                        <div class="ecom-vh16"></div>
+
+                        <span class="ecom-order-summary-label">
+                           <!-- <b> -->
+                              <lightning-formatted-number value={orderDetails.GrandTotalAmount} format-style="currency" currency-code={orderDetails.CurrencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                           <!-- </b> -->
+                        </span>
+                        <br>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Active account box -->
+                  <div class="ecom-active-acc-card-md">
+                     <div class="slds-text-align_left">
+                        <span class="ecom-active-account-label-md"> Active Account</span>
+                     </div>
+                     <div class="ecom-address-details ecom-mt-8">
+                        Account Number: {shipToModel.externalId}
+                        <div class="ecom-vh4"></div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Print Box -->
+               <div class="ecom-print-box ecom-mb-40 slds-no-print">
+                  <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={handlePrintPage}>
+                     <span class="slds-text-selected slds-align_absolute-center">
+                     <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-print-icon slds-no-print" aria-hidden="true" src={images.print}>
+                     <span class="ecom-print-label slds-no-print">Print Page</span></span>
+                     </button>
+               </div>
+
+         </template>
+
+    </div>
+          </div></div></div>
+   <!--RWPS-4200 Start-->
+   <div if:true={showSpinner} class="ecom-spinner-style">
+        <lightning-spinner></lightning-spinner>
+   </div>
+   <!--RWPS-4200 End-->       
+ </template>

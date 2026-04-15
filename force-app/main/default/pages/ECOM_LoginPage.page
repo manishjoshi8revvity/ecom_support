@@ -1,0 +1,6 @@
+<apex:page id="ECOM_Login" controller="ECOM_LoginController" contentType="application/json" sidebar="false"
+           showHeader="false" standardStylesheets="false" applyHtmlTag="false" >
+    
+    {!returnURL}
+    
+</apex:page>

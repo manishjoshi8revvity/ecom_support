@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+<targets>
+    <target>lightning__FlowScreen</target>
+</targets>
+<targetConfigs>
+    <targetConfig targets="lightning__FlowScreen">
+        <propertyType name="IdObjectType" extends="SObject" label="SObject Type Ids " description="SObject Type of Ids" />
+        <property name="IdObjectAPI" type="String" label="API Name Of Object " description="List Of IDs" role="inputOnly" required="true" default="API Name Of Object"/>
+        <property name="RecordFields" type="String" label="Provide Field API To Get Record Collection (Comma Seperated Values) " description="Provide Fields which Needs To Be Queried From List Of IDs In Comma Seperated Values" role="inputOnly" required="true" default="Id"/>
+        <property name="inputValueList" type="String[]" label="List Of IDs" required="true" default="List Of IDs"/>
+        <property name="Outputrecordlist" type="{IdObjectType[]}" label="Output Record List" role="outputOnly"/>
+    </targetConfig>
+</targetConfigs>
+</LightningComponentBundle>

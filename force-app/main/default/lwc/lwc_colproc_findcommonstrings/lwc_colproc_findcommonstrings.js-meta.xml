@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+<apiVersion>58.0</apiVersion>
+<isExposed>true</isExposed>
+  <targets>
+    <target>lightning__FlowScreen</target>
+  </targets>
+  <targetConfigs>
+    <targetConfig targets="lightning__FlowScreen">
+      <property name="inputStringList1" type="String[]" label="String Collection 1" role="inputOnly"/>
+      <property name="inputStringList2" type="String[]" label="String Collection 2" role="inputOnly"/>
+      
+      <property name="commonStringList" type="String" label="Common Strings" role="outputOnly"/>
+      <property name="uniqueInCollec1" type="String" label="Unique In Collection 1" role="outputOnly"/>
+      <property name="uniqueInCollec2" type="String" label="Unique In Collection 2" role="outputOnly"/>
+      <property name="uncommonStringList" type="String" label="Uncommon Strings" role="outputOnly"/>
+	  </targetConfig>
+  </targetConfigs>
+</LightningComponentBundle>

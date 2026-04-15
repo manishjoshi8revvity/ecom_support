@@ -1,0 +1,79 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 11-17-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <div class="ecom-productdetails-border">
+    <div>
+        <div class="slds-grid slds-wrap ecom-mb-16">
+            <div class="slds-col slds-size_9-of-12 slds-large-size_9-of-12 slds-medium-size_9-of-12 slds-text-align_left ecom-checkoutsummary-label">{labels.ECOM_ItemsInCart} ({cartItemCount})
+            </div>
+            <div class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-size_3-of-12 slds-text-align_right ecom-co-summary-ve-btn">
+            <a href="javascript:void(0)" onclick={navigateBackToCart}>{labels.ECOM_ViewOrEdit}</a></div>
+        </div>
+
+        <div if:true={showCartItems}>
+            <div for:each={cartItemList} for:item="item" key={item.index}>
+                <div class="slds-grid slds-wrap ecom-mb-8">
+                    <div class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-text-align_left">
+                        <img alt="Product image" lwc:if={item.thumbnailImageURL} data-url={item.DisplayUrl} onclick={navigateToPDP} class="ecom-prod-img" aria-hidden="true" src={item.thumbnailImageURL} ><!--RWPS-3826-->
+                        <img alt="Product image" lwc:else data-url={item.DisplayUrl} onclick={navigateToPDP} class="ecom-prod-img" aria-hidden="true" src={images.defaultProdImage} ><!--RWPS-3826-->
+                    </div>
+
+                    <div class="slds-col slds-size_9-of-12 slds-large-size_9-of-12 slds-medium-size_9-of-12 slds-size_9-of-12 slds-m-top_small">
+                        <!-- RWPS-2270 START -->
+                        <lightning-formatted-rich-text value={item.cartItemName} class="ecom-prod-details slds-text-align_left" data-url={item.DisplayUrl} onclick={navigateToPDP}>
+                        </lightning-formatted-rich-text>
+                        <!-- RWPS-2270 END -->
+                        <br>
+                        <span class="ecom-prod-qty slds-text-align_left" >{labels.ECOM_Qty}: {item.quantity}</span>
+                        <!--RWPS-3811 Add logic to show free item -->
+                        <span if:false={item.isFreeItem} class="ecom-prod-price"><lightning-formatted-number value={item.totalPrice} format-style="currency" currency-code={cartSummary.currencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number></span>
+                        <span class="ecom-prod-price free-item-label" if:true={item.isFreeItem}> {labels.ECOM_Free_Item}</span>                   
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    <!-- <hr>     -->
+</div>
+<hr class="hline">
+<div if:true={cartSummary} class="">
+    <div class="ecom-order-summary-label ecom-mb-16">{labels.ECOM_Order_Summary}</div>
+    <span class="ecom-order-summary-details slds-text-align_left">{labels.ECOM_Subtotal}</span>
+    <span class="ecom-order-summary-details ecom-details-align-right"><lightning-formatted-number value={cartSummary.totalProductAmount} format-style="currency" currency-code={cartSummary.currencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number></span>
+    <!--RWPS-3026 Start-->
+    <span if:true={showTotalSurcharge}>
+        <div class="h8"></div>
+        <span class="ecom-order-summary-details slds-text-align_left">{labels.ECOM_Tariff_Surcharge}</span>
+        <span class="ecom-order-summary-details ecom-details-align-right"><lightning-formatted-number value={tariffSurchargeTotal} format-style="currency" currency-code={cartSummary.currencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number></span>
+    </span>
+    <!--RWPS-3026 End-->
+    <div class="h8"></div>
+    <span class="ecom-order-summary-details slds-text-align_left">{labels.ECOM_Shipping}</span>
+     <!--RWPS-3026 Added totalShippingCost -->
+    <span class="ecom-order-summary-details ecom-details-align-right"><lightning-formatted-number value={totalShippingCost} format-style="currency" currency-code={cartSummary.currencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number></span>
+    <!-- <br> -->
+    <div class="h8"></div>
+    <span class="ecom-order-summary-details slds-text-align_left">{labels.ECOM_Tax}</span>
+    <span class="ecom-order-summary-details ecom-details-align-right">
+        <lightning-formatted-number value={cartSummary.totalTaxAmount} format-style="currency" currency-code={cartSummary.currencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+    </span>
+    <!-- <br> -->
+    <div class="h8"></div>
+    <div if:true={showSavings}>
+        <span class="ecom-order-summary-details slds-text-align_left">{labels.ECOM_Savings}</span>
+        <span class="ecom-order-summary-details ecom-details-align-right">
+            <lightning-formatted-number value={totalSaving} format-style="currency" currency-code={cartSummary.currencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+        </span>
+        <!-- <br> -->
+        <div class="h16"></div>
+    </div>
+    <span class="ecom-total-cost slds-text-align_left"><b>{labels.ECOM_TotalCost}:</b></span>
+    <span class="ecom-total-cost ecom-details-align-right"><b><lightning-formatted-number value={cartSummary.grandTotalAmount} format-style="currency" currency-code={cartSummary.currencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number></b></span><br>
+</div>
+</div>
+</template>

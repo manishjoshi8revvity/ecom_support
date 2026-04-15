@@ -1,0 +1,71 @@
+.ecom-ss-3-col-cards-main-heading {
+  margin-bottom: 40px;
+  text-align: center;
+  font-size: 56px;
+  line-height: 64px;
+  font-weight: 300;
+}
+
+.ecom-ss-3-col-cards-card-outer {
+  padding: 24px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  text-align: center;
+  height: 100%;
+}
+
+.ecom-ss-3-col-cards-card-image-outer {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.ecom-ss-3-col-cards-card-image-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ecom-ss-3-col-cards-card-image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ecom-ss-3-col-cards-card-title {
+  margin-bottom: 0;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 500;
+}
+
+.ecom-ss-3-col-cards-card-desc {
+  margin: 8px 0 24px;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+.ecom-ss-3-col-cards-card-btn-outer {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+
+@media (max-width: 1103px) {
+  .ecom-ss-3-col-cards-main-heading {
+    display: none;
+  }
+}

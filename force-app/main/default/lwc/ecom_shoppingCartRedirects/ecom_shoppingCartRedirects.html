@@ -1,0 +1,63 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 09-15-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+            <div class="cart-redirect-buttongroup">
+            <div class="cart-redirect-button">
+                <div class="ecom-redirect-btn-container">
+                    <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={navigateToHomePage}>
+                        <div class="slds-text-selected cart-redirect-icon-color slds-align_absolute-center">
+                            <!-- <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.cartimg}> -->
+                            <img class="ecom-icon-size" aria-hidden="true" src={images.cartimg}>
+
+                            {labels.ECOM_Back_to_Shopping}</div>
+                    </button>
+                </div>
+            </div>
+            <!--VRa: Punchout changes - begin -->
+            <template lwc:if={isViewQuickOrder}>
+                <div class="cart-redirect-button">
+                    <!-- cart-redirect-container -->
+                    <div class="ecom-redirect-btn-container">
+                        <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={navigateToQuickOrderPage}>
+                            <div class="slds-text-selected cart-redirect-icon-color">
+                                <!-- <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.quickorderimg}> -->
+    
+                                <img class="ecom-icon-size" aria-hidden="true" src={images.quickorderimg}>
+                                {labels.ECOM_QuickOrder}</div>
+                        </button>
+                    </div>
+                </div>
+            </template>
+            <!--VRa: Punchout changes - end -->
+            <div class="cart-redirect-button">
+                <!-- cart-redirect-container -->
+                <div class="ecom-redirect-btn-container">
+                    <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={navigateToFavoritesPage}>
+                        <div class="slds-text-selected cart-redirect-icon-color">
+                             <!-- <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.favoriteimg}>Favourites -->
+                             <img class="ecom-icon-size" aria-hidden="true" src={images.favoriteimg}>{labels.ECOM_Favorites}
+
+                            </div>
+                    </button>
+                </div>
+            </div>
+            <div class="cart-redirect-button">
+                <!-- cart-redirect-container -->
+                <div class="ecom-redirect-btn-container">
+                    <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={handleTermCodition}>
+                        <div class="slds-text-selected cart-redirect-icon-color">
+                            <!-- <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.termsimg}> -->
+                            <img class="ecom-icon-size" aria-hidden="true" src={images.termsimg}>
+
+                            {labels.ECOM_Terms_Conditions}</div>
+                    </button>
+                </div>
+            </div> 
+                       
+            </div>
+</template>

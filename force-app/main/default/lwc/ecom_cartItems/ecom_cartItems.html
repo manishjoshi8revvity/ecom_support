@@ -1,0 +1,43 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 05-06-2024
+  @last modified by  : mkumar@rafter.one
+  
+-->
+<template>
+    <div class={pageSize}>
+    <template for:each={items} for:item="item" for:index="index">
+      <!--RWPS-3026 Added cartItemTariffCharge-->
+       <!--RWPS-2786 Added cartitemDiscontinuedProducts-->
+       <!--RWPS-4896 Added genericTrainingProductMap-->
+        <c-ecom_cart-item key={item.cartItemId} 
+        item={item}
+        fieldlabelmap={fieldlabelmap}
+        index={index}
+        product-fields={productFields}
+        total-shipment={totalShipment}
+        oncreateandaddtolist={handleAddToWishlist}
+        is-cart-disabled={isCartDisabled}
+        onhandledebounce={handleDebounceEvent}
+        ongetshippingdates={getUpdatedDates}
+        cart-shipping-dates={cartShippingDates}
+        cart-item-tariff-charge={cartItemTariffCharge}
+        training-product-map={trainingProductMap}
+        generic-training-product-map={genericTrainingProductMap}
+        cartitem-discontinued-products={cartitemDiscontinuedProducts}
+        cart-sales-status={cartSalesStatus}
+        onremoveclicked={handleCartItemRemoveClicked}
+        is-promo-applied={isPromoApplied}
+        oncapturegtmevent={handlegtmEvent}
+        onaddresserror={handleaddresserrorEvent}
+        wishlist={wishlist}
+        is-large-pack-order={isLargePackOrder}
+        onremovefromfavorite={handleRemoveFromFavourite}
+        free-item-map={freeItemMap}
+        >
+        </c-ecom_cart-item>
+      </template>
+    </div>
+</template>

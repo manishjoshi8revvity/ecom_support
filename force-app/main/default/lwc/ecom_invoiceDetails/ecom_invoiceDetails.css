@@ -1,0 +1,913 @@
+.background{
+    max-width: 100%;
+    min-width: 360px;
+}
+
+.container{
+    max-width:1440px;
+    min-width:360px;
+    background-color:white;
+}
+
+.doNotDisplay{
+    display:none;
+}
+
+.body{
+    width: 100%;
+}
+
+.m-top{
+    margin-top: 64px;
+}
+
+.m-bottom{
+    margin-bottom: 32px;
+}
+
+.ecom-mb-8{
+    margin-bottom: 8px;
+}
+
+.ecom-mb-16{
+    margin-bottom: 16px;
+}
+
+.ecom-mb-32{
+    margin-bottom: 32px;
+}
+
+.ecom-mb-64{
+    margin-bottom: 64px;
+}
+
+.ecom-mr-16{
+    padding-right: 16px;
+}
+
+.ecom-mr-8{
+    margin-right: 8px;
+    margin-top: 4px;
+}
+
+.ecom-gray-border-b{
+	border-bottom: 1px solid darkgray;
+}
+
+.p-bottom {
+    padding-bottom: 16px;
+}
+
+.ecom-brand-font {
+	color: #5A027D;
+}
+
+.ecom-red-font{
+    color: red;
+}
+
+.ecom-account-sb-label {
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 24px;
+	letter-spacing: 0em;
+	text-align: left;
+}
+
+.ecom-account-sb-label-md {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 22px;
+}
+
+.flex{
+    display: flex;
+}
+
+.revvity-color{
+    color:#7F03B0;
+}
+
+.revvity-color{
+    color:#7F03B0;
+}
+
+.grey-color{
+    color:#767575;
+}
+
+.needhelp-lbl{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.ecom_btn-inverse{
+    height: 48px;
+    border-color: #7F03B0;
+    border: solid 2px;
+    background-color: white;
+    color:#7F03B0;
+    letter-spacing: 0em;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding: 12px 20px;
+    align-items: center;
+    border-radius: 40px;
+    gap: 0px;
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.ecom_btn-disabled{
+    height: 48px;
+    border-color: #A8A8A8;
+    border: solid 2px;
+    background-color: #FFFFFF;
+    color:#A8A8A8;
+    letter-spacing: 0em;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding: 12px 20px;
+    align-items: center;
+    border-radius: 40px;
+    gap: 0px;
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    pointer-events: none;
+}
+
+.invoiceNumber{
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 40px;
+}
+
+.invoiceNumber-md{
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+}
+
+.addressInfo{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    max-width: 228px;
+}
+
+.addressInfo-md{
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.total-price-md{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 28px;
+}
+
+.addressInfo-details{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.utility-icon {
+    width: 20px;
+    height: 20px;
+    top: 2px;
+    left: 2px;
+}
+
+.rotate {
+    animation: rotation 2s infinite linear;
+}
+
+.modal-cancel-btn{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    padding: 12px 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    border: 2px solid var(--brand-revvity-orchid-digital, #7F03B0);
+    margin-right: 16px;
+    background-color: #FFFFFF;
+    color: var(--brand-revvity-orchid-digital, var(--Revvity-Orchid, #7F03B0));
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+@keyframes rotation {
+from {
+    transform: rotate(0deg);
+}
+to {
+    transform: rotate(359deg);
+}
+}
+
+.invoice-details-hd{
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 4%;
+}
+
+.invoice-details-lbl{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.align-right{
+    float: right;
+}
+
+.download-status{
+    float: right;
+    margin-bottom: -32px;
+    margin-top: -8px;
+}
+
+.invoice-line-card{
+    border: 1px solid #a8a8a8;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    padding: 24px;
+}
+
+.invoice-line-card-md{
+    border: 1px solid #a8a8a8;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    padding: 18px;
+}
+
+.invoice-card-details{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #525252;
+}
+
+.invoice-card-price{
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.display-right{
+    display: grid;
+    justify-content: right;
+}
+
+.order-summary-card{
+    border-radius: 8px;
+    border: 1px solid #E3E3E3;
+    padding: 24px 16px 24px 16px;
+
+}
+
+.ecom-fo-label{
+    color: var(--Revvity-Black, #000);
+    text-align: center;
+    font-family: Hanken Grotesk;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px;
+    background: white;
+}
+
+.ecom-outer-box{
+    display: flex;
+    padding: var(--radius-none, 0px);
+    flex-direction: column;
+    align-items: center;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    align-self: stretch;
+}
+
+.error-msg{
+    padding: 16px;
+    background-color: #FFEBEB;
+    border: solid 1px #DC0101;
+    border-radius: 4px;
+}
+
+.ecom-fo-footer-align{
+    display: inline-flex;
+    float: right;
+}
+
+.ecom-input-size{
+    width: inherit;
+    height: inherit;
+}
+
+.textarea{
+    resize: none;
+}
+
+.modal-subline{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    color:black;
+}
+
+.ecom-prod-img{
+    display: block;
+    width: 60%;
+    cursor: pointer;
+}
+
+.ecom-prod-img-md{
+    display: block;
+    width: 80%;
+    cursor: pointer;
+}
+
+.itemImage{
+    border-radius: 20px;
+}
+
+.itemImage-md{
+    border-radius: 10px;
+}
+
+.ecom-card-details{
+    display: inline;
+    margin-top: 4px;
+}
+
+.check-icon{
+    width:64px;
+    height:64px;
+    fill: green;
+}
+
+.ecom-spinner-style{
+	z-index: 10000 !important;
+	position: fixed;
+	top: 0;
+	bottom : 0;
+	right:0;
+	left:0;
+    background: rgba(8, 7, 7, 0.5);
+}
+
+.svgAlign{
+    vertical-align: text-bottom;
+    margin-right: 5px;
+}
+
+.ecom-line-break{
+    line-break: anywhere;
+}
+
+.break-word{
+    word-wrap: break-word;
+}
+
+.order-sub-head{
+	font-size: 0.9rem;
+    font-weight: 600;
+    padding-bottom: 8px;
+}
+
+@media only screen and (min-width: 375px){
+    .m-top{
+        margin-top: 32px;
+    }
+
+    .m-bottom{
+        margin-bottom: 24px;
+    }
+
+    .p-bottom {
+        padding-bottom: 24px;
+    }
+
+    .ecom-fo-modal{
+        display: flex;
+        width: auto;
+        height: inherit;
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+        /* gap: 24px; */
+        /* margin: 24px; */
+        border-radius: var(--radius-lg, 16px);
+        background: var(--Revvity-White, #FFF);
+        box-shadow: 6px 6px 24px 0px rgba(0, 0, 0, 0.24);
+    }
+
+    .ecom-fo-header{
+        width: auto;
+        border-bottom: 1px solid white;
+    }
+
+    .ecom-input-card{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* align-self: stretch; */
+        margin-bottom: 32px;
+        width: 100%;
+        height: 84px;
+    }
+
+    .ecom-fo-footer{
+        background: white;
+        padding: 0px;
+        margin: 0px;
+        padding: initial;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: var(--radius-lg, 16px);
+        /* align-self: stretch; */
+        width: 100%;
+    }
+
+    .modal-cancel-btn{
+        display: flex;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid var(--brand-revvity-orchid-digital, #7F03B0);
+        margin-right: 16px;
+        background-color: #FFFFFF;
+        color: var(--brand-revvity-orchid-digital, var(--Revvity-Orchid, #7F03B0));
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        width: 100%;
+    }
+
+    .order-again-btn-active{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        background: var(--grays-light-gray, #7F03B0);
+        color: var(--brand-revvity-white, var(--Revvity-White, #FFF));
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        display: flex;
+        width: max-content;
+        height: max-content;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .order-again-btn-disabled{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        background: var(--grays-light-gray, #A8A8A8);
+        color: var(--brand-revvity-white, var(--Revvity-White, #FFF));
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        display: flex;
+        width: max-content;
+        height: max-content;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid #A8A8A8;
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .ecom-modal-close-btn{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        padding: 0.857px;
+        /* justify-content: end; */
+        /* align-items: flex-start; */
+        position: fixed;
+        right: 24px;
+        top: 24px;
+        color: black;
+        border: none;
+        background-color: white;
+    }
+
+    .textarea{
+        resize: none;
+        height: 100px;
+    }
+
+    .edit1{
+        margin-bottom: 23px;
+    }
+    
+}
+
+@media only screen and (min-width: 376px) and (max-width: 767px) {
+    .m-top{
+        margin-top: 32px;
+    }
+
+    .m-bottom{
+        margin-bottom: 24px;
+    }
+
+    .p-bottom {
+        padding-bottom: 24px;
+    }
+
+    .ecom-fo-modal{
+        display: flex;
+        width: auto;
+        height: inherit;
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+        /* gap: 24px; */
+        /* margin: 24px; */
+        border-radius: var(--radius-lg, 16px);
+        background: var(--Revvity-White, #FFF);
+        box-shadow: 6px 6px 24px 0px rgba(0, 0, 0, 0.24);
+    }
+
+    .ecom-fo-header{
+        width: auto;
+        border-bottom: 1px solid white;
+    }
+
+    .ecom-input-card{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* align-self: stretch; */
+        margin-bottom: 32px;
+        width: 100%;
+        height: 84px;
+    }
+
+    .ecom-fo-footer{
+        background: white;
+        padding: 0px;
+        margin: 0px;
+        padding: initial;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: var(--radius-lg, 16px);
+        /* align-self: stretch; */
+        width: 100%;
+    }
+
+    .modal-cancel-btn{
+        display: flex;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid var(--brand-revvity-orchid-digital, #7F03B0);
+        margin-right: 16px;
+        background-color: #FFFFFF;
+        color: var(--brand-revvity-orchid-digital, var(--Revvity-Orchid, #7F03B0));
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        width: 100%;
+    }
+
+    .order-again-btn-active{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        background: var(--grays-light-gray, #7F03B0);
+        color: var(--brand-revvity-white, var(--Revvity-White, #FFF));
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        display: flex;
+        width: max-content;
+        height: max-content;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .order-again-btn-disabled{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        background: var(--grays-light-gray, #A8A8A8);
+        color: var(--brand-revvity-white, var(--Revvity-White, #FFF));
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        display: flex;
+        width: max-content;
+        height: max-content;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid #A8A8A8;
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .ecom-modal-close-btn{
+        display: flex;
+        width: 24px;
+        height: 24px;
+        padding: 0.857px;
+        /* justify-content: end; */
+        /* align-items: flex-start; */
+        position: fixed;
+        right: 24px;
+        top: 24px;
+        color: black;
+        border: none;
+        background-color: white;
+    }
+
+    .textarea{
+        resize: none;
+        height: 150px;
+    }
+
+    .edit1{
+        margin-bottom: 23px;
+    }
+
+    .edit2{
+        margin-top: 90px;
+    }
+}
+
+@media only screen and (min-width: 768px) and  (max-width:1439px){
+    .ecom-fo-modal{
+        display: flex;
+        width: 712px;
+        height: 95%;
+        top:2%;
+        padding: 60px 92px;
+        flex-direction: column;
+        align-items: center;
+        /* margin-top: 10%; */ /*GAr*/
+        /* gap: 24px; */
+        /* margin: 24px; */
+        border-radius: var(--radius-lg, 16px);
+        background: var(--Revvity-White, #FFF);
+        box-shadow: 6px 6px 24px 0px rgba(0, 0, 0, 0.24);
+    }
+
+    .successModal{
+        width: fit-content;
+        height: fit-content;
+        margin-top: 10%;
+    }
+
+    .ecom-fo-header{
+        width: 528px;
+        border-bottom: 1px solid white;
+    }
+
+    .ecom-input-card{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* align-self: stretch; */
+        margin-bottom: 32px;
+        width: 528px;
+        height: 84px;
+    }
+
+    .ecom-fo-footer{
+        background: white;
+        padding: 0px;
+        margin: 0px;
+        padding: initial;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: var(--radius-lg, 16px);
+        /* align-self: stretch; */
+        width: 528px;
+    }
+
+    .modal-cancel-btn{
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid var(--brand-revvity-orchid-digital, #7F03B0);
+        margin-left: 258px;
+        margin-right: 16px;
+        background-color: #FFFFFF;
+        color: var(--brand-revvity-orchid-digital, var(--Revvity-Orchid, #7F03B0));
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+    }
+
+    .order-again-btn-active{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        background: var(--grays-light-gray, #7F03B0);
+        color: var(--brand-revvity-white, var(--Revvity-White, #FFF));
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        display: flex;
+        width: max-content;
+        height: max-content;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+    }
+
+    .order-again-btn-disabled{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        background: var(--grays-light-gray, #A8A8A8);
+        color: var(--brand-revvity-white, var(--Revvity-White, #FFF));
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        display: flex;
+        width: max-content;
+        height: max-content;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid #A8A8A8;
+    }
+
+    .halfWidth{
+        width: 50%;
+    }
+
+    .edit1{
+        margin-bottom: 23px;
+    }
+    
+}
+
+@media screen and  (min-width:1440px) {
+    .ecom-fo-modal{
+        display: flex;
+        width: 712px;
+        height: inherit;
+        padding: 60px 92px;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 5%;
+        /* gap: 24px; */
+        /* margin: 24px; */
+        border-radius: var(--radius-lg, 16px);
+        background: var(--Revvity-White, #FFF);
+        box-shadow: 6px 6px 24px 0px rgba(0, 0, 0, 0.24);
+    }
+
+    .ecom-fo-header{
+        width: 528px;
+        border-bottom: 1px solid white;
+    }
+
+    .ecom-input-card{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* align-self: stretch; */
+        margin-bottom: 32px;
+        width: 528px;
+        height: 84px;
+    }
+
+    .ecom-fo-footer{
+        background: white;
+        padding: 0px;
+        margin: 0px;
+        padding: initial;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: var(--radius-lg, 16px);
+        /* align-self: stretch; */
+        width: 528px;
+    }
+
+    .modal-cancel-btn{
+        display: flex;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid var(--brand-revvity-orchid-digital, #7F03B0);
+        margin-left: 258px;
+        margin-right: 16px;
+        background-color: #FFFFFF;
+        color: var(--brand-revvity-orchid-digital, var(--Revvity-Orchid, #7F03B0));
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+    }
+
+    .order-again-btn-active{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        background: #7F03B0;
+        color: #FFFFFF;
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        display: flex;
+        width: max-content;
+        height: max-content;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid #7F03B0;
+    }
+
+    .order-again-btn-disabled{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        background: var(--grays-light-gray, #A8A8A8);
+        color: var(--brand-revvity-white, var(--Revvity-White, #FFF));
+        font-family: Hanken Grotesk;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        display: flex;
+        width: max-content;
+        height: max-content;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        border: 2px solid #A8A8A8;
+    }
+}

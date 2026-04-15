@@ -1,0 +1,814 @@
+<!--
+  @description       : 
+  @author            : garora@rafter.one
+  @group             : 
+  @last modified on  : 07-12-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <div if:true={showSpinner} class="ecom-spinner-style">
+        <lightning-spinner></lightning-spinner>
+    </div>
+    <div class="background">
+        <div class="container slds-align_absolute-center">
+            <div class="body">
+                <div if:false={device.isMobile}>
+                    <div class="slds-grid slds-wrap">
+                        <div class={sidebarCSS}>
+                            <c-ecom_account-sidebar parent-label="Orders"></c-ecom_account-sidebar>
+                        </div>
+                        <div class={middleSpaceCSS}></div>
+                        <div class={mainSectionCSS}>
+                            <div class="m-top m-bottom slds-grid slds-wrap">
+                                <div class="slds-col slds-large-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+                                    <div class="ecom-gray-border-b p-bottom">
+                                        <button class="slds-button slds-button_icon ecom-brand-font" onclick={goBackToOrderHistory}>
+                                        <span class=""><img src={images.backicon}> </span>
+                                        <span class="ecom-account-sb-label">Back</span>
+                                        </button>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-wrap ecom-gray-border-b p-bottom m-bottom">
+                                <div class="slds-col slds-size_12-of-12 ecom-mb-64">
+                                    <div class="slds-grid slds-wrap">
+
+                                        <div class="slds-col slds-size_6-of-12">
+                                            <span if:true={externalInvoiceNumber} class="flex invoiceNumber ecom-mb-16">Invoice number: {externalInvoiceNumber}
+                                            </span>
+                                            <span if:false={externalInvoiceNumber} class="flex invoiceNumber ecom-mb-16">Invoice number: {invoiceNumber}
+                                            </span>
+                                            <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={handleDisputeScreenOpen}>
+                                                <span
+                                                    class="slds-text-selected revvity-color slds-align_absolute-center">
+                                                    <img src={images.needhelpicon} class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon"
+                                                        aria-hidden="true">
+                                                    <span class="needhelp-lbl">{labels.ECOM_InvoiceNeedHelp}</span>
+                                                </span>
+                                            </button>
+                                        </div>
+
+                                        <div class="slds-col slds-size_6-of-12">
+                                            <div lwc:if={isPDFEnabled}>
+                                                <button if:false={invoiceCall} class="ecom_btn-inverse ecom-mb-32 align-right" onclick={downloadInvoice}>
+                                                    <span>{labels.ECOM_InvoiceDownload}</span>
+                                                </button>
+                                                <button if:true={invoiceCall} class="ecom_btn-disabled ecom-mb-32 align-right" disabled>
+                                                    <span>{labels.ECOM_InvoiceDownload}</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-col slds-size_12-of-12">
+                                            <div class="download-status" if:true={invoiceCall}>
+                                                <svg class="rotate svgAlign" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"> 
+                                                <path d="M10 0C10.2652 0 10.5196 0.105357 10.7071 0.292893C10.8946 0.48043 11 0.734784 11 1V4C11 4.26522 10.8946 4.51957 10.7071 4.70711C10.5196 4.89464 10.2652 5 10 5C9.73478 5 9.48043 4.89464 9.29289 4.70711C9.10536 4.51957 9 4.26522 9 4V1C9 0.734784 9.10536 0.48043 9.29289 0.292893C9.48043 0.105357 9.73478 0 10 0ZM10 15C10.2652 15 10.5196 15.1054 10.7071 15.2929C10.8946 15.4804 11 15.7348 11 16V19C11 19.2652 10.8946 19.5196 10.7071 19.7071C10.5196 19.8946 10.2652 20 10 20C9.73478 20 9.48043 19.8946 9.29289 19.7071C9.10536 19.5196 9 19.2652 9 19V16C9 15.7348 9.10536 15.4804 9.29289 15.2929C9.48043 15.1054 9.73478 15 10 15ZM20 10C20 10.2652 19.8946 10.5196 19.7071 10.7071C19.5196 10.8946 19.2652 11 19 11H16C15.7348 11 15.4804 10.8946 15.2929 10.7071C15.1054 10.5196 15 10.2652 15 10C15 9.73478 15.1054 9.48043 15.2929 9.29289C15.4804 9.10536 15.7348 9 16 9H19C19.2652 9 19.5196 9.10536 19.7071 9.29289C19.8946 9.48043 20 9.73478 20 10ZM5 10C5 10.2652 4.89464 10.5196 4.70711 10.7071C4.51957 10.8946 4.26522 11 4 11H1C0.734784 11 0.48043 10.8946 0.292893 10.7071C0.105357 10.5196 0 10.2652 0 10C0 9.73478 0.105357 9.48043 0.292893 9.29289C0.48043 9.10536 0.734784 9 1 9H4C4.26522 9 4.51957 9.10536 4.70711 9.29289C4.89464 9.48043 5 9.73478 5 10ZM17.071 17.071C16.8835 17.2585 16.6292 17.3638 16.364 17.3638C16.0988 17.3638 15.8445 17.2585 15.657 17.071L13.536 14.95C13.3538 14.7614 13.253 14.5088 13.2553 14.2466C13.2576 13.9844 13.3628 13.7336 13.5482 13.5482C13.7336 13.3628 13.9844 13.2576 14.2466 13.2553C14.5088 13.253 14.7614 13.3538 14.95 13.536L17.071 15.656C17.164 15.7489 17.2377 15.8592 17.2881 15.9806C17.3384 16.102 17.3643 16.2321 17.3643 16.3635C17.3643 16.4949 17.3384 16.625 17.2881 16.7464C17.2377 16.8678 17.164 16.9781 17.071 17.071ZM6.464 6.464C6.27647 6.65147 6.02216 6.75679 5.757 6.75679C5.49184 6.75679 5.23753 6.65147 5.05 6.464L2.93 4.344C2.74236 4.15649 2.63689 3.90212 2.6368 3.63685C2.6367 3.37158 2.74199 3.11714 2.9295 2.9295C3.11701 2.74186 3.37138 2.63639 3.63665 2.6363C3.90192 2.6362 4.15636 2.74149 4.344 2.929L6.464 5.05C6.65147 5.23753 6.75679 5.49184 6.75679 5.757C6.75679 6.02216 6.65147 6.27647 6.464 6.464ZM2.93 17.071C2.74253 16.8835 2.63721 16.6292 2.63721 16.364C2.63721 16.0988 2.74253 15.8445 2.93 15.657L5.051 13.536C5.14325 13.4405 5.25359 13.3643 5.3756 13.3119C5.4976 13.2595 5.62882 13.2319 5.7616 13.2307C5.89438 13.2296 6.02606 13.2549 6.14895 13.3052C6.27185 13.3555 6.3835 13.4297 6.4774 13.5236C6.57129 13.6175 6.64554 13.7291 6.69582 13.852C6.7461 13.9749 6.7714 14.1066 6.77025 14.2394C6.7691 14.3722 6.74151 14.5034 6.6891 14.6254C6.63669 14.7474 6.56051 14.8578 6.465 14.95L4.345 17.071C4.25213 17.164 4.14184 17.2377 4.02044 17.2881C3.89904 17.3384 3.76892 17.3643 3.6375 17.3643C3.50608 17.3643 3.37596 17.3384 3.25456 17.2881C3.13316 17.2377 3.02287 17.164 2.93 17.071ZM13.536 6.464C13.3485 6.27647 13.2432 6.02216 13.2432 5.757C13.2432 5.49184 13.3485 5.23753 13.536 5.05L15.656 2.929C15.8435 2.74136 16.0979 2.63589 16.3631 2.6358C16.6284 2.6357 16.8829 2.74099 17.0705 2.9285C17.2581 3.11601 17.3636 3.37038 17.3637 3.63565C17.3638 3.90092 17.2585 4.15536 17.071 4.343L14.95 6.464C14.7625 6.65147 14.5082 6.75679 14.243 6.75679C13.9778 6.75679 13.7235 6.65147 13.536 6.464Z" fill="#03053D"/> 
+                                                </svg> <span class="invoice-details-lbl">Getting invoice ready</span>
+                                                <!-- <img src={images.invoiceSpinner} class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon rotate"
+                                                aria-hidden="true"> -->
+                                            </div>
+                                            <div class="ecom-red-font" if:true={invoiceFailure}>
+                                                {invoiceFailureMessage}
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="slds-col slds-size_12-of-12 ecom-mb-64">
+                                    <div class="slds-grid slds-wrap">
+
+                                        <div if:true={poNumber} class="slds-col slds-size_3-of-12">
+                                            <div class="invoice-details-hd">
+                                                {labels.ECOM_InvoicePOHeading}:
+                                            </div>
+                                            <div class="invoice-details-lbl">
+                                                {poNumber}
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-col slds-size_3-of-12">
+                                            <div class="invoice-details-hd">
+                                                Order number:
+                                            </div>
+                                            <div class="invoice-details-lbl">
+                                                <div if:false={sapOrderNumber}>
+                                                    {orderNumber}
+                                                </div>
+                                                <div if:true={sapOrderNumber}>
+                                                    {sapOrderNumber}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-col slds-size_3-of-12">
+                                            <div class="invoice-details-hd">
+                                                Invoice date:
+                                            </div>
+                                            <div class="invoice-details-lbl">
+                                                <lightning-formatted-date-time
+                                                time-zone="UTC" value={invoiceDate} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                >
+                                                </lightning-formatted-date-time>
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-col slds-size_3-of-12">
+                                            <div class="invoice-details-hd">
+                                                Items:
+                                            </div>
+                                            <div class="invoice-details-lbl">
+                                                {totalItems}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="slds-col slds-size_12-of-12 ecom-mb-64">
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 ecom-mb-16">
+                                            <span class="addressInfo">Shipping & billing information</span>
+                                        </div>
+
+                                        <div if:true={showActiveAccount} class="slds-col slds-size_1-of-1 ecom-mb-32">
+                                            <div class="invoice-details-hd">Active Account</div>
+                                            <div class="addressInfo-details" if:true={accNumber}>Account Number: {accNumber}</div>
+                                            <div class="addressInfo-details" if:true={accName}>Account Name: {accName}</div>
+                                        </div>
+
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div if:true={shippingAddress} class="invoice-details-hd">
+                                                Shipping address
+                                            </div>
+                                            <div if:true={shippingAddress} class="addressInfo-details">
+                                                <div>{shippingAddress.companyName}</div>
+                                                <div>{shippingAddress.street}</div>
+                                                <div>{shippingAddress.city}<span if:true={shippingAddress.city}>,</span> {shippingAddress.state} {shippingAddress.postalCode}</div>
+                                                <div>{shippingAddress.country}</div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div if:true={billingAddress} class="invoice-details-hd">
+                                                Billing address
+                                            </div>
+                                            <div if:true={billingAddress} class="addressInfo-details ecom-mb-8">
+                                                <div>{billingAddress.companyName}</div>
+                                                <div>{billingAddress.street}</div>
+                                                <div>{billingAddress.city}<span if:true={billingAddress.city}>,</span> {billingAddress.state} {billingAddress.postalCode}</div>
+                                                <div>{billingAddress.country}</div>
+                                            </div>
+                                            <template if:true={isValidatedFields} for:each={validationFields} for:item="field">
+                                                <div key={field.label} class="ecom-mb-8">
+                                                   <div if:true={field.value} class="invoice-details-hd">{field.label}</div>
+                                                   <div if:true={field.value} class="addressInfo-details ecom-mb-8">{field.value}</div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <div if:true={showMailingAddress} class="slds-col slds-size_1-of-3">
+                                            <div class="invoice-details-hd">
+                                                {labels.ECOM_InvoiceMailingAddress}
+                                            </div>
+                                            <div class="addressInfo-details">
+                                                <div>{mailingAddress.companyName}</div>
+                                                <div>{mailingAddress.street}</div>
+                                                <div>{mailingAddress.city}<span if:true={mailingAddress.city}>,</span> {mailingAddress.state} {mailingAddress.postalCode}</div>
+                                                <div>{mailingAddress.country}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                           
+                                </div>
+
+                                <div if:true={showRecipientSection} class="slds-grid slds-col slds-size_1-of-1 ecom-mb-32 ecom-gray-border-b">
+                                    <div class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large break-word">
+                                     
+                                        <div class="order-sub-head">{labels.recipientTitle}</div><!--RWPS-4824-->
+                                        <div>{recipient}</div>
+                                    </div>
+                                    <div class="slds-col slds-large-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-max-small-size_12-of-12 slds-size_12-of-12 slds-m-bottom--xx-large">
+                                        <div class="order-sub-head">{labels.deliveryInstructionNew}</div>
+                                        <div>{specialInstructions}</div>
+                                    </div>
+                                </div>
+
+                                <!--E-Invoice Field Section-->
+                                <!--Changes done by sathiya on 2024/05/13 for ECOM-1947-->
+                                <div class="slds-grid slds-col slds-size_1-of-1 ecom-line-break ecom-mb-32" if:true={isEInvoiceAvailable}>    
+                                    <div class="slds-col slds-col slds-large-size_12-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                        <div class="slds-grid slds-grid_vertical ecom-gray-border-b">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_12-of-12 ecom-active-acn-label slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-text-align_left">
+                                                    <span class="addressInfo">{labels.ECOM_E_Invoice_Requirements}</span>
+                                                </div> 
+                                            </div>
+                                            <div if:true={effectiveAccountId} class="ecom-h-spacing m-bottom">
+                                                <c-ecom_checkout_einvoice-details 
+                                                effective-account-id={effectiveAccountId} 
+                                                cart-id={orderId}
+                                                is-invoice-read-mode={isInvoiceReadMode}
+                                                is-invoice-edit-mode={isInvoiceEditMode}
+                                                is-invoice-order-mode={isInvoiceOrderMode}
+                                                validate-fields={invoiceValidationFields}
+                                                >
+                                                </c-ecom_checkout_einvoice-details>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Changes End-->
+
+                                <div class="slds-grid slds-wrap ecom-gray-border-b p-bottom ecom-mb-64">
+                                    <div class="slds-col slds-size_1-of-1 m-bottom">
+                                        <span class="addressInfo">Items in your invoice</span>
+                                    </div>
+
+                                    <div for:each={invoiceLines} for:item="line" key={line.Id} class="slds-col slds-size_1-of-1 invoice-line-card">
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-size_2-of-12">
+                                                <span class="ecom-prod-img">
+                                                    <img class="itemImage" if:true={line.imgUrl} src={line.displayUrl} data-part={line.partNumber} data-url={line.displayUrl} onclick={navigateToPDP}>
+                                                    <img if:false={line.imgUrl} src={images.placeholderimg} data-part={line.partNumber} data-url={line.displayUrl} onclick={navigateToPDP}>
+                                                </span>
+                                            </div>
+                                            <div class="slds-col slds-size_7-of-12">
+                                                <div class="ecom-account-sb-label ecom-mb-8">
+                                                    {line.name}
+                                                </div>
+                                                <div class="invoice-card-details">
+                                                    <span>Part number: </span><span>{line.partNumber}</span>
+                                                </div>
+                                                <!--RWPS-3026 START-->
+                                                <div if:true={line.showTariffSurcharge} class="invoice-card-details">
+                                                    <span>
+                                                       <span>{labels.ECOM_Tariff_Surcharge}: </span>
+                                                        <lightning-formatted-number value={line.tariffSurcharge} 
+                                                        format-style="currency" minimum-fraction-digits="1" 
+                                                        currency-code={line.currencyIsoCode} currency-display-as={currencyDisplayAs}>
+                                                        </lightning-formatted-number> 
+                                                    </span>
+                                                </div>
+                                                <!--RWPS-3026 ENDS-->
+                                            </div>
+                                            <div class="slds-col slds-size_3-of-12 display-right">
+                                                <div class="invoice-card-price display-right ecom-mb-8">
+                                                    <lightning-formatted-number value={line.listPrice} 
+                                                    format-style="currency" minimum-fraction-digits="2" 
+                                                    currency-code={line.currencyIsoCode} currency-display-as={currencyDisplayAs}>
+                                                    </lightning-formatted-number>
+                                                </div>
+                                                <div class="addressInfo-details display-right">
+                                                    QTY: {line.quantity}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div if:true={showPaymentInformation} class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-size_1-of-1 ecom-mb-16">
+                                                <span class="addressInfo">{labels.ECOM_PaymentInformation}</span>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                <div class="invoice-details-hd">
+                                                    Payment method
+                                                </div>
+                                                <div class="addressInfo-details">
+                                                    <div if:true={cardPayment}>
+                                                        <span>
+                                                           {cardPayment.CardCategory}<br>
+                                                           <img if:true={showCardImg} class="ecom-mr-8" src={cardTypeImg}>
+                                                           <p class="ecom-card-details">x{cardPayment.CardLastFour}</p><br>
+                                                        </span>
+                                                     </div>
+                                                     <div if:false={cardPayment}>
+                                                        <div if:true={poNumber}>PO Number</div>
+                                                        <div if:true={poNumber}>{poNumber}</div>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <div if:true={promoCode} class="invoice-details-hd">
+                                                    Promo code
+                                                </div>
+                                                <div if:true={promoCode} class="addressInfo-details">
+                                                    {promoCode}
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <div if:true={quoteNumber} class="invoice-details-hd">
+                                                    Quote number
+                                                </div>
+                                                <div if:true={quoteNumber} class="addressInfo-details">
+                                                    {quoteNumber}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-size_1-of-1 ecom-mb-16">
+                                                <span class="addressInfo">Order summary</span>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1">
+                                                <div class="order-summary-card">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <!--RWPS-3026 START-->
+                                                        <div if:true={totalTarrifSurcharge} class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                            <div class="addressInfo-details">{labels.ECOM_Tariff_Surcharge}</div>
+                                                        </div>
+                                                        <div if:true={totalTarrifSurcharge} class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                            <span class="addressInfo-details align-right">
+                                                                <lightning-formatted-number value={totalTarrifSurcharge} 
+                                                                format-style="currency" minimum-fraction-digits="2" 
+                                                                currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                                                                </lightning-formatted-number>
+                                                            </span>
+                                                        </div>
+                                                        <!--RWPS-3026 END-->
+                                                        <div class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                            <div class="addressInfo-details no-wrap">{labels.ECOM_Subtotal_IncludingShipping}</div> <!--RWPS-5283 -->
+                                                        </div>
+                                                        <div class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                            <span class="addressInfo-details align-right">
+                                                                <lightning-formatted-number value={subtotal} 
+                                                                format-style="currency" minimum-fraction-digits="2" 
+                                                                currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                                                                </lightning-formatted-number>
+                                                            </span>
+                                                        </div>
+                                                        <div class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                            <span class="addressInfo-details">Tax</span>
+                                                        </div>
+                                                        <div class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                           <span class="addressInfo-details align-right">
+                                                            <lightning-formatted-number value={tax} 
+                                                            format-style="currency" minimum-fraction-digits="2" 
+                                                            currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                                                            </lightning-formatted-number>
+                                                           </span>
+                                                        </div>
+                                                        <div class="slds-col slds-size_1-of-1">
+                                                            <hr class="slds-hr"/>
+                                                        </div>
+                                                        <div class="slds-col slds-size_1-of-1">
+                                                            <span class="addressInfo-details align-right">
+                                                                <lightning-formatted-number value={total} 
+                                                                format-style="currency" minimum-fraction-digits="2" 
+                                                                currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                                                                </lightning-formatted-number>
+                                                            </span>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Mobile UI-->
+                <div if:true={device.isMobile}>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1">
+                            <c-ecom_account-sidebar parent-label="Orders"></c-ecom_account-sidebar>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 m-top m-bottom">
+                            <div class="ecom-gray-border-b p-bottom">
+                                <button class="slds-button slds-button_icon ecom-brand-font" onclick={goBackToOrderHistory}>
+                                <span class=""><img src={images.backicon}> </span>
+                                <span class="ecom-account-sb-label">Back</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-grid slds-wrap p-bottom m-bottom">
+                        <div class="slds-col slds-size_1-of-1 ecom-mb-32">
+                            <div class="flex invoiceNumber-md ecom-mb-8">
+                                Invoice number: {invoiceNumber}
+                            </div>
+                            <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={handleDisputeScreenOpen}>
+                                <span
+                                    class="slds-text-selected revvity-color slds-align_absolute-center">
+                                    <img src={images.needhelpicon} class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon"
+                                        aria-hidden="true">
+                                    <span class="needhelp-lbl">{labels.ECOM_InvoiceNeedHelp}</span>
+                                </span>
+                            </button>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-1 ecom-mb-32">
+                            <div class="slds-grid slds-wrap">
+
+                                <div if:true={poNumber} class="slds-col slds-size_1-of-2 ecom-mb-16">
+                                    <div class="invoice-details-hd ecom-mr-16">
+                                        {labels.ECOM_InvoicePOHeading}:
+                                    </div>
+                                    <br>
+                                    <div class="invoice-details-lbl">
+                                        {poNumber}
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 ecom-mb-16">
+                                    <div class="invoice-details-hd ecom-mr-16">
+                                        Order number:
+                                    </div>
+                                    <br>
+                                    <div class="invoice-details-lbl">
+                                        <div if:false={sapOrderNumber}>
+                                            {orderNumber}
+                                        </div>
+                                        <div if:true={sapOrderNumber}>
+                                            {sapOrderNumber}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 ecom-mb-16">
+                                    <div class="invoice-details-hd">
+                                        Invoice date:
+                                    </div>
+                                    <br>
+                                    <div class="invoice-details-lbl">
+                                        <lightning-formatted-date-time
+                                        time-zone="UTC" value={invoiceDate} year="numeric"
+                                        month="2-digit"
+                                        day="2-digit"
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 ecom-mb-16">
+                                    <div class="invoice-details-hd">
+                                        Items:
+                                    </div>
+                                    <br>
+                                    <div class="invoice-details-lbl">
+                                        {totalItems}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-1">
+                            <div>
+                                <button if:false={invoiceCall} class="ecom_btn-inverse ecom-mb-32 body" onclick={downloadInvoice}>
+                                    <span>{labels.ECOM_InvoiceDownload}</span>
+                                </button>
+                                <button if:true={invoiceCall} class="ecom_btn-disabled ecom-mb-32 body" disabled>
+                                    <span>{labels.ECOM_InvoiceDownload}</span>
+                                </button>
+                            </div>
+                            <div class="ecom-mb-16" if:true={invoiceCall}>
+                                <svg class="rotate svgAlign" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"> 
+                                    <path d="M10 0C10.2652 0 10.5196 0.105357 10.7071 0.292893C10.8946 0.48043 11 0.734784 11 1V4C11 4.26522 10.8946 4.51957 10.7071 4.70711C10.5196 4.89464 10.2652 5 10 5C9.73478 5 9.48043 4.89464 9.29289 4.70711C9.10536 4.51957 9 4.26522 9 4V1C9 0.734784 9.10536 0.48043 9.29289 0.292893C9.48043 0.105357 9.73478 0 10 0ZM10 15C10.2652 15 10.5196 15.1054 10.7071 15.2929C10.8946 15.4804 11 15.7348 11 16V19C11 19.2652 10.8946 19.5196 10.7071 19.7071C10.5196 19.8946 10.2652 20 10 20C9.73478 20 9.48043 19.8946 9.29289 19.7071C9.10536 19.5196 9 19.2652 9 19V16C9 15.7348 9.10536 15.4804 9.29289 15.2929C9.48043 15.1054 9.73478 15 10 15ZM20 10C20 10.2652 19.8946 10.5196 19.7071 10.7071C19.5196 10.8946 19.2652 11 19 11H16C15.7348 11 15.4804 10.8946 15.2929 10.7071C15.1054 10.5196 15 10.2652 15 10C15 9.73478 15.1054 9.48043 15.2929 9.29289C15.4804 9.10536 15.7348 9 16 9H19C19.2652 9 19.5196 9.10536 19.7071 9.29289C19.8946 9.48043 20 9.73478 20 10ZM5 10C5 10.2652 4.89464 10.5196 4.70711 10.7071C4.51957 10.8946 4.26522 11 4 11H1C0.734784 11 0.48043 10.8946 0.292893 10.7071C0.105357 10.5196 0 10.2652 0 10C0 9.73478 0.105357 9.48043 0.292893 9.29289C0.48043 9.10536 0.734784 9 1 9H4C4.26522 9 4.51957 9.10536 4.70711 9.29289C4.89464 9.48043 5 9.73478 5 10ZM17.071 17.071C16.8835 17.2585 16.6292 17.3638 16.364 17.3638C16.0988 17.3638 15.8445 17.2585 15.657 17.071L13.536 14.95C13.3538 14.7614 13.253 14.5088 13.2553 14.2466C13.2576 13.9844 13.3628 13.7336 13.5482 13.5482C13.7336 13.3628 13.9844 13.2576 14.2466 13.2553C14.5088 13.253 14.7614 13.3538 14.95 13.536L17.071 15.656C17.164 15.7489 17.2377 15.8592 17.2881 15.9806C17.3384 16.102 17.3643 16.2321 17.3643 16.3635C17.3643 16.4949 17.3384 16.625 17.2881 16.7464C17.2377 16.8678 17.164 16.9781 17.071 17.071ZM6.464 6.464C6.27647 6.65147 6.02216 6.75679 5.757 6.75679C5.49184 6.75679 5.23753 6.65147 5.05 6.464L2.93 4.344C2.74236 4.15649 2.63689 3.90212 2.6368 3.63685C2.6367 3.37158 2.74199 3.11714 2.9295 2.9295C3.11701 2.74186 3.37138 2.63639 3.63665 2.6363C3.90192 2.6362 4.15636 2.74149 4.344 2.929L6.464 5.05C6.65147 5.23753 6.75679 5.49184 6.75679 5.757C6.75679 6.02216 6.65147 6.27647 6.464 6.464ZM2.93 17.071C2.74253 16.8835 2.63721 16.6292 2.63721 16.364C2.63721 16.0988 2.74253 15.8445 2.93 15.657L5.051 13.536C5.14325 13.4405 5.25359 13.3643 5.3756 13.3119C5.4976 13.2595 5.62882 13.2319 5.7616 13.2307C5.89438 13.2296 6.02606 13.2549 6.14895 13.3052C6.27185 13.3555 6.3835 13.4297 6.4774 13.5236C6.57129 13.6175 6.64554 13.7291 6.69582 13.852C6.7461 13.9749 6.7714 14.1066 6.77025 14.2394C6.7691 14.3722 6.74151 14.5034 6.6891 14.6254C6.63669 14.7474 6.56051 14.8578 6.465 14.95L4.345 17.071C4.25213 17.164 4.14184 17.2377 4.02044 17.2881C3.89904 17.3384 3.76892 17.3643 3.6375 17.3643C3.50608 17.3643 3.37596 17.3384 3.25456 17.2881C3.13316 17.2377 3.02287 17.164 2.93 17.071ZM13.536 6.464C13.3485 6.27647 13.2432 6.02216 13.2432 5.757C13.2432 5.49184 13.3485 5.23753 13.536 5.05L15.656 2.929C15.8435 2.74136 16.0979 2.63589 16.3631 2.6358C16.6284 2.6357 16.8829 2.74099 17.0705 2.9285C17.2581 3.11601 17.3636 3.37038 17.3637 3.63565C17.3638 3.90092 17.2585 4.15536 17.071 4.343L14.95 6.464C14.7625 6.65147 14.5082 6.75679 14.243 6.75679C13.9778 6.75679 13.7235 6.65147 13.536 6.464Z" fill="#03053D"/> 
+                                    </svg> <span class="invoice-details-lbl">Getting invoice ready</span>
+                            </div>
+                            <div class="ecom-mb-16 ecom-red-font" if:true={invoiceFailure}>
+                                {invoiceFailureMessage}
+                            </div>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-1 ecom-gray-border-b p-bottom m-bottom">
+                            <div class="addressInfo-md ecom-mb-16">Shipping & billing information</div>
+
+                            <div if:true={showActiveAccount} class="ecom-mb-8">
+                                <div class="invoice-details-hd">Active Account</div>
+                                <div class="addressInfo-details" if:true={accNumber}>Account Number: {accNumber}</div>
+                                <div class="addressInfo-details" if:true={accName}>Account Name: {accName}</div>
+                            </div>
+
+                            <div if:true={shippingAddress} class="invoice-details-hd">
+                                Shipping address
+                            </div>
+                            <div if:true={shippingAddress} class="addressInfo-details ecom-mb-8">
+                                <div>{shippingAddress.companyName}</div>
+                                <div>{shippingAddress.street}</div>
+                                <div>{shippingAddress.city}<span if:true={shippingAddress.city}>,</span> {shippingAddress.state} {shippingAddress.postalCode}</div>
+                                <div>{shippingAddress.country}</div>
+                            </div>
+                            <div if:true={billingAddress} class="invoice-details-hd">
+                                Billing address
+                            </div>
+                            <div if:true={billingAddress} class="addressInfo-details ecom-mb-8">
+                                <div>{billingAddress.companyName}</div>
+                                <div>{billingAddress.street}</div>
+                                <div>{billingAddress.city}<span if:true={billingAddress.city}>,</span> {billingAddress.state} {billingAddress.postalCode}</div>
+                                <div>{billingAddress.country}</div>
+                            </div>
+                            <template if:true={isValidatedFields} for:each={validationFields} for:item="field">
+                                <div key={field.label} class="ecom-mb-8">
+                                   <div if:true={field.value} class="invoice-details-hd">{field.label}</div>
+                                   <div if:true={field.value} class="addressInfo-details ecom-mb-8">{field.value}</div>
+                                </div>
+                            </template>
+                            <div if:true={showMailingAddress} class="invoice-details-hd">
+                                {labels.ECOM_InvoiceMailingAddress}
+                            </div>
+                            <div if:true={showMailingAddress} class="addressInfo-details">
+                                <div>{mailingAddress.companyName}</div>
+                                <div>{mailingAddress.street}</div>
+                                <div>{mailingAddress.city}<span if:true={mailingAddress.city}>,</span> {mailingAddress.state} {mailingAddress.postalCode}</div>
+                                <div>{mailingAddress.country}</div>
+                            </div>
+                        </div>
+
+                        <div if:true={showRecipientSection} class="slds-grid slds-col slds-size_1-of-1 ecom-mb-32 ecom-gray-border-b">
+                            <div class="slds-col slds-size_1-of-2 break-word">
+                                <div class="order-sub-head">{labels.recipientTitle}</div><!--RWPS-4824-->
+                                <div class="ecom-mb-8">{recipient}</div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="order-sub-head">{labels.deliveryInstructionNew}</div><!--RWPS-4825-->
+                                <div class="ecom-mb-8">{specialInstructions}</div>
+                            </div>
+                        </div>
+
+                        <!--E-Invoice Field Section-->
+                        <!--Changes done by sathiya on 2024/05/13 for ECOM-1947-->
+                        <div class="slds-grid slds-col slds-size_1-of-1 ecom-line-break ecom-mb-32" if:true={isEInvoiceAvailable}>    
+                            <div class="slds-col slds-col slds-large-size_12-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                                <div class="slds-grid slds-grid_vertical ecom-gray-border-b">
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_12-of-12 ecom-active-acn-label slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-text-align_left">
+                                            <span class="addressInfo">{labels.ECOM_E_Invoice_Requirements}</span>
+                                        </div> 
+                                    </div>
+                                    <div if:true={effectiveAccountId} class="ecom-h-spacing m-bottom">
+                                        <c-ecom_checkout_einvoice-details 
+                                        effective-account-id={effectiveAccountId} 
+                                        cart-id={orderId}
+                                        is-invoice-read-mode={isInvoiceReadMode}
+                                        is-invoice-edit-mode={isInvoiceEditMode}
+                                        is-invoice-order-mode={isInvoiceOrderMode}
+                                        validate-fields={invoiceValidationFields}
+                                        >
+                                        </c-ecom_checkout_einvoice-details>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Changes End-->
+
+                        <!--Invoice items mobile-->
+                        <div class="slds-col slds-size_1-of-1 p-bottom ecom-mb-64">
+                            <div class="addressInfo-md m-bottom">
+                                Items in your invoice
+                            </div>
+                            <div for:each={invoiceLines} for:item="line" key={line.Id} class="invoice-line-card-md">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_2-of-12">
+                                        <span class="ecom-prod-img-md">
+                                            <img class="itemImage-md" if:true={line.imgUrl} src={line.imgUrl}>
+                                            <img if:false={line.imgUrl} src={images.placeholderimg}>
+                                        </span>
+                                    </div>
+                                    <div class="slds-col slds-size_10-of-12">
+                                        <div class="ecom-account-sb-label-md ecom-mb-8">
+                                            {line.name}
+                                        </div>
+                                        <div class="invoice-card-details ecom-mb-16">
+                                            <span>Part number: </span><span>{line.partNumber}</span>
+                                        </div>
+                                        <!--RWPS-3026 START-->
+                                        <div if:true={line.showTariffSurcharge} class="invoice-card-details ecom-mb-16">
+                                            <span>{labels.ECOM_Tariff_Surcharge}: </span><span>{line.tariffSurcharge}</span>
+                                        </div>
+                                        <!--RWPS-3026 ENDS-->
+                                        <div class="invoice-card-price ecom-mb-8">
+                                            <lightning-formatted-number value={line.listPrice} 
+                                            format-style="currency" minimum-fraction-digits="2" 
+                                            currency-code={line.currencyIsoCode} currency-display-as={currencyDisplayAs}>
+                                            </lightning-formatted-number>
+                                        </div>
+                                        <div class="addressInfo-details">
+                                            QTY: {line.quantity}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Payment Method mobile-->
+                        <div class="slds-col slds-size_1-of-1 p-bottom ecom-mb-32">
+                            <div if:true={showPaymentInformation} class="addressInfo-md ecom-mb-16">
+                               {labels.ECOM_PaymentInformation} 
+                            </div>
+                            <div if:true={showPaymentInformation} class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-2 ecom-mb-16">
+                                    <div class="invoice-details-hd ecom-mb-8">
+                                        Payment method
+                                    </div>
+                                    <div class="addressInfo-details">
+                                        <div if:true={cardPayment}>
+                                            <span>
+                                               {cardPayment.CardCategory}<br>
+                                               <img if:true={showCardImg} class="ecom-mr-8" src={cardTypeImg}>
+                                               <p class="ecom-card-details">x{cardPayment.CardLastFour}</p><br>
+                                            </span>
+                                         </div>
+                                         <div if:false={cardPayment}>
+                                            <div if:true={poNumber}>PO Number</div>
+                                            <div if:true={poNumber}>{poNumber}</div>
+                                         </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 ecom-mb-16">
+                                    <div if:true={promoCode} class="invoice-details-hd ecom-mb-8">
+                                        Promo code
+                                    </div>
+                                    <div if:true={promoCode} class="addressInfo-details ">
+                                        {promoCode}
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div if:true={quoteNumber} class="invoice-details-hd ecom-mb-8">
+                                        Quote number
+                                    </div>
+                                    <div if:true={quoteNumber} class="addressInfo-details">
+                                        {quoteNumber}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 p-bottom ecom-mb-64">
+                            <div class="addressInfo-md ecom-mb-16">
+                                Order summary
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <div class="order-summary-card">
+                                        <div class="slds-grid slds-wrap">
+                                            <!--RWPS-3026 START-->
+                                            <div if:true={totalTarrifSurcharge} class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                <div class="addressInfo-details">{labels.ECOM_Tariff_Surcharge}</div>
+                                            </div>
+                                            <div if:true={totalTarrifSurcharge} class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                <span class="addressInfo-details align-right">
+                                                    <lightning-formatted-number value={totalTarrifSurcharge} 
+                                                    format-style="currency" minimum-fraction-digits="2" 
+                                                    currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                                                    </lightning-formatted-number>
+                                                </span>
+                                            </div>
+                                            <!--RWPS-3026 END-->
+                                            <div class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                <div class="addressInfo-details no-wrap">{labels.ECOM_Subtotal_IncludingShipping}</div> <!-- RWPS-5283 -->
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                <span class="addressInfo-details align-right">
+                                                    <lightning-formatted-number value={subtotal} 
+                                                    format-style="currency" minimum-fraction-digits="2" 
+                                                    currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                                                    </lightning-formatted-number>
+                                                </span>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                                <span class="addressInfo-details">Tax</span>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2 ecom-mb-8">
+                                               <span class="addressInfo-details align-right">
+                                                <lightning-formatted-number value={tax} 
+                                                format-style="currency" minimum-fraction-digits="2" 
+                                                currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                                                </lightning-formatted-number>
+                                               </span>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 ecom-mb-8">
+                                                <hr class="slds-hr"/>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <span class="total-price-md">Total cost:</span>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <span class="total-price-md align-right">
+                                                    <lightning-formatted-number value={total} 
+                                                    format-style="currency" minimum-fraction-digits="2" 
+                                                    currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                                                    </lightning-formatted-number>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Dispute form-->
+                <template if:true={showDisputeForm}>
+                    <!--RWPS-4087 added data-id attribute-->
+                    <section role="dialog" tabindex="0" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_full slds-fade-in-open" data-id="disputeFormDialog">
+                        <div class="slds-modal__container ecom-fo-modal">
+                        <header class="slds-modal__header ecom-fo-header">
+                            <button class="ecom-modal-close-btn slds-button slds-modal__close position" title="Close" onclick={handleDisputeScreenClose}>
+            
+                            <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}> -->
+                                <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small" ></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <div id="modal-heading-01" class="ecom-fo-label edit1">{labels.ECOM_InvoiceNeedHelp}</div>
+                            <center><div class="modal-subline">{labels.ECOM_InvoiceNeedHelpSubline}</div></center>
+                        </header>
+                        <!--Model Body-->
+                        <div class="ecom-outer-box">
+                            <!-- <div class="slds-modal__content" id="modal-content-id-1"> -->
+                            <div class="body" id="modal-content-id-1">
+                                <div class="ecom-input-card">
+                                    <lightning-combobox
+                                    class="ecom-input-size halfWidth"
+                                    name="Reason"
+                                    label="Reason"
+                                    value={reasonValue}
+                                    placeholder="Select"
+                                    options={options}
+                                    onchange={handleDisputeReason} 
+                                    required="true"></lightning-combobox> 
+                                </div>
+                                <div class="ecom-input-card">
+                                    <div lwc:ref="reasonDesc" class="slds-form-element body">
+                                        <label class="slds-form-element__label" for="textarea-id-01">
+                                        Reason for needing help <abbr class="slds-required" title="required">* </abbr></label>
+                                        <div class="slds-form-element__control">
+                                        <textarea maxlength="32000" class="slds-textarea textarea" oninput={handleReasonDescription} id="textarea-id-01" required aria-describedby="error-01"></textarea>
+                                        <div if:true={descEmpty} class="slds-form-element__help" id="error-01">Complete this field</div>
+                                        </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!--footer start-->
+                        <footer class="ecom-fo-footer edit2">
+                            <div if:false={device.isMobile} class="ecom-fo-footer-align">
+                                <button class="modal-cancel-btn " onclick={handleDisputeScreenClose}>Cancel</button>
+                                <button if:true={isSubmitDisputeDisabled} class="order-again-btn-disabled" disabled={isSubmitDisputeDisabled}>Submit</button>
+                                <button if:false={isSubmitDisputeDisabled} class="order-again-btn-active" onclick={handleSubmitCase} disabled={isSubmitDisputeDisabled}>Submit</button>
+                            </div>
+                            <div if:true={device.isMobile} class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                                    <button if:true={isSubmitDisputeDisabled} class="order-again-btn-disabled" disabled={isSubmitDisputeDisabled}>Submit</button>
+                                    <button if:false={isSubmitDisputeDisabled} class="order-again-btn-active" onclick={handleSubmitCase} disabled={isSubmitDisputeDisabled}>Submit</button>
+                                </div>
+                                <div class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                                    <button class="modal-cancel-btn " onclick={handleDisputeScreenClose}>Cancel</button>
+                                </div>
+                            </div>
+                        </footer>
+            
+                        </div>
+                        </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+
+                <!--Form submission success-->
+                <template if:true={showSuccessModal}>
+                    <!--RWPS-4087 added data-id attribute-->
+                    <section role="dialog" tabindex="0" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_full slds-fade-in-open" data-id="successDialog">
+                        <div class="slds-modal__container ecom-fo-modal successModal">
+                            <header class="slds-modal__header ecom-fo-header">
+                                <button class="ecom-modal-close-btn slds-button slds-modal__close position" title="Close" onclick={closeSuccessModal}>            
+                                    <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small" ></lightning-icon>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <div class="edit1">
+                                    <svg class="check-icon" focusable="false" aria-hidden="true" viewBox="0 0 520 520">
+                                        <path d="M260 20a240 240 0 100 480 240 240 0 100-480zm134 180L241 355c-6 6-16 6-22 0l-84-85c-6-6-6-16 0-22l22-22c6-6 16-6 22 0l44 45a10 10 0 0015 0l112-116c6-6 16-6 22 0l22 22c7 6 7 16 0 23z"></path>
+                                    </svg>
+
+                                </div>
+                                <div id="modal-heading-02" class="ecom-fo-label edit1">
+                                    {labels.ECOM_InvoiceHelpRequestSuccess}
+                                </div>
+                                <center><div class="modal-subline edit1">Your case number is {caseNumber}</div></center>
+                                <center>
+                                    <div>
+                                        <button class="order-again-btn-active" onclick={closeSuccessModal}>Okay</button>
+                                    </div>
+                                </center>
+                            </header>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,361 @@
+@import 'c/ecom_cssLibrary';
+
+:host {
+    --ecom-brand-color: #ffeb10;
+    --ecom-brand-color-purple:#7f03b0;
+    --ecom-font-family: "Hanken Grotesk", sans-serif;
+
+    color: var(--var-brand-revvity-black);
+}
+
+.ecom-secondary-card{
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,.2);
+    padding: 24px;
+    max-width: 464px;
+}
+
+.ecom-margin-bottom-16{
+    margin-bottom: 16px;
+}
+
+.ecom-text-weight-500{
+    font-weight: 500;
+}
+
+.ecom-text-size-24{
+    font-size: 24px;
+}
+
+.ecom-line-height-32{
+    line-height: 32px;
+}
+
+.ecom-reset-password-line-height-32{
+    line-height: 32px;
+}
+
+.ecom-reset-password-line-height-28{
+    line-height: 28px;
+}
+
+.ecom-text-size-16 {
+    font-size: 16px;
+}
+
+.ecom-text-size-18{
+    font-size: 18px;
+}
+
+.ecom-line-height-28{
+    line-height: 28px;
+}
+
+.ecom-omvics-margin-top-24{
+    margin-top: 23.5px;
+}
+
+.ecom-line-height-24{
+    line-height: 24px;
+}
+
+.ecom-margin-top-53{
+    margin-top: 53px;
+}
+
+.ecom-margin-top-25{
+    margin-top: 25px;
+}
+
+.ecom-font-weight-300 {
+    font-weight: 300;
+}
+
+.ecom-tertiary-card{
+
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,.2);
+    padding: 24px;
+
+}
+
+.ecom-max-width-435 {
+    max-width: 464px;
+}
+
+.ecom-support-email-link{
+    font-size: 16px;
+    /* font-weight: 300; */
+    line-height: 24px;
+    color: var(--ecom-brand-color-purple);
+    text-decoration: underline !important;
+}
+
+.ecom-support-email-link:hover {
+    color: #5a027d;
+    text-decoration: none !important;
+}
+
+.ecom-support-email-link:focus {
+    outline: 1px solid #7F03B0;
+    outline-offset: 2px;
+}
+
+.ecom-margin-top-32{
+    margin-top: 32px;
+}
+
+.ecom-bottom-card{
+    margin-top: 25px;
+}
+
+.ecom-no-margin-bottom-card{
+    margin-top:0px;
+}
+
+.ecom-icon-column{
+    display: flex;
+    gap: 8px;
+    align-self: stretch;
+    font-size: 18px;
+    /* line-height: 28px; */
+}
+
+.ecom-icon-column img{
+    height: 24px;
+    width: 24px;
+}
+
+.ecom-cards-vertical-styling:has(.ecom-bottom-card){
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.ecom-card-button{
+    color: var(--ecom-brand-color-purple);
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    display: inline-block;
+    border-width: 2px;
+    -webkit-border-radius: 40px;
+    border-radius: 40px;
+    border-style: solid;
+    border-color: var(--ecom-brand-color-purple);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    outline-width: 2px;
+    outline-style: solid;
+    outline-offset: 2px;
+    outline-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    text-align: center;
+}
+
+.ecom-login-page-bottom {
+    margin-top: 30px;
+    border-top: 1px solid #E3E3E3;
+    padding-top: 30px;
+}
+
+.ecom-omvics-container{
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 24px;
+    margin-top: 30px;
+}
+
+.ecom-omvics-container p{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.ecom-card-button:hover{
+    color: rgb(255, 255, 255);
+    background-color: rgb(127, 3, 176);
+    text-decoration: none !important;
+}
+
+
+h5{
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.ecom-omvics-portal-button{
+    color: rgb(127, 3, 176);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    padding-right: 0;
+    padding-left: 0;
+    display: inline;
+    -webkit-transition: 200ms background-position;
+    -o-transition: 200ms background-position;
+    transition: 200ms background-position;
+    outline-color: rgba(0, 0, 0, 0);
+    outline-width: 2px;
+    outline-offset: 0;
+    outline-style: solid;
+    text-decoration: none;
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(50%, currentColor), color-stop(50%, hsla(0, 0%, 20%, 0)));
+    background-image: -webkit-linear-gradient(left, currentColor 50%, hsla(0, 0%, 20%, 0) 50%);
+    background-image: -o-linear-gradient(left, currentColor 50%, hsla(0, 0%, 20%, 0) 50%);
+    background-image: linear-gradient(to right, currentColor 50%, hsla(0, 0%, 20%, 0) 50%);
+    background-size: 200% 1.5px;
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
+    cursor: pointer;
+    text-align: center;
+}
+
+.ecom-omvics-portal-button:hover{
+    color: rgb(90, 2, 125);
+    background-position: 0% 100%;
+    text-decoration: none;
+}
+
+.hover-underline-animation {
+    display: inline-block; /* Display inline block */
+    position: relative; /* Set position relative */
+    color:
+  #000; /* Set text color */
+  }
+
+  .hover-underline-animation:after {
+    content: ''; /* Add content after the element */
+    position: absolute; /* Position absolute for pseudo-element */
+    width: 100%; /* Full width */
+    transform: scaleX(0); /* Initial scale of 0 for underline effect */
+    height: 1px; /* Height of the underline */
+    bottom: 0; /* Align to bottom */
+    left: 0; /* Align to left */
+    background-color:
+  #000; /* Background color of the underline */
+    transform-origin: bottom right; /* Set transform origin */
+    transition: transform 0.50s ease-out; /* Transition effect for the underline */
+  }
+
+  .hover-underline-animation:hover:after {
+    transform: scaleX(1); /* Scale the underline on hover */
+    transform-origin: bottom right; /* Set transform origin */
+  }
+
+
+@media screen and (max-width: 1087px){
+
+    .ecom-secondary-card{
+        /* max-width: 464px; */
+        width:100%
+    }
+}
+
+@media screen and  (max-width:1104px){
+    .ecom-secondary-card{
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .ecom-text-size-24{
+        font-size: 20px;
+    }
+
+    .ecom-text-size-18{
+        font-size: 16px;
+    }
+
+    .ecom-forgot-password-page{
+        width: 100%!important;
+        max-width: 100%!important;
+    }
+
+    .ecom-max-width-464{
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .ecom-margin-left-71{
+        margin-left: 0px;
+    }
+
+    .ecom-omvics-container h5{
+        font-size: 20px !important;
+    }
+
+    .ecom-omvics-portal-button{
+        font-size: 16px !important;
+    }
+
+    .ecom-card-gap-responsive{
+        margin-top: 32px;
+    }
+
+}
+
+/* @media screen and  (min-width:1025px){
+    .ecom-secondary-card{
+        width: 464px;
+    }
+
+    .ecom-tertiary-card{
+        width: 464px;
+    }
+
+
+} */
+
+@media screen and (max-width: 480px) {
+    .ecom-text-size-18 {
+        font-size: 16px;
+    }
+
+    .ecom-text-size-24 {
+        font-size: 20px;
+    }
+
+    .ecom-line-height-28 {
+        line-height: 24px;
+    }
+
+    .ecom-omvics-container h5{
+        font-size: 20px !important;
+    }
+
+    .ecom-omvics-portal-button{
+        font-size: 16px !important;
+    }
+
+    .ecom-card-gap-responsive{
+        margin-top: 32px;
+    }
+
+    .ecom-card-button{
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .ecom-line-height-32{
+        line-height: 30px;
+    }
+
+    .ecom-reset-password-line-height-28{
+        line-height: 23px;
+    }
+
+    .ecom-reset-password-line-height-32{
+        line-height: 28.34px;
+    }
+}
+
+.ecom-registration-content-line-height{
+    line-height: 20px;
+}

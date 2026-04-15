@@ -1,0 +1,5 @@
+<design:component>
+	<design:attribute name="mappingFor" label="Enter the Mapping Label" /> 
+    <design:attribute name="pageHeader" label="Enter the Page Header" /> 
+    <design:attribute name="pageSubHeader" label="Enter the Page SubHeader" /> 
+</design:component>

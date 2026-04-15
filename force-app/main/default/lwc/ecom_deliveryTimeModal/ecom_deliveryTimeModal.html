@@ -1,0 +1,73 @@
+<!-- sldsValidatorIgnore -->
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 12-07-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class={modalSize}>
+            <!-- class="slds-modal slds-fade-in-open" -->
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <div class="slds-modal__header ecom-noborder ecom-top-border ecom-header-border" >
+                    <!-- style="border: 0px;" -->
+                    <div>  
+                        <button class="slds-button slds-button_icon ecom-closebtn slds-p-top_small slds-p-right_small" onclick={closeModal}>
+                            <svg class="slds-button__icon slds-button__icon_large ecom-icon-size24" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Cancel and close</span>
+                        </button> 
+                        <!-- <button class="slds-button slds-button_icon ecom-closebtn" onclick={closeModal}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="slds-assistive-text">Cancel and close</span>
+                        </button> -->
+                    </div>
+                    <h1 class="ecom-align-title ecom-m-top-60">When will I receive my product?</h1>
+                </div>
+                <!-- Modal Body -->
+                <div class="slds-modal__content slds-p-left_medium ecom-no-border margin-paddings ecom-bottom-border">                        
+                    
+                    <span class="slds-modal__content" id="2">
+                        <div class="">
+                            <p class="ecom_modal_note">
+                               <!-- Note: Estimated delivery represents when you can expect the product to arrive after shipment from PelkinElmer.-->
+                                Note: Estimated delivery represents when you can expect the product to arrive after shipment.
+                            </p>
+                        </div>
+                        <template if:true={shippingTimes.Ecom_Confidence_90__c}><!--RWPS-1603 Start-->
+                            <div class="slds-grid slds-wrap ecom_modal_no_lrborder">
+                                <div class="slds-col slds-size_1-of-2 slds-small-size_1-of-2">
+                                    <div class="slds-p-bottom_medium  slds-p-top_medium ecom-table-header slds-text-align_center ">{splitDeliveryInfo.deliveryType}</div><!--RWPS-1603-->
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-small-size_1-of-2">
+                                    <div class="slds-p-bottom_medium  slds-p-top_medium ecom-table-header slds-text-align_center ">{splitDeliveryInfo.estimatedTimeFrame}</div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap ecom-div-border">
+                                <div class="slds-col slds-size_1-of-2 slds-small-size_1-of-2 ecom-table-cell-border slds-align_absolute-center">
+                                    <div class="slds-p-bottom_medium slds-p-top_medium slds-p-horizontal_x-small  slds-text-align_center slds-align_absolute-center ecom-cell-text">{splitDeliveryInfo.deliverySpeed}</div><!--RWPS-1603-->
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-small-size_1-of-2 slds-align_absolute-center">
+                                    <div class="slds-p-bottom_medium slds-p-top_medium slds-p-horizontal_x-small  slds-text-align_center slds-align_absolute-center ecom-cell-text">{shippingTimes.Ecom_Confidence_90__c}</div><!--RWPS-1603-->
+                                </div>
+                            </div>
+                        </template>
+                        <div if:true={showSpinner} class="ecom-spinner-style">
+                            <lightning-spinner></lightning-spinner>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
+<!--RWPS-1603 END-->
+<!-- modal end -->

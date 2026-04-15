@@ -1,0 +1,98 @@
+@import 'c/ecom_cssLibrary';
+
+
+.ecom-height-left-746 {
+    height: 746px;
+    padding-left: 180px;
+
+}
+
+.ecom-height-right-746 {
+    height: 746px;
+    
+}
+
+.ecom-overflow-visible {
+    overflow: visible;
+}
+
+.ecom-header-1 {
+    font-size: 96px;
+    margin-bottom: 16px;
+    line-height: 1.0;
+    font-weight: 300;
+}
+
+.ecom-left-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ecom-header-2 {
+    font-size: 24px;
+    line-height: 40px;
+    margin-bottom: 40px;
+}
+
+.ecom-back-to-home-button {
+    font-weight: 500;
+    font-size: 18px;
+    text-align: center;
+    background-color: rgb(127, 3, 176);
+    padding-top: 12px;
+    padding-right: 20px;
+    padding-bottom: 12px;
+    padding-left: 20px;
+    display: inline-block;
+    -webkit-border-radius: 2.5rem;
+    border-radius: 2.5rem;
+    -webkit-transition: 202ms;
+    -o-transition: 202ms;
+    transition: 202ms;
+    color: rgb(255, 255, 255);
+    line-height: 24px;
+    border: none;
+    cursor: pointer;
+}
+
+.ecom-display-image{
+    background-image: url("https://www.revvity.cn/sites/default/files/4xx.png");
+    background-position: right top;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+}
+
+
+@media screen and (max-width: 1018px) {
+    .ecom-container .slds-medium-size_6-of-12 {
+        width: 100%;
+        transition: height 0ms 400ms, opacity 400ms 0ms;
+    }
+
+    .ecom-height-left-746 {
+        height:auto;
+        padding-left: 50px;
+    }
+    .ecom-left-column{
+        /* margin-top: 30px; */
+    }
+
+    .ecom-left-column {
+        display: block;
+    }
+
+    .ecom-height-right-746 {
+        height:746px;
+    }
+
+    .ecom-header-1{
+        font-size: 56px;
+        margin-top: 30px;
+    }
+
+    .ecom-display-image {
+        /* padding-top: 20px; */
+    }
+}

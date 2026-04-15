@@ -1,0 +1,126 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 11-12-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <!-- RWPS-5938 -->
+    <template if:true={showSpinner}>
+        <div class="backdrop">
+            <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+            </lightning-spinner>
+        </div>
+    </template>
+    <!-- RWPS-5938 -->
+    <!-- <div class="slds-show_medium"> -->
+        <div class={cardStyling}>
+            <div lwc:if={displayErrorMessage}>
+                <div class="ecom-error-message-block">
+                    <div>{errorMessageText}</div>
+                    <span class="ecom-close-button"><img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.closeIcon} onclick={closePrompt}></span>
+                </div>
+            </div>
+            <div class="slds-show_medium">
+                <div>
+                    <div class="ecom-text-size-40 ecom-header ecom-line-height-48">
+                        {labels.ECOM_LBL_LOGINTOACCOUNT}
+                    </div>
+                </div>
+
+            </div>
+            <div class="slds-hide_medium slds-show_small">
+                <div>
+                    <div class="ecom-text-size-36 ecom-header ecom-line-height-32">
+                        {labels.ECOM_LBL_LOGINTOACCOUNT}
+                    </div>
+                </div>
+            </div>
+            <div class="slds-hide_small">
+                <div>
+                    <div class="ecom-text-size-28 ecom-header ecom-line-height-32">
+                        {labels.ECOM_LBL_LOGINTOACCOUNT}
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <!--UserName-->
+                <div class="ecom-padding-bottom-32">
+                    <div class="ecom-margin-bottom-4">
+                        <!-- RWPS-3826 -->
+                        <label class="ecom-detail-text-18 ecom-font-weight-400" for="username-input">{labels.ECOM_LBL_EMAILADDRESS} *</label>
+                    </div>
+                    <div>
+                        <!-- RWPS-3826 -->
+                        <input type="text" name="username" id="username-input" lwc:ref="username" required class='slds-input'  onfocusout={validateUserName}></input>
+                        <div lwc:if={usernameError} class="ecom-error-text">{usernameErrorMessage}</div>
+                    </div>
+                </div>
+
+                <!--Password-->
+                <div class="ecom-padding-bottom-32">
+                    <div class="ecom-margin-bottom-4">
+                        <!-- RWPS-3826 -->
+                        <label class="ecom-detail-text-18  ecom-font-weight-400" for="password-input">{labels.ECOM_LBL_PASSWORD} *</label>
+                    </div>
+                    <div class=" slds-input-has-icon slds-input-has-icon_right">
+                        <!-- RWPS-3826 -->
+                        <input type="password" name="password" id="password-input" lwc:ref="password" data-id="pwordBox-unmasked-Id" value={passwordValue} style="-webkit-text-security: unset;" class='slds-input' onfocusout={validatePassword} onkeypress={handleEnter}/>
+                        <template lwc:if={isHidePassword}>
+                            <button class="ecom-password-icon ecom-svg-hover-styling slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={showHidePassword} >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.9 4.24002C10.5883 4.0789 11.2931 3.99836 12 4.00003C19 4.00003 23 12 23 12C22.393 13.1356 21.6691 14.2048 20.84 15.19M14.12 14.12C13.8454 14.4148 13.5141 14.6512 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.4811 9.80385 14.1962C9.51897 13.9113 9.29439 13.572 9.14351 13.1984C8.99262 12.8249 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2219 9.18488 10.8539C9.34884 10.4859 9.58525 10.1547 9.88 9.88003M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68192 3.96914 7.65663 6.06 6.06003L17.94 17.94Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1 1L23 23" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.ECOM_LBL_SHOWPASSWORD}</span>
+                            </button>
+                        </template>
+                        <template lwc:else>
+                            <button class="ecom-password-icon ecom-svg-hover-styling slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={labels.ECOM_LBL_HIDEPASSWORD} onclick={showHidePassword}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+                                </svg>
+                            </button>
+                            <span class="slds-assistive-text">{labels.ECOM_LBL_HIDEPASSWORD}</span>
+                        </template>
+                    </div>
+                    <!-- Show Password-->
+                   <!-- <template lwc:else>
+                        <div class=" slds-input-has-icon slds-input-has-icon_right">
+                            <input type="text" name="password" lwc:ref="password" data-id="pwordBox-masked-Id" value={passwordValue} style="-webkit-text-security: disc;" class='slds-input' onchange={handlePasswordChange}  onfocusout={validatePassword} onkeypress={handleEnter}></input>
+                            <button class="ecom-password-icon ecom-svg-hover-styling slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={showHidePassword} >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.9 4.24002C10.5883 4.0789 11.2931 3.99836 12 4.00003C19 4.00003 23 12 23 12C22.393 13.1356 21.6691 14.2048 20.84 15.19M14.12 14.12C13.8454 14.4148 13.5141 14.6512 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.4811 9.80385 14.1962C9.51897 13.9113 9.29439 13.572 9.14351 13.1984C8.99262 12.8249 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2219 9.18488 10.8539C9.34884 10.4859 9.58525 10.1547 9.88 9.88003M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68192 3.96914 7.65663 6.06 6.06003L17.94 17.94Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1 1L23 23" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.ECOM_LBL_SHOWPASSWORD}</span>
+                            </button>
+                        </div>
+                    </template>  -->
+                    <div lwc:if={passwordEmpty} class="ecom-error-text ecom-font-weight-400">{labels.ECOM_LBL_PASSWORDISREQUIRED}</div>
+                </div>
+
+                <!-- <div class="ecom-margin-bottom-32 ecom-margin-bottom-responsive ecom-font-weight-400 ecom-login-container ecom-display-flex">
+                    <lightning-input type="checkbox"  label={labels.ECOM_LBL_REMEMBERME} class="ecom-font-weight-400" name="" ></lightning-input>
+                </div> -->
+
+                <div class="ecom-margin-bottom-32">
+                    <!--Fix for RWPS-2037-->
+                    <button lwc:ref="loginBtn" class="ecom-login" onclick={handleUserLogin} onkeypress={handleEnter}>
+                        <span>Login</span>
+                    </button>
+                    <!--Fix End-->
+                </div>
+
+                <div class="ecom-text-brand-color ecom-text-hyperlink-style ecom-text-weight-600 ecom-text-size-16">
+                    <!-- RWPS-3826 -->
+                    <a onclick={redirectToForgotPassword} onkeypress={handleForgotPWEnter} tabindex="0">Forgot Password?</a>
+                </div>
+            </div>
+        </div>
+
+</template>

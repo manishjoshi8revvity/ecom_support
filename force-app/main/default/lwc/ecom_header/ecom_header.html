@@ -1,0 +1,615 @@
+<!--
+  @description       : header component for ecom store
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 05-09-2024
+  @last modified by  : Vipul Goyal
+  03-13-2024 ECOM-2885 formatted html and added  punchout account name when logo is not available
+-->
+<template>
+    <template lwc:if={showSpinner} >
+        <div class="ecom-spinner-positioning">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template>
+    <template lwc:if={loadSpinner} >
+        <lightning-spinner alternative-text="Loading" size="medium" class="ecom-fixed-spinner"></lightning-spinner>
+    </template>
+    <!--ECOM-3516 - Gaurang - UI fix - 24 July 2024-->
+    <!--Added display header check in below dic for RWPS-5617,5618-->
+    <div if:true={displayHeader} class={headerBackgroundCss}>
+        <div class={modalOpen}> <!--VRa changes to avoid body scroll when modal is open-->
+            <div if:false={isGuestUser} class="background ecom-mb">
+                <div class="ecom-header-condensed">
+                    <div lwc:ref="ecomHeaderContainer">
+                        <div class="container slds-align_absolute-center">
+                            <header class={customHeaderStyling}>
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item size="4"
+                                        small-device-size="4" medium-device-size="2"
+                                        large-device-size="2" class={backToShopPadding}>
+                                        <!-- RWPS-3826 start -->
+                                        <div
+                                            class="slds-text-align_left slds-p-vertical_xx-small slds-text-link_reset ecom-focussable-outer"
+                                            tabindex="0"
+                                            onkeypress={handleBackToShoppingEnter}
+                                            onclick={handleBackToShopping}>
+
+                                            <!-- <template > -->
+                                            <span
+                                                class="title-text ecom-header-label ecom-focussable-inner">Back
+                                                to Shop</span>
+                                            <!-- </template> -->
+                                        </div>
+                                        <!-- RWPS-3826 end -->
+                                    </lightning-layout-item>
+
+                                    <!--VRa Punchout changes - begin -->
+                                    <!-- <lightning-layout-item size="5" small-device-size="5" medium-device-size="8" large-device-size="8" class={logoCSS}> -->
+                                    <lightning-layout-item size="4"
+                                        small-device-size="4" medium-device-size="8"
+                                        large-device-size="8" class={logoCSS}>
+                                        <div
+                                            class="  slds-text-align_center slds-p-bottom_medium">
+
+                                            <div lwc:if={isPunchoutUser}>
+                                                <div class="slds-show_medium ecom-display-inline-flex">
+                                                    <!-- RWPS-3826 start -->
+                                                    <img class="ecom-punchout-revvity-logo-container ecom-margin-auto ecom-focussable"
+                                                        tabindex="0"
+                                                        onkeypress={handleBackToShoppingEnter}
+                                                        onclick={handleBackToShopping}
+                                                        src={images.logoimg}
+                                                        alt="revvity"
+                                                        ><!--RWPS-4086-->
+                                                        <!-- RWPS-5938 : Added if:false={isPunchoutViaWeb} -->
+                                                    <div if:false={isPunchoutViaWeb} class="ecom-height-40 ecom-margin-left-right-24">
+                                                        <div class="ecom-height-40 ecom-border-left-2 "></div>
+                                                    </div>
+                                                    <img lwc:if={showPunchoutlogo}
+                                                        class="ecom-punchout-account-logo-container ecom-margin-auto ecom-focussable"
+                                                        tabindex="0"
+                                                        onkeypress={handleBackToShoppingEnter}
+                                                        onclick={handleBackToShopping}
+                                                        alt={punchoutAccountName}
+                                                        onerror={showPunchoutAccountName}
+                                                        src={punchoutOrgLogo}>
+                                                    <div  lwc:else class="slds-text-align_left slds-p-vertical_xx-small slds-text-link_reset ecom-focussable"
+                                                        tabindex="0"
+                                                        onkeypress={handleBackToShoppingEnter}
+                                                        onclick={handleBackToShopping}>
+                                                        <div class="title-text ecom-header-punchout-account-name"  title={punchoutAccountName}>{punchoutAccountName}</div>
+                                                    </div>
+                                                    <!-- RWPS-3826 end -->
+                                                </div>
+                                            </div>
+                                            <div lwc:else>
+                                                <!-- VRa: Punchout changes | 17 Jan 2024 - begin -->
+                                                <!-- <img class="ecom-header-logo slds-m-top_xx-small" onclick={handleCMSRedirect} aria-hidden="true" src={images.logoimg}> -->
+                                                 <!-- RWPS-3826 start -->
+                                                <img
+                                                    class="ecom-header-logo slds-m-top_xx-small ecom-focussable"
+                                                    tabindex="0"
+                                                    onkeypress={handleBackToShoppingEnter}
+                                                    onclick={handleBackToShopping}
+                                                    src={images.logoimg}
+                                                    alt="revvity">
+                                                <!-- VRa: Punchout changes | 17 Jan 2024 - begin -->
+                                                <!-- RWPS-3826 end -->
+                                            </div>
+                                        </div>
+
+                                    </lightning-layout-item>
+                                    <!--VRa Punchout changes - begin -->
+
+                                    <lightning-layout-item size="2"
+                                    small-device-size="2" medium-device-size="1"
+                                    large-device-size="1" class={avatarIconCSS}>
+                                    <div
+                                    class="slds-avatar slds-avatar_large slds-avatar_circle  slds-m-top_none slds-m-left_medium">
+                                        <!-- RWPS-4087 Avatar button -->
+                                        <button
+                                        id="profileIcon"
+                                        data-id="profileIcon"
+                                        class="slds-avatar__initials slds-icon-standard-user"
+                                        title={userInitials}
+                                        aria-haspopup="true"
+                                        aria-expanded={isOpen}
+                                        aria-controls="userMenu"
+                                        onclick={toggleMenu}
+                                        onkeydown={handleAvatarKeydown}>
+                                        {userInitials}
+                                        </button>
+                                    </div>
+                                
+                                    <!-- RWPS-4087 Dropdown (render only when open) changed a tag to button  -->
+                                    <span class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                        <div if:true={isOpen}
+                                        
+                                        class="rvty-myaccount-open rvty-header-nav-myaccount dropdown-position"
+                                        role="menuitem"
+                                        id="userMenu"
+                                        data-id="userMenu"
+                                        onkeydown={handleMenuKeyDown}>
+                                        <div if:true={device.isMobile}
+                                                    id="rvty-myaccount-close"
+                                                    class="ecom-mb-24">
+                                                    <img src={images.blackcross}
+                                                        class="ecom-align-right" alt="cross"
+                                                        width="24" height="24">
+                                                </div>
+                                        <div
+                                         class="rvty-header-nav-myaccount-item">
+                                            <button type="button"
+                                                    role="menuitem"
+                                                    data-action="dashboard"
+                                                    onclick={handleMenuSelect}
+                                                    tabindex="0"
+                                                    class="slds-button slds-button_reset">
+                                                Dashboard
+                                            </button>
+                                        </div>
+                                    
+                                        <template lwc:if={updatedUserNavigation.viewProfileSettingPage}>
+                                            <div class="rvty-header-nav-myaccount-item">
+                                                <button type="button"
+                                                        role="menuitem"
+                                                        data-action="profile-and-settings"
+                                                        onclick={handleMenuSelect}
+                                                        tabindex="0"
+                                                        class="slds-button slds-button_reset">
+                                                    Profile & Settings
+                                                </button>
+                                            </div>
+                                        </template>
+                                    
+                                        <template lwc:if={updatedUserNavigation.viewAccountPage}>
+                                            <!-- RWPS-4759 : Added if:false={isDealer} -->
+                                            <div if:false={isDealer} class="rvty-header-nav-myaccount-item">
+                                                <button type="button"
+                                                        role="menuitem"
+                                                        data-action="dashboard?accountEdit"
+                                                        onclick={handleMenuSelect}
+                                                        tabindex="0"
+                                                        class="slds-button slds-button_reset">
+                                                    Accounts
+                                                </button>
+                                            </div>
+                                        </template>
+                                    
+                                        <div class="rvty-header-nav-myaccount-item">
+                                            <button type="button"
+                                                    role="menuitem"
+                                                    data-action="orderHistory"
+                                                    onclick={handleMenuSelect}
+                                                    tabindex="0"
+                                                    class="slds-button slds-button_reset">
+                                                Order History
+                                            </button>
+                                        </div>
+                                    
+                                        <div if:true={showOrderApproval}
+                                            class="rvty-header-nav-myaccount-item">
+                                            <button type="button"
+                                                    role="menuitem"
+                                                    data-action="approvalNeeded"
+                                                    onclick={handleMenuSelect}
+                                                    tabindex="0"
+                                                    class="slds-button slds-button_reset">
+                                                Approval Needed
+                                            </button>
+                                        </div>
+                                    
+                                        <div class="rvty-header-nav-myaccount-item">
+                                            <button type="button"
+                                                    role="menuitem"
+                                                    data-action="favorites"
+                                                    onclick={handleMenuSelect}
+                                                    tabindex="0"
+                                                    class="slds-button slds-button_reset">
+                                                Favorites List
+                                            </button>
+                                        </div>
+                                    
+                                        <template lwc:if={updatedUserNavigation.viewFrequentlyPurchased}>
+                                            <div class="rvty-header-nav-myaccount-item">
+                                                <button type="button"
+                                                        role="menuitem"
+                                                        data-action="frequentlyPurchased"
+                                                        onclick={handleMenuSelect}
+                                                        tabindex="0"
+                                                        class="slds-button slds-button_reset">
+                                                    {system_labels.FREQUENTLY_PURCHASED}
+                                                </button>
+                                            </div>
+                                        </template>
+                                    
+                                        <template lwc:if={updatedUserNavigation.viewQuickOrder}>
+                                            <div class="rvty-header-nav-myaccount-item">
+                                                <button type="button"
+                                                        role="menuitem"
+                                                        data-action="quickorder"
+                                                        onclick={handleMenuSelect}
+                                                        tabindex="0"
+                                                        class="slds-button slds-button_reset">
+                                                    Quick Order Form
+                                                </button>
+                                            </div>
+                                        </template>
+
+                                        <!-- RWPS-7121 : started-->
+                                        <div class="rvty-header-nav-myaccount-item">
+                                                <button type="button"
+                                                        role="menuitem"
+                                                        data-action="my-quotes"
+                                                        onclick={handleMenuSelect}
+                                                        tabindex="0"
+                                                        class="slds-button slds-button_reset">
+                                                    Quotes
+                                                </button>
+                                            </div>
+                                        <!-- RWPS-7121 : ended-->
+                                    
+                                        <div class={customerCareStyle}>
+                                            <button type="button"
+                                                    role="menuitem"
+                                                    data-action="customerCare"
+                                                    onclick={navigateToContactUsPage}
+                                                    tabindex="0"
+                                                    class="slds-button slds-button_reset">
+                                                Customer Care
+                                            </button>
+                                        </div>
+                                    
+                                        <template lwc:if={updatedUserNavigation.viewLogout}>
+                                            <div class="rvty-header-nav-myaccount-item" style="display:flex;">
+                                                <button type="button"
+                                                        role="menuitem"
+                                                        data-action="logout"
+                                                        onclick={handleCustomLogout}
+                                                        tabindex="0"
+                                                        class="slds-button slds-button_reset">
+                                                    <svg width="24" height="24"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        class="ecom-mr-16">
+                                                        <path
+                                                            d="M5 22C4.44772 22 4 21.5523 4 21V3C4 2.44772 4.44772 2 5 2H19C19.5523 2 20 2.44772 20 3V6H18V4H6V20H18V18H20V21C20 21.5523 19.5523 22 19 22H5ZM18 16V13H11V11H18V8L23 12L18 16Z"
+                                                            fill="black"></path>
+                                                    </svg>
+                                                    Logout
+                                                </button><!--RWPS-4087 end-->
+                                            </div>
+                                        </template>
+                                    </div>
+                                </span>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="2"
+                                        small-device-size="2" medium-device-size="1"
+                                        large-device-size="1" class={cartIconCSS}>
+                                        <div class={cartIconImgCSS}>
+                                            <!--RWPS-3764 added tabIndex, onkeydown event-->
+                                            <div
+                                                class="slds-icon_container slds-icon-utility-shopping_cart cursor-pointer m-left-10"
+                                                title="Cart" tabindex="0"
+                                                onclick={redirectToCartPage} onkeydown={handleCartKeyDown}>
+                                                <img src={images.cartimg} alt="Cart"
+                                                    class="cart-icon" />
+                                                <div lwc:if={showCircularBadge}
+                                                    data-id="badgeCount" class="badge"
+                                                    onclick={redirectToCartPage}>
+                                                    <div
+                                                        class="slds-m-horizontal_xxx-small">
+                                                        <div>
+                                                            {totalProductCount}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div lwc:if={showCapsuleBadge}
+                                                    data-id="badgeCount"
+                                                    class="badgeplus"
+                                                    onclick={redirectToCartPage}>
+                                                    <div
+                                                        class="slds-m-horizontal_xxx-small">
+                                                        <div
+                                                            lwc:if={showCartWithCountPlus}>
+                                                            {MORE_THAN_NINTYNINE}
+                                                        </div>
+                                                        <div lwc:else>
+                                                            {totalProductCount}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12"
+                                        medium-device-size="12" small-device-size="12">
+                                        <div lwc:if={isPunchoutUser}
+                                            class="slds-align_absolute-center">
+                                            <div
+                                                class="slds-hide_medium slds-show_small ecom-display-inline-flex">
+                                                <img
+                                                    class="ecom-punchout-revvity-logo-container ecom-margin-auto "
+                                                    src={images.logoimg}
+                                                    alt="Revvity"><!--RWPS-4086-->
+                                                    <!-- RWPS-5938 : Added if:false={isPunchoutViaWeb} -->
+                                                <div if:false={isPunchoutViaWeb}
+                                                    class="ecom-height-40 ecom-margin-left-right-24">
+                                                    <div
+                                                        class="ecom-height-40 ecom-border-left-2 "></div>
+                                                </div>
+                                                <img lwc:if={showPunchoutlogo} class="ecom-punchout-account-logo-container ecom-margin-auto "
+                                                    alt={punchoutAccountName}
+                                                    src={punchoutOrgLogo}>
+                                                <!-- RWPS-3826 start -->
+                                                <div  lwc:else class="slds-text-align_left slds-p-vertical_xx-small slds-text-link_reset ecom-focussable"
+                                                    tabindex="0"
+                                                    onkeypress={handleBackToShoppingEnter}
+                                                    onclick={handleBackToShopping}>
+                                                    <div class="title-text ecom-header-punchout-account-name" title={punchoutAccountName}>{punchoutAccountName}</div>
+                                                </div>
+                                                <!-- RWPS-3826 end -->
+                                            </div>
+                                            <div
+                                                class="slds-hide_small ecom-display-inline-flex">
+                                                <img
+                                                    class="ecom-punchout-revvity-logo-container ecom-margin-auto "
+                                                    aria-hidden="true"
+                                                    src={images.logoimg}>
+                                                <div
+                                                    class="ecom-height-40 ecom-margin-left-right-12">
+                                                    <div
+                                                        class="ecom-height-32 ecom-border-left-2 ecom-margin-top-6_5"></div>
+                                                </div>
+                                                <img
+                                                    lwc:if={showPunchoutlogo}
+                                                    class="ecom-punchout-account-logo-container ecom-margin-auto "
+                                                    aria-hidden="true"
+                                                    alt={punchoutAccountName}
+                                                    onerror={showPunchoutAccountName}
+                                                    src={punchoutOrgLogo}>
+                                                    <!-- RWPS-3826 start -->
+                                                    <div  lwc:else class="slds-text-align_left slds-p-vertical_xx-small slds-text-link_reset ecom-focussable"
+                                                    tabindex="0"
+                                                    onkeypress={handleBackToShoppingEnter}
+                                                    onclick={handleBackToShopping}>
+                                                    <!-- RWPS-3826 end -->
+                                                    <div class="title-text ecom-header-punchout-account-name"  title={punchoutAccountName}>{punchoutAccountName}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12"
+                                        small-device-size="12" medium-device-size="12"
+                                        large-device-size="12">
+
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </header>
+                        </div>
+                    </div>
+                    <!-- RWPS-1645 -->
+                <div class="ecom-margin-top-1 mb-display">
+                    <svg  lwc:ref="ecomSvg" class="ecom-bottomsvg-logged" preserveAspectRatio="xMidYMid meet" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1512 34">
+                        <path  stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" path="M0 0H0" d="M 0 1 H 1209.6000000000001 c 2.312 0 4.418 1.3281 5.415 3.4141 l 11.338 23.7401 c 1.184 2.478 4.734 2.4122 5.824 -0.108 l 10.142 -23.4295 c 0.95 -2.1955 3.114 -3.6167 5.506 -3.6167 H 1512">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            </div>
+
+            <div if:true={isGuestUser} class="guest-background">
+                <div class="ecom-header-condensed">
+                    <div lwc:ref="ecomHeaderContainer" class="ecom-boxed-container">
+                        <div class="ecom-header-condensed-inner">
+                            <!--RWPS-3068 START-->
+                            <!-- RWPS-3826 start -->
+                            <div class="slds-text-align_left slds-p-vertical_xx-small slds-text-link_reset ecom-ss-header-lhs ecom-focussable-outer" tabindex="0" onkeypress={handleBackToShoppingEnter} onclick={handleBackToShopping}>
+                                <span class="title-text ecom-header-label ecom-focussable-inner">{labels.ECOM_BackToShop}</span>
+                            </div>
+                            <!--RWPS-3068 END-->
+                            <div class="ecom-top-header-rhs-links ecom-focussable" tabindex="0" onkeypress={handleCountrySwitcherEnter} onclick={openCountrySwitcherModal}>
+                                <!-- RWPS-3826 end -->
+                                <svg  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_23994_4933)">
+                                    <path d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM9.71 19.667C8.72341 17.5743 8.15187 15.3102 8.027 13H4.062C4.25659 14.5389 4.89392 15.9882 5.89657 17.1717C6.89922 18.3552 8.22401 19.2221 9.71 19.667ZM10.03 13C10.181 15.439 10.878 17.73 12 19.752C13.1523 17.6766 13.8254 15.3695 13.97 13H10.03ZM19.938 13H15.973C15.8481 15.3102 15.2766 17.5743 14.29 19.667C15.776 19.2221 17.1008 18.3552 18.1034 17.1717C19.1061 15.9882 19.7434 14.5389 19.938 13ZM4.062 11H8.027C8.15187 8.68979 8.72341 6.42569 9.71 4.333C8.22401 4.77788 6.89922 5.64475 5.89657 6.8283C4.89392 8.01184 4.25659 9.4611 4.062 11ZM10.031 11H13.969C13.8248 8.6306 13.152 6.32353 12 4.248C10.8477 6.32345 10.1746 8.63052 10.03 11H10.031ZM14.29 4.333C15.2766 6.42569 15.8481 8.68979 15.973 11H19.938C19.7434 9.4611 19.1061 8.01184 18.1034 6.8283C17.1008 5.64475 15.776 4.77788 14.29 4.333Z" fill="#03053D"></path>
+                                    </g>
+                                    <defs>
+                                    <clipPath id="clip0_23994_4933">
+                                        <rect width="24" height="24" fill="white"></rect>
+                                    </clipPath>
+                                    </defs>
+                                </svg>
+                                <span class="">{pageLocale}</span>
+                            </div>
+                            <a onclick={handleBackToHomePage} class="ecom-revvity-logo"   data-once="rvty-link-element" data-cta-link-name="">
+                                <!-- RWPS-3826 start -->
+                                <img
+                                class="guest-ecom-header-logo ecom-focussable"
+                                tabindex="0"
+                                onkeypress={handleBackToHomePageEnter}
+                                onclick={handleBackToHomePage}
+                                alt="Revvity Logo"
+                                src={images.logoimg}><!--guest-ecom-header-logo slds-m-top_xx-small-->
+                                <!-- RWPS-3826 end -->
+                            </a>
+                        </div>
+                    </div>
+                    <svg  lwc:ref="ecomSvg" class="ecom-bottomsvg" preserveAspectRatio="xMidYMid meet" fill="#fff" xmlns="http://www.w3.org/2000/svg" id="nav-separator-9" viewBox="0 0 1512 34">
+                        <path  id="nav-separator-path-9" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" path="M0 0H0" d="M 0 1 H 1209.6000000000001 c 2.312 0 4.418 1.3281 5.415 3.4141 l 11.338 23.7401 c 1.184 2.478 4.734 2.4122 5.824 -0.108 l 10.142 -23.4295 c 0.95 -2.1955 3.114 -3.6167 5.506 -3.6167 H 1512">
+                        </path>
+                    </svg>
+                    <svg fill="#fff" class="ecom-bottomsvg-mobile" xmlns="http://www.w3.org/2000/svg" id="ecom-nav-separator" viewBox="0 0 614.2857142857143 34" style="/* height: 23.8px; */">
+                        <path id="ecom-nav-separator-path" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" path="M0 0H0" d="M 0 1 H 491.4285714285715 c 2.312 0 4.418 1.3281 5.415 3.4141 l 11.338 23.7401 c 1.184 2.478 4.734 2.4122 5.824 -0.108 l 10.142 -23.4295 c 0.95 -2.1955 3.114 -3.6167 5.506 -3.6167 H 614.2857142857143"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--GAr punchout change-->
+    <div if:true={customerCareModal} class="demo-only">
+        <section role="dialog" tabindex="0" aria-modal="true"
+            aria-labelledby="prompt-heading-id"
+            aria-describedby="prompt-message-wrapper"
+            class="slds-modal slds-fade-in-open slds-modal_prompt">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h1 class="slds-text-heading_medium"
+                        id="prompt-heading-id"></h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium"
+                    id="prompt-message-wrapper">
+                    <p>{labels.ECOM_140004}</p>
+                </div>
+                <div class="slds-modal__footer slds-theme_default">
+                    <button onclick={closeCCModal}
+                        class="slds-button slds-button_neutral">Close</button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
+
+    <!-- Locale selector modal: Begin -->
+    <!-- <template if:true={isDisplayCountrySwitcherModal}>
+        <div class="ecom-modal-container">
+            <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class= "slds-modal slds-fade-in-open ecom-modal-background">
+                <div class="slds-modal__container ecom-countryselector-modal-width">
+
+                    <div class="slds-modal__header ecom-modal-header-noborder ecom-countryselector-modal-width">
+                        <div>
+                            <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-modal-closebtn" onclick={openCountrySwitcherModal}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        </div>
+                        <div class="ecom-padding-48 ecom-padding-top-48 ecom-padding-bottom-16">
+                            <div class="ecom-margin-46 ">
+                                <div class="ecom-modal-header-primary">
+                                    {labels.ECOM_LBL_REVVITYSITESGLOBALLY}
+                                </div>
+                                <div class="ecom-modal-header-secondary">
+                                    {labels.ECOM_LBL_SELECTYOURLOCATION}
+                                </div>
+                                <div>
+                                    <p><i>{labels.ECOM_LBL_ECOMMERCENOTAVAILABLE}</i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ecom-generic-container">
+                        <div class="slds-modal__content ecom-modal-noborder ecom-generic ecom-countryselector-modal-width">
+                            <div class="ecom-padding-48">
+                                <div class="ecom-y-axis-scrollable-auto-div ecom-x-axis-overflow-hidden ecom-max-height-400">
+                                    <div class="slds-grid slds-gutters slds-wrap">
+                                        <template for:each={countryLocaleList} for:item="item">
+                                            <div key={item.locale} class="slds-col slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                                                <div class="ecom-locale-item">
+                                                    <a class="ecom-display-flex ecom-hyperlink-black-text" data-key={item.key} data-loginblocked={item.isLoginBlocked}  onclick={handleLocaleChange}>
+                                                        <img src={item.icon}>
+                                                        <span class="ecom-display-flex">{item.country} <p lwc:if={item.isLoginBlocked}>*</p></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ecom-bottom-spacer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template> -->
+
+    <template if:true={isDisplayCountrySwitcherModal}>
+        <div  class="ecom-country-switcher-modal">
+            <div class="ecom-country-switcher">
+                <div lwc:ref="ecommodal" class="ecom-location-switcher-inner" tabindex="0">
+                    <div class="">
+                        <div lwc:if={isLocaleLoaded} class="ecom-modal-close-button"> <!--RWPS-3660 added locale condition-->
+                            <img src="https://www.revvity.com/modules/custom/lsdx_custom_exposed_components/images/close.svg" tabindex="0" onkeypress={handleCountrySwitcherEnter} onclick={openCountrySwitcherModal}>
+                            <!-- <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-modal-closebtn" onclick={openCountrySwitcherModal}> -->
+                                <!-- <svg onclick={openCountrySwitcherModal} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span class="slds-assistive-text">Close</span> -->
+                            <!-- </button> -->
+                        </div>
+
+                        <div class="ecom-modal-body-main">
+                            <div class="ecom-modal-header-top">
+                                <div class="ecom-modal-header-primary">
+                                    {labels.ECOM_LBL_REVVITYSITESGLOBALLY}
+                                </div>
+                                <div class="ecom-modal-header-secondary">
+                                    {labels.ECOM_LBL_SELECTYOURLOCATION}
+                                </div>
+                                <div class="ecom-italic-text">
+                                    <p ><i>{labels.ECOM_LBL_ECOMMERCENOTAVAILABLE}</i></p>
+                                </div>
+                            </div>
+                            <div lwc:ref="ecomModalBody" class="ecom-modal-body-content ">
+                                <div lwc:ref="ecomModalBodyInner" class="ecom-y-axis-scrollable-auto-div ecom-x-axis-overflow-hidden">
+                                    <div class="ecom-modal-country-switcher-wrapper">
+                                        <template for:each={countryLocaleList} for:item="item">
+                                            <div key={item.locale} class="ecom-modal-country-switcher-column">
+                                                <div class="ecom-locale-item">
+                                                    <a class="ecom-display-flex ecom-hyperlink-black-text" data-key={item.key} data-loginblocked={item.isLoginBlocked} onclick={handleLocaleChange} href="javascript:void(0);">
+                                                        <img src={item.icon}>
+                                                        <span class="ecom-display-flex ecom-text-weight-500">{item.country} <template lwc:if={item.isLoginBlocked}> *</template></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- <div class="slds-grid slds-gutters slds-wrap ecom-y-axis-scrollable-auto-div ecom-x-axis-overflow-hidden"> -->
+
+                                        <!-- <div key={item.locale} class="slds-col slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12"> -->
+                                            <!-- <div class="ecom-locale-item">
+                                                <a class="ecom-display-flex ecom-hyperlink-black-text" data-key={item.key} data-loginblocked={item.isLoginBlocked}  onclick={handleLocaleChange}>
+                                                    <img src={item.icon}>
+                                                    <span class="ecom-display-flex">{item.country} <p lwc:if={item.isLoginBlocked}>*</p></span>
+                                                </a>
+                                            </div> -->
+                                        <!-- </div> -->
+                                    <!-- </template> -->
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="ecom-modal-background">
+            <div class="ecom-modal-content">
+                test
+            </div>
+        </div> -->
+    </template>
+    <!-- Locale selector modal: end-->
+</template>

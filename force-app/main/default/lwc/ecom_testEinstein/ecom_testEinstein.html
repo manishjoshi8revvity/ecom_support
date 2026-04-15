@@ -1,0 +1,43 @@
+<template>
+  <div class="einstein-component-outer">
+    <div class="einstein-component" lwc:if={maxSlide}>
+      <p class="einsten-heading">Products similar to AL555S:</p>
+      <br>
+      <div class="einstein-outer">
+        <div class="einstein-flex" lwc:ref="flex">
+          <template for:each={products} for:item="product" for:index="index">
+            <div key={product.id} class="einstein-flex-outer">
+              <div class="einstein-flex-inner">
+                <img src={product.fields.ECOM_Product_Media_URI__c} alt="">
+                <div class="einstein-product-text">
+                  <div class="einstein-product-title">
+                    {product.fields.Product_Display_Name__c}
+                  </div>
+                  <div class="einstein-product-pn">
+                    {product.fields.Part_Number__c}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <div class="toggle-btns">
+        <div class="toggle-left" onclick={handleLeft} data-show={showLeft}>
+          <svg width="16" height="16" fill="#000" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+          </svg>
+        </div>
+
+        <div class="toggle-right" onclick={handleRight} data-show={showRight}>
+          <svg width="16" height="16" fill="#000" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </div>
+      </div>
+
+      <br><br>
+    </div>
+  </div>
+</template>

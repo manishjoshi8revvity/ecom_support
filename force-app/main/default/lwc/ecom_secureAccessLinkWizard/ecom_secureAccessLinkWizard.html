@@ -1,0 +1,74 @@
+<!--
+  @description       : This component is used to render the secure access link wizard that is displayed for punchout users to get the secure access link sent to their email.
+  @author            : Sachin Vispute
+  @story             : RWPS-5938
+  @last modified on  : 2026-03-16
+  @last modified by  : Sachin Vispute
+-->
+<template>
+
+    <!-- Component Loading Section -->
+    <template if:true={showSpinner}>
+        <div class="backdrop">
+            <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+            </lightning-spinner>
+        </div>
+    </template>
+
+    <!-- Secure Link Wizard Section -->
+    <div if:true={showComponent} class={cardStyling}>
+
+        <!-- Success or Error Message Section -->
+        <div if:true={displayMessage}>
+            <div class={messageStyling}>
+                <div>{messageText}</div>
+                <span class="ecom-close-button">
+                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size"
+                    aria-hidden="true" src={images.closeIcon} onclick={closePrompt}></span>
+            </div>
+        </div>
+
+        <!-- Header Section -->
+        <div class="ecom-header">
+            <div>
+                <div class="ecom-text-size-40 ecom-line-height-48">
+                    {labels.ECOM_Punchout_Login_Header}
+                </div>
+                <div class="email-font-styling slds-m-top_small">
+                    {labels.ECOM_Punchout_Login_Sub_Header}
+                </div>
+            </div>
+        </div>
+
+        <!-- User input Section -->
+        <div class="input-container">
+            <div if:true={showEmailContainer}>
+                <!--UserName-->
+                <div class="ecom-padding-bottom-32">
+                    <div class="email-font-styling ecom-line-height-30">{labels.ECOM_Punchout_Login_Email_Instructions}
+                    </div>
+                    <div class="ecom-margin-bottom-4 slds-m-top_xx-small">
+                        <label class="ecom-detail-text-18 ecom-font-weight-400"
+                            for="username-input">{labels.ECOM_LBL_EMAILADDRESS} *</label>
+                    </div>
+                    <div>
+                        <input type="text" name="username" id="username-input" value={userEmail} required
+                            class='slds-input' onfocusout={validateUserName}></input>
+                        <div lwc:if={usernameError} class="ecom-error-text">{usernameErrorMessage}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button if:true={showLoginButton} lwc:ref="loginBtn" class="ecom-login" onclick={handleUserLogin}
+                    onkeypress={handleEnter}>
+                    <span>{labels.ECOM_Punchout_Login_Magic_Link_Button_Label}</span>
+                </button>
+                <div if:false={showLoginButton} class="ecom-email-sent">
+                    <span>{labels.ECOM_Punchout_Login_Email_Sent_Message}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>

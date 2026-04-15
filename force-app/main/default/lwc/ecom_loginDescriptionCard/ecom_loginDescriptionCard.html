@@ -1,0 +1,190 @@
+<template>
+
+    <div lwc:if={isLoginPage} class="ecom-secondary-card ecom-cards-vertical-styling ecom-text-color-default ">
+        <div class="ecom-margin-bottom-16 ecom-text-weight-500 ecom-text-size-24 ecom-line-height-32 ecom-text-color-default">
+            {cardHeader}
+        </div>
+        <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-text-color-default ecom-font-weight-400">
+            <!-- {labels.ECOM_LBL_REGISTERFORADVANCEOPTIONS} -->
+            {customerAdvantageMessage}
+        </div>
+         <!--RWPS-2656 begin-->
+        <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_EXCLUSIVEPRICING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.priceTag} alt={labels.ECOM_LBL_EXCLUSIVEPRICING} class=""></div> <div>{labels.ECOM_LBL_EXCLUSIVEPRICING}</div>
+        </div>
+         <!--RWPS-2656 end-->
+         <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_CUSTOMERSPECIFICPRICING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.tag} alt={labels.ECOM_LBL_CUSTOMERSPECIFICPRICING}></div> <div>{labels.ECOM_LBL_CUSTOMERSPECIFICPRICING}</div>
+        </div>
+        <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_EASYREORDERING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.heart} alt={labels.ECOM_LBL_EASYREORDERING}></div> <div>{labels.ECOM_LBL_EASYREORDERING}</div>
+        </div>
+        <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_PRIORITYORDERPROCESSING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.clock} alt={labels.ECOM_LBL_PRIORITYORDERPROCESSING}></div> <div> {labels.ECOM_LBL_PRIORITYORDERPROCESSING}</div>
+        </div>
+        <div class="ecom-text-size-18 ecom-line-height-28 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_DYNAMICORDERTRACKING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.truck} alt={labels.ECOM_LBL_DYNAMICORDERTRACKING}></div> <div> {labels.ECOM_LBL_DYNAMICORDERTRACKING}</div>
+        </div>
+
+        <template lwc:if={isLoginPage}>
+            <div class="ecom-margin-top-32 ecom-text-color-default">
+                <!-- RWPS-5367 -->
+                <a href={RegistrationPage.registrationURL} onclick={handleNavigateToRegistration} class="ecom-card-button" >{labels.ECOM_LBL_CREATEANACCOUNT}</a>
+            </div>
+        </template>
+
+        <template lwc:if={isLoginPage}>
+            <div class="ecom-login-page-bottom">
+                <div class="ecom-line-height-28 ecom-text-overflow-wrap-anywhere">
+                    <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-text-color-default ecom-line-height-24"><b>{labels.ECOM_LBL_HAVINGTROUBLELOGGINGIN}</b></div>
+                    <span class="ecom-text-size-16  ecom-text-color-default ecom-margin-top-20 ecom-line-height-24">{labels.ECOM_LBL_PLEASECONTACT} <a href={mailToSupportEmail} class="ecom-support-email-link ecom-text-weight-600">
+                        {labels.ECOM_LBL_SUPPORTEMAIL}
+                    </a> </span>
+                </div>
+            </div>
+        </template>
+
+    </div>
+
+
+    <!-- <template lwc:if={displayContactSupportCard}>
+        <div class={registrationPageStylingClass}>
+            <div class="ecom-tertiary-card ecom-line-height-28 ecom-text-overflow-wrap-anywhere">
+                <div lwc:if={isRegistrationPage} class="ecom-margin-bottom-16 ecom-text-color-default ecom-text-weight-500">{secondaryCardTitle}</div>
+                <div lwc:else class="ecom-margin-bottom-16 ecom-text-color-default"><b>{secondaryCardTitle}</b></div>
+                <span class="ecom-text-size-16 ecom-font-weight-400 ecom-text-color-default">{labels.ECOM_LBL_PLEASECONTACT} <a href={mailToSupportEmail} class="ecom-support-email-link ecom-text-weight-600">
+                    {labels.ECOM_LBL_SUPPORTEMAIL}
+                </a> </span>
+            </div>
+        </div>
+    </template> -->
+
+    <!--Registration Page: begin-->
+    <template lwc:if={isRegistrationPage}>
+        <div class="ecom-secondary-card ecom-cards-vertical-styling ecom-text-color-default ">
+            <div class="ecom-margin-bottom-16 ecom-text-weight-500 ecom-text-size-24 ecom-line-height-32 ecom-text-color-default">
+                {labels.ECOM_LBL_ACCOUNTBENEFITS}
+            </div>
+            <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-text-color-default ecom-font-weight-400">
+                <!-- {labels.ECOM_LBL_REGISTERFORADVANCEOPTIONS} -->
+                {customerAdvantageMessage}
+            </div>
+             <!--RWPS-2656 begin-->
+             <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_EXCLUSIVEPRICING}>
+                <!-- RWPS-3826 -->
+                <div><img src={images.priceTag} alt={labels.ECOM_LBL_EXCLUSIVEPRICING}></div> <div>{labels.ECOM_LBL_EXCLUSIVEPRICING}</div>
+            </div>
+             <!--RWPS-2656 end-->
+             <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_CUSTOMERSPECIFICPRICING}>
+                <!-- RWPS-3826 -->
+                <div><img src={images.tag} alt={labels.ECOM_LBL_CUSTOMERSPECIFICPRICING}></div> <div>{labels.ECOM_LBL_CUSTOMERSPECIFICPRICING}</div>
+            </div>
+            <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_EASYREORDERING}>
+                <!-- RWPS-3826 -->
+                <div><img src={images.heart} alt={labels.ECOM_LBL_EASYREORDERING}></div> <div>{labels.ECOM_LBL_EASYREORDERING}</div>
+            </div>
+            <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_PRIORITYORDERPROCESSING}>
+                <!-- RWPS-3826 -->
+                <div><img src={images.clock} alt={labels.ECOM_LBL_PRIORITYORDERPROCESSING}></div> <div> {labels.ECOM_LBL_PRIORITYORDERPROCESSING}</div>
+            </div>
+            <div class="ecom-text-size-18 ecom-line-height-28 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_DYNAMICORDERTRACKING}>
+                <!-- RWPS-3826 -->
+                <div><img src={images.truck} alt={labels.ECOM_LBL_DYNAMICORDERTRACKING}></div> <div> {labels.ECOM_LBL_DYNAMICORDERTRACKING}</div>
+            </div>
+        </div>
+        <div class="ecom-bottom-card ecom-text-size-24">
+            <div class="ecom-margin-top-32">
+                <div class="ecom-tertiary-card ecom-max-width-435 ecom-forgot-password-page ecom-line-height-28 ecom-text-overflow-wrap-anywhere">
+                    <div class="ecom-text-size-24 ecom-text-weight-500 ecom-margin-bottom-16 ecom-text-color-default ecom-line-height-32">{labels.ECOM_LBL_HAVINGTROUBLE}</div>
+                    <div class="ecom-text-size-16 ecom-font-weight-400 ecom-text-color-default ecom-line-height-24">{labels.ECOM_LBL_PLEASECONTACT} <a href={mailToSupportEmail} class="ecom-support-email-link ecom-text-weight-600 ecom-registration-content-line-height">
+                        {labels.ECOM_LBL_SUPPORTEMAIL}
+                    </a> </div>
+                </div>
+
+            </div>
+        </div>
+    </template>
+    <!--Registration Page: end-->
+
+    <!--forgot password page: begin -->
+    <template lwc:if={isForgotPasswordPage}>
+        <div class="">
+            <div class="ecom-text-size-18 ">
+                <div class="ecom-tertiary-card ecom-max-width-435 ecom-forgot-password-page ecom-line-height-28 ecom-text-overflow-wrap-anywhere">
+                    <div class="ecom-text-color-default"><b>{secondaryCardTitle}</b></div>
+                    <span class=" ecom-font-weight-400 ecom-text-color-default">{labels.ECOM_LBL_PLEASECONTACT} <a href={mailToSupportEmail} class="ecom-support-email-link ecom-text-weight-600">
+                        {labels.ECOM_LBL_SUPPORTEMAIL}
+                    </a> </span>
+                </div>
+            </div>
+        </div>
+
+    </template>
+    <!--forgot password page: end -->
+
+    <!--Having trouble card: begin -->
+    <template lwc:if={isHavingTroubleCard}>
+
+        <div class="ecom-margin-top-32">
+            <div class="ecom-tertiary-card ecom-max-width-435 ecom-forgot-password-page ecom-line-height-28 ecom-text-overflow-wrap-anywhere">
+                <div class="ecom-text-size-24 ecom-text-weight-500 ecom-margin-bottom-16 ecom-text-color-default">{labels.ECOM_LBL_HAVINGTROUBLE}</div>
+                <span class=" ecom-font-weight-400 ecom-text-color-default">{labels.ECOM_LBL_PLEASECONTACT} <a href={mailToSupportEmail} class="ecom-support-email-link ecom-text-weight-600">
+                    {labels.ECOM_LBL_SUPPORTEMAIL}
+                </a> </span>
+            </div>
+        </div>
+    </template>
+    <!--Having trouble card: end -->
+
+    <!--password reset page: begin-->
+    <div lwc:if={isResetPasswordpage} class="ecom-secondary-card ecom-cards-vertical-styling ecom-text-color-default ">
+        <div class="ecom-margin-bottom-16 ecom-text-weight-500 ecom-text-size-24 ecom-reset-password-line-height-32 ecom-text-color-default">
+            {labels.ECOM_LBL_ACCOUNTBENEFITS}
+        </div>
+        <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-reset-password-line-height-28 ecom-text-color-default ecom-font-weight-400">
+            <!-- {labels.ECOM_LBL_REGISTERFORADVANCEOPTIONS} -->
+            {customerAdvantageMessage}
+        </div>
+        <!--RWPS-2656 begin-->
+        <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28 ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_EXCLUSIVEPRICING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.priceTag} alt={labels.ECOM_LBL_EXCLUSIVEPRICING}></div> <div>{labels.ECOM_LBL_EXCLUSIVEPRICING}</div>
+        </div>
+        <!--RWPS-2656 end-->
+        <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28  ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_CUSTOMERSPECIFICPRICING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.tag} alt={labels.ECOM_LBL_CUSTOMERSPECIFICPRICING}></div> <div>{labels.ECOM_LBL_CUSTOMERSPECIFICPRICING}</div>
+        </div>
+        <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28  ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_EASYREORDERING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.heart} alt={labels.ECOM_LBL_EASYREORDERING}></div> <div>{labels.ECOM_LBL_EASYREORDERING}</div>
+        </div>
+        <div class="ecom-margin-bottom-16 ecom-text-size-18 ecom-line-height-28  ecom-icon-column ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_PRIORITYORDERPROCESSING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.clock} alt={labels.ECOM_LBL_PRIORITYORDERPROCESSING}></div> <div> {labels.ECOM_LBL_PRIORITYORDERPROCESSING}</div>
+        </div>
+        <div class="ecom-text-size-18  ecom-icon-column ecom-line-height-28 ecom-text-color-default ecom-font-weight-400" lwc:if={labels.ECOM_LBL_DYNAMICORDERTRACKING}>
+            <!-- RWPS-3826 -->
+            <div><img src={images.truck} alt={labels.ECOM_LBL_DYNAMICORDERTRACKING}></div> <div> {labels.ECOM_LBL_DYNAMICORDERTRACKING}</div>
+        </div>
+    </div>
+    <!--password reset page: end-->
+
+    <template lwc:if={isDisplayOmvicsCard}>
+        <div class="ecom-omvics-container ecom-max-width-464">
+            <h5>{labels.ECOM_LBL_OMVICSPORTALACCOUNTS}</h5>
+            <p>{labels.ECOM_LBL_OMVICSDESCRIPTION}</p>
+            <div class="ecom-omvics-margin-top-24">
+                <a href={labels.ECOM_LBL_OMVICSPORTALLINK} class="ecom-omvics-portal-button hover-underline-animation">{labels.ECOM_LBL_VIEWLOGINOPTIONS}</a>
+            </div>
+        </div>
+    </template>
+
+
+
+</template>

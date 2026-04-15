@@ -1,0 +1,545 @@
+<template>
+    <template if:true={contractPricesFetched}>
+        <template if:true={showSpinner}>
+            <div class="spinner-style">
+                <lightning-spinner></lightning-spinner>
+            </div>
+        </template>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open"   aria-modal="true" aria-labelledby="modal-heading"><!--RWPS-5284-->
+            <div class="slds-modal__container custom-width">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleCloseModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <c-ecom_inline-message type={type} message={message} show={show}
+                        onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message>
+                    <template if:true={cartitems}>
+                        <template for:each={cartitems} for:item="item" for:index="index">
+                            <template if:true={item.cartItem.isVisible}>
+                                <template if:true={item.cartItem.isDiscontinued}>
+                                    <div key={item.cartItem.cartItemId} class={discontinuedMain}>
+                                        <span class={textDiscountinue}>
+                                            <svg class="ecom-svg" width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_43796_11484)">
+                                                    <path
+                                                        d="M2.84367 13.6562C2.07959 12.9182 1.47013 12.0354 1.05086 11.0594C0.63159 10.0834 0.4109 9.03361 0.401669 7.97137C0.392439 6.90914 0.594852 5.8557 0.997099 4.87253C1.39935 3.88936 1.99337 2.99614 2.74451 2.245C3.49565 1.49386 4.38887 0.899835 5.37204 0.497588C6.35521 0.0953406 7.40865 -0.107073 8.47088 -0.0978425C9.53312 -0.0886119 10.5829 0.132078 11.5589 0.55135C12.5349 0.970622 13.4177 1.58008 14.1557 2.34416C15.6129 3.85298 16.4193 5.8738 16.4011 7.97137C16.3828 10.0689 15.5415 12.0754 14.0582 13.5587C12.575 15.042 10.5685 15.8833 8.47088 15.9016C6.37331 15.9198 4.35249 15.1134 2.84367 13.6562ZM13.0277 12.5282C14.2286 11.3273 14.9032 9.69849 14.9032 8.00016C14.9032 6.30183 14.2286 4.67306 13.0277 3.47216C11.8268 2.27126 10.198 1.5966 8.49967 1.5966C6.80134 1.5966 5.17257 2.27126 3.97167 3.47216C2.77077 4.67306 2.09611 6.30183 2.09611 8.00016C2.09611 9.69849 2.77077 11.3273 3.97167 12.5282C5.17257 13.7291 6.80134 14.4037 8.49967 14.4037C10.198 14.4037 11.8268 13.7291 13.0277 12.5282ZM7.69967 4.00016H9.29967V8.80016H7.69967V4.00016ZM7.69967 10.4002H9.29967V12.0002H7.69967V10.4002Z"
+                                                        fill="#DC0101" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_43796_11484">
+                                                        <rect width="16" height="16" fill="white"
+                                                            transform="translate(0.5)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                            <span class="ecom-text-product">{labels.ECOM_Discontinued_Message} </span>
+                                            <a href={labels.ECOM_Contact_Us_Url}>Contact us</a> if you need help</span>
+                                    </div>
+                                </template>
+                                <div key={item.cartItem.cartItemId} style="background-color:#FBFBFB;border-radius: inherit;"
+                                    class="product-card">
+                                    <div class="product-card-flex">
+                                        <!-- RWPS-4777 -->
+                                        <div
+                                            class=" slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_2-of-12 product-image-container">
+                                            <span class="ecom-prod-img">
+                                                <img alt="Product image"
+                                                    if:true={item.cartItem.productDetails.fields.ECOM_Product_Media_URI__c}
+                                                    src={item.cartItem.productDetails.fields.ECOM_Product_Media_URI__c}>
+                                            </span>
+                                        </div>
+                                        <!-- RWPS-4777 -->
+                                        <div
+                                            class="slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 information-container product-details-container">
+                                            <lightning-formatted-rich-text value={item.cartItem.name} tabindex="0"
+                                                class="ecom-prod-name">
+                                            </lightning-formatted-rich-text>
+                                            <div class="ecom-prod-desc">
+
+                                                <div if:true={item.cartItem.productDetails.fields.Part_Number__c}>
+                                                    <span class="cart-product-details">{labels.ECOM_PartNumber}: </span>
+                                                    <span
+                                                        class="cart-product-details maxCss">{item.cartItem.productDetails.fields.Part_Number__c}</span>
+                                                </div>
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- RWPS-3749 -->
+                                         <!-- RWPS-4777 -->
+                                        <div if:true={item.cartItem.isDiscontinued} class="slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-small-size_4-of-12 container product-pricing-container">
+                                            <div class="card-discontinued-label label-container" title={labels.discontinuedTooltipText}>
+                                                <span>
+                                                    <svg tabindex="0" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                                                        <path
+                                                            d="M2.59465 13.6566C1.83057 12.9187 1.22111 12.0359 0.801838 11.0599C0.382566 10.0839 0.161876 9.03409 0.152646 7.97186C0.143415 6.90962 0.345829 5.85619 0.748076 4.87302C1.15032 3.88985 1.74435 2.99663 2.49549 2.24549C3.24663 1.49435 4.13985 0.900323 5.12302 0.498076C6.10619 0.0958289 7.15962 -0.106585 8.22186 -0.0973542C9.28409 -0.0881237 10.3339 0.132566 11.3099 0.551838C12.2859 0.97111 13.1687 1.58057 13.9066 2.34465C15.3639 3.85347 16.1703 5.87428 16.152 7.97186C16.1338 10.0694 15.2925 12.0759 13.8092 13.5592C12.3259 15.0425 10.3194 15.8838 8.22186 15.902C6.12428 15.9203 4.10347 15.1139 2.59465 13.6566ZM12.7786 12.5286C13.9795 11.3277 14.6542 9.69898 14.6542 8.00065C14.6542 6.30232 13.9795 4.67355 12.7786 3.47265C11.5777 2.27175 9.94898 1.59709 8.25065 1.59709C6.55232 1.59709 4.92355 2.27175 3.72265 3.47265C2.52175 4.67355 1.84709 6.30232 1.84709 8.00065C1.84709 9.69898 2.52175 11.3277 3.72265 12.5286C4.92355 13.7295 6.55232 14.4042 8.25065 14.4042C9.94898 14.4042 11.5777 13.7295 12.7786 12.5286ZM7.45065 4.00065H9.05065V8.80065H7.45065V4.00065ZM7.45065 10.4006H9.05065V12.0006H7.45065V10.4006Z"
+                                                            fill="#DC0101"
+                                                        />
+                                                    </svg>
+                                                </span>
+                                                <i class="card-discontinued-label">{labels.discontinuedText}</i>
+                                            </div>
+                                        </div>
+                                        <!-- RWPS-3749 -->
+                                    </div>
+                                    <!-- RWPS-4777 -->
+                                    <div class="product-card-flex">
+                                        <!-- RWPS-4777 -->
+                                        <div class=" slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_2-of-12 product-image-container">
+                                            <div class="div-one">
+                                            </div>
+                                        </div>
+                                        <!-- RWPS-4777 -->
+                                        <div class="slds-size_5-of-12 slds-large-size_5-of-12 slds-medium-size_5-of-12 slds-small-size_5-of-12 information-container product-details-container">
+                                            <div class="div-two">
+                                                <div if:false={device.isMobile}>
+                                                    <!-- RWPS-4777 -->
+                                                    <button data-index={index} class="slds-button responsive-font" data-discontinuedproduct={item.cartItem.cartItemId}
+                                                        aria-live="assertive" aria-pressed="true"
+                                                        onclick={handleDeleteCartItem}>
+                                                        <span
+                                                            class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                                            <img class="slds-button__icon slds-button__icon_large slds-button__icon_left ecom-btn-remove-icon-size"
+                                                                aria-hidden="true" src={images.deleteimg}>
+                                                            {labels.ECOM_Remove}</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-size_5-of-12 slds-large-size_5-of-12 slds-medium-size_5-of-12 slds-small-size_5-of-12 information-container product-price-container">
+                                            <div class="div-three">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- RWPS-4777 -->
+                                </div>
+                            </template>
+                            <div if:true={item.cartItem.isVisible} class="replacement-main" key={item.cartItem.cartItemId}>
+                                <span>
+                                    <svg width="17" height="20" viewBox="0 0 17 20" fill="none">
+                                        <path
+                                            d="M10.242 14.59L8.83203 16L12.832 20L16.832 16L15.422 14.59L13.832 16.17L13.832 1H11.832L11.832 16.17L10.242 14.59ZM7.42203 5.41L8.83203 4L4.83203 0L0.832031 4L2.24203 5.41L3.83203 3.83L3.83203 19H5.83203L5.83203 3.83L7.42203 5.41Z"
+                                            fill="black" />
+                                    </svg>
+                                </span>
+                                <!--RWPS-4777 - START-->
+                                <template if:true={item.childDetails.DirectReplacement}>
+                                    <span class="replacement-text">{labels.replacementText}</span>
+                                </template>
+                                <template if:false={item.childDetails.DirectReplacement}>
+                                 <template if:true={item.childDetails.AlternativeReplacements}>
+                                    <span class="replacement-text">{labels.replacementAlternativeText}</span>
+                                </template>
+                                </template>
+                                <!--RWPS-4777 - END-->
+                                <span>
+                                    <svg width="17" height="20" viewBox="0 0 17 20" fill="none">
+                                        <path
+                                            d="M10.242 14.59L8.83203 16L12.832 20L16.832 16L15.422 14.59L13.832 16.17L13.832 1H11.832L11.832 16.17L10.242 14.59ZM7.42203 5.41L8.83203 4L4.83203 0L0.832031 4L2.24203 5.41L3.83203 3.83L3.83203 19H5.83203L5.83203 3.83L7.42203 5.41Z"
+                                            fill="black" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <!-- Start here child items -->
+                            <template if:true={item.cartItem.isVisible}>
+
+                                <template if:true={item.childDetails.DirectReplacement}>
+                                    <div key={item.cartItem.cartItemId} class="product-card">
+                                        <div class="product-card-flex">
+                                            <!-- RWPS-4777 -->
+                                            <div
+                                                class=" slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_2-of-12 product-image-container">
+                                                <span class="ecom-prod-img">
+                                                    <img alt="Product image"
+                                                        if:true={item.childDetails.DirectReplacement.ECOM_Product_Media_URI__c}
+                                                        src={item.childDetails.DirectReplacement.ECOM_Product_Media_URI__c}>
+                                                </span>
+                                            </div>
+                                            <!-- RWPS-4777 -->
+                                            <div
+                                                class="slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 information-container product-details-container">
+
+                                                <lightning-formatted-rich-text
+                                                    value={item.childDetails.DirectReplacement.Name} tabindex="0"
+                                                    class="ecom-prod-name">
+                                                </lightning-formatted-rich-text>
+                                                <div class="ecom-prod-desc">
+                                                    <div if:true={item.childDetails.DirectReplacement.Part_Number__c}>
+                                                        <span class="cart-product-details">List Price: </span>
+                                                        <!--RWPS-4777 Start-->
+                                                        <span if:false={isPriceFetched}
+                                                            class="cart-product-details">{labels.contractPriceLoading} </span>
+                                                        <lightning-formatted-number if:true={isPriceFetched}
+                                                            class="pricing-information"
+                                                            value={item.childDetails.DirectReplacement.listPrice}
+                                                            format-style="currency" minimum-fraction-digits="2"
+                                                            maximum-fraction-digits="20"
+                                                            currency-code={item.cartItem.currencyIsoCode}
+                                                            currency-display-as={currencyDisplayAs}>
+                                                        </lightning-formatted-number>
+                                                    </div>
+                                                    <!--RWPS-4777 END-->
+                                                    <div if:true={item.childDetails.DirectReplacement.Part_Number__c}>
+                                                        <span class="cart-product-details">{labels.ECOM_PartNumber}: </span>
+                                                        <span
+                                                            class="cart-product-details maxCss">{item.childDetails.DirectReplacement.Part_Number__c}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class={cartPriceBoxCSS}>
+
+                                                <div class="ecom-prod-pricebox">
+                                                    <div class="cart-product-price">
+                                                        <!--RWPS-4777 START-->
+                                                        <span if:false={isPriceFetched}
+                                                            class="cart-product-details">{labels.contractPriceLoading}</span>
+                                                        <lightning-formatted-number if:true={isPriceFetched}
+                                                            value={item.childDetails.DirectReplacement.contractprice}
+                                                            format-style="currency" minimum-fraction-digits="2"
+                                                            maximum-fraction-digits="20"
+                                                            currency-code={item.cartItem.currencyIsoCode}
+                                                            currency-display-as={currencyDisplayAs}>
+                                                        </lightning-formatted-number>
+                                                    </div>
+                                                    <div if:false={device.isMobile} class="price-format">
+                                                        <div class="cart-product-price-small">
+                                                            <template if:true={isPriceFetched}>
+                                                                <lightning-formatted-number
+                                                                    value={item.childDetails.DirectReplacement.contractprice}
+                                                                    maximum-fraction-digits="20"
+                                                                    currency-code={item.cartItem.currencyIsoCode}
+                                                                    format-style="currency"
+                                                                    currency-display-as={currencyDisplayAs}
+                                                                    minimum-fraction-digits="2">
+                                                                </lightning-formatted-number>
+                                                                &nbsp;/{labels.ECOM_Each}
+                                                            </template>
+                                                             <!--RWPS-4777 END-->
+                                                        </div>
+                                                    </div>
+                                                    <div class={cardQuantityCSS}>
+                                                        <div class="slds-form-element__control ecom-qty-ctr-border">
+                                                         <!-- RWPS-4874 -->
+                                                            <button  data-index={index} 
+                                                                class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement ecom-btn-decrement-counter"
+                                                                title="Decrement counter" onclick={handleQuantityDecrement}
+                                                                disabled={isCartDisabled}>
+                                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                                    <use
+                                                                        xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#dash">
+                                                                    </use>
+                                                                </svg>
+                                                                <span class="slds-assistive-text">Decrement counter</span>
+                                                            </button>
+                                                            <!-- RWPS-4874 START -->
+                                                            <input data-index={index} type="number" id={item.cartItem.cartItemId} 
+                                                                disabled={isCartDisabled} placeholder="1" min={minQuantity}
+                                                                max={maxQuantity} value={item.carouselStatus.prodQty}
+                                                                class="slds-input slds-input_counter"
+                                                                onchange={handleQuantityChange} />
+
+                                                            <button data-index={index} disabled={isCartDisabled}
+                                                                class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment ecom-btn-increment-counter"
+                                                                title="Increment counter" onclick={handleQuantityIncrement}>
+                                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                                    <use
+                                                                        xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add">
+                                                                    </use>
+                                                                </svg>
+                                                                <span class="slds-assistive-text">Increment counter</span>
+                                                            </button>
+                                                            <!-- RWPS-4874 END -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- RWPS-4777 -->
+                                        <div class="product-card-flex">
+                                            <!-- RWPS-4777 -->
+                                            <div class=" slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_2-of-12 product-image-container">
+                                                <div class="div-one">
+                                                </div>
+                                            </div>
+                                            <!-- RWPS-4777 -->
+                                            <div class="slds-size_5-of-12 slds-large-size_4-of-12 slds-medium-size_5-of-12 slds-small-size_5-of-12 information-container product-details-container">
+                                                <div class="div-two">
+                                                    <template if:false={item.childDetails.DirectReplacement.isWishlisted}>
+                                                        <button class="slds-button" aria-live="assertive" aria-pressed="true"  data-productid={item.childDetails.DirectReplacement.Id} data-productname={item.childDetails.DirectReplacement.Name} data-source="direct" data-index={index}
+                                                            onclick={handleAddToFavourite}>
+                                                            <span
+                                                                class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                                                <img class="slds-button__icon slds-button__icon_large slds-button__icon_left ecom-btn-favorites-icon-size"
+                                                                    aria-hidden="true" src={images.favoriteimg}>
+                                                                {labels.ECOM_SaveToFavorites}</span>
+                                                        </button>
+                                                    </template>
+                                                    <template if:true={item.childDetails.DirectReplacement.isWishlisted}>
+                                                        <button class="slds-button responsive-font" aria-live="assertive" aria-pressed="true" data-productid={item.childDetails.DirectReplacement.Id}
+                                                            data-source="direct" data-index={index} onclick={handleRemoveFromFavourite}>
+                                                            <span
+                                                                class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                                                <img class="slds-button__icon slds-button__icon_large slds-button__icon_left ecom-btn-favorites-icon-size"
+                                                                    aria-hidden="true" src={images.filledfavorite}>
+                                                                {labels.ECOM_Remove_Favorites}</span>
+                                                        </button>
+                                                    </template>
+                                                </div>
+                                            </div>
+
+                                            <div class="slds-size_5-of-12 slds-large-size_6-of-12 slds-medium-size_5-of-12 slds-small-size_5-of-12 information-container product-price-container">
+                                                <div class="div-three">
+                                                    <div class="btn-main">
+                                                        <button class="btn-view-detail" onclick={navigateToPDP}  data-url={item.childDetails.DirectReplacement.DisplayUrl}> 
+                                                            <span class="btn-text-view">View Details</span>
+                                                        </button>
+                                                         <!-- RWPS-4874 START -->
+                                                         <button if:true={isCartDisabled} disabled={isCartDisabled} class="btn-add-to-cart-disabled" data-discontinuedproduct={item.cartItem.cartItemId}
+                                                                 data-index={index} onclick={handleAddToCart}>
+                                                                <span class="btn-text-add-to-cart">Add to Cart</span>
+                                                        </button>
+                                                        <button if:false={isCartDisabled} disabled={isCartDisabled} data-id={item.childDetails.DirectReplacement.Id} data-discontinuedproduct={item.cartItem.cartItemId} data-index={index}
+                                                            class="btn-add-to-cart" onclick={handleAddToCart}>
+                                                            <span class="btn-text-add-to-cart">Add to Cart</span>
+                                                        </button>
+                                                         <!-- RWPS-4874 END -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- end here child items -->
+                                <!-- Alternative replacement starts here -->
+                                <template if:true={item.childDetails.AlternativeReplacements}>
+                                    <div key={item.cartItem.cartItemId} class="carousel-container">
+
+                                        <template for:each={item.childDetails.AlternativeReplacements} for:item="alt">
+                                             <div key={item.cartItem.cartItemId} style={item.carouselStatus.slideStyle} class="product-card"> <!--RWPS-4874-->
+                                                <div class="product-card-flex">
+                                                    <!-- RWPS-4777 -->
+                                                    <div
+                                                        class="slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_2-of-12 .product-image-container">
+                                                        <span class="ecom-prod-img">
+                                                            <img alt="Product image" if:true={alt.ECOM_Product_Media_URI__c}
+                                                                src={alt.ECOM_Product_Media_URI__c}>
+                                                        </span>
+                                                    </div>
+                                                    <!-- RWPS-4777 -->
+                                                    <div
+                                                        class="slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 information-container product-details-container">
+
+                                                        <lightning-formatted-rich-text value={alt.Name} tabindex="0"
+                                                            class="ecom-prod-name">
+                                                        </lightning-formatted-rich-text>
+                                                        <div class="ecom-prod-desc">
+                                                            <div if:true={alt.Part_Number__c}>
+                                                                <span class="cart-product-details">List Price: </span>
+                                                                <!--RWPS-4777 START-->
+                                                                <span if:false={isPriceFetched}
+                                                                    class="cart-product-details">{labels.contractPriceLoading}
+                                                                </span>
+                                                                <lightning-formatted-number if:true={isPriceFetched}
+                                                                    class="pricing-information"
+                                                                    value={alt.listPrice} format-style="currency"
+                                                                    minimum-fraction-digits="2"
+                                                                    maximum-fraction-digits="20"
+                                                                    currency-code={item.cartItem.currencyIsoCode}
+                                                                    currency-display-as={currencyDisplayAs}>
+                                                                </lightning-formatted-number>
+                                                            </div>
+                                                            <!--RWPS-4777 END-->
+
+                                                            <div if:true={alt.Part_Number__c}>
+                                                                <span class="cart-product-details">{labels.ECOM_PartNumber}: </span>
+                                                                <span
+                                                                    class="cart-product-details maxCss">{alt.Part_Number__c}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class={cartPriceBoxCSS}>
+
+                                                        <div class="ecom-prod-pricebox">
+                                                            <div class="cart-product-price">
+                                                                <!--RWPS-4777 START-->
+                                                                <span if:false={isPriceFetched}
+                                                                    class="cart-product-details">{labels.contractPriceLoading}
+                                                                </span>
+                                                                <lightning-formatted-number if:true={isPriceFetched}
+                                                                    value={alt.contractprice} format-style="currency"
+                                                                    minimum-fraction-digits="2"
+                                                                    maximum-fraction-digits="20"
+                                                                    currency-code={item.cartItem.currencyIsoCode}
+                                                                    currency-display-as={currencyDisplayAs}>
+                                                                </lightning-formatted-number>
+                                                            </div>
+                                                            <div if:false={device.isMobile} class="price-format">
+                                                                <div class="cart-product-price-small">
+                                                                    <template if:true={isPriceFetched}>
+                                                                        <lightning-formatted-number
+                                                                            value={alt.contractprice}
+                                                                            maximum-fraction-digits="20"
+                                                                            currency-code={item.cartItem.currencyIsoCode}
+                                                                            format-style="currency"
+                                                                            currency-display-as={currencyDisplayAs}
+                                                                            minimum-fraction-digits="2">
+                                                                        </lightning-formatted-number>
+                                                                        &nbsp;/{labels.ECOM_Each}
+                                                                    </template>
+                                                                </div>
+                                                            </div>
+                                                             <!--RWPS-4777 END-->
+                                                            <div class={cardQuantityCSS}>
+                                                                <div class="slds-form-element__control ecom-qty-ctr-border">
+                                                                <!-- RWPS-4874 START -->
+                                                                    <button data-index={index}
+                                                                        class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement ecom-btn-decrement-counter"
+                                                                        title="Decrement counter"
+                                                                        onclick={handleQuantityDecrement}
+                                                                        disabled={isCartDisabled}>
+                                                                        <svg class="slds-button__icon" aria-hidden="true">
+                                                                            <use
+                                                                                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#dash">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <span class="slds-assistive-text">Decrement
+                                                                            counter</span>
+                                                                    </button>
+                                                                    <input data-index={index} type="number" id={item.cartItem.cartItemId}
+                                                                        disabled={isCartDisabled} placeholder="1"
+                                                                        min={minQuantity} max={maxQuantity} value={item.carouselStatus.prodQty}
+                                                                        class="slds-input slds-input_counter"
+                                                                        onchange={handleQuantityChange} />
+
+                                                                    <button data-index={index} disabled={isCartDisabled}
+                                                                        class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment ecom-btn-increment-counter"
+                                                                        title="Increment counter"
+                                                                        onclick={handleQuantityIncrement}>
+                                                                        <svg class="slds-button__icon" aria-hidden="true">
+                                                                            <use
+                                                                                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <span class="slds-assistive-text">Increment
+                                                                            counter</span>
+                                                                    </button>
+                                                                    <!-- RWPS-4874 END -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="product-card-flex">
+                                                    <!-- RWPS-4777 -->
+                                                    <div class=" slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_2-of-12 product-image-container">
+                                                        <div class="div-one">
+                                                        </div>
+                                                    </div>
+                                                    <!-- RWPS-4777 -->
+                                                    <div class="slds-size_5-of-12 slds-large-size_4-of-12 slds-medium-size_5-of-12 slds-small-size_5-of-12 information-container product-details-container">
+                                                        <div class="div-two">
+                                                            <template if:false={alt.isWishlisted}>
+                                                                <!-- RWPS-4777 -->
+                                                                <button class="slds-button responsive-font" aria-live="assertive" data-productid={alt.Id} data-productname={alt.Name} data-source="indirect" data-index={index}
+                                                                    aria-pressed="true" onclick={handleAddToFavourite}>
+                                                                    <span
+                                                                        class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                                                        <img class="slds-button__icon slds-button__icon_large slds-button__icon_left ecom-btn-favorites-icon-size"
+                                                                            aria-hidden="true" src={images.favoriteimg}>
+                                                                        {labels.ECOM_SaveToFavorites}</span>
+                                                                </button>
+                                                            </template>
+                                                            <template if:true={alt.isWishlisted}>
+                                                                <!-- RWPS-4777 -->
+                                                                <button class="slds-button responsive-font" aria-live="assertive" data-productid={alt.Id} data-source="indirect" data-index={index}
+                                                                    aria-pressed="true" onclick={handleRemoveFromFavourite}>
+                                                                    <span
+                                                                        class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                                                        <img class="slds-button__icon slds-button__icon_large slds-button__icon_left ecom-btn-favorites-icon-size"
+                                                                            aria-hidden="true" src={images.filledfavorite}>
+                                                                        {labels.ECOM_Remove_Favorites}</span>
+                                                                </button>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="slds-size_5-of-12 slds-large-size_6-of-12 slds-medium-size_5-of-12 slds-small-size_5-of-12 information-container product-price-container">
+                                                        <div class="div-three">
+                                                            <div class="btn-main">
+                                                            <button class="btn-view-detail" onclick={navigateToPDP}  data-url={alt.DisplayUrl}> 
+                                                                    <span class="btn-text-view">View Details</span>
+                                                                </button>
+                                                              <!-- RWPS-4874 START -->
+                                                              <button if:true={isCartDisabled} disabled={isCartDisabled} class="btn-add-to-cart-disabled" data-discontinuedproduct={item.cartItem.cartItemId}
+                                                                 data-index={index} onclick={handleAddToCart}>
+                                                                <span class="btn-text-add-to-cart">Add to Cart</span>
+                                                              </button>
+
+                                                            <button if:false={isCartDisabled} disabled={isCartDisabled} data-id={alt.Id} class="btn-add-to-cart" data-discontinuedproduct={item.cartItem.cartItemId}
+                                                            data-index={index} onclick={handleAddToCart}>
+                                                                <span class="btn-text-add-to-cart">Add to Cart</span>
+                                                            </button>
+                                                        </div>
+                                                        </div>
+                                                         <!-- RWPS-4874 END -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <template if:true={item.carouselStatus.showSlider}><!--RWPS-4874 START-->
+                                        <div key={item.cartItem.cartItemId} class="product-carousel-controls">
+                                            <button disabled={item.carouselStatus.disabledLeftControl} class="product-carousel-control-button" aria-label="Backward"
+                                                onclick={handlePrev} data-index={index}>
+                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                                                    <path
+                                                        d="M16 31.5C7.43959 31.5 0.5 24.5604 0.5 16C0.5 7.43959 7.43959 0.5 16 0.5C24.5604 0.5 31.5 7.43959 31.5 16C31.5 24.5604 24.5604 31.5 16 31.5Z"
+                                                        fill="white" />
+                                                    <path
+                                                        d="M16 31.5C7.43959 31.5 0.5 24.5604 0.5 16C0.5 7.43959 7.43959 0.5 16 0.5C24.5604 0.5 31.5 7.43959 31.5 16C31.5 24.5604 24.5604 31.5 16 31.5Z"
+                                                        stroke="black" />
+                                                    <path d="M18 11L13 16L18 21" stroke="black" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </button>
+
+                                        <span>{item.carouselStatus.currentSlide} of {item.childDetails.AlternativeReplacements.length}</span><!--RWPS-4874-->
+                                            <!-- disabled={rightControlDisabled} -->
+                                            <button disabled={item.carouselStatus.disabledRightControl} class="product-carousel-control-button" aria-label="Forward"
+                                                onclick={handleNext} data-index={index}><!--RWPS-4874 END-->
+                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                                                    <path
+                                                        d="M16 0.5C24.5604 0.5 31.5 7.43959 31.5 16C31.5 24.5604 24.5604 31.5 16 31.5C7.43959 31.5 0.5 24.5604 0.5 16C0.5 7.43959 7.43959 0.5 16 0.5Z"
+                                                        fill="white" />
+                                                    <path
+                                                        d="M16 0.5C24.5604 0.5 31.5 7.43959 31.5 16C31.5 24.5604 24.5604 31.5 16 31.5C7.43959 31.5 0.5 24.5604 0.5 16C0.5 7.43959 7.43959 0.5 16 0.5Z"
+                                                        stroke="black" />
+                                                    <path d="M14 21L19 16L14 11" stroke="black" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                </template><!--RWPS-4874 END-->
+                                </template>
+                                <!-- Alternative replacement end here -->
+                            </template>
+                        </template>
+                    </template>
+
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

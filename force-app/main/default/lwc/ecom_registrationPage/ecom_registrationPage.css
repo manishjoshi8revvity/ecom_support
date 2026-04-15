@@ -1,0 +1,219 @@
+@import 'c/ecom_cssLibrary';
+
+.ecom-margin-top-80{
+    margin-top: 80px;
+    line-height: 64px;
+}
+
+@media screen and (min-width: 1540px) {
+    .ecom-generic-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1104px) {
+
+    /* .ecom-padding-top{
+        padding-top: 40px !important;
+    } */
+
+    .ecom-margin-top{
+        margin-top: 80px !important;
+    }
+
+    .ecom-margin-top-80{
+        margin-top: 56px;
+    }
+
+    
+
+    .ecom-login-page-container .slds-medium-size_6-of-12{
+        width: 100% !important;
+    }
+
+    .ecom-login-page-container .ecom-max-width-528{
+        width: 100%;
+        max-width: 624px;
+    }
+
+    .ecom-col-container{
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -ms-flex-line-pack: center;
+        align-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        margin: auto;
+    }
+
+    .ecom-login-page-container .ecom-max-width-464{
+        width: 100%;
+        max-width: 624px;
+    }
+
+    .ecom-login-page-container .ecom-margin-bottom-80{
+        margin-bottom: 32px!important;
+    }
+
+    .ecom-login-page-container .ecom-margin-left-71{
+        margin-left: auto !important;
+    }
+
+    .ecom-font-size-56{
+        font-size: 36px;
+        line-height: 44px;
+    }
+
+    .ecom-header-responsive{
+        padding-top: 40px;
+        max-width: 39rem;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 0px !important;
+        padding-left: 12px;
+    }
+
+    /* .ecom-padding-top{
+        padding-top: 40px !important;
+    } */
+
+    .ecom-line-height-64{
+        line-height: 44px !important;
+    }
+}
+
+@media screen  and (max-width: 1025px){
+    .ecom-margin-top-80{
+        margin-top: 56px;
+    }
+
+    .ecom-header-responsive{
+        padding-top: 40px !important;
+    }
+
+    /* .ecom-padding-top{
+        padding-top: 40px !important;
+    } */
+}
+
+
+@media screen and (max-width: 701px) {
+    .ecom-margin-top-80{
+        margin-top: 31px;
+    }
+
+    .ecom-header{
+        /* padding-top: 50px!important; */
+    }
+
+    .ecom-padding-left-12{
+        padding-left: 12px;
+    }
+
+    .ecom-padding-sides-116{
+        padding-right: 0px;
+    }
+
+    .ecom-padding-right-12{
+        padding-right: 16px;
+    }
+
+    .ecom-header-responsive{
+        padding-left: 12px;
+        padding-right: 0px;
+        margin-bottom: 40px;
+    }
+
+    .ecom-padding-top{
+        /* padding-top: 0px !important; */
+        margin-top: 56px !important;
+    }
+
+    .ecom-margin-top{
+        margin-top: 56px !important;
+    }
+
+}
+
+@media screen and (max-width: 720px) {
+    .ecom-padding-top{
+        margin-top: 56px !important;
+    }
+
+    .ecom-header-responsive{
+        padding-top: 40px !important;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .ecom-padding-sides-28{
+        padding-left: 12px!important;
+    }
+
+    .ecom-header-responsive{
+        padding-top: 40px;
+        margin-bottom: 40px;
+    }
+    
+    .ecom-padding-sides-116{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .ecom-col-container{
+        display: block!important;
+        margin-bottom: 40px;
+    }
+
+    /* .ecom-padding-top{
+        padding-top: 20px !important;
+    } */
+}
+
+@media screen and (max-width: 495px) {
+
+    .ecom-background-color{
+        overflow: hidden!important;
+    }
+
+    .ecom-col-container{
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .ecom-card .ecom-text-size-18{
+        font-size: 16px;
+    }
+    
+    .ecom-padding-top{
+        /* padding-top: 40px !important; */
+        margin-top: 56px !important;
+    }
+
+    .ecom-margin-top{
+        margin-top: 56px !important;
+    }
+}
+
+.ecom-header-responsive{
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.ecom-padding-top{
+    /* padding-top: 60px; */
+    margin-top: 80px;
+}
+
+.ecom-margin-top{
+    margin-top: 80px;
+}
+
+.ecom-line-height-64{
+    line-height: 64px;
+}

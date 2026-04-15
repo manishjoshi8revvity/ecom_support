@@ -1,0 +1,99 @@
+<template>
+    <template if:true={showModal}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+    aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small">
+    
+    <div class="slds-modal__container">
+        
+        <div class="slds-modal__header ecom-noborder">
+            <div>   
+                <button class="slds-button slds-button_icon ecom-closebtn" onclick={closeModal}>
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                     </svg>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+            </div>
+            <h1 id="modal-heading-01" class="ecom-align-title slds-hyphenate slds-m-top_x-small">Change Shipping Address</h1>
+        <h1>
+            To add, edit or remove an address, go to <span class="ecom-purpletext">My Account</span>.
+        </h1>
+    </div>
+        <!-- modal body start -->
+        <div class="slds-modal__content slds-p-left_small slds-p-right_small ecom-no-border" id="1">
+                <span class="ecom-account-details slds-p-left_small">Shipping Address<br>
+                </span>
+                <!-- <div class="slds-grid slds-m-top_small"> -->
+                    <!-- <div for:each={shipToAddresses} for:item="addr" key={addr.index}> -->
+                        <lightning-layout vertical-align="center" class="">
+                            <template for:each={shipToAddresses} for:item="addr" key={addr.index}>
+                                <lightning-layout-item flexibility="auto" padding="around-small" key={addr.index}>
+                                <div class="slds-text-align_left ecom-sa-details-box">
+                                    <label class="container">
+                                        <input type="radio" id="" checked value="" />
+                                    </label>
+                                    <span class="ecom-address-label slds-m-left_x-small">{addr.shipToName}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{addr.shipToStreet}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{addr.shipToCity}, {addr.shipToState} {addr.shipToPostalCode}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{addr.shipToCountry}</span>      
+                                </div>
+                            </lightning-layout-item>
+                            </template>
+                            
+                            <!-- <lightning-layout-item flexibility="auto" padding="around-small">
+                                <div class="">
+                                    <label class="container">
+                                        <input type="radio" id="Address2" checked value="Address2" />
+                                    </label>
+                                    <span class="ecom-address-label slds-m-left_x-small">{addr.shipToName}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{addr.shipToStreet}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{addr.shipToCity}, {addr.shipToState} {addr.shipToPostalCode}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{addr.shipToCountry}</span>      
+                                </div>
+                            </lightning-layout-item> -->
+                        </lightning-layout>
+                    <!-- <div class="slds-col ecom-active-acn-label slds-size_1-of-2 slds-large-size_1-of-2 slds-medium-size_1-of-2 slds-size_1-of-2 slds-text-align_left ecom-sa-details-box">
+                        <label class="container">
+                            <input type="radio" id="Address1" checked value="Address1" />
+                        </label>
+                        <span class="ecom-address-label slds-m-left_x-small">{addr.shipToName}</span><br>
+                        <span class="ecom-address-details slds-m-left_large">{addr.shipToStreet}</span><br>
+                        <span class="ecom-address-details slds-m-left_large">{addr.shipToCity}, {addr.shipToState} {addr.shipToPostalCode}</span><br>
+                        <span class="ecom-address-details slds-m-left_large">{addr.shipToCountry}</span>        
+                    </div>
+                    
+                    <div class="slds-col ecom-active-acn-label slds-size_1-of-2 slds-large-size_1-of-2 slds-medium-size_1-of-2 slds-size_1-of-2 slds-text-align_left ecom-sa-details-box">
+                        <label class="container">
+                            <input type="radio" id="Address2" checked value="Address2" />
+                        </label>
+                        <span class="ecom-address-label slds-m-left_x-small">{addr.shipToName}</span><br>
+                        <span class="ecom-address-details slds-m-left_large">{addr.shipToStreet}</span><br>
+                        <span class="ecom-address-details slds-m-left_large">{addr.shipToCity}, {addr.shipToState} {addr.shipToPostalCode}</span><br>
+                        <span class="ecom-address-details slds-m-left_large">{addr.shipToCountry}</span>
+                    </div> -->
+                    <!-- </div> -->
+                <!-- </div> -->
+        
+        </div>
+        <div class="slds-modal__footer">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-3 ecom-active-acn-label slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-3 "></div>
+            <div class="slds-col slds-size_2-of-3 ecom-active-acn-label slds-large-size_2-of-3 slds-medium-size_2-of-3 slds-size_2-of-3 slds-p-left_large">
+                <button class="slds-m-left_large ecom_btn-promo-cancel" onclick={closeModal}>
+                    <span>Cancel</span>
+                </button>
+            
+            
+                <button class="ecom_btn-promo-apply slds-m-left_small" onclick={handleAddPromoCode}>
+                    <span>Save & Apply</span>
+                </button>
+            </div>
+        </div> 
+        </div>
+    </div>
+    </div>
+</div>
+</section>
+<div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

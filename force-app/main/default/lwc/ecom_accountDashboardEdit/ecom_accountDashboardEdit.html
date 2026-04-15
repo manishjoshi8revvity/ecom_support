@@ -1,0 +1,810 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 06-19-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template >
+    <!--<div if:true={isAccountEdit}>-->
+     <div class="background">
+        <div class="container slds-align_absolute-center">
+            <div class=" body">
+                <div class="slds-grid slds-wrap">
+                    <div class={sidebarCSS}>
+                        <c-ecom_account-sidebar></c-ecom_account-sidebar>
+                    </div> 
+                    <div if:false={device.isMobile} class={middleSpaceCSS}></div>
+                        <!--26th Nov-->
+                        <!--div if:true={showAddAddressForm} class="slds-size_12-of-12 slds-large-size_8-of-12 slds-medium-size_8-of-12 ecom-mt-64 ">
+                            <c-ecom_account-add-address></c-ecom_account-add-address>>
+                        </div-->
+                        <!--div if:false={showAddAddressForm} class="slds-size_12-of-12 slds-large-size_8-of-12 slds-medium-size_8-of-12 ecom-mt-64 "-->
+                        <div class={mainSectionCSS}>
+                            <div class="account-header ecom-mb-48">
+                                <span>{labels.ECOM_Accounts}</span>
+                            </div>
+                            <!-- <div class="account-header-mb" if:true={device.isMobile}>
+                                <span>Accounts</span>
+                            </div> -->
+                            
+                            <!-- <template if:true={device.isDesktop}> -->
+                                <div>
+                                    <div class="slds-grid slds-wrap ecom-mb-40">
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 ecom-mt-8 col-width-ipad acc-col"> <!--RWPS-3339-->
+                                            <span class="account-sub-header">{totalErpAddress} {labels.ECOM_Accounts} & {labels.ECOM_Addresses}</span>
+                                        </div>
+                                        <!--<div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 slds-align_absolute-center">
+                                            <span class="slds-float_right"><a class="link" onclick={handleAddAddress}>Add an Address</a></span>
+                                        </div>-->
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 col-width-ipad add-acc"> <!--RWPS-3339-->
+                                            <span class="">
+                                                <button class="btn" name="btnAddAccountOrAddress" onclick={handleAddAccountAddress} >
+                                                    <span>{labels.ECOM_AddAccountOrAddress}</span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <template if:true={isAccountUpdated}>
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1 success-message">
+                                            <span class="ecom-hyperlink">
+                                                {accountAddressUpdateMessage}<a class="link float-right" onclick={closeMessage}>X</a>
+                                            </span>
+                                        </div>
+                                    </template>
+                                    <div if:true={shipToAddressWithActivePayer}>
+                                        <template for:each={shipToAddressWithActivePayer} for:item="acc">
+                                            <div class="slds-grid slds-wrap ecom-grayBorder ecom-acc-card ecom-mb-40" key={acc.accountId}>
+                                                <div class="slds-col slds-size_12-of-12 slds-large-size_8-of-12 ecom-button-top-margin ecom-order-acn flex-display col-width-ipad"> <!--RWPS-3339-->
+                                                    <div class="account-number slds-m-bottom--x-large" lwc:if={acc.externalId}>
+                                                        <span>{labels.ECOM_AccountNumber}: </span><span lwc:if={acc.showAccNumber}>{acc.externalId}</span><br/>
+                                                    </div> 
+                                                    <div if:true={acc.isRad} class="rad-icon">
+                                                        <img  src={images.radIcon} alt="radIcon"/> <!--RWPS-5284 added alt tag-->            
+                                                    </div> 
+                                                </div> 
+                                                <div class="slds-col slds-size_12-of-12 slds-large-size_4-of-12 ecom-button-top-margin ecom-order-btn ecom-mb-24 col-width-ipad"> <!--ECOM-3500-Gaurang-UI Fix-19 July 2024--> <!--RWPS-3339-->
+                                                    <template if:true={acc.isSelected}>   
+                                                        <span class="">
+                                                            <button class="btn-active slds-align_absolute-center" disabled>
+                                                                {labels.ECOM_ActiveAccount}
+                                                            </button>
+                                                        </span>
+                                                    </template>
+                                                    <template if:false={acc.isSelected}>   
+                                                        <div class="ecom-hyperlink">
+                                                             <!-- RWPS-3764 Added role, keydown and tabIndex -->
+                                                            <a class="make-active-account" 
+                                                                role="button" 
+                                                                tabindex="0" 
+                                                                data-id={acc.accountId} 
+                                                                data-externalid={acc.externalId} 
+                                                                onclick={handleActiveAccountChange}
+                                                                onkeydown={handleAccountKeydown}>
+                                                                <!-- data-bill={acc.billToId} data-ship={acc.shipToId} -->
+                                                                {labels.ECOM_MakeActiveAccount}
+                                                            </a>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                                <!-- <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1 ecom-mt-16 ecom-mb-32">
+                                                    <span class="ecom-acn-name"><p>{labels.ECOM_AccountName}: {acc.erpAccountName}</p></span>
+                                                </div> -->
+
+                                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 shipto-col-ipad"> <!--RWPS-3339-->
+                                                    <div>
+                                                        <span class="ecom-address-label">{labels.ECOM_ShippingAddress}</span>
+                                                            <template for:each={acc.erpAddresses} for:item="shipToAddress">
+                                                                <div key={shipToAddress.accountId} class="ecom-address-details ecom-mt-16 ecom-mr-16">
+                                                                    <div lwc:if={shipToAddress.showSapName} class="billing-address">{shipToAddress.erpAccountName}</div>
+                                                                    <div class="billing-address ">{shipToAddress.street},</div>  
+                                                                    <div class="billing-address ">{shipToAddress.city},{shipToAddress.state} {shipToAddress.postalCode}</div>
+                                                                    <div class="billing-address ">{shipToAddress.country}</div> 
+                                                                </div>
+                                                            </template>
+                                                        <template if:true={acc.isSelected}> 
+                                                            <div class="ecom-mt-8" if:true={showEditButton}>
+                                                                <span class="ecom-hyperlink">
+                                                                    <a class="link" data-id={acc.accountId} data-externalid={acc.externalId} onclick={redirectToAddAddress} tabindex="0" onkeydown={handleKeyAction}>Edit</a><!--RWPS-3764-->
+                                                                </span>
+                                                                <br/>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                                <div  if:true={device.isMobile} class="vh24"></div>
+                                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 billto-col-ipad"> <!--RWPS-3339-->
+                                                    <div>
+                                                        <span class="ecom-address-label">{labels.ECOM_BillingAddress}</span>
+                                                        <template if:true={acc.isSelected} for:each={acc.address} for:item="billToAddress">
+                                                                <div key={billToAddress.accountId} class="ecom-address-details ecom-mt-16 ecom-mr-16">
+                                                                    <div  class="billing-address">{billToAddress.erpAccountName}</div>
+                                                                    <div class="billing-address ">{billToAddress.street},</div>  
+                                                                    <div class="billing-address ">{billToAddress.city},{billToAddress.state} {billToAddress.postalCode}</div>
+                                                                    <div class="billing-address ">{billToAddress.country}</div> 
+                                                                </div>
+                                                                <template if:true={billToAddress.isValidatedFields} for:each={billToAddress.validationFields} for:item="field">
+                                                                    <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-8">
+                                                                        <span class="ecom-address-label">{field.label}</span>
+                                                                        <div class="billing-address">{field.value}</div> 
+                                                                    </div>
+                                                                </template>
+                                                        </template>
+                                                        <template if:false={acc.isSelected} for:each={acc.defaultBillTo} for:item="billToAddress" >
+                                                            <div key={billToAddress.accountId} class="ecom-address-details ecom-mt-16 ecom-mr-16">
+                                                                <div  class="billing-address">{billToAddress.erpAccountName}</div>
+                                                                <div class="billing-address ">{billToAddress.street},</div>  
+                                                                <div class="billing-address ">{billToAddress.city},{billToAddress.state} {billToAddress.postalCode}</div>
+                                                                <div class="billing-address ">{billToAddress.country}</div> 
+                                                            </div>
+                                                            <template if:true={billToAddress.isValidatedFields} for:each={billToAddress.validationFields} for:item="field">
+                                                                <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-8">
+                                                                    <span class="ecom-address-label">{field.label}</span>
+                                                                    <div class="billing-address">{field.value}</div> 
+                                                                </div>
+                                                            </template>
+                                                        </template>
+                                                        <template if:true={acc.isSelected}> 
+                                                            <div  class="ecom-mt-8" if:true={showEditButton}>
+                                                                <span class="ecom-hyperlink">
+                                                                    <a class="link" data-id={acc.accountId} data-addresstype="billing" data-externalid={acc.externalId} onclick={openEditBillTo} tabindex="0"  onkeydown={handleKeyActionOpenEditBillTo}>{labels.ECOM_Edit}</a><!--RWPS-3764-->
+                                                                </span>
+                                                                <br/>
+                                                            </div>
+                                                            <div  class="ecom-mt-8" if:false={showEditButton}>
+                                                                <span class="ecom-hyperlink">
+                                                                    <a class="link" data-id={acc.accountId} data-addresstype="billing" data-externalid={acc.externalId} onclick={openBillToAddressPopUp} tabindex="0" onkeydown={handleKeyActionAddressPopUp}>{labels.Ecom_Change}</a><!--RWPS-3764-->
+                                                                </span>
+                                                                <br/>
+                                                            </div>
+                                                        </template>
+                                                    </div>  
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" if:true={acc.isInvoiceMailingAddress}>
+                                                    <div>
+                                                        <span class="ecom-address-label">{labels.ECOM_InvoiceMailingAddress}</span>
+                                                        <template if:true={acc.isSelected} for:each={acc.invoiceAddress} for:item="invoiceAddress">
+                                                            <div key={invoiceAddress.accountId} class="ecom-address-details ecom-mt-16 ecom-mr-16">
+                                                                <div class="billing-address">{invoiceAddress.erpAccountName}</div>
+                                                                <div class="billing-address ">{invoiceAddress.street},</div>  
+                                                                <div class="billing-address ">{invoiceAddress.city},{invoiceAddress.state} {invoiceAddress.postalCode}</div>
+                                                                <div class="billing-address ">{invoiceAddress.country}</div> 
+                                                            </div>
+                                                        </template> 
+                                                        <template if:false={acc.isSelected} for:each={acc.defaultInvoice} for:item="invoiceAddress" >
+                                                            <div key={invoiceAddress.accountId} class="ecom-address-details ecom-mt-16 ecom-mr-16">
+                                                                <div class="billing-address">{invoiceAddress.erpAccountName}</div>
+                                                                <div class="billing-address ">{invoiceAddress.street},</div>  
+                                                                <div class="billing-address ">{invoiceAddress.city},{invoiceAddress.state} {invoiceAddress.postalCode}</div>
+                                                                <div class="billing-address ">{invoiceAddress.country}</div> 
+                                                            </div>
+                                                        </template>
+                                                        <template if:true={acc.isSelected}> 
+                                                            <div  class="ecom-mt-8" if:true={showEditButton}>
+                                                                <span class="ecom-hyperlink">
+                                                                    <a class="link" data-id={acc.accountId} data-addresstype="invoice" data-externalid={acc.externalId} onclick={openEditBillTo} tabindex="0"  onkeydown={handleKeyActionOpenEditBillTo}>{labels.ECOM_Edit}</a><!--RWPS-3764-->
+                                                                </span>
+                                                                <br/>
+                                                            </div>
+                                                            <div  class="ecom-mt-8" if:false={showEditButton}>
+                                                                <span class="ecom-hyperlink">
+                                                                    <a class="link" data-id={acc.accountId} data-addresstype="invoice" data-externalid={acc.externalId} onclick={openBillToAddressPopUp} tabindex="0" onkeydown={handleKeyActionAddressPopUp}>{labels.Ecom_Change}</a><!--RWPS-3764-->
+                                                                </span>
+                                                                <br/>
+                                                            </div>
+                                                        </template>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <div class="slds-grid slds-wrap slds-m-top_small slds-m-bottom_small">
+                                            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                                                <!-- <c-ecom_-pagination totalrecords={totalAccountDetails} page-size={defaultListSize} onpagination={handlePagination}></c-ecom_-pagination> -->
+                                                <c-ecom_paginator 
+                                                    lwc:if={showPaginaton}
+                                                    ongotopage={pageChanged} 
+                                                    page-size={defaultListSize}
+                                                    current-page-number={currentPageNumber} 
+                                                    total-records={totalErpAddress}
+                                                ></c-ecom_paginator>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- </div> -->
+                            </div>
+                            <!-- </template> -->
+                    </div>
+                    <!--Add AddAddress form-26th Nov-->
+                </div>
+             </div>
+         </div>
+     </div>
+    <!-- Mobile Responsive UI changes -->
+    <!-- <template if:true={device.isMobile}>
+        <div class="">
+            <div class="ecom-mt-32 ecom-mb-24">
+                <span class="account-sub-header-md">{totalErpAddress} Accounts and Addresses</span>
+            </div>
+      
+            <div class="slds-size_1-of-1 ecom-mb-40">
+
+                    <button class="btn-md slds-m-top_medium slds-m-bottom_small" onclick={handleAddAccountAddress} >
+                        <span>Add an Account or Address</span>
+                    </button>
+            
+            </div>
+            <template if:true={isAccountUpdated}>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1 success-message">
+                    <span>
+                        {accountAddressUpdateMessage}<a class="link float-right" onclick={closeMessage}>X</a>
+                    </span>
+                </div>
+            </template>
+            <div if:true={shipToAddressWithActivePayer}>
+                <template for:each={shipToAddressWithActivePayer} for:item="acc">
+                    <div class=" ecom-grayBorder slds-m-top_medium slds-m-bottom_medium slds-p-around_medium" key={acc.accountId}>
+                        <div class="slds-m-top_large slds-m-bottom_large">
+                            <template if:true={acc.isSelected}>   
+                              
+                                    <span>
+                                    <button class="btn-active-md" disabled>
+                                        Active Account
+                                    </button>
+                                </span>
+                            </template>
+                            <template if:false={acc.isSelected}>   
+                               
+                                    <span>
+                                    <span class="make-active-account-md" 
+                                    data-id={acc.accountId} 
+                                    data-externalid={acc.externalId} 
+                                    onclick={handleActiveAccountChange}>
+                                       Make Active Account
+                                   </span>
+                                </span>
+                            </template>
+                        </div>
+                  
+                            <div class="account-number slds-m-bottom_medium">
+                                <span>Account Number: {acc.externalId}</span><br/>
+                            </div>  
+                        
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                            <span class="ecom-acn-name"><p>Account Name: {acc.erpAccountName}</p></span> <br/>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                            <div>
+                                <div class="ecom-address-label slds-m-bottom_x-small">Shipping Address</div>
+                                <template for:each={acc.erpAddresses} for:item="shipToAddress">
+                                    <div class="ecom-address-details-md" key={shipToAddress.accountId}>{shipToAddress.fxAddress}</div>
+                                </template>
+                                <template if:true={acc.isSelected}> 
+                                    <div  class="slds-m-top_x-small" if:true={showEditButton}>
+                                        <span>
+                                            <a class="link" data-id={acc.accountId} data-externalid={acc.externalId} onclick={redirectToAddAddress}>Edit</a>
+                                        </span>
+                                        <br/>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                            <div>
+                                <div class="ecom-address-label slds-m-bottom_x-small">Billing Address</div>
+                                <template if:true={acc.isSelected} for:each={acc.address} for:item="billToAddress">
+                                    <div key={billToAddress.accountId} class="ecom-address-details-md">
+                                        <div class="billing-address ">{billToAddress.street},{billToAddress.city},</div>  
+                                        <div class="billing-address ">{billToAddress.state},{billToAddress.postalCode} {billToAddress.country}</div>
+                                    </div>
+                                </template>
+                                <template if:false={acc.isSelected} for:each={acc.defaultBillTo} for:item="billToAddress" >
+                                    <div key={billToAddress.accountId} class="ecom-address-details-md">{billToAddress.fxAddress}</div>
+                                </template>
+                                <template if:true={acc.isSelected}> 
+                                    <div  class="slds-m-top_x-small" if:true={showEditButton}>
+                                        <span>
+                                            <a class="link" data-id={acc.accountId} data-externalid={acc.externalId} onclick={openEditBillTo}>Edit</a>
+                                        </span>
+                                        <br/>
+                                    </div>
+                                    <div  class="slds-m-top_x-small" if:false={showEditButton}>
+                                        <span >
+                                            <a class="link" data-id={acc.accountId} data-externalid={acc.externalId} onclick={openBillToAddressPopUp}>Change</a>
+                                        </span>
+                                        <br/>
+                                    </div>
+                                </template>
+                            </div>  
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </template> -->
+     <!-- Mobile Responsive UI changes end -->
+    <!-- Load More 
+    <template if:true={isLoadMore}>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1 slds-align_absolute-center">
+                <button class="order-load-more slds-align_absolute-center" onclick={handleLoadMoreAccounts}>Load More</button>
+            </div>
+        </div>
+    </template>
+    --> 
+    <!-- Billing Address Model -->      
+    <template if:true={isShowBillingAddress}>
+        <!--RWPS-4087 Added data-id attribute-->
+        <section role="dialog" tabindex="0" aria-labelledby="modal-heading-01" data-id="billingAddress" aria-modal="true" aria-describedby="modal-content-id-1" class={currentModalSectionClass}>
+        <div class="slds-modal__container">
+        <header class="slds-modal__header  ecom-qo-noborder ecom-no-padding">
+            <!-- <button class="slds-button  slds-m-top_xx-large slds-m-right_small slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideBillingAddressModal}>
+                <lightning-icon icon-name="utility:close"
+                alternative-text="close"
+                variant="inverse"
+                size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+            </button> -->
+            <div class="ecom-full-height">   
+                <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={hideBillingAddressModal}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                </button>
+            </div>
+        </header>
+        <div class={currentModalClass} id="modal-content-id-1">
+            <div if:true={device.isDesktop} id="modal-heading-01" class="ecom-label-text-32">{labels.Ecom_Change}&nbsp;{modalAddressLabel}</div>
+            <div if:false={device.isDesktop} id="modal-heading-01-md" class="ecom-label-text-24 slds-align_absolute-center">{labels.Ecom_Change}&nbsp;{modalAddressLabel}</div>
+            <!-- Billing Address Desktop Version -->
+            <div if:true={device.isDesktop}>
+            <template if:true={availablesBilTos}>
+                <div> <!-- contents begining-->
+                    <div class="ecom-margin-top-32">
+                        <lightning-layout multiple-rows="false">
+                            <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" large-device-size="4">
+                                <div class="ecom-label-text-18">{modalAddressLabel}</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="6" medium-device-size="8" large-device-size="8" >
+                                <div if:true={canCreateNewAddress}  class="ecom-text-align-end ecom-hyperlink">
+                                    <a class="link" onclick={handleAddAddressEventFromBilling} tabindex="0" onkeydown={handleKeyActionEventFromBilling}>{modalNewAddressLabel}</a><!--RWPS-3764-->
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                        <div class="ecom-margin-top-16 ecom-padding-bottom-16">
+                            <lightning-layout  multiple-rows="true" pull-to-boundary="small" vertical-align="stretch">
+                                <template for:each={availablesBilTos} for:item="billTo">
+                                    <!-- Address cards: begin-->
+                                    <!-- <div key={billTo.accountId}> -->
+                                    <lightning-layout-item key={billTo.accountId} flexibility="auto" size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        <div if:true={billTo.isSelected}  class="slds-text-align_left ecom-address-card ecom-address-card-selected ecom-full-height ">
+                                            <div class="ecom-padding-16 ecom-display-flex ecom-full-height ecom-width-full">
+                                                <div class="ecom-margin-right-8 ecom-width-20">
+                                                    <div class="ecom-padding-top-2">
+                                                        <input type="radio" class="ecom-radio-btn" checked={billTo.isSelected} data-external={billTo.externalId} data-new={billTo.isAddNewAddress} value={billTo.id} onchange={radioBillingChanged}/>
+                                                    </div>
+                                                </div>
+                                                <div class="ecom-width-full">
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.erpAccountName}</div>
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.street}</div>  
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.city}, {billTo.state} {billTo.postalCode}</div>
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.country}</div>
+                                                    <!--Change By Sathiya on 2024/04/29-->
+                                                    <template if:true={billTo.isValidatedFields} for:each={billTo.validationFields} for:item="field">
+                                                        <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-8">
+                                                            <span class="ecom-address-label">{field.label}</span>
+                                                            <div class="billing-address">{field.value}</div> 
+                                                        </div>
+                                                    </template>
+                                                    <!--Change End-->
+                                                    <div>
+                                                        <template if:true={canModifyERPAddress}>
+                                                            <span class="ecom-hyperlink">
+                                                            <a class="link ecom-padding-top-6" onclick={handleModifyAddressEventFromBilling}  role="button" tabindex="0" onkeydown={handleModifyAddressKeydown}>Modify Address</a><!--RWPS-4087-->
+                                                            </span>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div if:false={billTo.isSelected}  class="slds-text-align_left ecom-address-card ecom-full-height ">
+                                            <div class="ecom-padding-16 ecom-display-flex ecom-full-height ecom-width-full">
+                                                <div class="ecom-margin-right-8 ecom-width-20">
+                                                    <div class="ecom-padding-top-2">
+                                                        <input type="radio" class="ecom-radio-btn" checked={billTo.isSelected} data-external={billTo.externalId} data-new={billTo.isAddNewAddress} value={billTo.id} onchange={radioBillingChanged}/>
+                                                    </div>
+                                                </div>
+                                                <div class="ecom-width-full">
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.erpAccountName}</div>
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.street}</div>  
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.city}, {billTo.state} {billTo.postalCode}</div>
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.country}</div>
+                                                    <!--Change By Sathiya on 2024/04/29-->
+                                                    <template if:true={billTo.isValidatedFields} for:each={billTo.validationFields} for:item="field">
+                                                        <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-8">
+                                                            <span class="ecom-address-label">{field.label}</span>
+                                                            <div class="billing-address">{field.value}</div> 
+                                                        </div>
+                                                    </template>
+                                                    <!--Change End-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </div>
+                    </div>
+            </template>
+            </div>
+            <!-- Billing Address Desktop Version ends -->
+            <!-- Billing Address Mobile Version -->
+            <div if:false={device.isDesktop}>
+                <!-- <template if:true={currentBillingAddresses}> -->
+                <template if:true={availablesBilTos}>
+                    <div class="ecom-padding-bottom-16">
+                        <div class="ecom-margin-top-24">
+                            <lightning-layout multiple-rows="false">
+                                <lightning-layout-item size="6" small-device-size="6">
+                                    <div class="ecom-label-text-16">
+                                        <span>{modalAddressLabel} </span>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6" small-device-size="6"  >
+                                    <div if:true={canCreateNewAddress}  class="ecom-text-align-end ecom-hyperlink">
+                                        <a class="link" onclick={handleAddAddressEventFromBilling}>{modalNewAddressLabel}</a>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                        <!-- <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12" small-device-size="12">
+                                    <template if:true={canCreateNewAddress}>
+                                        <div>
+                                            <span class="">
+                                                <button class="btn-medium slds-align_absolute-center" onclick={handleAddAddressEventFromBilling} >
+                                                    <span>Add Billing Address</span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout> -->
+                        <div class=" ecom-padding-bottom-16">
+                            <lightning-layout  multiple-rows="true" pull-to-boundary="small" vertical-align="stretch">
+                                <template for:each={availablesBilTos} for:item="billTo">
+                                    <lightning-layout-item key={billTo.accountId} flexibility="auto" size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        <div  class="ecom-padding-top-16"></div>
+                                        <div if:true={billTo.isSelected}  class="slds-text-align_left ecom-address-card ecom-address-card-selected ecom-full-height ">
+                                            <div id={billTo.id} class="ecom-padding-16 ecom-display-flex ecom-full-height ecom-width-full">
+                                                <div class="ecom-margin-right-8 ecom-width-20">
+                                                    <div class="ecom-padding-top-1">
+                                                        <input type="radio" data-id={billTo.id} class="ecom-radio-btn" data-external={billTo.externalId}  checked={billTo.isSelected} data-new={billTo.isAddNewAddress} value={billTo.id} onchange={radioBillingChanged}/>
+                                                    </div>
+                                                </div>
+                                                <div class="ecom-width-full">
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.erpAccountName}</div>
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.street}</div>  
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.city}, {billTo.state} {billTo.postalCode}</div>
+                                                    <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.country}</div>
+                                                    <!--Change By Sathiya on 2024/04/29-->
+                                                    <template if:true={billTo.isValidatedFields} for:each={billTo.validationFields} for:item="field">
+                                                        <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-8">
+                                                            <span class="ecom-address-label">{field.label}</span>
+                                                            <div class="billing-address">{field.value}</div> 
+                                                        </div>
+                                                    </template>
+                                                    <!--Change End-->
+                                                    <div>
+                                                        <template if:true={canModifyERPAddress}>
+                                                            <span class="ecom-hyperlink">
+                                                                <a class="link ecom-padding-top-3" onclick={handleModifyAddressEventFromBilling} role="button" tabindex="0"  onkeydown={handleOpenAddressKeydown}>{labels.ECOM_ModifyAddress}</a><!--RWPS-4087-->
+                                                            </span>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div if:false={billTo.isSelected}  class="slds-text-align_left ecom-address-card ecom-full-height ">
+                                            
+                                                <div id={billTo.id} class="ecom-padding-16 ecom-display-flex ecom-full-height ecom-width-full">
+                                                    <div class="ecom-margin-right-8 ecom-width-20">
+                                                        <div class="ecom-padding-top-1">
+                                                            <input type="radio" data-id={billTo.id} class="ecom-radio-btn" checked={billTo.isSelected} data-external={billTo.externalId} data-new={billTo.isAddNewAddress} value={billTo.id} onchange={radioBillingChanged}/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ecom-width-full">
+                                                        <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.erpAccountName}</div>
+                                                        <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.street}</div>  
+                                                        <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.city}, {billTo.state} {billTo.postalCode}</div>
+                                                        <div class="ecom-detail-text-18 ecom-padding-top-3">{billTo.country}</div>
+                                                        <!--Change By Sathiya on 2024/04/29-->
+                                                        <template if:true={billTo.isValidatedFields} for:each={billTo.validationFields} for:item="field">
+                                                            <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-8">
+                                                                <span class="ecom-address-label">{field.label}</span>
+                                                                <div class="billing-address">{field.value}</div> 
+                                                            </div>
+                                                        </template>
+                                                        <!--Change End-->
+                                                    </div>
+                                                </div>
+                                            
+                                        </div>
+                                        <div  class="ecom-padding-bottom-16"></div>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </div>
+                        <!-- <div class="slds-grid slds-wrap">
+                            <template for:each={availablesBilTos} for:item="billTo">
+                                <div key={billTo.accountId} class="slds-col slds-size_1-of-1 slds-large-size_5-of-12 slds-m-around_medium ecom-address-card">
+                                    <div class="slds-text-align_left">
+                                        <label class="container">   
+                                            <input type="radio" name="billingAddress" checked={billTo.isSelected} data-new={billTo.isAddNewAddress} value={billTo.id} onchange={radioBillingChanged}/>
+                                        </label>
+                                        <span class="slds-m-left_small billing-address-label">{billTo.erpAccountName}</span><br>
+                                        <div class="billing-address slds-p-left_large">{billTo.street},</div>  
+                                        <div class="billing-address slds-p-left_large">{billTo.city},{billTo.state}</div>
+                                        <div class="billing-address slds-p-left_large">{billTo.postalCode} {billTo.country}</div>  
+                                    </div>
+                                </div>
+                            </template>
+                        </div> -->
+                        <!-- <div class="slds-p-top_large">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <button class="btn-cancel-md slds-m-bottom_medium" onclick={hideBillingAddressModal}>Cancel</button>
+                                </div>
+                                <div class="slds-col slds-size_2-of-3">
+                                    <button class="btn-saveandapply-md slds-align_absolute-center" onclick={handleSaveBilltoERPAddress}>Save & Apply</button>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </template>
+                </div>
+                <!-- Billing Address Mobile Version ends -->
+        </div>
+        <template if:true={device.isDesktop}>
+            <div class="slds-modal__footer ecom-no-padding ecom-modal-footer-border-radius">
+                <div class="ecom-modal-footer-padding">
+                    <lightning-layout multiple-rows="false">
+                        <lightning-layout-item alignment-bump="left">
+                            <div class="ecom-display-flex">
+                                <div>
+                                    <button class="order-load-more bottom-btton-right-mergine slds-align_absolute-center " onclick={hideBillingAddressModal}>Cancel</button>
+                                </div>
+                                <div>
+                                    <button class="ecom_btn-password-save ecom-btn-styling" onclick={handleSaveBilltoERPAddress} onkeydown={handleSaveKeyDownAccount}><span>{labels.ECOM_Save} & {labels.ECOM_Apply}</span></button><!--RWPS-4087-->
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </div>
+        </template>
+        <template if:false={device.isDesktop}>
+            <div class="slds-modal__footer ecom-no-padding ecom-modal-footer-border-radius">
+                <div class="ecom-modal-footer-padding-mobile">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6">
+                            <div class="ecom-padding-right-8">
+                                <button class="ecom_btn-password-cancel" onclick={hideBillingAddressModal}>{labels.ECOM_Cancel}</button>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <div class="ecom-padding-left-8">
+                                <button class="ecom_btn-password-save ecom-btn-styling" onclick={handleSaveBilltoERPAddress}><span>{labels.ECOM_Save} & {labels.ECOM_Apply}</span></button>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </div>
+        </template>
+        <!--<footer class="slds-modal__footer">
+            <div class="flex-display">
+                <button class="order-load-more slds-align_absolute-center" onclick={hideBillingAddressModal}>Cancel</button>
+                <button class="btn slds-align_absolute-center" onclick={handleSaveBillingAddress}>Save and Apply</button>
+            </div>
+        </footer>-->
+
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Add Billing Address Model --> 
+    <template if:true={showAddBillingModal}>
+         <!--RWPS-4087 Added data-id attribute-->
+        <section role="dialog" tabindex="0" aria-labelledby="modal-heading-02" data-id="billingModal" aria-modal="true"
+            aria-describedby="modal-content-id-1" class={currentModalSectionClass}>
+            <div class="slds-modal__container">
+                <!-- <div class="slds-modal__header ecom-qo-noborder"> -->
+                    <header class="slds-modal__header  ecom-qo-noborder ecom-no-padding">
+                        <!-- <button class="slds-button  slds-m-top_xx-large slds-m-right_small slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideBillingAddressModal}>
+                            <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button> -->
+                        <div class="ecom-full-height">   
+                            <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={closeAddBillingModal}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                            </button>
+                        </div>
+                    </header>    
+                    <!-- <div>   
+                        <button class="slds-button slds-button_icon ecom-qo-closebtn" onclick={closeAddBillingModal}>
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </div> -->
+                
+                
+                <!-- </div> -->
+                <!-- modal body start -->
+                <div class={currentModalClass} id="1">
+                    <div if:true={device.isDesktop}><div id="modal-heading-02" class="ecom-label-text-32 ecom-padding-top-32 slds-align_absolute-center">{modalAddressLabel}</div></div>
+                    <div if:false={device.isDesktop}><div id="modal-heading-03" class="ecom-label-text-24 ecom-padding-top-32 slds-align_absolute-center">{modalAddressLabel}</div></div>
+                    <div class="slds-col">
+                    <c-ecom_inline-message type={type} message={messageAddBillingCPA} show={showAddressError} timespan={timeSpan}></c-ecom_inline-message>
+                    </div>
+                    <div if:true={device.isDesktop}><div class="ecom-margin-top-32"></div></div>
+                    <div if:false={device.isDesktop}><div class="ecom-margin-top-24"></div></div>
+                    <lightning-input 
+                        type="text" 
+                        class="ecom-detail-text-18" 
+                        label="Company Name" 
+                        required="true" 
+                        data-id="billing-company-name-id" 
+                        value={newOrEditERPAddress.erpAccountName} 
+                        onchange={handleBillingChange}>
+                    </lightning-input>
+                    <div if:true={device.isDesktop}><div class="ecom-margin-top-32"></div></div>
+                    <div if:false={device.isDesktop}><div class="ecom-margin-top-24"></div></div>
+                    <lightning-combobox
+                        name="country"
+                        label="Country"
+                        data-id="billing-country-id"
+                        required="true"
+                        class="ecom-detail-text-18"
+                        value={selectedCountry}
+                        placeholder="Select Country"
+                        options={countries}
+                        onchange={handleBillingChange} 
+                        disabled="true">
+                    </lightning-combobox>
+                    <div if:true={device.isDesktop}><div class="ecom-margin-top-32"></div></div>
+                    <div if:false={device.isDesktop}><div class="ecom-margin-top-24"></div></div>
+                    <lightning-input 
+                        type="text" 
+                        class="ecom-detail-text-18" 
+                        label="Street" required="true" 
+                        max-length="255"
+                        data-id="billing-address-line-1" 
+                        value={newOrEditERPAddress.street} 
+                        onchange={handleBillingChange}>
+                    </lightning-input>
+                    <!--<lightning-input 
+                        type="text" 
+                        class="ecom-addr-text slds-m-top_x-large" 
+                        label="Address Line 2" 
+                        data-id="billing-address-line-2" 
+                        value={billingAddress2} 
+                        onchange={handleBillingChange}>
+                    </lightning-input>-->
+                    <div if:true={device.isDesktop}><div class="ecom-margin-top-32"></div></div>
+                    <div if:false={device.isDesktop}><div class="ecom-margin-top-24"></div></div>
+                    <lightning-input type="text" 
+                        class="ecom-detail-text-18" 
+                        label="City / Town" 
+                        max-length="40"
+                        required="true"
+                        data-id="billing-city-id" 
+                        value={newOrEditERPAddress.city} 
+                        onchange={handleBillingChange}>
+                    </lightning-input>
+                    <div if:true={device.isDesktop}><div class="ecom-margin-top-32"></div></div>
+                    <div if:false={device.isDesktop}><div class="ecom-margin-top-24"></div></div>
+                    <lightning-combobox
+                        name="state"
+                        label="State"
+                        data-id="billing-state-id"
+                        required="true"
+                        class="ecom-detail-text-18"
+                        value={selectedBillingState}
+                        placeholder="Select State"
+                        options={states}
+                        onchange={handleBillingChange} >
+                    </lightning-combobox>
+                    <div if:true={device.isDesktop}><div class="ecom-margin-top-32"></div></div>
+                    <div if:false={device.isDesktop}><div class="ecom-margin-top-24"></div></div>
+                    <!--RWPS-4911-->
+                    <!--RWPS-4914 changed limit to 16 for postal code -->
+                    <lightning-input 
+                        type="text" 
+                        class="ecom-detail-text-18" 
+                        label="Zip or Postal Code"  
+                        maxlength="16"
+                        required="true" 
+                        data-id="billing-zip-id" 
+                        value={newOrEditERPAddress.postalCode} 
+                        onchange={handleBillingChange}> <!-- RWPS-3813--> <!--RWPS-4911-->
+                    </lightning-input>
+                    <!--Changes for Add or new Billing Address by sathiya on 2024/04/29-->
+                    <template if:true={newOrEditERPAddress.isValidatedFields} for:each={newOrEditERPAddress.validationFields} for:item="field">
+                        <div key={field.fieldName} class="ecom-mt-8 ecom-mb-20">
+                            <lightning-input 
+                                type="text" 
+                                class="ecom-detail-text-18 billing-input" 
+                                label={field.label}  
+                                max-length={field.validation.max}
+                                required={field.isRequired} 
+                                field-level-help={field.helpText}
+                                data-id={field.fieldName} 
+                                data-validate="true"
+                                pattern={field.validation.regex}
+                                message-when-pattern-mismatch={field.validation.errorMessage}
+                                value={field.value}
+                                onchange={handleBillingChange}
+                                onmouseleave={handleValidation}>
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <!--Changes End-->
+                    <!--<lightning-input 
+                        type="tel" 
+                        class="ecom-addr-text slds-m-top_x-large" 
+                        label="Telephone" 
+                        required="true" 
+                        pattern="[0-9]{10}" 
+                        message-when-pattern-mismatch="Please ensure you enter a valid phone number." 
+                        data-id="billing-phone-id" 
+                        value={newOrEditERPAddress.PhoneNumber} 
+                        onchange={handleBillingChange}>
+                    </lightning-input>
+                    <span class="ecom-phone-helptext">Please include country code. For USA it is 1+</span>
+                    <lightning-input 
+                        type="text" 
+                        class="ecom-addr-text slds-m-top_x-large" 
+                        label="Extn." 
+                        data-id="billing-extn-id" 
+                        value="" 
+                        onchange={handleBillingChange}>
+                    </lightning-input>-->
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="btn-cancel bottom-btton-left-mergine" onclick={cancelBillingAddressEdit}>
+                        {labels.ECOM_Cancel}
+                    </button>
+                    <button class="btn-medium1 bottom-btton-left-mergine" onclick={upsertERPAddress} onkeydown={handleSaveKeyDownAccount}><!--RWPS-4087-->
+                        {labels.ECOM_Save}
+                    </button>
+                </div> 
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+        
+   <!-- </div>-->
+    <div if:true={isAddAddressClicked}> 
+        <c-ecom_account-add-address onaddressevent={handleAddressEvent}></c-ecom_account-add-address>
+    </div>
+
+    <div if:true={showSpinner} class="ecom-spinner-style">
+        <lightning-spinner></lightning-spinner>
+    </div>
+</template>

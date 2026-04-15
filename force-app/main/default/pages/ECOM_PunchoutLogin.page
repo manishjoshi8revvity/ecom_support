@@ -1,0 +1,2 @@
+<apex:page id="POUserLogin" controller="ECOM_PunchoutLoginController" action="{!punchoutLogin}" contentType="application/json" >
+</apex:page>

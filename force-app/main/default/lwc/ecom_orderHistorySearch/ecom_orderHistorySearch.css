@@ -1,0 +1,212 @@
+/* RWPS - 4881 - Start */
+.search-box-container {
+    border: 1px solid #E3E3E3;
+    border-radius: 16px;
+    background: #FBFBFB;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.search-box-header {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 500;
+}
+
+.search-box-subheader {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 500;
+    margin: 10px 0px;
+}
+
+.search-box-icon {
+    float: right;
+    width: 24px;
+    height: 24px;
+}
+
+.search-box {
+    width: 100%;
+    border: 1px solid #767575;
+    padding: 12px;
+    gap: 10px;
+    background: #FFFFFF;
+    border-radius: 4px;
+}
+
+.search-box-error {
+    width: 100%;
+    border: 1px solid #DC0101;
+    padding: 12px;
+    gap: 10px;
+    background: #FFFFFF;
+    border-radius: 4px;
+}
+
+.search-box-error:focus {
+    border: 1px solid #DC0101!important;
+    outline: none;
+}
+
+.search-box-error:focus-visible {
+    border: 1px solid #DC0101!important;
+    outline: none;
+}
+
+.order-not-found-container {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.order-not-found-text-styling {
+    color: #DC0101;
+}
+
+.advanced-search-text-styling {
+    color: #7F03B0;
+    cursor: pointer;
+}
+
+.advanced-search-text-styling:hover{
+    text-decoration: underline;
+}
+
+.question-mark-icon {
+    float: right;
+    width: 33.33px;
+    height: 33.33px;
+}
+
+.iconContainer {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    float: right;
+}
+
+.iconContainer:hover .tooltipText {
+    visibility: visible;
+
+}
+
+.tooltipText {
+    background: #000;
+    border-radius: 8px;
+    color: #fff;
+    visibility: hidden;
+    font-size: 11px;
+    line-height: 14px;
+    max-width: 50%;
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    top: 36px;
+    z-index: 1;
+}
+
+[data-tooltip]:hover::after {
+    display: block;
+    position: absolute;
+    content: attr(data-tooltip);
+    background: white;
+    border-radius: 8px;
+    color: black;
+    font-size: 12px;
+    line-height: 14px;
+    padding: 8px;
+    right: 0;
+    top: 36px;
+    z-index: 1;
+    width: max-content;
+    max-width: 250px;
+    text-align: justify;
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px 0px #0000001a;
+    padding: 15px 15px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.toolTipVisible {
+    display: block;
+}
+
+.toolTipHidden {
+    display: none;
+}
+
+.toolTipContainer {
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px 0px #0000001a;
+    width: min-content;
+    position: absolute;
+    right: 240px;
+    z-index: 1;
+    padding: 14px;
+    background: white;
+    width: 230px;
+    line-height: 24px;
+    text-align: justify;
+}
+
+.toolTipText {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 2px !important;
+    line-height: 4px;
+}
+
+@media (min-width:1500px) and (max-width: 1600px) {
+
+    .toolTipContainer {
+        right: 120px;
+        width: 230px;
+    }
+}
+
+@media (min-width:1600px) and (max-width: 1700px) {
+
+    .toolTipContainer {
+        right: 150px;
+        width: 230px;
+    }
+}
+
+@media (min-width:1700px) and (max-width: 1800px) {
+
+    .toolTipContainer {
+        right: 220px;
+        width: 230px;
+    }
+}
+
+
+@media (min-width:700px) and (max-width: 1500px) {
+
+    .toolTipContainer {
+        right: 85px;
+        width: 230px;
+    }
+}
+
+@media (min-width:390px) and (max-width: 700px) {
+
+    .toolTipContainer {
+        right: 65px;
+        width: 230px;
+    }
+}
+
+@media (min-width:260px) and (max-width: 390px) {
+
+    .toolTipContainer {
+        right: 50px;
+        width: 230px;
+    }
+}
+/* RWPS - 4881 - End */

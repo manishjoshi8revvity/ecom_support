@@ -1,0 +1,61 @@
+<apex:page standardController="ServiceAppointment" extensions="FS_MultiSelectController">     
+    <html>
+      <head>
+         <apex:includeLightning />
+      </head>
+        
+      <body class="slds-scope">
+         <div id="flowContainer" />
+         <script>
+              //set id variables from VF page / controller extension for use in the following javascript
+              var recordId = "{!serviceappointment.Id}"
+              var MultipleIds = "{!MultipleIds}"
+              var idArray = [];
+              var recordString;
+            
+            //Split the 'recordIds' string into an array of Ids
+            var recordIds = MultipleIds.split(',');
+          
+              //The controller extension will be empty if only 1 record is selected
+              //if the record list is empty, populate it with the single record id from the standard controller
+              if(recordIds.length < 2){
+                recordIds = [recordId];
+                }
+          
+                  //Parse the id list into a list of objects for the flow collection variable
+                  for(let i = 0; i < recordIds.length; i++){
+                     recordString = { "Id":recordIds[i] };
+                      idArray.push(recordString);
+                  }
+          
+            // Control what happens when the interview finishes
+              var statusChange = function (event) {
+               if(event.getParam("status") === "FINISHED") {
+                   //Close the modal window when the flow finishes.
+                  parent.postMessage('closeLightbox','*')
+               }
+            };
+          
+           // Initiate the flow using the lightning out app.
+            $Lightning.use("c:flowLauncher", function() {
+               // Create the flow component and set the onstatuschange attribute
+               $Lightning.createComponent("lightning:flow", {"onstatuschange":statusChange},
+                  "flowContainer",
+                  function (component) {
+                      var inputVariables = [
+                          {
+                            name : 'stringRecordIds',
+                            type : 'String',
+                            value : recordIds 
+                          }
+                      ];
+                      //alert('Input Variables: ' + JSON.stringify(inputVariables));
+
+                      component.startFlow("S_FLOW_6823_Service_Appointment_Mass_Cancel", inputVariables);
+                  }
+               );
+            });
+         </script>
+      </body>       
+   </html>
+</apex:page>

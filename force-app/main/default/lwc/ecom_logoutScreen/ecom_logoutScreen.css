@@ -1,0 +1,135 @@
+/** iframe div should not be visible**/
+.ecom-hidden-div{
+  /* visibility: hidden; */
+  height: 1px;
+  width: 1px;
+}
+
+.logout-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+ 
+}
+.logout-spinner {
+    color: official;
+    display: inline-block;
+    /* position: relative; */
+    width: 40px;
+    height: 40px;
+    margin-bottom: 60px;
+    /* margin-right: 0px;
+    margin-left: 0px; */
+  }
+  .logout-spinner div {
+    transform-origin: 40px 40px;
+    animation: logout-spinner 1.2s linear infinite;
+  }
+  .logout-spinner div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 37px;
+    width: 6px;
+    height: 18px;
+    border-radius: 20%;
+    background: #5A027D;
+  }
+  .logout-spinner div:nth-child(1) {
+    transform: rotate(0deg);
+    animation-delay: -1.1s;
+  }
+  .logout-spinner div:nth-child(2) {
+    transform: rotate(30deg);
+    animation-delay: -1s;
+  }
+  .logout-spinner div:nth-child(3) {
+    transform: rotate(60deg);
+    animation-delay: -0.9s;
+  }
+  .logout-spinner div:nth-child(4) {
+    transform: rotate(90deg);
+    animation-delay: -0.8s;
+  }
+  .logout-spinner div:nth-child(5) {
+    transform: rotate(120deg);
+    animation-delay: -0.7s;
+  }
+  .logout-spinner div:nth-child(6) {
+    transform: rotate(150deg);
+    animation-delay: -0.6s;
+  }
+  .logout-spinner div:nth-child(7) {
+    transform: rotate(180deg);
+    animation-delay: -0.5s;
+  }
+  .logout-spinner div:nth-child(8) {
+    transform: rotate(210deg);
+    animation-delay: -0.4s;
+  }
+  .logout-spinner div:nth-child(9) {
+    transform: rotate(240deg);
+    animation-delay: -0.3s;
+  }
+  .logout-spinner div:nth-child(10) {
+    transform: rotate(270deg);
+    animation-delay: -0.2s;
+  }
+  .logout-spinner div:nth-child(11) {
+    transform: rotate(300deg);
+    animation-delay: -0.1s;
+  }
+  .logout-spinner div:nth-child(12) {
+    transform: rotate(330deg);
+    animation-delay: 0s;
+  }
+  @keyframes logout-spinner {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  /*RWPS-2124*/
+  @media screen and  (min-width:1080px){
+
+    .background{
+      max-width: 100%;
+      min-width: 360px;
+    }
+    .container{
+      max-width:1440px;
+      min-width:360px;
+      background-color:white;
+    }
+    
+    .body{
+      width: 100%;
+      text-align: center;
+    }
+    .logout-message{
+        font-size: 56px;
+        color: #333333;
+        margin-left: 75px;
+    }
+}
+@media screen and  (max-width:390px){
+    .background{
+        max-width: 100%;
+    }
+    .container{
+        max-width:390px;
+        background-color:white;
+    }
+    .body{
+        width: 100%;
+        text-align: center;
+    }
+    .logout-message{
+        font-size: 36px;
+        color: #333333;
+    }
+}

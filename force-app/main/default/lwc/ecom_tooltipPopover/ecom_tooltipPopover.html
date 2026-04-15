@@ -1,0 +1,80 @@
+<template>
+    <div class="slds-show_medium">
+        <div style="" class="ecom-padding-top-bottom-4">
+            <span class="ecom-detail-text-14">{tooltipLabel} </span>
+            <!-- RWPS-3826 start -->
+            <button aria-label={tooltipLabel} class="slds-button  slds-button_icon slds-input__icon slds-input__icon_right ecom-image-icon ecom-position-relative" aria-describedby="help" aria-disabled="true" > <!--onmouseenter={showPopover} onmouseleave={hidePopover}-->
+            <!-- RWPS-3826 end -->
+                <div class="" data-id="helptextparent" aria-describedby="help" aria-disabled="true">
+                    <!-- RWPS-3826 start -->
+                    <img alt="tooltip-icon" class="ecom-help-icon ecom-image-icon" src={tooltipImage}/>
+                    <!-- RWPS-3826 end -->
+                </div>
+                <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left ecom-show-hide ecom-popover ecom-position-absolute ecom-medium-screen" role="tooltip">
+                    <div class="slds-popover__body ecom-popover-body ecom-medium-popover-body ecom-text-size-16">{tooltipText}</div>
+                </div>
+            </button>
+            <!-- <div class={popoverClass} role="tooltip" id="helptext"> -->
+        </div>
+    </div>
+    <div class="slds-hide_medium slds-show_small">
+        <div style="" class="ecom-padding-top-bottom-4">
+            <span class="ecom-detail-text-14">{tooltipLabel} </span>
+            <button class="slds-button  slds-button_icon slds-input__icon slds-input__icon_right ecom-image-icon ecom-position-relative" aria-describedby="help" aria-disabled="true" > <!--onmouseenter={showPopover} onmouseleave={hidePopover}-->
+                <span class="" data-id="helptextparent" aria-describedby="help" aria-disabled="true">
+                    <img class="ecom-help-icon ecom-image-icon" src={tooltipImage}/>
+                </span>
+                <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left ecom-show-hide ecom-popover ecom-position-absolute" role="tooltip" >
+                    <div class="slds-popover__body ecom-popover-body ecom-text-size-12">{tooltipText}</div>
+                </div>
+            </button>
+            <!-- <div class={popoverClass} role="tooltip" id="helptext"> -->
+        </div>
+    </div>
+    <div class="slds-hide_small">
+        <!-- Left Aligned-->
+        <template lwc:if={isLeftAligned}>
+            <div style="" class="ecom-padding-top-bottom-4">
+                <span class="ecom-detail-text-14">{tooltipLabel} </span>
+                <!-- <button class="slds-button  slds-button_icon slds-input__icon slds-input__icon_right ecom-image-icon  ecom-position-relative" aria-describedby="help" aria-disabled="true" >  -->
+                    <button class="slds-button  slds-button_icon slds-input__icon slds-input__icon_right ecom-image-icon-left  ecom-position-relative" aria-describedby="help" aria-disabled="true" >
+                    <span class="" data-id="helptextparent" aria-describedby="help" aria-disabled="true">
+                        <img class="ecom-help-icon ecom-image-icon" src={tooltipImage}/>
+                    </span>
+                    <div class="slds-popover slds-popover_tooltip slds-slide-from-left-to-right slds-nubbin_right slds-float_right ecom-show-hide ecom-popover ecom-position-absolute" role="tooltip" >
+                        <div class="slds-popover__body ecom-popover-body ecom-text-size-16">{tooltipText}</div>
+                    </div>
+                </button>
+                <!-- <div class={popoverClass} role="tooltip" id="helptext"> -->
+            </div>
+        </template>
+
+        <template lwc:if={isRightAligned}>
+            <div style="" class="ecom-padding-top-bottom-4">
+                <span class="ecom-detail-text-14">{tooltipLabel} </span>
+                <button class="slds-button  slds-button_icon slds-input__icon slds-input__icon_right ecom-image-icon ecom-image-icon-right ecom-position-relative" aria-describedby="help" aria-disabled="true" >
+                    <span class="" data-id="helptextparent" aria-describedby="help" aria-disabled="true">
+                        <img class="ecom-help-icon ecom-image-icon" src={tooltipImage}/>
+                    </span>
+                    <div class="slds-popover slds-popover_tooltip slds-nubbin_left ecom-show-hide ecom-popover ecom-position-absolute" role="tooltip" >
+                        <div class="slds-popover__body ecom-popover-body ecom-text-size-16">{tooltipText}</div>
+                    </div>
+                </button>
+            </div>
+        </template>
+
+        <!--Right Aligned
+        <div style="" class="ecom-padding-top-bottom-4">
+            <span class="ecom-detail-text-14">{tooltipLabel} </span>
+            <button class="slds-button  slds-button_icon slds-input__icon slds-input__icon_right ecom-image-icon ecom-position-relative" aria-describedby="help" aria-disabled="true" >
+                <span class="" data-id="helptextparent" aria-describedby="help" aria-disabled="true">
+                    <img class="ecom-help-icon ecom-image-icon" src={tooltipImage}/>
+                </span>
+                <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-right ecom-show-hide ecom-popover ecom-position-absolute" role="tooltip" >
+                    <div class="slds-popover__body ecom-popover-body ecom-text-size-16">{tooltipText}</div>
+                </div>
+            </button>
+
+        </div>-->
+    </div>
+</template>

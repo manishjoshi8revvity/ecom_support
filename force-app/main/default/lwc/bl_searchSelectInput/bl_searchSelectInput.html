@@ -1,0 +1,31 @@
+<template>
+  <div onclick={handleComponentClick}>
+    <div onclick={showOptions}>
+      <label for="mainInput" class="form-label">{label}</label>
+      <div class="position-relative">
+        <input class="main-input form-control w-100" readonly id="mainInput" lwc:ref="mainInput" value={currentValue} onkeydown={handleEnter}>
+      </div>
+    </div>
+
+    <div class="position-relative" data-visible={optionsVisible}>
+      <div class="position-absolute top-0 start-0 z-2 w-100 mt-1 bg-white shadow overflow-hidden border border-secondary-subtle rounded">
+        <input class="form-control w-100 mb-1 shadow-none" lwc:ref="searchInput" placeholder={placeholder} oninput={handleSearch}>
+
+        <div class="dropdown-options overflow-auto" lwc:ref="dropdownOptions">
+          <div class="dropdown-option dropdown-default" onclick={handleOptionClick} data-value={defaultValue}>
+            <div class="dropdown-default-value p-2">{defaultValue}</div>
+            <div class="pt-2 px-2 mb-2">
+              <div class="border-bottom border-dark-subtle"></div>
+            </div>
+          </div>
+
+          <template for:each={options} for:item="option">
+            <div class="dropdown-option p-2" onclick={handleOptionClick} data-value={option} key={option}>
+              {option}
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

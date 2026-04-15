@@ -1,0 +1,56 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 10-07-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <div class = "container">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" margin="around-small">
+                <div class="">
+                    <ul class="pagination">
+                        <li class="" >
+                            <a  class="">
+                                <!-- RWPS-3826 -->
+                                <lightning-icon icon-name="utility:chevronleft" alternative-text="chevronleft" size="small" title="First" role="button" tabindex="0" onkeypress={handleEnterPress} onclick={goToFirst}>
+                                </lightning-icon>
+                            </a>
+                        </li>
+                        <li class="" >
+                            <!-- RWPS-3826 -->
+                            <a  class=""  title="Previous" role="button" tabindex="0" onkeypress={handleEnterPress} onclick={handlePreviousPage} >
+                                Previous
+                            </a>
+                        </li>
+                        <template for:each={pageNumbers} for:item= "pageNumber">
+                        <li class="" key={pageNumber.id}>
+                            <template if:true={pageNumber.isPage}>
+                                <!-- RWPS-3826 -->
+                                <a data-id={pageNumber.id}  class={pageNumber.classNames} role="button" tabindex="0" onkeypress={handleEnterPress} onclick={handleGoToPage} data-page={pageNumber.pageNumber}><div class="slds-m-horizontal_xxx-small">{pageNumber.pageNumber}</div></a>
+                            </template>
+                            <template if:true={pageNumber.isRange}>
+                                <a data-id={pageNumber.id} class={pageNumber.classNames} data-page={pageNumber.pageNumber}><div class="slds-m-horizontal_xxx-small">{pageNumber.pageNumber}</div></a>
+                            </template>
+                        </li>
+                        </template>
+                        <li class="" >
+                            <!-- RWPS-3826 -->
+                            <a  class="" title="Next" role="button" tabindex="0" onkeypress={handleEnterPress} onclick={handleNextPage}>
+                              Next
+                            </a>
+                        </li>
+                        <li class="" >
+                            <a  class="">
+                                <!-- RWPS-3826 -->
+                                <lightning-icon icon-name="utility:chevronright" alternative-text="chevronright" size="small" title="Last" role="button" tabindex="0" onkeypress={handleEnterPress} onclick={goToLast}>
+                                </lightning-icon>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="imageURL" type="String" label="Image URL"/>
+            <property name="imageTitle" type="String" label="Image Title" description="The title for the saved image." />
+            <!-- Add the new property for imageDataOutput -->
+            <property name="imageDataOutput" type="String" label="Image Data (Base64)" description="Base64-encoded image data for use in flow." />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

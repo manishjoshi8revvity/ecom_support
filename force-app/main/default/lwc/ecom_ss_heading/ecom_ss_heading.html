@@ -1,0 +1,34 @@
+<template>
+  <div class={containerClass}>
+    <h1 style={headingStyle} lwc:if={headingType.h1}>
+      <lightning-formatted-rich-text
+        value={headingText}
+      ></lightning-formatted-rich-text>
+    </h1>
+    <h2 style={headingStyle} lwc:if={headingType.h2}>
+      <lightning-formatted-rich-text
+        value={headingText}
+      ></lightning-formatted-rich-text>
+    </h2>
+    <h3 style={headingStyle} lwc:if={headingType.h3}>
+      <lightning-formatted-rich-text
+        value={headingText}
+      ></lightning-formatted-rich-text>
+    </h3>
+    <h4 style={headingStyle} lwc:if={headingType.h4}>
+      <lightning-formatted-rich-text
+        value={headingText}
+      ></lightning-formatted-rich-text>
+    </h4>
+    <h5 style={headingStyle} lwc:if={headingType.h5}>
+      <lightning-formatted-rich-text
+        value={headingText}
+      ></lightning-formatted-rich-text>
+    </h5>
+    <h6 style={headingStyle} lwc:if={headingType.h6}>
+      <lightning-formatted-rich-text
+        value={headingText}
+      ></lightning-formatted-rich-text>
+    </h6>
+  </div>
+</template>

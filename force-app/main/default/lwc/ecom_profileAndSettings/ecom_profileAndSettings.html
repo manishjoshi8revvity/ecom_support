@@ -1,0 +1,1575 @@
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<!--
+  @description       : 
+  @author            : Dar Wright
+  @group             : 
+  @last modified on  : 19-06-2024
+  @last modified by  : garora@rafter.one
+-->
+<template>
+    <main id="main-content"><!--RWPS-5284-->
+    <template if:true={showSpinner}>
+        <div class="backdrop">
+            <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+            </lightning-spinner>
+        </div>
+      </template>
+    <div class="background">
+        <div class="container slds-align_absolute-center">
+            <div class={modalOpenStyling}>
+                <!-- Loading Favorites on the Favorites page			 -->
+			    <div class="slds-grid slds-wrap">
+                    <div class={sidebarCSS}>
+                        <c-ecom_account-sidebar></c-ecom_account-sidebar>
+                    </div>  
+                    <div if:false={isSmallScreen} class={middleSpaceCSS}></div>
+                    <div class={mainSectionCSS}>
+                            <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-small-size_1-of-1">
+                                    <template if:false={device.isMobile}>
+                                        <div class="ecom-mt-64 ecom-mb-56">
+                                            <h1 class="ecom-acn-label">{labels.Ecom_Profile_Settings}</h1> <!-- RWPS-3764 -->
+                                        </div>
+                                    </template>
+                                    <template if:true={device.isMobile}>
+                                        <!-- <c-ecom_account-sidebar></c-ecom_account-sidebar> -->
+                                        <div class="ecom-mt-40 ecom-mb-40">
+                                            <span class="ecom-acn-label-md">{labels.Ecom_Profile_Settings}</span> 
+                                        </div>
+                                    </template>
+                                    <c-ecom_inline-message  type={messageType} message={message} show={showMessage}  onmessageaction={handleMessageCloseAction} timespan={timeSpan}></c-ecom_inline-message>
+
+                                    <!-- Start Profile Information -->
+                                    <!-- Profile Information Large Screen -->
+                                    <!-- <template if:false={isSmallScreen}> -->
+                                        <div class="">
+                                            <div class="">
+                                                <span class="ecom-label-text-32">{labels.Ecom_Profile_Information}</span>
+                                                <div class="ecom-mbp-40"></div>
+                                            </div>
+                                            <div  if:true={copyLoggedinUser}>
+                                                <lightning-layout multiple-rows="true">
+                                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="5" large-device-size="5">
+                                                        <div class=""> 
+                                                            <lightning-input class="" type="text" data-id="fName-Id" label={firstNameLabel} value={copyLoggedinUser.FirstName} onchange={handleUserNameChange} onblur={handleBlur}></lightning-input><!-- RWPS-2722 -->
+                                                        </div>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="5" large-device-size="5">
+                                                        <div class=""> 
+                                                            <lightning-input type="text" class="padding-lastname" data-id="lName-Id" label={lastNameLabel} value={copyLoggedinUser.LastName} onchange={handleUserNameChange} onblur={handleBlur}></lightning-input><!-- RWPS-2722 --> <!-- RWPS-3306 -->
+                                                        </div>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </div>
+                                        </div>
+                                    <!-- </template> -->
+                                    <!-- End of Profile Information -->
+
+                                    <!-- Start Email Address & Password -->
+                                    <!-- Email Address & Password Large Screen -->
+                                    <!-- <template if:false={isSmallScreen}> -->
+                                        <div>
+                                            <div class="">
+                                                <div class="ecom-mt-48"><span class="ecom-label-text-32">{labels.Ecom_Email_Address_Password}</span></div>
+                                                <div class="ecom-mt-16 ecom-mbp-40" ><span class="ecom-detail-text-18">{labels.Ecom_Email_Message}</span></div>
+                                            </div>
+                            
+                                            <div if:true={copyLoggedinUser}> 
+                                                <lightning-layout multiple-rows="true">
+                                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="5" large-device-size="5" >
+                                                        <div class="">
+                                                            <div class="">
+                                                                <div><span class="ecom-label-text-18">{labels.ECOM_EmailAddress}</span></div>                          
+                                                                <div class="ecom-margin-top-8"><span class="ecom-detail-text-18">{copyLoggedinUser.Email}</span></div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </lightning-layout-item >
+                                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="5" large-device-size="5">
+                                                        <div class="">
+                                                            <div class="padding-password"><!-- RWPS-3306 -->
+                                                                <div>
+                                                                    <span class="ecom-account-sb-label">{labels.Ecom_Password}</span>
+                                                                </div>
+                                                                <div class="ecom-margin-top-8"><span class="ecom-account-sb-detail ">*********</span></div> 
+                                                                <div class="ecom-mt-24">
+                                                                    <button class="slds-button slds-button_icon  ecom-brand-font " onclick={handleClickOpenPasswordModal} onkeydown={handleKeyOpenPasswordModal}><!-- RWPS-3764 -->
+                                                                        <span class=" ecom-btn-label ecom-purple-font">{labels.Ecom_Change}</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </div> 
+                                            <div class="slds-show_medium"><div class="ecom-mb-48"></div>
+                                        </div>
+                                            <div class="slds-hide_medium slds-show_small">
+                                                <div class="ecom-mb-32"></div>
+                                            </div>
+                                            <div class="slds-hide_small">
+                                                <div class="ecom-mb-32"></div>
+                                            </div>
+                                        </div>
+                                        <!-- </div>  -->
+                                    <!-- End of Email Address & Password -->
+
+                                    <!-- Start Contact Information -->
+                                    <!-- Contact Info Large Screen -->
+                                        <div class="">
+                                            <div class="slds-show_medium">
+                                                <div class="ecom-mt-48"><span class="ecom-label-text-32">{labels.Ecom_Contact_Information}</span></div>
+                                                <div class="ecom-mt-40" >
+                                                    <div  if:true={copyContactData}> <!--class="ecom-mt-40 ecom-mb-48"-->
+                                                        <lightning-layout multiple-rows="true">
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                                                <div> <span class="ecom-label-text-18">{labels.Ecom_Phone_Number} </span></div>
+                                                                <div class="ecom-margin-top-8">
+                                                                    <span class="ecom-detail-text-18">{copyContactData.Phone} Ext {copyContactData.ECOM_Phone_Extension__c}</span>
+                                                                </div>
+                                                                <div class="ecom-mt-24">
+                                                                    <button class="slds-button slds-button_icon ecom-brand-font" onclick={handleClickOpenPhoneModal} onkeydown={handleKeyOpenPhoneModal}><!-- RWPS-3764 --> <!--RWPS-4153-->
+                                                                    <span class=" ecom-btn-label ecom-purple-font">{labels.Ecom_Change}</span>
+                                                                    </button>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-hide_medium slds-show_small" >
+                                                <div class="ecom-mt-32"><span class="ecom-label-text-24">{labels.Ecom_Contact_Information}</span></div>
+                                                <div class="ecom-mt-16" >
+                                                    <div  > <!--class="ecom-mt-40 ecom-mb-48"-->
+                                                        <lightning-layout multiple-rows="true">
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                                                <div>
+                                                                    <span class="ecom-label-text-16">{labels.Ecom_Phone_Number} </span>
+                                                                </div>
+                                                                <div class="ecom-margin-top-8">
+                                                                    <span class="ecom-detail-text-16">{copyContactData.Phone} Ext {copyContactData.ECOM_Phone_Extension__c}</span>
+                                                                </div>
+                                                                <div class="ecom-mt-16">
+                                                                    <!-- RWPS-3764: Opens the phone modal on click or keyboard action -->
+                                                                    <button class="slds-button slds-button_icon ecom-brand-font" onclick={handleClickOpenPhoneModal} onkeydown={handleKeyOpenPhoneModal}><!--RWPS-4087--> <!--RWPS-4153-->
+                                                                    <span class=" ecom-btn-label ecom-purple-font">{labels.Ecom_Change}</span>
+                                                                    </button>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-hide_small">
+                                                <div class="ecom-mt-32"></div>
+                                                <span class="ecom-label-text-24">{labels.Ecom_Contact_Information}</span>
+                                                <div class="ecom-mt-16" >
+                                                    <div  > <!--class="ecom-mt-40 ecom-mb-48"-->
+                                                        <lightning-layout multiple-rows="true">
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                                                <div>
+                                                                    <span class="ecom-label-text-16">{labels.Ecom_Phone_Number}</span>
+                                                                </div>
+                                                                <div class="ecom-margin-top-8">
+                                                                    <span class="ecom-detail-text-16">{copyContactData.Phone} Ext {copyContactData.ECOM_Phone_Extension__c}</span>
+                                                                </div>
+                                                                <div class="ecom-mt-16">
+                                                                    <!-- RWPS-3764 -->
+                                                                    <button class="slds-button slds-button_icon ecom-brand-font" onclick={handleClickOpenPhoneModal} onkeydown={handleKeyOpenPhoneModal}><!--RWPS-4087--> <!--RWPS-4153-->
+                                                                    <span class=" ecom-btn-label ecom-purple-font">{labels.Ecom_Change}</span>
+                                                                    </button>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!-- End of Contact Information  -->
+
+                                    <!-- Additional Shipping Information -->
+                                    <!-- Additional Shipping Information Large Screen -->
+                                    <!-- <template if:false={isSmallScreen}> -->
+                                        <div class="">
+                                            <div class="slds-show_medium">
+                                                <div class="ecom-mt-48"><span class="ecom-label-text-32">Attention Line</span></div>
+                                                <div class="ecom-mt-40"></div>
+                                            </div>
+                                            <div class="slds-hide_medium slds-show_small" >
+                                                <div class="ecom-mt-32"><span class="ecom-label-text-24">Attention Line</span></div>
+                                                <div class="ecom-mt-16"></div>
+                                            </div>
+                                            <div class="slds-hide_small">
+                                                <div class="ecom-mt-32"><span class="ecom-label-text-24">Attention Line</span></div>
+                                                <div class="ecom-mt-16"></div>
+                                            </div>
+                                            <div>    
+                                                <lightning-layout multiple-rows="true">
+                                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                                        <div class="">
+                                                            <div><span class="ecom-label-text-18">{labels.recipientTitle}</span></div><!--RWPS-4824-->
+                                                            <div class="ecom-margin-top-8">
+                                                                <span class="ecom-detail-text-18" >{copyContactData.ECOM_Attention_Recipient__c}</span>
+                                                            </div>
+                                                            <!-- <div class="ecom-mt-24">
+                                                                <span class="ecom-label-text-18">Special Instructions</span></div>
+                                                            <div class="ecom-margin-top-8" if:true={copyContactData.ECOM_Special_Instructions__c}>
+                                                                <span class="ecom-detail-text-18">{copyContactData.ECOM_Special_Instructions__c}</span></div> -->
+                                                            <!-- <div class="ecom-mt-24"><span class="ecom-label-text-18">Special instructions for processing your order</span></div> -->
+                                                            <!-- <div class="ecom-margin-top-8" if:true={copyContactData.ECOM_Delivery_Details__c}>
+                                                                <span class="ecom-detail-text-18" >{copyContactData.ECOM_Delivery_Details__c}</span></div> -->
+                                                            <div class="ecom-mt-24">
+                                                                <!-- RWPS-3764 -->
+                                                                <button class="slds-button slds-button_icon  ecom-brand-font" onclick={handleClickOpenShippingModal} onkeydown={handleKeyOpenShippingModal}><!--RWPS_4087--> <!--RWPS_4153-->
+                                                                    <span class="ecom-btn-label ecom-purple-font">{labels.Ecom_Change}</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </div>
+                                        </div> 
+                                    <!-- </template> -->
+                                    <!-- End Additional Shipping Information -->            
+
+                                    <!-- Start Email Notifications Large Screen-->
+                                    <template if:false={isSmallScreen}>
+                                    <div>
+                                        <div class="slds-show_medium">
+                                            <div class="ecom-mt-48"><span class="ecom-label-text-32">Email Preferences</span></div>
+                                            <div class="ecom-mt-16 ecom-mb-40"><span class="ecom-detail-text-18">{labels.Ecom_Email_Associated_Message}</span>  </div>
+                                        </div>
+                                        <div class="slds-hide_medium slds-show_small" >
+                                            <div class="ecom-mt-40"><span class="ecom-label-text-24">Email Preferences</span></div>
+                                            <div class="ecom-mt-16 ecom-mb-24" >
+                                                <span class="ecom-detail-text-18">{labels.Ecom_Email_Associated_Message}</span>  
+                                            </div>
+                                        </div>
+                                        <div class="slds-hide_small">
+                                            <div class="ecom-mt-40"></div>
+                                            <span class="ecom-label-text-24">Email Preferences</span>
+                                            <div class="ecom-mt-16 ecom-mb-24" >
+                                                <span class="ecom-detail-text-18">{labels.Ecom_Email_Associated_Message}</span>  
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="" >              
+                                                <div class="" if:true={copyEmailData}> 
+                                                    <lightning-layout vertical-align="start" class="slds-grid slds-wrap" multiple-rows="true">
+                                                        <lightning-layout-item key={e.Id} flexibility="auto" class="" size="12">
+                                                            <div class="slds-grid slds-wrap">
+                                                                <div class="slds-col slds-size_5-of-12 slds-large-size_5-of-12 ecom-padding-tb-10 ecom-margin-auto ecom-padding-right-12">
+                                                                    <div class="ecom-label-text-14  ecom-wrapped-content">{labels.ECOM_EmailAddress}</div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12 ecom-padding-tb-10 ecom-padding-left-12 ecom-padding-right-12">
+                                                                    <div class="ecom-label-text-14 slds-text-align_center ecom-break-word slds-align_absolute-center">{labels.ECOM_OrderConfirmation}</div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12 ecom-padding-tb-10 ecom-padding-right-12 ecom-padding-left-12">
+                                                                    <div class="ecom-label-text-14 slds-text-align_center ecom-break-word slds-align_absolute-center">{labels.ECOM_ShipmentNotification}</div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_4-of-12 ecom-padding-tb-10 ecom-padding-left-12">
+                                                                    <div class="ecom-label-text-14 slds-text-align_center ecom-break-word"></div>
+                                                                </div>
+                                                            </div>
+                                                        </lightning-layout-item>
+                                                        <template for:each={copyEmailData} for:item="e" >
+                                                            <lightning-layout-item key={e.Id} flexibility="auto" class="" size="12">
+                                                                <!-- separate Account level data - Contacts should not be able to edit/delete this -->
+                                                                <div if:false={e.ECOM_Contact__c} >
+                                                                    <div class="slds-grid slds-wrap ecom-custom-checkbox">
+                                                                        <div class="slds-col slds-size_5-of-12 slds-large-size_5-of-12  ecom-text-align-center ecom-padding-right-12">
+                                                                            <div class="ecom-padding-tb-10 ">
+                                                                                <span class="ecom-address-label-gray ecom-wrapped-content  ecom-detail-text-18">{e.ECOM_Email__c}</span><br>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12 ecom-padding-right-12 ecom-padding-left-12 slds-align_absolute-center">
+                                                                            <div class="ecom-padding-tb-10">
+                                                                                <lightning-input type="checkbox" checked={e.ECOM_Order_Confirmation__c} disabled="true" class="ecom-purple-checkbox ecom-detail-text-18" data-id={e.Id}  data-label="ECOM_Order_Confirmation__c" aria-label="Order Confirmation" ></lightning-input><!-- RWPS-3764 -->
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12 ecom-padding-right-12 ecom-padding-left-12 slds-align_absolute-center">
+                                                                            <div class="ecom-padding-tb-10">
+                                                                                <lightning-input type="checkbox" checked={e.ECOM_Shipment_Notification__c} disabled="true" class="ecom-purple-checkbox ecom-detail-text-18" data-id={e.Id}  data-label="ECOM_Shipment_Notification__c" aria-label="Order Notification"></lightning-input><!-- RWPS-3764 -->
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                </div>
+                                                                <div if:true={e.ECOM_Contact__c} >
+                                                                    <div class="slds-grid slds-wrap ecom-custom-checkbox">
+                                                                        <div class="slds-col slds-size_5-of-12 slds-large-size_5-of-12  ecom-text-align-center ecom-padding-right-12">
+                                                                            <div class="ecom-padding-tb-10">
+                                                                                <span class="ecom-address-label ecom-wrapped-content slds-text-align_center ecom-detail-text-18 ">{e.ECOM_Email__c}</span><br>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12 ecom-address-label ecom-padding-right-12 ecom-padding-left-12 slds-align_absolute-center">
+                                                                            <div class="ecom-padding-tb-10">
+                                                                                <lightning-input type="checkbox" checked={e.ECOM_Order_Confirmation__c} class="ecom-purple-checkbox" data-id={e.Id}  data-label="ECOM_Order_Confirmation__c" onchange={onEmailOrderChange}   aria-label="Order Confirmation"  onkeyup={handleCheckboxKeyup}></lightning-input><!-- RWPS-3764 -->
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12 ecom-address-label ecom-padding-right-12 ecom-padding-left-12 slds-align_absolute-center">
+                                                                            <div class="ecom-padding-tb-10">
+                                                                                <lightning-input type="checkbox" checked={e.ECOM_Shipment_Notification__c} class="ecom-purple-checkbox" data-id={e.Id}  data-label="ECOM_Shipment_Notification__c" onchange={onEmailShipChange} aria-label="Order Notification"  onkeyup={handleCheckboxKeyup}></lightning-input><!-- RWPS-3764 -->
+                                                                            </div>
+                                                                        </div>                                            
+                                                                        <div class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_4-of-12 ecom-padding-left-12">
+                                                                            <div class="ecom-email-delete-container"> 
+                                                                                <img src={images.blackdelete} alt="Delete" role="button"  tabindex="0"   onkeydown={handleKeyDelete} data-id={e.Id} onclick={onEmailDelete}  data-icon-src={images.blackdelete} data-hover-icon-src={images.purpledelete} class="slds-button__icon slds-button__icon_medium slds-button__icon_left  ecom-qo-deleteitem-btn ecom-img-icon-sizing" onmouseenter={showHoverIcon} onmouseleave={showOriginalIcon} ><!-- RWPS-3764 -->
+                                                                            </div>
+                                                                        <br>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="checkboxMessage" data-id={e.Id} lwc:dom="manual"></div>
+                                                            </lightning-layout-item>
+                                                        </template>
+                                                    </lightning-layout>
+
+
+                                                    <!-- Call checkout email modal -->
+                                                   <!-- RWPS-2562 added condition to delete email correctly -->
+                                                    <!-- RWPS-4087 added keydown-->
+                                                   <div class="ecom-mt-40 ecom-mb-56 ecom-label-text-18 ecom-purple-font ecom-brand-font" if:false={emailDeleted}>
+                                                        <a href="javascript:void(0)" onclick={handleAddEmail} onkeydown={handleAddEmail} class="ecom-btn-hover">{labels.ECOM_AdditionalEmailMessage}</a>
+                                                        <c-ecom_checkout-email-notification-modal 
+                                                        onemailmodalclosed={handleEmailPreferenceModalClose} 
+                                                        onemailpreferencesadded={handleEmailPreferencesAdded} 
+                                                        existing-emails={copyEmailData} ></c-ecom_checkout-email-notification-modal>
+                                                    </div>
+
+                                                    
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    </template>
+                                    <!-- End of Email Notifications Large Screen -->
+
+                                    <!-- Start Email Notifications Small Screen-->
+                                    <template if:true={isSmallScreen}>
+                                        <div class="ecom-mt-40">
+                                            <span class="ecom-label-text-24">Email Preferences</span>
+                                            <div class="ecom-mt-16" >
+                                                <span class="ecom-detail-text-18">{labels.Ecom_Email_Associated_Message}</span>  
+                                            </div>
+                                            <div class="ecom-mt-24" >              
+                                                <div class="" if:true={copyEmailData}> 
+                                                    <lightning-layout vertical-align="start" class="slds-grid slds-wrap" multiple-rows="true">
+                                                        <lightning-layout-item key={e.Id} flexibility="auto" class="" size="12">
+                                                            <div class="slds-grid slds-wrap">
+                                                                <div class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                                                                    <div class="ecom-email-col-header slds-text-align_center ecom-wrapped-content"></div>
+                                                                </div>
+                                                            </div>
+                                                        </lightning-layout-item>
+                                                        <!-- <template for:each={copyEmailData} for:item="e" > -->
+                                                        <template iterator:e={copyEmailData}>
+                                                            <lightning-layout-item key={e.value.Id} flexibility="auto" class="" size="12">
+                                                                <div class="ecom-mt-24 ecom-mb-24">
+                                                                    <div class="slds-grid slds-wrap ">
+                                                                        <div class="slds-col slds-size_3-of-4 ecom-height-50">
+                                                                            <div class="ecom-detail-text-16 ecom-wrapped-content ecom-height-50-center">{e.value.ECOM_Email__c}</div><br>
+                                                                        </div>                                            
+                                                                        <div class="slds-col slds-size_1-of-4 ecom-img-align-right ecom-icon-md-position">
+                                                                                <div class="ecom-img-icon-sizing "> 
+                                                                                    <!-- <img src={images.deleteblack} data-id={e.value.Id} onclick={onEmailDelete} > -->
+                                                                                    <img src={images.blackdelete} alt="delete" data-id={e.value.Id} onclick={onEmailDelete}  
+                                                                                    data-icon-src={images.blackdelete} data-hover-icon-src={images.purpledelete} 
+                                                                                    class="slds-button__icon slds-button__icon_medium slds-button__icon_left  ecom-qo-deleteitem-btn ecom-img-icon-sizing" 
+                                                                                    role="button"  tabindex="0"   onkeydown={handleKeyDelete}
+                                                                                    onmouseenter={showHoverIcon} onmouseleave={showOriginalIcon} ><!-- RWPS-3764 -->
+                                                                                </div>
+                                                                            <br>
+                                                                            </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="slds-col slds-size_1-of-1  slds-small-size_1-of-1 ecom-address-label ecom-custom-checkbox ecom-mt-16">
+                                                                        <lightning-input type="checkbox" checked={e.value.ECOM_Order_Confirmation__c} label= {labels.ECOM_OrderConfirmation} class="ecom-purple-checkbox" data-id={e.value.Id}  data-label="ECOM_Order_Confirmation__c" onchange={onEmailOrderChange} aria-label="Order Confirmation"  onkeyup={handleCheckboxKeyup}></lightning-input><!-- RWPS-3764 -->
+                                                                    </div>
+                                                                    <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 ecom-address-label ecom-custom-checkbox ecom-mt-16">
+                                                                        <lightning-input type="checkbox" checked={e.value.ECOM_Shipment_Notification__c} label= {labels.ECOM_ShipmentNotification} class="ecom-purple-checkbox" data-id={e.value.Id}  data-label="ECOM_Shipment_Notification__c" onchange={onEmailShipChange} aria-label="Order Notification"  onkeyup={handleCheckboxKeyup}></lightning-input><!-- RWPS-3764 -->
+                                                                    </div>
+                                                                    <div class="checkboxMessageSmall" data-id={e.value.Id} lwc:dom="manual"></div>                                         
+                                                                    
+                                                                </div>
+                                                                <div if:false={e.last} class="ecom-gray-border-b "></div>
+                                                            </lightning-layout-item>
+                                                        </template>
+                                                    </lightning-layout>                               
+                                                    
+                                                     <!-- Call checkout email modal -->
+                                                     <div class="ecom-label-text-18 ecom-purple-font ecom-brand-font ">
+                                                        <a href="javascript:void(0)" onclick={handleAddEmail} class="ecom-btn-hover">{labels.Ecom_Add_Email}</a>
+                                                        <!-- RWPS-4000 Start -->
+                                                        <c-ecom_checkout-email-notification-modal is-mobile-view="true" 
+                                                            existing-emails={copyEmailData}
+                                                            onemailpreferencesadded={handleEmailPreferencesAdded} >
+                                                        </c-ecom_checkout-email-notification-modal>
+                                                    <!-- RWPS-4000 End -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <!-- RWPS-3306 start-->
+                                        <div class="ecom-mt-40" data-id="email-notification">
+                                            <span class="ecom-label-text-24">{labels.ECOM_EmailNotifications}</span>
+    
+                                            <div class="ecom-mt-16">
+                                                <span class="ecom-detail-text-18">
+                                                    {labels.ECOM_Email_Notification_Description}
+                                                </span>
+                                            </div>
+    
+                                            <!-- Header Row -->
+                                            <div class="slds-grid slds-wrap slds-m-top_medium slds-m-bottom_small" style="margin-bottom: 24px;padding-right: 20px">
+                                                <div class="slds-col slds-size_3-of-4 ecom-padding-tb-10">
+                                                    <span class="ecom-label-text-16"><strong>{labels.ECOM_Type}</strong></span>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-4 slds-text-align_right ecom-padding-tb-10">
+                                                    <span class="ecom-label-text-16"><strong>{labels.ECOM_Action} </strong></span>
+                                                </div>
+                                            </div>
+    
+                                            <!-- Abandoned Cart Emails -->
+                                            <div class="slds-grid slds-wrap slds-m-bottom_medium">
+                                                <div class="slds-col slds-size_3-of-4 ecom-padding-tb-10">
+                                                    <span class="ecom-detail-text-18">{labels.ECOM_Cart_Reminder_Email}</span>
+                                                </div>
+                                                <div class="custom-toggle slds-col slds-size_1-of-4 slds-text-align_right ecom-padding-tb-10" style="padding-right: 20px">
+                                                     <!--RWPS-3825 Added isCartReminder to fix mobile UI issue-->
+                                                    <div class="custom-toggle-wrapper">
+                                                        <label class="custom-switch">
+                                                            <input type="checkbox"
+                                                                checked={isCartReminder}
+                                                                onchange={onContactChange}
+                                                                data-id="OptOutCartEmail"
+                                                                aria-label="Enable cart reminder emails" /><!-- RWPS-3764 -->
+                                                            <span class="slider"></span>
+                                                        </label>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </div>
+    
+                                            <!-- Transactional Emails (Disabled) -->
+                                            <div class="slds-grid slds-wrap slds-m-bottom_medium" style="padding-right: 20px">
+                                                <div class="slds-col slds-size_3-of-4 ecom-padding-tb-10">
+                                                    <span class="ecom-detail-text-18">
+                                                        {labels.ECOM_Transactional_Email}<br />
+                                                        <span class="ecom-text-14">{labels.ECOM_Order_Shipment_Notifications}</span>
+                                                    </span>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-4 slds-text-align_right ecom-padding-tb-10">
+                                                    <div class="custom-toggle-wrapper">
+                                                        <label class="custom-switch">
+                                                            <input type="checkbox"
+                                                                disabled
+                                                                checked
+                                                                data-id="transactionalEmail" 
+                                                                aria-label="Transactional Email" /><!-- RWPS-3764 -->
+                                                            <span class="slider disabled"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- RWPS-3306 end-->
+                                    </template>
+                                    <!-- End of Email Notifications Small Screen -->
+                                <!-- Custom Email Notification Toggles for Large Screen  RWPS-3306-->
+                                <template if:false={isSmallScreen}>
+                                    <div class="slds-show_medium" data-id="email-notification">
+                                        <div class="ecom-mt-48">
+                                            <span class="ecom-label-text-32"> {labels.ECOM_EmailNotifications}</span>
+                                        </div>
+                                        <div class="ecom-mt-16 ecom-mb-40">
+                                            <span class="ecom-detail-text-18">
+                                                {labels.ECOM_Email_Notification_Description}
+                                            </span>
+                                        </div>
+                                
+                                        <div class="slds-grid slds-wrap" style="margin-bottom: 48px">
+
+                                            <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 ecom-padding-tb-10">
+                                                <span class="ecom-label-text-14"><strong>{labels.ECOM_Type}</strong></span>
+                                            </div>
+                                            <div class="ecom-padding-tb-10 slds-text-align_right">
+                                                <span class="ecom-label-text-14"><strong>{labels.ECOM_Action}</strong></span>
+                                            </div>
+
+                                            <!-- Abandoned cart -->
+                                            <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 ecom-padding-tb-10">
+                                                <span class="ecom-detail-text-18">{labels.ECOM_Cart_Reminder_Email}</span>
+                                            </div>
+                                            <div class="custom-toggle ecom-padding-tb-10 slds-text-align_right">
+                                                <div class="custom-toggle-wrapper">
+                                                    <label class="custom-switch">
+                                                      <input type="checkbox"
+                                                             checked={isCartReminder}
+                                                             onchange={onContactChange}
+                                                             data-id="OptOutCartEmail" 
+                                                             aria-label="Enable cart reminder emails"/><!-- RWPS-3764 -->
+                                                      <span class="slider"></span>
+                                                    </label>
+                                                  </div>
+                                            </div>
+                                
+                                            <!-- Transactional emails -->
+                                            <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 ecom-padding-tb-10">
+                                                <span class="ecom-detail-text-18">
+                                                    {labels.ECOM_Transactional_Email} <br />
+                                                    <span class="ecom-text-14">{labels.ECOM_Order_Shipment_Notifications}</span>
+                                                </span>
+                                            </div>
+                                            <div class="custom-toggle ecom-padding-tb-10 slds-text-align_right">
+                                                <div class="custom-toggle-wrapper" title="This option is currently unavailable">
+                                                    <label class="custom-switch">
+                                                      <input type="checkbox"
+                                                             disabled
+                                                             checked
+                                                             title="This option is currently unavailable"
+                                                             data-id="transactionalEmail" 
+                                                             aria-label="Transactional Email" /><!-- RWPS-3764 -->
+                                                      <span class="slider disabled"></span>
+                                                    </label>
+                                                  </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </template>  <!-- RWPS-3306 end-->
+
+                                    <!-- Save Changes -->
+                                    <div class="slds-show_medium" lwc:if={changesDetected}>
+                                        <button class="ecom-submit-btn ecom-mb-64 ecom-mt-56" onclick={handleSaveChanges} label={labels.Ecom_Save_Changes} onkeydown={handleKeyDownSaveContact}><!--RWPS-4087-->
+                                            <span>{labels.Ecom_Save_Changes}</span>
+                                        </button>
+                                    </div>
+                                    <div class="slds-hide_medium slds-show_small" lwc:if={changesDetected}>
+                                        <button class="ecom-submit-btn ecom-mb-40 ecom-mt-40" onclick={handleSaveChanges} label={labels.Ecom_Save_Changes} onkeydown={handleKeyDownSaveContact}><!--RWPS-4087-->
+                                            <span>{labels.Ecom_Save_Changes}</span>
+                                        </button>
+                                    </div>
+                                    <div class="slds-hide_small" lwc:if={changesDetected}>
+                                        <button class="ecom-submit-btn ecom-mb-40 ecom-mt-40" onclick={handleSaveChanges} label={labels.Ecom_Save_Changes} onkeydown={handleKeyDownSaveContact}><!--RWPS-4087-->
+                                            <span>{labels.Ecom_Save_Changes}</span>
+                                        </button>
+                                    </div>
+                                    <!-- End Save Changes -->
+                            </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Main Body-->
+
+    <!-- Change Password Modal -->
+    <template if:true={isChangePasswordModalOpen}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class={modalScreenSizing}
+        > <!--modalSize-->
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <div class="slds-modal__header ecom-noborder">
+                    <div>   
+                        <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={changePasswordHandleCancel}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                        </button>
+                    </div>
+
+                    <div id="modal-heading-01" class="ecom-label-text-32 slds-m-top_xx-large">
+                        <div class="slds-show_medium" ><div class="ecom-label-text-32">{labels.Ecom_Change_Password}</div></div>
+                        <div class="slds-hide_medium slds-show_small" ><div class="ecom-label-text-24">{labels.Ecom_Change_Password}</div></div>
+                        <div class="slds-hide_small" ><div class="ecom-label-text-24 ecom-mt20">{labels.Ecom_Change_Password}</div></div>
+                    </div>
+                </div>
+                <!-- modal body start -->
+                
+                <!-- Change Password Large Screen -->
+                <template if:false={isSmallScreen}>
+					<div class="slds-modal__content slds-p-left_medium slds-p-right_medium ecom-no-border" id="1">
+						<span class="slds-modal__content ecom-address-label" id="2">
+							<div class="slds-p-top_medium slds-p-bottom_xx-small slds-p-right_xx-large slds-p-left_xx-large">
+								<!-- Password box 1-->
+								<div class="slds-form-element">
+									<label class="ecom-detail-text-18" for="text-input-id-53">Password*</label>
+									<div class=" slds-input-has-icon slds-input-has-icon_right">
+										<div if:true={isPassMasked}>
+											<input type="text" data-id="pwordBox-masked-Id" value={newPassword} style="-webkit-text-security: disc;" class='slds-input'  onkeyup={checkForPasswordRequirements} tabindex="0" ></input><!-- RWPS-3764 -->
+											<button class="ecom-password-icon slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={labels.Ecom_Show_Password} onclick={maskPassword} >
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M9.9 4.24002C10.5883 4.0789 11.2931 3.99836 12 4.00003C19 4.00003 23 12 23 12C22.393 13.1356 21.6691 14.2048 20.84 15.19M14.12 14.12C13.8454 14.4148 13.5141 14.6512 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.4811 9.80385 14.1962C9.51897 13.9113 9.29439 13.572 9.14351 13.1984C8.99262 12.8249 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2219 9.18488 10.8539C9.34884 10.4859 9.58525 10.1547 9.88 9.88003M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68192 3.96914 7.65663 6.06 6.06003L17.94 17.94Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													<path d="M1 1L23 23" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+												</svg>                                
+												<span class="slds-assistive-text">{labels.Ecom_Show_Password}</span>
+											</button>
+										</div>
+										<div if:false={isPassMasked}>
+											<input type="text" data-id="pwordBox-unmasked-Id" tabindex="0"  value={newPassword} style="-webkit-text-security: unset;" class='slds-input'   onkeyup={checkForPasswordRequirements} /><!-- RWPS-3764 -->
+											<button class="ecom-password-icon slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={labels.Ecom_Hide_Password} onclick={maskPassword}>
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+													<path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+													<circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+												</svg>
+											</button>
+											<span class="slds-assistive-text">{labels.Ecom_Hide_Password}</span>
+										</div>
+									</div>
+								</div>
+								<!-- Password box 1-->
+								<div if:true={isPass1Blank}>
+									<p class="slds-form-element__help ecom-red-text" data-help-message role="alert" part="help-text" >{labels.Ecom_Password_Blank}</p>
+								</div>
+							</div>
+							<div class="slds-m-top_none slds-p-bottom_small slds-p-right_xx-large slds-p-left_xx-large" >
+								<p class="ecom-phone-helptext">{labels.Ecom_Password_Strength}</p>
+							</div>
+							<div class="slds-p-top_xx-small slds-p-bottom_small slds-p-right_xx-large slds-p-left_xx-large">
+								<div class="slds-grid slds-wrap">
+									<div class=" slds-size_2-of-3 ecom-password-display-flex ecom-mt-8 slds-text-align_center slds-p-right_xx-small">
+										<div class={weak}></div>
+										<div class={weak}></div>
+										<div class={average}></div>
+										<div class={average}></div>
+										<div class={strong}></div>
+										<div class={strong}></div>                                   
+									</div>
+									<div class="slds-size_1-of-3 slds-align_absolute-center ecom-strength-label">
+										Strength: {pwrdStrength} &nbsp; &nbsp;
+                                        
+									</div> 
+								</div>
+							</div>
+							<div class="slds-p-top_medium slds-p-bottom_small slds-p-right_xx-large slds-p-left_xx-large">
+								<!-- Password box 2-->
+								<div class="slds-form-element">
+									<label class="ecom-detail-text-18" for="text-input-id-53">{labels.Ecom_Confirm_Password}</label>
+									<div class=" slds-input-has-icon slds-input-has-icon_right">
+										<div if:true={isPassMasked2}>
+											<input type="text" data-id="pwordBox2-masked-Id" value={newPassword2} style="-webkit-text-security: disc;" class='slds-input'  onkeyup={checkForPasswordRequirements} ></input>
+											<button class="ecom-password-icon slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={labels.Ecom_Show_Password} onclick={maskPasswordbox2} >
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<g clip-path="url(#clip0_2271_24161)">
+													<path d="M9.9 4.24002C10.5883 4.0789 11.2931 3.99836 12 4.00003C19 4.00003 23 12 23 12C22.393 13.1356 21.6691 14.2048 20.84 15.19M14.12 14.12C13.8454 14.4148 13.5141 14.6512 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.4811 9.80385 14.1962C9.51897 13.9113 9.29439 13.572 9.14351 13.1984C8.99262 12.8249 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2219 9.18488 10.8539C9.34884 10.4859 9.58525 10.1547 9.88 9.88003M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68192 3.96914 7.65663 6.06 6.06003L17.94 17.94Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													<path d="M1 1L23 23" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+													</g>
+													
+												</svg>                                
+												<span class="slds-assistive-text">{labels.Ecom_Show_Password}</span>
+											</button>
+										</div>
+										<div if:false={isPassMasked2}>
+											<input type="text" data-id="pwordBox2-unmasked-Id" value={newPassword2} style="-webkit-text-security: unset;" class='slds-input'   onkeyup={checkForPasswordRequirements} />
+											<button class="ecom-password-icon slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={labels.Ecom_Hide_Password} onclick={maskPasswordbox2}>
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+													<path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+													<circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+												</svg>
+											</button>
+											<span class="slds-assistive-text">{labels.Ecom_Hide_Password}</span>
+										</div>
+									</div>
+									<div if:false={isPassMatch}>
+										<p class="slds-form-element__help ecom-red-text" data-help-message role="alert" part="help-text" >{labels.Ecom_Password_Match}</p>
+									</div>
+									<div if:true={isPass2Blank}>
+										<p class="slds-form-element__help ecom-red-text" data-help-message role="alert" part="help-text" >{labels.Ecom_Password_Blank}</p>
+									</div>
+								</div>
+								<!-- End Password box 2-->
+							</div>
+
+                            <div class="slds-grid slds-wrap slds-p-right_xx-large slds-m-left_small slds-m-top_large slds-m-bottom_large">
+                                <div class="slds-col slds-size_1-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-3"></div>
+                                <div class="slds-col slds-text-align_right ecom_password_btn_container_width ecom-mt-32"> <!--RWPS-5625-->
+                                    <template if:true={showPasswordSaveButton}>
+                                        <!-- RWPS-3764 -->
+                                        <button tabindex="0"  class="ecom_btn-password-cancel ecom_btn-cancel-width ecom-margin-right-16" onclick={changePasswordHandleCancel}>
+                                            <span class="ecom-btn-with-border-styling">{labels.ECOM_Cancel}</span>
+                                        </button>
+                                        <!-- RWPS-3764 -->
+                                        <button tabindex="0" class="ecom_btn-password-save" onclick={changePasswordHandleSave} onkeydown={handleKeyDownSaveContact}><!--RWPS-4087-->
+                                            <span class="ecom-btn-styling">{labels.ECOM_Save}</span>
+                                        </button> 
+                                    </template>
+                                    <template if:false={showPasswordSaveButton}>
+                                        <button  class="ecom_btn-password-cancel ecom_btn-cancel-width ecom-margin-right-16" onclick={changePasswordHandleCancel}>
+                                            <span class="ecom-btn-with-border-styling">{labels.ECOM_Cancel}</span>
+                                        </button>
+                                        <button class="ecom_btn-password-gray-save">
+                                            <span class="ecom-btn-styling">{labels.ECOM_Save}</span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+
+                        </span>
+                    </div>
+                </template>         
+                
+                <!-- Change Password Small Screen -->
+                <template if:true={isSmallScreen}>
+                    <div class="slds-modal__content slds-p-left_medium slds-p-right_medium ecom-no-border-small " >
+                        <span class="slds-modal__content ecom-address-label" >
+                            <!-- <div class="slds-p-top_medium slds-p-bottom_xx-small "> -->
+                                <div class="ecom-mt-24">
+                                <!-- Password box 1-->
+                                <div class="slds-form-element">
+                                    <label class="ecom-detail-text-14" for="text-input-id-53">Password*</label>
+                                    <div class=" slds-input-has-icon slds-input-has-icon_right">
+                                        <div if:true={isPassMasked}>
+                                            <input type="text" data-id="pwordBox-masked-Id" value={newPassword} style="-webkit-text-security: disc;" class='slds-input'  onkeyup={checkForPasswordRequirements} ></input>
+                                            <button class="ecom-password-icon slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={labels.Ecom_Show_Password} onclick={maskPassword} >
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M9.9 4.24002C10.5883 4.0789 11.2931 3.99836 12 4.00003C19 4.00003 23 12 23 12C22.393 13.1356 21.6691 14.2048 20.84 15.19M14.12 14.12C13.8454 14.4148 13.5141 14.6512 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.4811 9.80385 14.1962C9.51897 13.9113 9.29439 13.572 9.14351 13.1984C8.99262 12.8249 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2219 9.18488 10.8539C9.34884 10.4859 9.58525 10.1547 9.88 9.88003M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68192 3.96914 7.65663 6.06 6.06003L17.94 17.94Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M1 1L23 23" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    
+                                                </svg>                                
+                                                <span class="slds-assistive-text">{labels.Ecom_Show_Password}</span>
+                                            </button>
+                                        </div>
+                                        <div if:false={isPassMasked}>
+                                            <input type="text" data-id="pwordBox-unmasked-Id" value={newPassword} style="-webkit-text-security: unset;" class='slds-input'   onkeyup={checkForPasswordRequirements} />
+                                            <button class="ecom-password-icon slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={labels.Ecom_Hide_Password} onclick={maskPassword}>
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+                                                </svg>
+                                            </button>
+                                            <span class="slds-assistive-text">{labels.Ecom_Hide_Password}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Password box 1-->
+                                <div if:true={isPass1Blank}>
+                                    <p class="slds-form-element__help ecom-red-text" data-help-message role="alert" part="help-text" >{labels.Ecom_Password_Blank}</p>
+                                </div>
+                            </div>
+                            <div class="slds-m-top_none slds-p-bottom_small " >
+                                <p class="ecom-phone-helptext">{labels.Ecom_Password_Strength}</p>
+                            </div>
+                            <div class="">
+                                <div class="slds-grid slds-wrap">
+                                    <div class=" slds-size_2-of-3 ecom-password-display-flex slds-text-align_center ecom-mt-8 slds-p-right_xx-small">
+                                        <div class={weak}></div>
+                                        <div class={weak}></div>
+                                        <div class={average}></div>
+                                        <div class={average}></div>
+                                        <div class={strong}></div>
+                                        <div class={strong}></div>                                   
+                                    </div>
+                                    <div class="slds-size_1-of-3 slds-align_absolute-center ecom-strength-label slds-m-left-none slds-p-left_none">
+                                        Strength: {pwrdStrength}
+                                        <!-- <svg width="19" height="20" viewBox="0 0 19 20" aria-describedby="help" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="9.5" cy="10" r="8.75" stroke="#7F03B0" stroke-width="1.5"></circle>
+                                            <path d="M8.76779 11.77V11.263C8.76779 10.8903 8.81979 10.5783 8.92379 10.327C9.02779 10.067 9.15779 9.846 9.31379 9.664C9.47845 9.482 9.65179 9.32167 9.83379 9.183C10.0245 9.04433 10.1978 8.91 10.3538 8.78C10.5185 8.64133 10.6528 8.48967 10.7568 8.325C10.8608 8.16033 10.9128 7.961 10.9128 7.727C10.9128 7.37167 10.7871 7.10733 10.5358 6.934C10.2931 6.752 9.95512 6.661 9.52179 6.661C9.02779 6.661 8.65079 6.791 8.39079 7.051C8.13079 7.30233 8.00512 7.675 8.01379 8.169H6.58379C6.58379 7.55367 6.70945 7.03367 6.96079 6.609C7.21212 6.18433 7.56312 5.86367 8.01379 5.647C8.46445 5.42167 8.98012 5.309 9.56079 5.309C10.0548 5.309 10.5098 5.39567 10.9258 5.569C11.3505 5.73367 11.6885 5.998 11.9398 6.362C12.1911 6.71733 12.3168 7.181 12.3168 7.753C12.3168 8.13433 12.2648 8.455 12.1608 8.715C12.0568 8.96633 11.9181 9.183 11.7448 9.365C11.5801 9.53833 11.4068 9.69433 11.2248 9.833C11.0428 9.97167 10.8695 10.1103 10.7048 10.249C10.5401 10.379 10.4058 10.535 10.3018 10.717C10.1978 10.899 10.1458 11.12 10.1458 11.38V11.77H8.76779ZM8.61179 14.5V12.784H10.3408V14.5H8.61179Z" fill="#7F03B0"></path>
+                                        </svg> -->
+                                    </div> 
+                                </div>
+                            </div>
+                            <!-- <div class="slds-p-top_medium slds-p-bottom_small "> -->
+                            <div class="">
+                                <!-- Password box 2-->
+                                <div class="slds-form-element">
+                                    <label class="ecom-detail-text-16" for="text-input-id-53">{labels.Ecom_Confirm_Password}</label>
+                                    <div class=" slds-input-has-icon slds-input-has-icon_right">
+                                        <div if:true={isPassMasked2}>
+                                            <input type="text" data-id="pwordBox2-masked-Id" value={newPassword2} style="-webkit-text-security: disc;" class='slds-input'  onkeyup={checkForPasswordRequirements} ></input>
+                                            <button class="ecom-password-icon slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={labels.Ecom_Show_Password} onclick={maskPasswordbox2} >
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_2271_24161)">
+                                                    <path d="M9.9 4.24002C10.5883 4.0789 11.2931 3.99836 12 4.00003C19 4.00003 23 12 23 12C22.393 13.1356 21.6691 14.2048 20.84 15.19M14.12 14.12C13.8454 14.4148 13.5141 14.6512 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.4811 9.80385 14.1962C9.51897 13.9113 9.29439 13.572 9.14351 13.1984C8.99262 12.8249 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2219 9.18488 10.8539C9.34884 10.4859 9.58525 10.1547 9.88 9.88003M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68192 3.96914 7.65663 6.06 6.06003L17.94 17.94Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M1 1L23 23" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </g>
+                                                    
+                                                </svg>                                
+                                                <span class="slds-assistive-text">{labels.Ecom_Show_Password}</span>
+                                            </button>
+                                        </div>
+                                        <div if:false={isPassMasked2}>
+                                            <input type="text" data-id="pwordBox2-unmasked-Id" value={newPassword2} style="-webkit-text-security: unset;" class='slds-input'   onkeyup={checkForPasswordRequirements} />
+                                            <button class="ecom-password-icon slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={labels.Ecom_Hide_Password} onclick={maskPasswordbox2}>
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <circle cx="12" cy="12" r="3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+                                                </svg>
+                                            </button>
+                                            <span class="slds-assistive-text">{labels.Ecom_Hide_Password}</span>
+                                        </div>
+                                    </div>
+                                    <div if:false={isPassMatch}>
+                                        <p class="slds-form-element__help ecom-red-text" data-help-message role="alert" part="help-text" >{labels.Ecom_Password_Match}</p>
+                                    </div>
+                                    <div if:true={isPass2Blank}>
+                                        <p class="slds-form-element__help ecom-red-text" data-help-message role="alert" part="help-text" >{labels.Ecom_Password_Blank}</p>
+                                    </div>
+                                </div>
+                                <!-- End Password box 2-->
+                            </div>
+                            <div class="ecom-mt-32 slds-p-right__small slds-p-left__small">
+                                <div class="slds-p-bottom_small ">
+                                    <template if:true={showPasswordSaveButton}>
+                                        <div class="ecom-mb-16">
+                                            <button class="slds-button_stretch ecom_btn-password-save" onclick={changePasswordHandleSave}>
+                                                <span>{labels.ECOM_Save}</span>
+                                            </button> 
+                                        </div>
+                                        <div class="slds-p-bottom_small">
+                                            <button class="slds-button_stretch ecom_btn-password-cancel " onclick={changePasswordHandleCancel}>
+                                                <span>{labels.ECOM_Cancel}</span>
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <template if:false={showPasswordSaveButton}>
+                                        <div class="ecom-mb-16 ecom_password_btn_small-screen-container_width">
+                                            <button class="slds-button_stretch ecom_btn-password-gray-save">
+                                                <span>{labels.ECOM_Save}</span>
+                                            </button>
+                                        </div>
+                                        <div class="slds-p-bottom_small ecom_password_btn_small-screen-container_width">
+                                            <button class="slds-button_stretch ecom_btn-password-cancel " onclick={changePasswordHandleCancel}>
+                                                <span>{labels.ECOM_Cancel}</span>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </template>
+                                
+                   
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- End of Change Password Modal -->
+
+    <!-- Change Phone Number Modal -->
+    <template if:true={isChangePhoneModalOpen}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class={modalSize}
+        >
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <div class="slds-modal__header ecom-noborder">
+                    <div>   
+                        <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={onPhoneModalClose}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                        </button>
+                    </div>
+                    <!-- <h1 id="modal-phone-header-01" class="slds-align_absolute-center">Phone Number</h1> -->
+                </div>
+                <!-- modal body start -->
+                <!-- Change Phone Large Screen -->
+                <template if:false={isSmallScreen}>
+                    <div class="slds-modal__content slds-p-left_medium slds-p-right_medium ecom-no-border" id="phone1">
+                        <span class="slds-modal__content ecom-address-label" id="phone2">
+                            <div class="slds-align_absolute-center ecom-label-text-32 ecom-mb-32">{labels.Ecom_Phone_Number}</div>
+                            <div class="slds-p-left_xx-large slds-p-right_xx-large ecom-mb-24">
+                                <span class="ecom-detail-text-18 slds-p-bottom_medium ">{labels.ECOM_Country}</span> 
+                                <lightning-combobox
+                                    data-id="country-phone-code-id"
+                                    name="progress"
+                                    value={copyContactData.ECOM_Country_Phone_Code__c}
+                                    placeholder="Select"
+                                    options={countryPhoneCode}
+                                    class="select-field ecom-sp-instructions-box update-phone-input"
+                                    onchange={onContactChange} 
+                                    required="true"
+                                    variant="label-hidden">
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-grid slds-wrap slds-gutters slds-p-left_xx-large slds-p-right_xx-large ecom-mt-24" >
+                                <!-- RWPS-2917 change onfocusout to onchange event -->
+                                <div class="slds-col slds-size_2-of-3  slds-p-left_xx-large ">
+                                    <span class="ecom-input-label-18">
+                                        <lightning-input type="tel"
+                                        lwc:ref="newPhoneId"
+                                         data-id="newPhone-Id" 
+                                         label={labels.Ecom_Phone_Number}
+                                         placeholder="Phone Number" 
+                                         name="newPhone" value={copyContactData.Phone} 
+                                         onchange={onContactChange}   
+                                         class="update-phone-input"
+                                         max-length="14"
+                                         ></lightning-input></span>
+                                         <!-- onchange={onContactChange}  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"  message-when-pattern-mismatch={labels.ECOM_Phone_Number_Pattern}-->
+                                    <div if:true={isPhoneBlank}>
+                                        <p class="slds-form-element__help ecom-red-text" data-help-message role="alert" part="help-text" >Phone number cannot be blank.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-col slds-size_1-of-3 slds-p-right_xx-large ecom-input-label-18">
+                                    <span>
+                                        <lightning-input
+                                         pattern="^(0|[1-9][0-9]*)$" 
+                                         lwc:ref="phoneExtId"
+                                         data-id="phoneExt-Id" 
+                                         name="phoneExtension" 
+                                         placeholder="Ext"
+                                         label="Extension" 
+                                         class="update-phone-input"
+                                         value={copyContactData.ECOM_Phone_Extension__c} 
+                                         onchange={onContactChange}></lightning-input></span>
+                                </div>
+                            </div>
+
+                            <!-- Buttons Large -->
+                            <div class="slds-grid slds-wrap  slds-m-left_small slds-m-bottom_large ecom-mt-32">
+                                <div class="slds-col slds-text-align_right ecom_password_btn_container_width slds-p-right_xx-large  slds-m-bottom_x-large 	 slds-p-bottom_xx-large slds-m-left_small"> <!--RWPS-5625--> 
+                                
+                                    <template if:true={showPhoneSaveButton}>
+                                        <button class="ecom_btn-password-cancel ecom-btn-width-126 ecom-btn-with-border-styling ecom-margin-right-16  slds-m-right_small" onclick={onPhoneModalClose}>
+                                            <span>{labels.ECOM_Cancel}</span>
+                                        </button>
+                                        <button class="ecom_btn-password-save ecom-btn-styling" onclick={onContactSave} onkeydown={handleKeyDownSaveContact}><!--RWPS-4087-->
+                                            <span>{labels.ECOM_Save}</span>
+                                        </button> 
+                                    </template>
+                                    <template if:false={showPhoneSaveButton}>
+                                        <button class="ecom_btn-password-cancel ecom-btn-width-126 ecom-btn-with-border-styling ecom-margin-right-16  slds-m-right_small" onclick={onPhoneModalClose}>
+                                            <span>{labels.ECOM_Cancel}</span>
+                                        </button>
+                                        <button class="ecom_btn-password-gray-save ecom-btn-styling"    >
+                                            <span>{labels.ECOM_Save}</span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div> 
+                        </span>
+                    </div>
+                </template>
+
+                <!-- Change Phone Small Screen -->
+                <template if:true={isSmallScreen}>
+                    <div class="slds-modal__content slds-p-left_medium slds-p-right_medium ecom-no-border-small">
+                        <span class="slds-modal__content ecom-address-label" >
+                            <div class="slds-align_absolute-center ecom-label-text-24 ecom-mb-24">{labels.Ecom_Phone_Number}</div>
+                            <div class="ecom-detail-text-16">
+                                <span class="ecom-additional-info-label slds-p-bottom_medium">{labels.ECOM_Country}</span> 
+                                <lightning-combobox
+                                    data-id="country-phone-code-id"
+                                    name="progress"
+                                    value={copyContactData.ECOM_Country_Phone_Code__c}
+                                    placeholder="Select"
+                                    options={countryPhoneCode}
+                                    class="select-field ecom-sp-instructions-box"
+                                    onchange={onContactChange} 
+                                    required="true"
+                                    variant="label-hidden">
+                                </lightning-combobox>
+                            </div>
+                            <div class=" ecom-input-label-16 ecom-mt-24">
+                                <span>
+                                    <!-- RWPS-2917 change onfocusout to onchange event -->
+                                    <!-- <lightning-input type="tel" data-id="newPhone-Id" label={labels.Ecom_Phone_Number} placeholder="555-555-5555" name="newPhone" value={copyContactData.Phone} onchange={onContactChange} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" message-when-pattern-mismatch={labels.ECOM_Phone_Number_Pattern}></lightning-input> -->
+                                    <lightning-input type="tel"
+                                        lwc:ref="newPhoneId"
+                                        data-id="newPhone-Id" 
+                                        label={labels.Ecom_Phone_Number}
+                                        placeholder="Phone Number" 
+                                        name="newPhone" value={copyContactData.Phone} 
+                                        onchange={onContactChange} 
+                                        class="update-phone-input"
+                                        max-length="14">
+                                    </lightning-input>
+                                </span>
+                                <div if:true={isPhoneBlank}>
+                                    <p class="slds-form-element__help ecom-red-text" data-help-message role="alert" part="help-text" >{labels.Ecom_Phone_Number_Blank}</p>
+                                </div>
+                            </div>
+                            <div class=" ecom-input-label-16 ecom-mt-24">
+                                <span><lightning-input pattern="^(0|[1-9][0-9]*)$" data-id="phoneExt-Id" name="phoneExtension" label="Extension" value={copyContactData.ECOM_Phone_Extension__c} onchange={onContactChange}></lightning-input></span>
+                            </div>
+
+                            <!-- Buttons Small -->
+                            <div class="slds-p-bottom_large ecom-mt-32">  
+                                <template if:true={showPhoneSaveButton}>
+                                    <div class="ecom-mb-16">
+                                        <button class="slds-button_stretch ecom_btn-password-save" onclick={onContactSave}>
+                                            <span>{labels.ECOM_Save}</span>
+                                        </button> 
+                                    </div>
+                                    <div class="ecom-mb-16">
+                                        <button class="slds-button_stretch ecom_btn-password-cancel " onclick={onPhoneModalClose}>
+                                            <span>{labels.ECOM_Cancel}</span>
+                                        </button>
+                                    </div>
+                                </template>
+                                <template if:false={showPhoneSaveButton}>
+                                    <div class="ecom-mb-16">
+                                        <button class="slds-button_stretch ecom_btn-password-gray-save">
+                                            <span>{labels.ECOM_Save}</span>
+                                        </button>
+                                    </div>
+                                    <div class="ecom-mb-16">
+                                        <button class="slds-button_stretch ecom_btn-password-cancel" onclick={onPhoneModalClose}>
+                                            <span>{labels.ECOM_Cancel}</span>
+                                        </button>
+                                    </div>                          
+                                </template>
+                            </div> 
+                        </span>
+                    </div>
+                </template>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- End of Change Phone Number Modal -->
+
+    <!-- Change Shipping Information Modal -->
+    <template if:true={isChangeShippingModalOpen}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class={modalSize}
+        >
+            <div class="slds-modal__container">              
+                
+                <!-- Shipping Large Screen -->                
+                
+                    <!-- modal header start -->
+                    <!-- <div class="slds-modal__header ecom-noborder">
+                         
+                    </div> -->
+                <template if:false={isSmallScreen}>
+                    <!-- modal body start -->
+                    <div class="slds-modal__content  ecom-top-border">
+                        <div class="ecom-button-position">   
+                            <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={onShippingModalClose}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#2clip0_2271_24147)">
+                                        <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="2clip0_2271_24147">
+                                            <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                            </button>
+                        </div>
+                        <div class=" ecom-address-label slds-p-left_xx-large slds-p-right_xx-large " id="shipping">
+                            <div  class="ecom-label-text-32 slds-align_absolute-center ecom-mb-16 ecom-mt-64">Attention Line</div>
+                            <div class="slds-p-left_xx-large slds-p-right_xx-large">
+                                <span class="ecom-address-details ">Note: This information will be displayed on the shipping label.</span><br>
+                            </div>
+                            <div class="slds-grid slds-wrap slds-p-left_xx-large slds-p-right_xx-large">
+                                <div class=" ecom-additional-info-label slds-col  slds-size_1-of-1 slds-large-size_1-of-1 slds-medium-size_1-of-1 slds-small-size_1-of-1 slds-text-align_left ecom-mt-32 ecom-input-label-18">
+                                    <lightning-input type="text" max-length="40" class="ecom-additional-info-label " label={labels.recipientTitle} data-id="attention-recipient-id" value={copyContactData.ECOM_Attention_Recipient__c} onchange={changeShippingInfo}></lightning-input><!--RWPS-4824-->
+                                </div>  
+                            </div>
+                            <!-- <div class="slds-col slds-size_1-of-1  slds-large-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1 ecom-mt-24 slds-p-left_xx-large slds-p-right_xx-large">
+                                <div style="position:relative" class="slds-p-bottom_xx-small">
+                                    <span class="ecom-detail-text-18">Special Instructions&nbsp;&nbsp;&nbsp;</span> 
+                                    <button class="slds-button  slds-button_icon slds-input__icon slds-input__icon_right" aria-describedby="help" aria-disabled="true" onmouseenter={showPopover} onmouseleave={hidePopover}>       
+                                        
+                                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="9.5" cy="9.5" r="8.75" stroke="#7F03B0" stroke-width="1.5"></circle>
+                                            <path d="M8.76779 11.27V10.763C8.76779 10.3903 8.81979 10.0783 8.92379 9.827C9.02779 9.567 9.15779 9.346 9.31379 9.164C9.47845 8.982 9.65179 8.82167 9.83379 8.683C10.0245 8.54433 10.1978 8.41 10.3538 8.28C10.5185 8.14133 10.6528 7.98967 10.7568 7.825C10.8608 7.66033 10.9128 7.461 10.9128 7.227C10.9128 6.87167 10.7871 6.60733 10.5358 6.434C10.2931 6.252 9.95512 6.161 9.52179 6.161C9.02779 6.161 8.65079 6.291 8.39079 6.551C8.13079 6.80233 8.00512 7.175 8.01379 7.669H6.58379C6.58379 7.05367 6.70945 6.53367 6.96079 6.109C7.21212 5.68433 7.56312 5.36367 8.01379 5.147C8.46445 4.92167 8.98012 4.809 9.56079 4.809C10.0548 4.809 10.5098 4.89567 10.9258 5.069C11.3505 5.23367 11.6885 5.498 11.9398 5.862C12.1911 6.21733 12.3168 6.681 12.3168 7.253C12.3168 7.63433 12.2648 7.955 12.1608 8.215C12.0568 8.46633 11.9181 8.683 11.7448 8.865C11.5801 9.03833 11.4068 9.19433 11.2248 9.333C11.0428 9.47167 10.8695 9.61033 10.7048 9.749C10.5401 9.879 10.4058 10.035 10.3018 10.217C10.1978 10.399 10.1458 10.62 10.1458 10.88V11.27H8.76779ZM8.61179 14V12.284H10.3408V14H8.61179Z" fill="#7F03B0"></path>
+                                        </svg>
+                                    </button>
+                                    <div class={popoverClass} role="tooltip" id="helptext">
+                                        <div class="slds-popover__body ecom-popover-body"> Note: Any special instructions will be sent to customer service for review - this will result in a delayed shipping date.</div>
+                                    </div>
+                                </div>
+                                <lightning-combobox
+                                    data-id="special-instructions-id"
+                                    name="progress"
+                                    value={shippingSpecialInstruction}
+                                    placeholder="Select"
+                                    options={spInstructionsPicklist}
+                                    class="select-field ecom-sp-instructions-box"
+                                    onchange={changeShippingInfo} 
+                                    variant="label-hidden">
+                                </lightning-combobox>
+                            </div> -->
+                            <!-- <div class="slds-p-left_xx-large slds-p-right_xx-large ecom-input-label-18 ecom-mt-24">
+                                <lightning-textarea name="input3" data-id="delivery-details-id" rows=6 class="" label="Special instructions for processing your order" variant="label-stacked" placeholder="" value={copyContactData.ECOM_Delivery_Details__c} onchange={changeShippingInfo}></lightning-textarea>
+                            </div> -->
+                            <div class="slds-grid slds-wrap  slds-m-left_small ecom-mt-32">
+                                <div class="slds-col slds-size_1-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-3"></div>
+                                <div class="slds-col slds-text-align_right ecom_password_btn_container_width slds-p-right_xx-large  slds-m-bottom_x-large"> <!--RWPS-5625-->  
+                                    <button class="ecom_btn-password-cancel ecom-btn-width-126 ecom-btn-with-border-styling ecom-margin-right-16  slds-m-right_small" onclick={onShippingModalClose}>
+                                        <span>{labels.ECOM_Cancel}</span>
+                                    </button>
+                                    <button class="ecom_btn-password-save" onclick={onSaveShippingInfo} onkeydown={handleKeyDownSaveContact}><!--RWPS-4087-->
+                                        <span>{labels.ECOM_Save}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Shipping Small Screen -->
+                <template if:true={isSmallScreen}>
+                    <!-- modal header start -->
+                    <div class="slds-modal__header ecom-noborder-small">
+                        <div>   
+                            <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={onShippingModalClose}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                            </button>
+                        </div>
+                        
+                    </div>
+                    <!-- modal body start -->                
+                    <div class="slds-modal__content slds-p-left_medium slds-p-right_medium ecom-no-border-small">
+                        
+                        <span class=" ecom-address-label" >
+                            <div class="slds-align_absolute-center">
+                                <p class="ecom-label-text-24">Attention Line</p>
+                            </div>
+                            <div class="ecom-mt-16" >
+                                <!-- <span class="ecom-address-details">Note: This information will be displayed on the shipping label.</span><br> -->
+                                <span class="ecom-detail-text-16">Note: This information will be displayed on the shipping label.</span><br>
+                            </div>
+                            <div class=" ecom-input-label-16 ecom-mt-24 ">
+                                <lightning-input type="text" max-length="40" class="ecom-additional-info-label " label={labels.recipientTitle} data-id="attention-recipient-id" value={copyContactData.ECOM_Attention_Recipient__c} onchange={changeShippingInfo}></lightning-input><!--RWPS-4824-->
+                            </div>
+                            <!-- <div class="ecom-mt-24">
+                                <div style="position:relative" class="">
+                                    
+                                    <span class="ecom-detail-text-16">Special Instructions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+                                    <button class="slds-button  slds-button_icon slds-input__icon slds-input__icon_right" aria-describedby="help" aria-disabled="true" onmouseenter={showPopover} onmouseleave={hidePopover}>       
+                                        
+                                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="9.5" cy="9.5" r="8.75" stroke="#7F03B0" stroke-width="1.5"></circle>
+                                            <path d="M8.76779 11.27V10.763C8.76779 10.3903 8.81979 10.0783 8.92379 9.827C9.02779 9.567 9.15779 9.346 9.31379 9.164C9.47845 8.982 9.65179 8.82167 9.83379 8.683C10.0245 8.54433 10.1978 8.41 10.3538 8.28C10.5185 8.14133 10.6528 7.98967 10.7568 7.825C10.8608 7.66033 10.9128 7.461 10.9128 7.227C10.9128 6.87167 10.7871 6.60733 10.5358 6.434C10.2931 6.252 9.95512 6.161 9.52179 6.161C9.02779 6.161 8.65079 6.291 8.39079 6.551C8.13079 6.80233 8.00512 7.175 8.01379 7.669H6.58379C6.58379 7.05367 6.70945 6.53367 6.96079 6.109C7.21212 5.68433 7.56312 5.36367 8.01379 5.147C8.46445 4.92167 8.98012 4.809 9.56079 4.809C10.0548 4.809 10.5098 4.89567 10.9258 5.069C11.3505 5.23367 11.6885 5.498 11.9398 5.862C12.1911 6.21733 12.3168 6.681 12.3168 7.253C12.3168 7.63433 12.2648 7.955 12.1608 8.215C12.0568 8.46633 11.9181 8.683 11.7448 8.865C11.5801 9.03833 11.4068 9.19433 11.2248 9.333C11.0428 9.47167 10.8695 9.61033 10.7048 9.749C10.5401 9.879 10.4058 10.035 10.3018 10.217C10.1978 10.399 10.1458 10.62 10.1458 10.88V11.27H8.76779ZM8.61179 14V12.284H10.3408V14H8.61179Z" fill="#7F03B0"></path>
+                                        </svg>
+                                    </button>
+                                    <div class={popoverClass} role="tooltip" id="helptext2">
+                                        <div class="slds-popover__body ecom-popover-body"> Note: Any special instructions will be sent to customer service for review - this will result in a delayed shipping date.</div>
+                                    </div>
+                                </div>
+                                <lightning-combobox
+                                    data-id="special-instructions-id"
+                                    name="progress"
+                                    value={copyContactData.ECOM_Special_Instructions__c}
+                                    placeholder="Select"
+                                    options={spInstructionsPicklist}
+                                    class="select-field ecom-sp-instructions-box"
+                                    onchange={changeShippingInfo} 
+                                    variant="label-hidden">
+                                </lightning-combobox>
+                            </div> -->
+                            <!-- <div class="ecom-mt-24 ecom-input-label-16">
+                                <lightning-textarea name="input3" data-id="delivery-details-id" class="" label="Special instructions for processing your order" variant="label-stacked" placeholder="" value={copyContactData.ECOM_Delivery_Details__c} onchange={changeShippingInfo}></lightning-textarea>
+                            </div> -->
+                            <div class="ecom-mt-32">
+                                <button class="slds-button_stretch ecom_btn-password-save" onclick={onSaveShippingInfo}>
+                                    <span>{labels.ECOM_Save}</span>
+                                </button> 
+                            </div>
+                            <div class="ecom-mt-16">
+                                <button class="slds-button_stretch ecom_btn-password-cancel " onclick={onShippingModalClose}>
+                                    <span>{labels.ECOM_Cancel}</span>
+                                </button>
+                            </div>
+                        </span>
+                        
+                    </div>
+                </template>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- End of Change Shipping Information Modal -->
+
+    <!-- Add Email Address Modal -->
+    <template if:true={isChangeEmailNotiModalOpen}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class={modalSize}
+        >
+            <div class="slds-modal__container">
+                
+
+                <!-- Email Large Screen -->
+                <template if:false={isSmallScreen}>
+                    <!-- modal header start -->
+                    <!-- <div class="slds-modal__header ecom-noborder slds-m-top_large">
+                        
+                        
+                    </div> -->
+                    <!-- modal body start -->
+                    <div class="slds-modal__content ecom-no-border ecom-modal-padding">
+                        <div class="ecom-padding-top-60">
+                            <div class="ecom-button-position">   
+                                <button class="ecom-closebtn" onclick={onEmailNotiModalClose}>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                                </button>
+                            </div>
+                            <h1 id="modal-email-heading-01" class="ecom-label-text-32 slds-align_absolute-center">{labels.ECOM_EmailNotifications}</h1>
+                            <div class="ecom-detail-text-18 slds-align_absolute-center ecom-margin-top-4" >
+                                <p class=" text-align_center">Adding an email address will also reflect in My Account.</p>
+                            </div>
+                        </div>
+                        <span class="slds-modal__content ecom-address-label" id="emailAdd">
+                            <div class="slds-grid slds-wrap ">
+                                <div class="slds-col slds-size_12-of-12 ">
+                                    <div class="ecom-mt-32">
+                                        <span><lightning-input type="email" label={labels.ECOM_EmailAddress} class=" ecom_qo_partnumber_tb" onchange={handleEmailPrefChange} data-id="addEmail-Id" placeholder="Notifications@email.com" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" message-when-pattern-mismatch="Invalid email." required></lightning-input></span>
+                                    </div>
+                                </div>
+                                <!-- Check boxes -->
+                                <div class="slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-medium-size_6-of-12 
+                                                slds-size_4-of-12  ">
+                                    <div class="slds-form-element ">
+                                        <div>
+                                            <lightning-input type="checkbox" label={labels.ECOM_OrderConfirmation} class="" name="" data-id="orderCon-Id" onchange={handleCheckboxChange}></lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_6-of-12 ">
+                                    <div class="ecom-mt-24">
+                                        <lightning-input type="checkbox" label={labels.ECOM_ShipmentNotification} class="slds-p-bottom_none slds-m-bottom_none" name="" data-id="shipNoti-Id" onchange={handleCheckboxChange} ></lightning-input>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_12-of-12 slds-p-right_xx-large slds-p-left_xx-large">
+                                </div>
+
+                                <div if:true={isEmailCheckboxBlank}>
+                                    <div>
+                                        <p class="slds-form-element__help ecom-red-text ecom-padding-top-bottom-6" data-help-message role="alert" part="help-text" >Please choose at least one option.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-col slds-size_12-of-12  ecom-mt-32">
+                                    <svg class='ecom-purple-font' width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="11" stroke="#7F03B0" stroke-width="2"></circle>
+                                        <line x1="12" y1="6" x2="12" y2="18" stroke="#7F03B0" stroke-width="2"></line>
+                                        <line x1="18" y1="12" x2="6" y2="12" stroke="#7F03B0" stroke-width="2"></line>
+                                    </svg>
+                                    <button class="slds-button slds-button_icon ecom-account-sb-label ecom-brand-font " onclick={addAdditionalEmail}>
+                                        <span class=" ecom-account-sb-label ecom-purple-font ecom-account-sb-label ecom-btn-hover">&nbsp;{labels.Ecom_Add_Email}</span>
+                                    </button>
+                                </div>    
+
+                            </div>
+                            
+                            <div class="ecom-gray-border-b slds-p-top_small"></div>
+
+                            <!-- Buttons Large -->
+                            <div class="slds-grid slds-wrap ">
+                                <div class="slds-col slds-text-align_right ecom_password_btn_container_width"> <!--RWPS-5625-->  
+                                    <template if:true={showEmailSaveButton}>
+                                        <button class="ecom_btn-password-cancel ecom_btn-cancel-width slds-m-right_small" onclick={onEmailNotiModalClose}>
+                                            <span>{labels.ECOM_Cancel}</span>
+                                        </button>
+                                        <button class="ecom_btn-password-save" onclick={addEmailSave} onkeydown={handleKeyDownSaveContact}><!--RWPS-4087-->
+                                            <span>{labels.ECOM_Save}</span>
+                                        </button> 
+                                    </template>
+                                    <template if:false={showEmailSaveButton}>
+                                        <button class="ecom_btn-password-cancel ecom_btn-cancel-width slds-m-right_small" onclick={onEmailNotiModalClose}>
+                                            <span>{labels.ECOM_Cancel}</span>
+                                        </button>
+                                        <button class="ecom_btn-password-gray-save">
+                                            <span>{labels.ECOM_Save}</span>
+                                        </button>
+                                    </template>
+                                </div> 
+                            </div>
+                        </span>
+                    </div>
+                </template>
+
+                <!-- Email Small Screen -->
+                <template if:true={isSmallScreen}>
+                    <!-- modal header start -->
+                    <div class="slds-modal__header ecom-noborder-small">
+                        <div>   
+                            <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={onEmailNotiModalClose}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                            </button>
+                        </div>
+                        <h1 class="ecom-align-title slds-m-top_xx-large">{labels.ECOM_EmailNotifications}</h1>
+                        <div class="slds-m-top_medium slds-p-bottom_xx-small slds-p-left_medium slds-p-right_medium" >
+                            <p class="slds-align_absolute-center">Adding an email address will also reflect in My Account.</p>
+                        </div>
+                    </div>
+                    <!-- modal body start -->
+                    <div class="slds-modal__content slds-p-left_medium slds-p-right_medium ecom-no-border-small-small">
+                        <span class="slds-modal__content ecom-address-label">
+                            <div class="ecom-address-label">
+                                <div class="slds-p-bottom_small slds-p-right_small slds-p-left_small ">
+                                    <div class="slds-p-bottom_small ">
+                                       <!-- RWPS-2722 start -->
+                                        <span><lightning-input type="email" label={labels.ECOM_EmailAddress} class="slds-m-right_medium ecom_qo_partnumber_tb" data-id="addEmail-Id" onchange={handleEmailPrefChange} placeholder="Notifications@email.com"></lightning-input></span> 
+                                       <template if:true={isEmailInvalid}>
+                                        <p class="slds-form-element__help ecom-red-text" role="alert">
+                                            {labels.ECOM_EmailInvalidErrorMessage}
+                                        </p>
+                                    </template>
+                                    <!-- RWPS-2722 end -->
+                                    </div>
+                                </div>
+                                <div class="slds-p-bottom_xx-small ">
+                                    <div class="slds-form-element">
+                                        <div class="">
+                                            <lightning-input type="checkbox" aria-label={labels.ECOM_OrderConfirmation} class="" name="" data-id="orderCon-Id" onchange={handleCheckboxChange}></lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-p-bottom_small ">
+                                    <div class="">
+                                        <lightning-input type="checkbox" label={ECOM_ShipmentNotification} class="slds-p-bottom_none slds-m-bottom_none" name="" data-id="shipNoti-Id" onchange={handleCheckboxChange}></lightning-input>
+                                    </div>
+                                </div>                                
+                                <!-- <div if:true={isEmailCheckboxBlank}>
+                                    <p class="slds-form-element__help ecom-red-text slds-p-top_none slds-m-top_none slds-p-bottom_xx-small" data-help-message role="alert" part="help-text" >Please choose at least one option.</p>
+                                </div> -->
+                                <div class="slds-p-bottom_small ">
+                                    <svg class='ecom-purple-font' width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="11" stroke="#7F03B0" stroke-width="2"></circle>
+                                        <line x1="12" y1="6" x2="12" y2="18" stroke="#7F03B0" stroke-width="2"></line>
+                                        <line x1="18" y1="12" x2="6" y2="12" stroke="#7F03B0" stroke-width="2"></line>
+                                    </svg>
+                                    <button class="slds-button slds-button_icon ecom-account-sb-label ecom-brand-font " onclick={addAdditionalEmail}>
+                                        <span class=" ecom-account-sb-label ecom-purple-font ecom-account-sb-label ecom-btn-hover">&nbsp;{labels.Ecom_Add_Email}</span>
+                                    </button>
+                                </div>    
+
+                            </div>
+
+                            <div class="ecom-gray-border-b slds-p-top_small"></div>
+
+                            <!-- Buttons Small-->
+                            <div class="slds-p-bottom_large ">  
+                                <template if:true={showEmailSaveButton}>
+                                    <lightning-layout multiple-rows="false">
+                                        <lightning-layout-item size="12" small-device-size="6">
+                                            <div class="slds-p-bottom_small  slds-col slds-small-size_1-of-2">
+                                                <button class="slds-button_stretch ecom_btn-password-cancel " onclick={onEmailNotiModalClose}>
+                                                    <span>{labels.ECOM_Cancel}</span>
+                                                </button>
+                                            </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="12" small-device-size="6">
+                                            <div class="slds-p-bottom_small slds-col slds-small-size_1-of-2">
+                                                <button class="slds-button_stretch ecom_btn-password-save" onclick={addEmailSave}>
+                                                    <span>{labels.ECOM_Save}</span>
+                                                </button> 
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                    <!-- <div class="slds-grid slds-gutters slds-wrap ">
+                                        <div class="slds-p-bottom_small  slds-col slds-small-size_1-of-2">
+                                            <button class="slds-button_stretch ecom_btn-password-cancel " onclick={onEmailNotiModalClose}>
+                                                <span>Cancel</span>
+                                            </button>
+                                        </div>
+                                        <div class="slds-p-bottom_small slds-col slds-small-size_1-of-2">
+                                            <button class="slds-button_stretch ecom_btn-password-save" onclick={addEmailSave}>
+                                                <span>Save</span>
+                                            </button> 
+                                        </div>
+                                    </div> -->
+                                </template>
+                                <template if:false={showEmailSaveButton}>
+                                    <div class="slds-grid slds-gutters slds-wrap ">
+                                        <div class="slds-p-bottom_small slds-col slds-small-size_1-of-2">
+                                            <button class="slds-button_stretch ecom_btn-password-cancel" onclick={onEmailNotiModalClose}>
+                                                <span>{labels.ECOM_Cancel}</span>
+                                            </button>
+                                        </div>
+                                        <div class="slds-p-bottom_small slds-col slds-small-size_1-of-2">
+                                            <button class="slds-button_stretch ecom_btn-password-gray-save">
+                                                <span>{labels.ECOM_Save}</span>
+                                            </button>
+                                        </div>     
+                                    </div>                          
+                                </template>
+                            </div> 
+                        </span>
+                    </div>
+                </template>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- End Add Email Address Modal -->
+
+    <!-- Changes Submitted Modal -->
+    <template if:true={isChangedSubmittedModalOpen}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class={modalSize}
+        >
+		<div class="slds-modal__header ecom-noborder">
+			<div>   
+                <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={onChangesSubmittedModalClose}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#2clip0_2271_241475)">
+                            <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="3clip0_2271_241475">
+                                <rect width="24" height="24" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                </button>
+            </div>
+		</div>
+         <!-- modal body start -->
+	    <div class="slds-modal__container">
+            <div class="slds-modal__content ecom-address-label slds-p-around_medium slds-modal__content_headless slds-p-left_medium slds-p-right_medium">
+                <p class="slds-align_absolute-center ecom-address-label">{labels.ECOM_Changes_Submitted}</p>
+                <div class="slds-grid slds-wrap slds-p-right_xx-large slds-m-left_small slds-m-right_small slds-m-top_large slds-m-bottom_large">
+                    <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-3 slds-small-size_1-of-1"></div>
+                    <div class="slds-col slds-text-align_right ecom_password_btn_container_width ecom-btn-pos">   
+                        <button class="ecom_btn-password-cancel ecom_btn-cancel-width slds-m-right_small" onclick={onChangesSubmittedModalClose}>
+                            <span>{labels.ECOM_Ok}</span>
+                        </button> 
+                    </div>
+                </div> 
+            </div>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- End of Changes Submitted Modal -->
+
+    <!-- No Changes Modal -->
+    <template if:true={isNoChangesModalOpen}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class={modalSize}
+        >
+		<div class="slds-modal__header ecom-noborder">
+			<div>   
+                <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={onNoChangesModalClose}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#2clip0_2271_241476)">
+                            <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="3clip0_2271_241476">
+                                <rect width="24" height="24" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                </button>
+            </div>
+		</div>
+         <!-- modal body start -->
+	    <div class="slds-modal__container">
+            <div class="slds-modal__content ecom-address-label slds-p-around_medium slds-modal__content_headless">
+                <p class="slds-align_absolute-center ecom-address-label">No Changes Detected.</p>
+                <!--RWPS-4153 Start-->
+                <div class="slds-grid slds-wrap slds-m-top_large slds-m-bottom_large">
+                    <div class="slds-col slds-text-align_center ecom-btn-height">
+                        <button tabindex="0" class="ecom_btn-password-cancel ecom_btn-cancel-width" onclick={onNoChangesModalClose} onkeydown={handleKeyDownOk} >
+                            <span>{labels.ECOM_Ok}</span>
+                        </button> 
+                    </div>
+                </div>
+                <!--RWPS-4153 End--> 
+            </div>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- No Changes Modal -->
+
+    <!-- Error Detected Modal -->
+    <template if:true={showErrorModal}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class={modalSize}
+        >
+		<div class="slds-modal__header ecom-noborder">
+			<div>   
+                <button class="slds-p-top_medium slds-p-right_medium slds-button slds-button_icon ecom-closebtn" onclick={onCloseErrorModal}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                </button>
+            </div>
+		</div>
+         <!-- modal body start -->
+	    <div class="slds-modal__container">
+            <div class="slds-modal__content ecom-address-label slds-p-around_medium slds-modal__content_headless">
+                <p class="slds-align_absolute-center ecom-address-label">Please correct the errors on the page.</p>
+                <div class="slds-grid slds-wrap slds-p-right_xx-large slds-m-left_small slds-m-right_small slds-m-top_large slds-m-bottom_large">
+                    <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-3 slds-small-size_1-of-1"></div>
+                    <div class="slds-col slds-text-align_right ecom_password_btn_container_width ecom-btn-pos">   
+                        <button class="ecom_btn-password-cancel ecom_btn-cancel-width slds-m-right_small" onclick={onCloseErrorModal}>
+                            <span>{labels.ECOM_Ok}</span>
+                        </button> 
+                    </div>
+                </div> 
+            </div>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- No Changes Modal -->
+</main><!--RWPS-5284-->
+ </template>

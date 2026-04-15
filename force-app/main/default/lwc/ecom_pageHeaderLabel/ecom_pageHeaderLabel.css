@@ -1,0 +1,46 @@
+@import 'c/ecom_cssLibrary';
+
+.ecom-body-margin{
+    margin-top: 80px;
+}
+
+.ecom-page-title-header{
+    padding-top: 60px;
+    padding-bottom: 40px;
+    /* padding-left: 12px; */
+}
+
+.ecom-line-height-64{
+    line-height: 64px;
+}
+
+@media screen and  (max-width:1104px){
+    .ecom-page-title-header {
+        padding-top: 40px;
+        padding-bottom: 0px;
+        padding-left: 12px;
+    }
+    
+    .ecom-body-margin{
+        margin-top: 32px;
+    }
+
+    .ecom-font-size-56{
+        font-size: 36px;
+    }
+
+    .ecom-line-height-64{
+        line-height: 44px;
+    }
+}
+
+@media screen and (max-width: 496px) {
+    .ecom-page-title-header{
+        padding-top: 40px;
+        /* margin-top: 40px; */
+    }
+
+    .ecom-padding-left-12{
+        padding-left: 0px;
+    }
+}

@@ -1,0 +1,232 @@
+.ecom-checkoutsummary-label{
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.ecom-co-summary-ve-btn{
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: right;
+color: #7F03B0;
+font-style: normal;
+}
+/* .ecom-prod-img{
+    width: 68px;
+height: 48px
+} */
+.ecom-prod-img{
+    width: 62px;
+    height: 68px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+}
+.ecom-prod-details-card{
+    /* display: flex; */
+    padding: 0px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+.ecom-prod-details{
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+margin-left:0px; /*RWPS-4329*/
+}
+.ecom-prod-qty{
+font-size: 16px;
+font-weight: 400;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: left;
+margin-left:0px; /*RWPS-4329*/
+
+}
+.ecom-prod-price{
+font-size: 18px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+float:right;
+
+}
+.ecom-mb-16{
+    margin-bottom: 16px;
+}
+
+.ecom-mb-8{
+    margin-bottom: 8px;
+}
+.hline{
+   /* border : 1px solid #E3E3E3;*/
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.ecom-total-cost {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
+    font-style: normal;
+    }
+
+.ecom-order-summary-details{
+font-size: 16px;
+font-weight: 400;
+line-height: 22px;
+letter-spacing: 0em;
+color: #000000;
+font-style: normal;
+}
+.h8{
+    height:8px
+}
+.h16{
+    height: 16px;
+}
+.ecom-details-align-right{
+    float:right
+}
+.ecom-productdetails-border{
+/* padding: 24px 16px 24px 16px;
+border: 1px solid #E3E3E3;
+border-radius: 8px; */
+    /* padding: 24px 16px 24px 16px; */
+    border: 1px solid #E3E3E3;
+    border-radius: 8px;
+    display: flex;
+    width: 341px;
+    padding: 24px 16px;
+    flex-direction: column;
+    /* align-items: center; */
+    gap: 32px;
+}
+
+
+.ecom-co-summary-ve-btn a{
+    color: #7F03B0 !important;
+    /* text-decoration: none; */
+}
+/* RWPS-3811 */
+.free-item-label {
+display: inline-block;
+color: #000000;
+background: #FFEB0F;
+padding: 6px 12px;
+border-radius: 24px;
+line-height: 24px;
+font-size: 16px;
+}
+
+@media only screen and (min-width: 390px) and (max-width: 767px) {
+
+
+.ecom-productdetails-border{
+        border: 1px solid #E3E3E3;
+        border-radius: 8px;
+        display: flex;
+        width: 358px;
+        padding: 24px 16px;
+        flex-direction: column;
+        /* align-items: center; */
+        gap: 32px;
+        margin-top: 32px;
+        margin-bottom: 32px;
+    }
+    .ecom-checkoutsummary-label{
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 30px;
+        letter-spacing: 0em;
+        text-align: left;
+        font-style: normal;
+        color: #000000;
+    }
+    .ecom-co-summary-ve-btn{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: right;
+        color: #7F03B0;
+        font-style: normal;
+        }
+        .ecom-order-summary-label{
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 22px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: #000000;
+            font-style: normal;
+            }
+
+
+}
+
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .ecom-productdetails-border{
+            border: 1px solid #E3E3E3;
+            border-radius: 8px;
+            display: flex;
+            width: 341px;
+            padding: 24px 16px;
+            flex-direction: column;
+            gap: 32px;
+            margin-left: 25px;
+        }
+        .ecom-checkoutsummary-label{
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 32px;
+            letter-spacing: 0em;
+            text-align: left;
+            font-style: normal;
+            color: #000000;
+
+        }
+        .ecom-co-summary-ve-btn{
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 32px;/*line-height: 24px;*/
+            letter-spacing: 0em;
+            text-align: right;
+            color: #7F03B0;
+            font-style: normal;
+            /*9th Nov*/
+            font-family: 'Hanken Grotesk';
+            flex-direction: column;
+            display: flex;
+            }
+        .ecom-order-summary-label{
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: #000000;
+            font-style: normal;
+            }
+            
+            
+}
+
+
+/* @media only screen and (min-width: 992px) {...}
+
+@media only screen and (min-width: 1200px) {...} */

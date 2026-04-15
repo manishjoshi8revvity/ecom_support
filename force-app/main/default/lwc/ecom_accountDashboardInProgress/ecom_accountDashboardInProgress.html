@@ -1,0 +1,324 @@
+<template>
+    <!-- <template if:true={isDashboardView}> -->
+        <div class="slds-m-bottom_large slds-m-top_large">
+            <span class="ecom-name-label">
+                Welcome Back, Jane!
+            </span>
+        </div>
+      
+     
+        <div class="slds-grid slds-wrap  slds-m-right_x-large">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds">
+                <div class="slds-card slds-p-around_medium">
+                    <div class="slds-p-around_small">
+                        <!--<lightning-button label="Edit" slot="actions"></lightning-button>-->
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_10-of-12 slds-large-size_10-of-12">
+                                <div class="ecom-profile-label slds-p-bottom_large">
+                                    Profile & Settings                                
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12">
+                                <div class=" ecom-edit-label slds-p-bottom_large">
+                                    <span slot="actions"><a class="link">Edit</a>
+                                    <span><img class="ecom-edit-icon" src={images.arrowimg}></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <span slot="actions"><a class="link">Edit ></a></span> -->
+                        <div class="">
+                            <span class="ecom-db-detail-label">Profile</span><br>
+                            <span class="ecom-db-detail">Jane Doe</span>
+                            <br/>
+                            <div class="ecom-db-detail-label slds-m-top_medium">Email Address</div>
+                            <span class="ecom-db-detail">JaneDoe@materialplus.io</span>
+                            <br/>
+                            <div class="ecom-db-detail-label slds-m-top_medium">Phone Number</div>
+                            <span class="ecom-db-detail">123-134-1245 Ext 123</span>
+                            <br/>
+                            <div class="ecom-db-detail-label slds-m-top_medium">Email Addresses</div>
+                            <span class="ecom-db-detail">emailone@email.com, emailtwo@email.com</span>
+                            <br/>
+                            <div class="ecom-db-detail-label slds-m-top_medium">Attention</div>
+                            <span class="ecom-db-detail">Lorem Ipsum Dolor Sit Amet</span>
+                            <br/>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-left_medium">
+                <div class="slds-card slds-p-bottom_large slds-p-top_medium slds-p-right_medium slds-p-left_medium">
+                    <div class="slds-p-around_small">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_10-of-12 slds-large-size_10-of-12">
+                                <div class="ecom-profile-label slds-p-bottom_large">
+                                    Accounts                                 
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12">
+                                <div class=" ecom-edit-label slds-p-bottom_large">
+                                    <span slot="actions"><a class="link">Edit</a>
+                                    <span><img class="ecom-edit-icon" src={images.arrowimg}></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<lightning-button label="Edit" slot="actions"></lightning-button>-->
+                        <!-- <span slot="actions"><a class="link" onclick={handleAccountEdit}>Edit ></a></span> -->
+                        <div class="">
+                            <span class="ecom-db-detail-label">Active Account #: </span><span class="ecom-db-detail-label">000555</span><br/>
+                            <div class="ecom-db-detail-label slds-m-top_medium">Company Name:  <span class="ecom-db-detail-label">Material+</span></div>
+                            <br/>
+                            <div class=" ecom-db-address-label">Shipping Address: </div>
+                            <span class=" ecom-db-address">1900 Avenue of the Stars<br/>
+                                Los Angeles, CA 90067<br/>
+                                USA</span>
+                            <br/>
+                            <div class=" ecom-db-address-label slds-m-top_medium">Billing Address</div>
+                            <span class=" ecom-db-address">1900 Avenue of the Stars<br/>
+                                Los Angeles, CA 90067<br/>
+                                USA</span>
+                            <br/>
+                               
+                            <!-- <p><b>Shipping Address:</b></p>
+                            <p><lightning-formatted-text value="1900 Avenue of the Stars
+                                Los Angeles, CA 90067
+                                USA"></lightning-formatted-text></p><br/>
+                            <p><b>Billing Address:</b></p>
+                            <p><lightning-formatted-text value="1900 Avenue of the Stars
+                                Los Angeles, CA 90067
+                                USA"></lightning-formatted-text></p><br/> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                <c-ecom_order-history-list></c-ecom_order-history-list>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                <c-ecom_favorites-list></c-ecom_favorites-list>
+            </div> -->
+        </div>
+    <!-- </template> -->
+
+    <!-- <div>
+        <c-ecom_account-dashboard-edit is-account-edit="false" contact-id={activeContactId} account-id={activeAccountId}></c-ecom_account-dashboard-edit>
+    </div>
+
+    <div if:true={showSpinner} class="ecom-spinner-style">
+        <lightning-spinner></lightning-spinner>
+    </div> -->
+
+    <div class="slds-m-top_x-large slds-m-right_x-large">
+        <div class="order-history-header slds-m-bottom_large"><h3><b>Order History</b></h3></div>
+        <!-- <template if:true={isOrderHistoryPage}>
+            <span>
+                <a class="order-details-link" onclick={openFindOrderPopUp}>
+                    <lightning-icon class="slds-p-right_x-small search-icon" icon-name="utility:search" size="x-small"></lightning-icon>
+                    Find an Order
+                </a>
+            </span>
+        </template> -->
+        <!-- <template if:false={isOrderHistoryPage}> -->
+            <span><a class="order-details-link">View All ></a></span>
+        <!-- </template> -->
+        <!-- <template if:true={isOrderHistoryPage}>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 slds-m-around_medium">
+                    <span class="order-count-sammary">{nextLoadCount} out of {totalOrders} Orders</span>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+                    <span>
+                        <lightning-combobox
+                            name="Sort"
+                            label="Sort"
+                            value={sortValue}
+                            placeholder="Sort"
+                            options={sortOption}
+                            variant="label-hidden"
+                            onchange={handleSortChange} ></lightning-combobox>
+                    </span>
+                </div>
+            </div>
+        </template> -->
+        <div>
+            <!-- <template for:each={ordersToDisplay} for:item="order" for:index="index"> -->
+                <div class="slds-grid slds-wrap slds-m-bottom_medium ecom-grayBorder slds-p-left_x-large slds-p-bottom_large slds-p-top_medium">
+
+                    <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-p-bottom_large ecom-button-top-margin">
+                        <div class="ecom-ordernr-label">
+                            <span>Order Number: </span><span>0821849</span>
+                            <!-- {order.OrderNumber} -->
+                        </div> 
+                    </div>
+                    <div class="slds-col slds-large-size_3-of-12">
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12 slds-p-bottom_large ecom-button-top-margin">
+                        <div>
+                            <button class="slds-button order-again-btn slds-m-left_x-large">
+                                <img src={images.againimg} alt="Image" class="slds-button__icon reorder-utility-icon slds-button__icon_left" />
+                                <span class="slds-button__label ecom-order-agn-label">Order Again</span>
+                            </button>
+                            <!-- <span class="slds-float_right"> -->
+                                <!-- data-id={order.Id} -->
+                                <!-- <button class="order-again-btn slds-align_absolute-center" onclick={handleOrderAgain} data-id="2">
+                                <div class="reorder-utility-icon">
+                                  <img src={images.againimg}>
+                                   <span>Order Again </span>
+                                </div>
+                                </button> -->
+                            <!-- </span> -->
+                        </div>  
+                    </div>
+
+                    <div class="slds-col slds-size_5-of-12 slds-large-size_2-of-12">
+                        <div>
+                            <span class="ecom-order-hd-label">Date Ordered</span><br/>
+                            <!-- value={order.OrderedDate} -->
+                            <div class="ecom-order-hd-details slds-p-top_xx-small"><lightning-formatted-date-time
+                                    value="07/04/2023"
+                                    year="numeric"
+                                    month="numeric"
+                                    day="numeric"
+                                    >
+                                    </lightning-formatted-date-time>
+                                </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-col slds-size_5-of-10 slds-large-size_2-of-12">
+                        <div>
+                            <span class="ecom-order-hd-label">Order Status</span><br/>
+                            <!-- {order.Status} -->
+                            <div class="ecom-order-hd-details slds-p-top_xx-small">Processing</div>
+                        </div>  
+                    </div>
+
+                    <div class="slds-col slds-size_5-of-10 slds-large-size_2-of-12 ">
+                        <div>
+                            <span class="ecom-order-hd-label">Order Total</span><br/>
+                            <!-- {order.TotalAmount} -->
+                            <div class="ecom-order-hd-details slds-p-top_xx-small">$67,908.90</div>
+                        </div>  
+                    </div>
+
+                    <div class="slds-col slds-size_5-of-10 slds-large-size_2-of-12">
+                        <div>
+                            <span class="ecom-order-hd-label">Items</span><br/>
+                            <!-- {order.OrderProductLineCount} -->
+                            <div class="ecom-order-hd-details slds-p-top_xx-small">103</div>
+                        </div>  
+                    </div>
+                    <div class="slds-col slds-large-size_1-of-12"></div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 slds-m-top_xx-small slds-p-right_x-large">
+                        <div class="ecom-prod-name">
+                            <!-- data-id={order.Id} -->
+                            <a class="order-details-link" data-id="6" label="View Order Details" title="View Order Details" onclick={handleViewOrderDetails}>
+                            View Order Details
+                            </a>
+                            <!-- <button class="ecom_btn-orderDetails slds-align_absolute-center" value={order.OrderSummaries} onclick={handleOnClick}>
+                                View Order Details
+                            </button> -->
+
+                        </div>  
+                    </div>
+                </div>
+            <!-- </template> -->
+        </div>
+        </div>
+
+        <div class="account-header">
+            <span>Accounts</span>
+        </div>
+
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12">
+                <span class="account-sub-header"><h3><b>12 Accounts and Addresses</b></h3></span>
+            </div>
+            <!--<div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 slds-align_absolute-center">
+                <span class="slds-float_right"><a class="link" onclick={handleAddAddress}>Add an Address</a></span>
+            </div>-->
+            <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12">
+                <span class="slds-float_right">
+                    <button class="btn slds-align_absolute-center" onclick={handleAddAccountAddress} >
+                        <span>Add an Account or Address</span>
+                    </button>
+                </span>
+            </div>
+            <!-- <template if:true={isAccountUpdated}>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1 success-message">
+                    <span>
+                        Account #: {updatedActiveAccountNumber} was successfully added to this account.<a class="link float-right" onclick={closeMessage}>X</a>
+                    </span>
+                </div>
+            </template> -->
+            <!-- <div if:true={accountDetailsListToDisplay}>
+                <div for:each={accountDetailsListToDisplay} for:item="acc"> -->
+                    <div>
+
+                    <div>
+
+                <!-- <template for:each={accountDetailsListToDisplay} for:item="acc"> -->
+                    <div class="slds-grid slds-wrap ecom-grayBorder slds-m-around_medium slds-p-around_medium">
+                        <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 ecom-button-top-margin">
+                            <div class="account-number">
+                                <span><b>Account Number: </b></span><span>000111</span><br/>
+                            </div> 
+                        </div>
+                        <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 ecom-button-top-margin">
+                            <!-- <template if:true={acc.isActive}>   
+                                <span>
+                                    <button class="btn-active slds-align_absolute-center" disabled>
+                                        Active Account
+                                    </button>
+                                </span>
+                            </template> -->
+                            <!-- <template if:false={acc.isActive}>    -->
+                                <div>   
+
+                                <span>
+                                    <!-- data-id={acc.accountId} -->
+                                    <button class="make-active-account slds-align_absolute-center"  onclick={handleActiveAccountChange}>
+                                        Make Active Account
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                            <span><p>Account Name: Material+</p></span> <br/>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                            <div>
+                                <span><b>Shipping Address</b></span><br/><br/>
+                                <span>1900 Avenue of the Stars
+                                    Los Angeles, CA 90067
+                                    USA</span>
+                            </div>
+                        </div>
+                         <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                <div>
+                                    <span><b>Billing Address</b></span><br/><br/>
+                                    <span>1900 Avenue of the Stars
+                                        Los Angeles, CA 90067
+                                        USA</span><br/>
+                                    <!-- <template if:true={acc.isActive}>  -->
+                                        <!-- <template>  -->
+
+                                        <div>
+                                            <span><a class="link" onclick={openAddressPopUp}>Change</a></span><br/>
+                                        </div>  
+                                    <!-- </template> -->
+                                </div>  
+                            </div>
+                    </div>
+                </div>
+
+                <!-- </template> -->
+            </div>
+        </div>
+</template>

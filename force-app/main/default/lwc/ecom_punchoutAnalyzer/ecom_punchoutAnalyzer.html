@@ -1,0 +1,330 @@
+<template>
+  <div class="bootstrap">
+    <div class="position-relative" lwc:if={thirdPartyLoadCompleted}>
+      <div
+        class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-50"
+        lwc:if={dataLoading}
+      >
+        <lightning-spinner
+          alternative-text="Loading"
+          size="medium"
+        ></lightning-spinner>
+      </div>
+
+      <div class="container">
+        <form class="z-1 position-relative">
+          <div class="row row-gap-3">
+            <div class="col-lg-3 col-md-6 col-12">
+              <label for="start-date" class="form-label">Start Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="start-date"
+                onfocus={triggerPicker}
+                onclick={triggerPicker}
+                value={currentFilters.startDate}
+                max={today}
+                onchange={startDateHandleChange}
+                lwc:ref="startDateInput"
+              />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-12">
+              <label for="end-date" class="form-label">End Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="end-date"
+                onfocus={triggerPicker}
+                onclick={triggerPicker}
+                value={currentFilters.endDate}
+                min={endDateMin}
+                max={endDateMax}
+                onchange={endDateHandleChange}
+                lwc:ref="endDateInput"
+              />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-12">
+              <c-ecom_punchout-analyzer-multi-select-input
+                label="Customer"
+                options={customerList}
+                default-value={allCustomersText}
+                onvaluechange={customerSelectHandleChange}
+                lwc:ref="customerInput"
+              ></c-ecom_punchout-analyzer-multi-select-input>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-12">
+              <c-ecom_punchout-analyzer-multi-select-input
+                label="Currency"
+                default-value={allCurrenciesText}
+                options={currencyList}
+                onvaluechange={currencySelectHandleChange}
+                lwc:ref="currencyInput"
+              ></c-ecom_punchout-analyzer-multi-select-input>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-12">
+              <label for="grouping" class="form-label">Select grouping</label>
+              <select class="form-select" id="grouping" lwc:ref="groupingInput">
+                <option value="date" selected>Date</option>
+                <option value="week">Weekday</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-12">
+              <label class="form-label" for="includeTest"
+                >Include test data</label
+              >
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="includeTest"
+                  onchange={handleTestToggle}
+                  lwc:ref="testIndicator"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3 d-flex justify-content-center gap-3">
+            <button
+              class="btn btn-success"
+              onclick={handleSubmit}
+              type="button"
+            >
+              Submit
+            </button>
+            <button class="btn btn-danger" onclick={resetForm} type="button">
+              Reset
+            </button>
+          </div>
+        </form>
+
+        <div class="my-5" lwc:if={chartInitialized}>
+          <section class="mb-4">
+            <div class="position-relative">
+              <canvas class="w-100" lwc:ref="canvasReturnCartTotal"></canvas>
+            </div>
+
+            <div class="mt-3">
+              <div class="position-relative">
+                <div lwc:ref="tableReturnCartTotal" lwc:dom="manual"></div>
+              </div>
+              <div class="mt-3 w-100 d-flex flex-wrap gap-2">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-table-id="returnCartTotalTable"
+                  data-table-file="return-cart-total.csv"
+                  onclick={downloadTableAsCSV}
+                >
+                  Download as CSV
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <div class="position-relative">
+              <canvas class="w-100" lwc:ref="canvasReturnCartAverage"></canvas>
+            </div>
+
+            <div class="mt-3">
+              <div class="position-relative">
+                <div lwc:ref="tableReturnCartAverage" lwc:dom="manual"></div>
+              </div>
+              <div class="mt-3 w-100 d-flex flex-wrap gap-2">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-table-id="returnCartAverageTable"
+                  data-table-file="return-cart-average.csv"
+                  onclick={downloadTableAsCSV}
+                >
+                  Download as CSV
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <div class="position-relative">
+              <canvas class="w-100" lwc:ref="canvasReturnCartCount"></canvas>
+            </div>
+
+            <div class="mt-3">
+              <div class="position-relative">
+                <div lwc:ref="tableReturnCartCount" lwc:dom="manual"></div>
+              </div>
+              <div class="mt-3 w-100 d-flex flex-wrap gap-2">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-table-id="returnCartCountTable"
+                  data-table-file="return-cart-count.csv"
+                  onclick={downloadTableAsCSV}
+                >
+                  Download as CSV
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <div class="position-relative">
+              <canvas
+                class="w-100"
+                lwc:ref="canvasLineitemsQuantityCount"
+              ></canvas>
+            </div>
+
+            <div class="mt-3">
+              <div class="position-relative">
+                <div
+                  lwc:ref="tableLineitemsQuantityCount"
+                  lwc:dom="manual"
+                ></div>
+              </div>
+              <div class="mt-3 w-100 d-flex flex-wrap gap-2">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-table-id="lineitemsQuantityCountTable"
+                  data-table-file="lineitems-quantity-count.csv"
+                  onclick={downloadTableAsCSV}
+                >
+                  Download as CSV
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <div class="mt-3">
+              <div class="position-relative">
+                <div
+                  lwc:ref="tableCustomerLevelOverview"
+                  lwc:dom="manual"
+                ></div>
+              </div>
+              <div class="mt-3 w-100 d-flex flex-wrap gap-2">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-table-id="customerLevelOverviewTable"
+                  data-table-file="customer-level-overview.csv"
+                  onclick={downloadTableAsCSV}
+                >
+                  Download as CSV
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <div class="position-relative d-flex align-items-stretch">
+              <canvas
+                class="flex-grow-1"
+                lwc:ref="canvasCustomerLevelReturnCartCount"
+              ></canvas>
+
+              <div class="position-relative rounded-5">
+                <c-ecom_punchout-analyzer-scrolling-graph
+                  customer-count={resultCustomerCount}
+                  max-bars-to-show={customerLevelMaxBars}
+                  onchartscroll={handleChartScroll}
+                  data-chart="customerLevelReturnCartCountChart"
+                  lwc:ref="scrollCustomerLevelReturnCartCount"
+                ></c-ecom_punchout-analyzer-scrolling-graph>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <div class="position-relative">
+                <div
+                  lwc:ref="tableCustomerLevelReturnCartCount"
+                  lwc:dom="manual"
+                ></div>
+              </div>
+              <div class="mt-3 w-100 d-flex flex-wrap gap-2">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-table-id="customerLevelReturnCartCountTable"
+                  data-table-file="customer-level-return-cart-count.csv"
+                  onclick={downloadTableAsCSV}
+                >
+                  Download as CSV
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <div class="position-relative d-flex align-items-stretch">
+              <canvas
+                class="flex-grow-1"
+                lwc:ref="canvasCustomerLevelLineItemCount"
+              ></canvas>
+
+              <div class="position-relative rounded-5">
+                <c-ecom_punchout-analyzer-scrolling-graph
+                  customer-count={resultCustomerCount}
+                  max-bars-to-show={customerLevelMaxBars}
+                  onchartscroll={handleChartScroll}
+                  data-chart="customerLevelLineItemCountChart"
+                  lwc:ref="scrollCustomerLevelLineItemsQuantityCount"
+                ></c-ecom_punchout-analyzer-scrolling-graph>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <div class="position-relative">
+                <div
+                  lwc:ref="tableCustomerLevelLineItemsQuantityCount"
+                  lwc:dom="manual"
+                ></div>
+              </div>
+              <div class="mt-3 w-100 d-flex flex-wrap gap-2">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-table-id="customerLevelLineItemsQuantityCount"
+                  data-table-file="customer-level-line-items-quantity-count.csv"
+                  onclick={downloadTableAsCSV}
+                >
+                  Download as CSV
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="mb-4">
+            <div class="mt-3">
+              <div class="position-relative">
+                <div lwc:ref="tableOverallData" lwc:dom="manual"></div>
+              </div>
+              <div class="mt-3 w-100 d-flex flex-wrap gap-2">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-table-id="overallDataTable"
+                  data-table-file="overall-data.csv"
+                  onclick={downloadTableAsCSV}
+                >
+                  Download as CSV
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="w-100 d-flex justify-content-center align-items-center"
+      lwc:else
+    >
+      <lightning-spinner
+        alternative-text="Loading"
+        size="medium"
+      ></lightning-spinner>
+    </div>
+  </div>
+</template>

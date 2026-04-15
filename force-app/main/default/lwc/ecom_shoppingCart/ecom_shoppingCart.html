@@ -1,0 +1,282 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 2025-31-01
+  @last modified by  : manish.joshi@revvity.com
+-->
+<template>
+  <main id="main-content"><!--RWPS-5284-->
+  <div class="background">
+      <div class="body slds-align_absolute-center slds-p-right_medium ecom-mt-cart">
+    <template if:true={showSpinner}>
+      <div class="backdrop">
+          <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+          </lightning-spinner>
+      </div>
+    </template>
+    <div>
+      <div if:true={isCartEmpty}>
+        <c-ecom_inline-message type={type} message={message} show={show} onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message>
+        <!-- RWPS-5938 -->
+          <div if:true={showCheckoutUnavailability}>
+            <c-ecom_inline-message type={checkoutUnavailabilityMessageType} message={checkoutUnavailabilityMessage} show={checkoutUnavailabilityMessageStatus} onmessageaction={handleCheckoutUnavailabilityUpdate} timespan={checkoutUnavailabilityMessageTimeSpan}></c-ecom_inline-message>
+          </div>
+          <!-- RWPS-5938 -->
+        <c-ecom_shopping-cart-empty onquickorderclose={handleQuickorderClose} >
+        </c-ecom_shopping-cart-empty>
+    </div>
+    <c-ecom_quick-order effective-account-id={effectiveAccountId} cart-items-data={cartItems} onquickorderclose={handleQuickorderClose}>
+    </c-ecom_quick-order>
+    <div class="slds-grid slds-wrap ecom-cart-m1" if:false={isCartEmpty}>
+        <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 ecom-cart-border">
+        <div class="slds-grid slds-wrap">
+          <div class="slds-small_size_1-of-1 slds-large-size_9-of-12 slds-medium-size_9-of-12">
+              <span class="ecom-cart-label slds-p-left_medium" if:true={cartItemCount}>
+                  {label.ECOM_Cart} ({cartItemCount} {label.ECOM_Items}) <!--RWPS-2486-->
+              </span>
+          </div>
+          <div class="slds-small_size_1-of-1 slds-large-size_3-of-12 slds-medium-size_3-of-12" if:true={cartItemCount}>
+              <div class="cart-redirect-button slds-p-top_xx-small">
+              <!--div class="cart-redirect-button"-->
+                  <div class="cart-redirect-container">
+                    <!--VRa: Punchout changes | 17 Jan 2024 - begin -->
+                    <template lwc:if={isViewQuickOrder}>
+                      <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={handleOpenQuickOrder}>
+                        <span class="slds-text-selected cart-redirect-icon-color">
+                            <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.quickorderimg}>
+                            {labels.ECOM_QuickOrder}</span>
+                      </button>
+                    </template>
+                    <!--VRa: Punchout changes | 17 Jan 2024 - end -->
+                  </div>
+              </div>
+          </div>
+        </div>
+
+        <div if:true={showRADWarning} class="slds-notify slds-notify_alert slds-alert_warning slds-text-align_center slds-m-bottom--small" role="alert">
+          <h2>
+              <lightning-icon icon-name="utility:warning" size="small" class="slds-m-horizontal--x-small">
+              </lightning-icon>
+              {labels.ECOM_NoRadioactiveLicenseMsg}
+          </h2>
+        </div>
+
+
+
+
+        <div class="message-container">
+          <c-ecom_inline-message type={type} message={message} show={show} onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message>
+          <!-- RWPS-5938 -->
+          <div if:true={showCheckoutUnavailability} class="slds-m-top_small">
+            <c-ecom_inline-message type={checkoutUnavailabilityMessageType} message={checkoutUnavailabilityMessage} show={checkoutUnavailabilityMessageStatus} onmessageaction={handleCheckoutUnavailabilityUpdate} timespan={checkoutUnavailabilityMessageTimeSpan}></c-ecom_inline-message>
+          </div>
+          <!-- RWPS-5938 -->
+          <!--c-ecom_inline-message type={type} message={message} show={show} onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message--><!--8th Nov-->
+        </div>
+        <!--RWPS-3026 and RWPS-2786 4896-Passed trainingProductMap passed cartItemTariffCharge and cartitemDiscontinuedProducts-->
+        <!-- RWPS-4896 Added generic-training-product-map={genericTrainingProductMap} -->
+        <div if:true={cartItems}>
+          <div if:true={productidToCartItemsMap}>
+            <template for:each={productidToCartItemsMap} for:item="cartItems">
+              <c-ecom_cart-items 
+                  key={cartItems.key}
+                  items={cartItems.value}
+                  fieldlabelmap={cardFieldLabelMap}
+                  product-fields={productFields}
+                  oncreateandaddtolist={handleAddToWishlist}
+                  ondeleteitem={handleDeleteItem}
+                  onremoveclicked={handleCartItemRemoveClicked}
+                  is-cart-disabled={isCartDisabled}
+                  onhandledebounce={handleDebounceEvent}
+                  ongetshippingdates={getUpdatedDates}
+                  cart-shipping-dates={cartShippingDates}
+                  cart-item-tariff-charge={cartItemTariffCharge}
+                  training-product-map={trainingProductMap}
+                  generic-training-product-map={genericTrainingProductMap}
+                  cartitem-discontinued-products={cartitemDiscontinuedProducts}
+                  cart-sales-status={cartSalesStatus}
+                  is-promo-applied={appliedPromotion}
+                  wishlist={wishListdetails}
+                  is-large-pack-order={isLargePackOrder}
+                  onremovefromfavorite={handleRemoveFromFavourite}
+                  oncartchange ={handleCartChangeEvent}
+                  oncartchangesapplied ={handleEnableUpdateButton}
+                  oncapturegtmevent={handlegtmEvent}
+                  onaddresserror={handleaddresserrorEvent}
+                  free-item-map={freeItemMap}
+              >
+              </c-ecom_cart-items>
+              <!--RWPS-3811 Added free-item-map above-->
+          </template>
+          <!-- RWPS 3740 START-->
+            <template if:true={replacementProductsMap}>
+              <c-ecom_product-replacement-modal cartitem-discontinued-products={cartitemDiscontinuedProducts}
+                replacement-products-map={replacementProductsMap} items={cartItems}
+                onreplacementmodalclose={handleModalClose}
+                ondeleteitem={handleDeleteItem}
+                oncreateandaddtolist={handleAddToWishlist}
+                onremovefromfavorite={handleRemoveFromFavourite}
+                wishlist={wishListdetails}
+                >
+                
+              </c-ecom_product-replacement-modal>
+            </template>
+          <!-- RWPS 3740 START-->
+          </div>
+          
+        </div>
+      </div>
+      <!--RWPS-3026 Added tariffSurchargeTotal-->
+      <div if:true={cartItems} class="slds-col slds-small-size_1-of-1 slds-large-size_4-of-12 slds-p-left_medium">
+          <c-ecom_shopping-cart-summary cart-summary={cartSummary}
+          oncouponapply={handleApplyCoupon}
+          onpromotion={promotionDetail}
+          onpunchoutcheckout={handlePunchoutCheckout}
+          total-saving={totalSaving}
+          tariff-surcharge-total={tariffSurchargeTotal}
+          cart-items={cartItems}
+          is-cart-changed ={isCartChanged}
+          applied-promotion={appliedPromotion}
+          onremoveappliedcoupon={handleRemoveAppliedCoupon}
+          is-cart-disabled={isCartDisabled}
+          onhandlecartupdateevent = {handleRepriceCart}
+          is-punchout-via-web={isPunchoutViaWeb}
+          cart-button-disabled = {cartButtonDisabled}>
+          </c-ecom_shopping-cart-summary>
+          <!-- RWPS-5938 : Added is-punchout-via-web={isPunchoutViaWeb} -->
+          <c-ecom_shopping-cart-redirects></c-ecom_shopping-cart-redirects>
+      </div>
+    </div>
+    
+    </div>
+    <template if:true={isRADModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            
+            <div class="slds-modal__container">
+                
+                <div class="slds-modal__header ecom-qo-noborder">
+                    <div>   
+                <button class="slds-button slds-button_icon ecom-qo-closebtn" onclick={closeModal}>
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                </button>
+            </div>
+            </div>
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large ecom-no-border" id="1">
+                    <div> 
+                        <span class="slds-modal__content" id="2">
+                            <p class="ecom_modal_note slds-m-bottom--large">
+                              {labels.ECOM_NoRadioactiveLicenseMsg}                   
+                            </p>
+                        </span> 
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <button class="ecom_btn-qorder slds-m-left_medium" onclick={closeModal}>
+                    <span>OK</span>
+                </button>
+            </div> 
+        </div>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <div if:true={showPrompt} class="demo-only" style="height:24rem"> <!-- RWPS-1548 -->
+      <section role="dialog" tabindex="0" aria-modal="true" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt">
+        <div class="slds-modal__container">
+          <div class="slds-modal__header slds-theme_error slds-theme_alert-texture">
+            <h1 class="slds-text-heading_medium" id="prompt-heading-id">{labels.ECOM_Error}</h1>
+          </div>
+          <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+            <p>{promptMsg}</p>
+            <div if:true={error1382}>
+            </br>
+              <b>{error1382msg}</b>
+            </div>
+          </div>
+          <div class="slds-modal__footer slds-theme_default" >
+            <button onclick={handleShopNow} class="slds-button slds-button_neutral">{labels.ECOM_Close}</button>
+          </div>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
+
+    <!--GAr - RWPS-179-->
+    <div if:true={showLoginPopup} class="demo-only">
+      <section role="dialog" tabindex="0" aria-modal="true" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt">
+        <div class="slds-modal__container">
+          <div class="slds-modal__header">
+            <h1 class="slds-text-heading_medium" id="prompt-heading-id2"></h1>
+          </div>
+          <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper2">
+            <p>{labels.ECOM_PunchoutReLogin}</p>
+          </div>
+          <div class="slds-modal__footer slds-theme_default">
+            <button onclick={handleBackToCMSBuyPage} class="slds-button slds-button_neutral">Close</button>
+          </div>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
+  <!--RWPS-1548 start-->
+    <template if:true={showNoBillingShippingPrompt}>
+    <div id="modal" class="slds-modal slds-fade-in-open custom-modal">
+        <div class="custom-slds__modalcontainer">
+          <!--RWPS-3816 Cross button removed-->
+            <div class="custom-image-container">
+                <img src={images.warning} alt={labels.ECOM_Warning} class="custom-image">
+            </div>
+            <div class="address-missing-text">
+                <p>{labels.ECOM_Addressmissing}</p>
+            </div>
+            <div>
+                <p class="add-address-error-text">{labels.newAddressesNotRegisteredError}</p>
+            </div>
+            <footer class="custom-footer" style="padding:10px">
+                <button class="slds-button slds-button_neutral slds-align_absolute-center custom-add-address-button" onclick={closeAddressErrorModal}>
+                    <span style="line-height: 24px">{labels.ECOM_AddAddreses}</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template><!--RWPS-1548 end-->
+
+<!--RWPS-3816 Start-->
+<template if:true={showDisabledERPAddressPrompt}>
+    <div id="disablemodal" class="slds-modal slds-fade-in-open custom-modal">
+        <div class="custom-slds__modalcontainer">
+          <!--RWPS-3816 Cross button removed-->
+            <div class="custom-image-container">
+                <img src={images.warning} alt={labels.ECOM_Warning} class="custom-image">
+            </div>
+            <div class="address-missing-text">
+                <p>{labels.ECOM_Addressmissing}</p>
+            </div>
+            <div>
+                <p class="add-address-error-text">{labels.ECOM_DisabledAddressError}</p>
+            </div>
+            <footer class="custom-footer" style="padding:10px">
+                <button class="slds-button slds-button_neutral slds-align_absolute-center custom-add-address-button custom-add-address-button-wide" onclick={closeDisabledERPAddressModal}>
+                    <span style="line-height: 24px">{labels.ECOM_AddOrSelectBillingShipping}</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+<!--RWPS-3816 End-->
+
+
+  </div>
+</div>
+</main><!--RWPS-5284-->
+</template>

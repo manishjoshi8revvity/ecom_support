@@ -1,0 +1,14 @@
+.THIS.wrapper {
+    background:white;
+    margin: 8px;
+    border:1px solid;    
+}
+
+.THIS {
+}
+
+.THIS.backgroundInverse {
+    position: relative;
+    background-color: #16325c;
+    height: 80px;
+}

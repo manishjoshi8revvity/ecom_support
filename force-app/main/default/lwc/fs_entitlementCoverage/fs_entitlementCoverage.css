@@ -1,0 +1,6 @@
+/**
+ * Created by frankvanloon on 4/24/24.
+ */
+.slds-card_boundary {
+	--sds-c-card-sizing-border: thick;
+}

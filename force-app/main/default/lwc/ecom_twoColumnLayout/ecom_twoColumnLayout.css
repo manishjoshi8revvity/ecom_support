@@ -1,0 +1,123 @@
+@import 'c/ecom_cssLibrary';
+
+:host{
+    font-family:  var(--ecom-font-family);
+}
+
+.ecom-background-revvity-brand-yellow {
+    background-color: var(--ecom-brand-color);
+}
+
+.ecom-z-index-5{
+    z-index: 5;
+}
+
+.ecom-generic-container {
+    /* margin: 0 auto; */
+    margin-left: 116px;
+    margin-right: 116px;
+    max-width: 80rem;
+}
+
+.ecom-header-label-styling{
+    padding-bottom: 40px;
+}
+
+.ecom-left-column-styling{
+    /* padding-bottom: 80px; */
+    max-width: 528px;
+}
+
+.ecom-padding-bottom-80{
+    padding-bottom: 80px;
+}
+
+.ecom-right-column-styling{
+    padding-left: 12px;
+    margin-left:59px;
+    /* max-width: 464px; */
+    /* padding-bottom:80px; */
+}
+
+@media screen and (min-width: 1540px) {
+    .ecom-generic-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
+    @media screen and  (max-width:1104px){
+
+        .ecom-header-label-styling{
+            margin-top: 80px;
+        }
+
+        .ecom-generic-container{
+            margin:0 auto;
+            max-width: 39rem;
+        }
+
+        .ecom-generic-container .slds-medium-size_6-of-12{
+            width: 100%;
+        }
+
+        .ecom-generic-container .ecom-right-column-styling {
+            margin-top: 24px;
+            padding-left: 0px;
+            margin-left: 0px;
+            max-width: 100%;
+        }
+
+        .ecom-generic-container .ecom-left-column-styling{
+            max-width: 100%;
+            /* padding-bottom: 32px; */
+        }
+
+        .ecom-right-column-styling{
+            margin-top: 0px !important;
+            /* padding-left: 12px !important; */
+        }
+        
+        .ecom-padding-left-12{
+            padding-left: 0px !important;
+        }
+
+        .ecom-padding-bottom-80{
+            padding-bottom: 32px;
+        }
+
+        .ecom-responsive-bottom-gap{
+            padding-bottom: 32px;
+        }
+    }
+
+    @media screen and  (max-width:719px){
+
+        .ecom-header-label-styling{
+            margin-top: 56px;
+        }
+
+        .ecom-generic-container{
+            margin-left: 1rem;
+            margin-right: 1rem;
+            max-width: none;
+            padding-bottom: 0px;
+        }
+
+        .ecom-generic-container .slds-medium-size_6-of-12{
+            width: 100%;
+        }
+
+        .ecom-generic-container .ecom-right-column-styling {
+            margin-top: 24px;
+            padding-left: 0px;
+            margin-left: 0px;
+            max-width: 100%;
+        }
+
+        .ecom-generic-container .ecom-left-column-styling{
+            max-width: 100%;
+            /* padding-bottom: 32px; */
+        }
+    }

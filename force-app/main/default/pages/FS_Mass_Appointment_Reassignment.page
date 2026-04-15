@@ -1,0 +1,38 @@
+<apex:page standardController="ServiceResource">
+   <html>
+      <head>
+         <apex:includeLightning />
+      </head>
+      <body class="slds-scope">
+         <div id="flowContainer" />
+         <script>
+              var recordId = "{!serviceresource.Id}"
+            var statusChange = function (event) {
+               if(event.getParam("status") === "FINISHED") {
+                  parent.postMessage('closeLightbox','*')
+               }
+            };
+            $Lightning.use("c:flowLauncher", function() {
+               // Create the flow component
+               $Lightning.createComponent("lightning:flow", {"onstatuschange":statusChange},
+                  "flowContainer",
+                  function (component) {
+                     // Set the input variables
+                     var inputVariables = [
+                        {
+                           name : 'recordId',
+                           type : 'String',
+                           value : recordId
+                        }
+                     ];
+                     
+                     // Start an interview in the flowContainer div, and 
+                     // initializes the input variables.
+                     component.startFlow("S_FLOW_6671_Service_Resource_Mass_Reassign_Appointments", inputVariables);
+                  }
+               );
+            });
+         </script>
+      </body>       
+   </html>
+</apex:page>

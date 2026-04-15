@@ -1,0 +1,180 @@
+@import 'c/ecom_cssLibrary';
+
+:host{
+    color: var(--var-brand-revvity-black);
+}
+
+.ecom-inline-help-text {
+    display: inline;
+    position: relative;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #525252;
+    margin-bottom: 0;
+}
+
+.ecom-link-styling {
+    text-decoration-line: underline !important;
+    color: #7f03b0;
+}
+
+/* RWPS-3826 start */
+.ecom-link-styling:focus, .ecom-login-link:focus {
+    outline: 1px solid #7F03B0;
+    outline-offset: 1px;
+}
+/* RWPS-3826 end */
+
+.slds-input.slds-is-disabled, .slds-input[disabled] {
+    color:  rgb(170, 170, 170) !important;
+    background-color: white !important;
+    border: 1px solid rgb(170, 170, 170) !important;
+}
+
+
+.ecom-tooltip-styling {
+    height: 20px;
+    width: 20px;
+}
+
+.tooltip {
+    position:relative; /* making the .tooltip span a container for the tooltip text */
+    border-bottom:1px dashed #000; /* little indicater to indicate it's hoverable */
+}
+
+.tooltip:hover:before, .tooltip:hover:after{
+    display:block;
+}
+
+.tooltip:before {
+    content: attr(data-text); /* here's the magic */
+    position:absolute;
+
+    /* vertically center */
+    top:100%;
+    transform:translateY(-50%);
+
+    /* move to right */
+    left:10%;
+    margin-left:15px; /* and add a small left margin */
+
+    /* basic styles */
+    width:200px;
+    padding:10px;
+    border-radius:10px;
+    background:#000;
+    color: #fff;
+    text-align:center;
+
+    display:none; /* hide by default */
+}
+
+.tooltip:after {
+    content: "";
+    position:absolute;
+
+    /* position tooltip correctly */
+    left:100%;
+    margin-bottom:-5px;
+
+    /* vertically center */
+    top:50%;
+    transform:translateY(-50%);
+
+    /* the arrow */
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 10px solid #f00;
+    position: absolute;
+    bottom: -10px;
+    border-color: transparent black transparent transparent;
+
+    display:none;
+}
+
+.toolip-test:before{
+    content: attr(data-text); /* here's the magic */
+    max-width: 356px;
+    border: 1px solid #767575;
+    background: white;
+    padding: 16px;
+    box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    visibility: hidden;
+}
+
+.tooltip-test{
+    position: absolute;
+    inset: auto auto 0px 0px;
+    margin: 0px;
+    transform: translate3d(95px, -1741px, 0px);
+    visibility: hidden;
+}
+
+.toolip-test:hover:before{
+    visibility: visible;
+}
+
+.ecom-error {
+    border: 1px solid var(--var-brand-revvity-error-red);
+}
+
+.ecom-register-button:hover {
+    background: #5A027D !important;
+}
+
+.ecom-fixed-spinner{
+    z-index: 20;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.ecom-error-text-margin-left-36{
+    margin-left: 36px;
+}
+
+/* Fix for RWPS-2037 */
+.ecom-register-button:disabled {
+    background: #A8A8A8;
+    border-color: #A8A8A8;
+    pointer-events: none;
+}
+/* Fix End */
+
+@media screen and (max-width: 576px) {
+    .ecom-text-size-24{
+        font-size: 20px;
+    }
+
+    .ecom-line-height-32{
+        line-height: 30px;
+    }
+
+    .ecom-margin-bottom-32{
+        margin-bottom: 24px;
+    }
+}
+
+@media screen and (max-width: 495px){
+    .ecom-text-size-18{
+        font-size: 16px;
+    }
+
+    .ecom-padding-bottom-32{
+        padding-bottom: 24px;
+    }
+
+    .ecom-registration-terms-responsive{
+        margin-bottom:16px!important;
+    }
+
+    .ecom-register-button{
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .ecom-margin-top-32{
+        margin-top: 24px;
+    }
+}

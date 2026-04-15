@@ -1,0 +1,15 @@
+<template>
+    <div if:true={showPopup} class="popup-container">
+        <section class="popup">
+            <div class="popup-content">
+                <button class="close-btn" onclick={handleClose}>✕</button>
+                <div class="popup-icon">!</div>
+                <p class="popup-text">Your Revvity session is about to expire</p>
+                <div class="popup-actions">
+                    <button class="btn-outline" onclick={handleContinue}>Continue Session</button>
+                    <button class="btn-primary" onclick={handleLogout}>Logout</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>

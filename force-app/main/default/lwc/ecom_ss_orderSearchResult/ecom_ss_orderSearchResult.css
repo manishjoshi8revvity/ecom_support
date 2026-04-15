@@ -1,0 +1,227 @@
+.ecom-ss-order-result-section-heading {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+  margin-bottom: 24px;
+}
+
+.ecom-ss-order-result-section-sub-heading {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+}
+
+.ecom-ss-order-result-top-order-number {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.ecom-ss-order-result-top-order-number h4 {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.ecom-ss-order-result-top-date-disclaimer {
+  padding: 16px;
+  border-radius: 8px;
+  background: #fbfbfb;
+  border: 1px solid #e3e3e3;
+  margin-bottom: 32px;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  gap: 16px;
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 400;
+}
+
+.ecom-ss-order-result-top-date-disclaimer svg {
+  flex-basis: 24px;
+  min-width: 24;
+}
+
+.ecom-ss-order-result-top-order-overview {
+  margin-bottom: 48px;
+}
+
+.ecom-ss-order-result-top-order-overview-text {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.ecom-ss-order-result-summary-outer {
+  row-gap: 32px;
+  padding-bottom: 48px;
+  margin-bottom: 48px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.ecom-ss-order-result-summary-text {
+  margin-bottom: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.ecom-ss-order-result-summary-delivery-block-code {
+  text-decoration: underline;
+  font-style: italic;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Abhishek Joshi 2025.01.21 - Added :not([type="none"]) - RWPS-2227 */
+.ecom-ss-order-result-status > span:not([type="none"]) {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+  border: 1px solid #000;
+  color: #000;
+  border-radius: 16px;
+  width: max-content;
+  cursor: default;
+}
+
+.ecom-ss-order-result-status > span[type="success"] {
+  border-color: #218529;
+  color: #218529;
+}
+
+.ecom-ss-order-result-status > span[type="warning"] {
+  border-color: #fa7e33;
+  color: #fa7e33;
+}
+
+.ecom-ss-order-result-status > span[type="danger"] {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.ecom-ss-order-result-status > span[type="secondary"] {
+  border-color: rgba(33, 37, 41, 0.75);
+  color: rgba(33, 37, 41, 0.75);
+}
+
+.ecom-ss-order-result-status-info {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  text-align: center;
+  border: 1px solid;
+  border-radius: 50%;
+}
+
+/* RWPS-2227 end */
+
+.ecom-ss-order-result-tracking-url a {
+  text-decoration: none;
+  color: var(--rvty-color-purple, #7f03b0); /* RWPS-3834 */
+}
+
+.ecom-ss-order-result-tracking-url a:hover {
+  text-decoration: underline;
+}
+
+.ecom-ss-full-width-accordion-outer {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+  flex-direction: column;
+}
+
+.ecom-ss-full-width-accordion {
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ecom-ss-full-width-accordion-heading {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  padding: 12px 8px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  align-items: center;
+  background: #fbfbfb;
+  cursor: pointer;
+}
+
+.ecom-ss-full-width-accordion-heading span {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.ecom-ss-full-width-accordion-heading img {
+  flex-basis: 24px;
+  min-width: 24px;
+  width: 24px;
+}
+
+.ecom-ss-full-width-accordion-heading img:last-child {
+  display: none;
+}
+
+.ecom-ss-full-width-accordion-open
+  .ecom-ss-full-width-accordion-heading
+  img:first-of-type {
+  display: none;
+}
+
+.ecom-ss-full-width-accordion-open
+  .ecom-ss-full-width-accordion-heading
+  img:last-of-type {
+  display: block;
+}
+
+.ecom-ss-full-width-accordion-content-outer {
+  height: 0;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.ecom-ss-full-width-accordion-content-section {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  padding: 12px 8px;
+  justify-content: space-between;
+  border-top: 1px solid #e3e3e3;
+}
+
+.ecom-ss-full-width-accordion-content-section-lhs {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ecom-ss-full-width-accordion-content-section-rhs {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: right;
+}
+
+.ecom-ss-order-result-portal {
+  margin-top: 48px;
+}
+
+/* RWPS-4134 start */
+.ecom-ss-order-details {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 500;
+}
+/* RWPS-4134 end */

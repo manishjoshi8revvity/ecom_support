@@ -1,0 +1,38 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 07-30-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <template lwc:if={hasMessageText}>
+    <!--Show close icon on messagebox - Added 8th Nov start-->
+    <!-- RWPS-2734- added message instead of show to display toss message-->
+        <div class="slds-region_narrow" if:true={message}>
+            <div class={containerClass}>
+                <div class="slds-grid slds-gutters">
+                    <!--div class="slds-col slds-size_11-of-12"-->
+                        <div class={colsize}>
+                            <div class="ecom-notify ecom-notify_toast" role="status">
+                                <span class="slds-assistive-text"></span>
+                                    <div class="ecom-notify__content">
+                                <span>{message}</span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12 slds-align_absolute-center">
+                            <span>
+                                <!--button class="slds-button slds-button_icon" onclick={closeMessageBox}-->
+                                 <button class={btnCloseSize} onclick={closeMessageBox} aria-label="Close message">
+                                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                    </svg>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </template>
+</template>

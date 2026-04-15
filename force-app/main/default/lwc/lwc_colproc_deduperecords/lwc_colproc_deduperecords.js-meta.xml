@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+      </targets>
+      <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <propertyType name="InputSObjectType" extends="SObject" label="Input Collection SObject Type" description="Generic sObject data type used for input sObject properties" />
+			<property name="inputValueList" type="{InputSObjectType[]}" label="Input Record Collection" description="The collection you want to de-dupe" role="inputOnly" />
+            <property name="fieldToDedupeOn" type="String" label="Field API To De Dupe On" description="This is case sensitive. Kindly provide Field Api Name in correct Case as mentioned in SFDC ObjectManager. The API Name of the unique field values you want to de-dupe all of the records on" role="inputOnly" />
+            <property name="outputValueList" type="{InputSObjectType[]}" label="Sorted De Duped Record Collection" role="outputOnly"/>
+        </targetConfig>
+      </targetConfigs>
+</LightningComponentBundle>

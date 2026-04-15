@@ -1,0 +1,38 @@
+<template>
+    <header >
+        <div >
+            <slot name="header"></slot>
+        </div>
+    </header>
+    <main  class="ecom-background-revvity-brand-yellow">
+        <div class="ecom-generic-container">
+            <div class="ecom-background-revvity-brand-yellow">
+                <div class="slds-grid slds-wrap slds-grid_vertical-stretch ecom-background-revvity-brand-yellow ecom-padding-bottom-80">
+                    <div class="slds-col  slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12 ecom-background-revvity-brand-yellow">
+                        <div class="ecom-header-label-styling">
+                            <slot name="pagelabel">Page Label</slot>
+                        </div>
+                    </div>
+                    <div class="slds-col   slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 ecom-background-revvity-brand-yellow ecom-padding-left-12 ecom-responsive-bottom-gap">
+                        <div class="ecom-left-column-styling">
+                            <slot name="leftcolumn">Left Column</slot>
+                        </div>
+                    </div>
+                    <div class="slds-col   slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 ecom-background-revvity-brand-yellow">
+                        <div class="ecom-right-column-styling">
+                            <slot name="rightcolumn"></slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid">
+            <div class="slds-col slds-size_12-of-12 ecom-background-revvity-brand-yellow">
+                <slot name="revvityimage">Image Row</slot>
+            </div>
+        </div>
+    </main>
+    <footer >
+        <slot name="footer" class="ecom-footer"></slot>
+    </footer>
+</template>

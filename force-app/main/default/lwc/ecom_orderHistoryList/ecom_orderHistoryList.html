@@ -1,0 +1,1138 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 06-24-2024
+  @last modified by  : garora@rafter.one
+-->
+<template>
+    <main id="main-content"><!--RWPS-5284-->
+    <div class="background">
+        <div class="container slds-align_absolute-center">
+            <div class=" body">
+                    <!-- <div class="message-container slds-grid slds-wrap">
+                        <div class="slds-col">
+                        <c-ecom_inline-message type={type} message={message} show={showError} timespan={timeSpan}></c-ecom_inline-message>
+                        </div>
+                    </div> -->
+                    <div class="slds-grid slds-wrap mobile-container"> <!-- RWPS-4881 : Added mobile-container -->
+                        <div if:true={isOrderHistoryPage} class={sidebarCSS}>
+                            <c-ecom_account-sidebar></c-ecom_account-sidebar>
+                        </div>
+                        <!-- <div class=" slds-size_1-of-12"></div> -->
+                        <div if:false={device.isMobile} class={middleSpaceCSS}></div>
+
+                        <div class={gridForDashBoard}>
+                            <div  class="ecom-mb-64 m-top-tabs"> <!-- if:true={isOrderHistoryPage}-->
+                                <div if:false={device.isMobile}>
+                                    <div if:false={isOrderHistoryPage} class="slds-grid slds-wrap order-history-header">
+                                        <div class="slds-col slds-size_3-of-4 slds-float_left">
+                                            <span class="order-history-label-db">Order History</span>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-4 " if:false={orderHistoryEmpty}>
+                                            <!-- <a class="order-details-link" onclick={handleViewAll}>View All ></a> -->
+                                            <div slot="actions" class="slds-float_right"><a href="javascript:void(0)" role="button" tabindex="0" aria-label="View all orders" class="order-details-link" onclick={handleViewAll}>View All</a>   <!--RWPS-3764-->
+                                                <span><img class="ecom-edit-icon" src={images.rightarrow} alt="Right Arrow">
+                                                </span><!--RWPS-3764 added alt attribute-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div if:true={device.isMobile}>
+                                    <div if:false={isOrderHistoryPage} class="slds-grid slds-wrap order-history-header-md">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item>
+                                                <div class="">
+                                                    <span class="order-history-header-md">Order History</span>
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item>
+                                                <div slot="actions" class=""><a href="javascript:void(0)" role="button" tabindex="0" aria-label="View all orders" class="order-details-link" onclick={handleViewAll}>View All</a><!--RWPS-3764-->
+                                                    <span><img class="ecom-edit-icon" src={images.arrowimg} alt="Right Arrow "></span><!--RWPS-3764-->
+                                                </div>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                        <!-- <div class="slds-col slds-size_3-of-4 slds-float_left">
+                                            <span class="order-history-header-md">Order History</span>
+                                        </div> -->
+                                    <!-- <div class="slds-col slds-size_1-of-4  ecom-mb-8" if:false={orderHistoryEmpty}>
+                                            <div slot="actions" class="slds-float_right"><a class="order-details-link" onclick={handleViewAll}>View All</a>
+                                                <span><img class="ecom-edit-icon" src={images.arrowimg}></span>
+                                            </div>
+                                        </div> -->
+                                </div>
+                            </div>
+                            <div if:true={isOrderHistoryPage} class="slds-grid slds-wrap">
+
+                                <lightning-layout vertical-align="spaced">
+                                    <!-- RWPS-4881 -->
+                                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="6" large-device-size="6">
+                                        <div class="order-header slds-m-bottom_small">
+                                            {label.ordersHeader}
+                                        </div>
+                                    </lightning-layout-item>
+                                    <!-- RWPS-4881 -->
+                                </lightning-layout>
+                                <!-- RWPS-4881 -->
+                                <div
+                                    class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-small-size_12-of-12">
+                                    <c-ecom_order-history-search
+                                        hierarchy-number={hierarchyNumber}
+                                        onorderfetch={handleFetchOrderData}
+                                        onoperateloader={handleOperateLoader}
+                                        onredirection={handleRedirection}>
+                                    </c-ecom_order-history-search>
+                                </div>
+                                <!-- RWPS-4881 -->
+                                <template if:true={showTabs}>
+                                    <div if:true={showOnlineOrdersTab} class="slds-col slds-size_1-of-2">
+                                        <button class={tab1class} onclick={handleTabChange} data-tab="online-orders">{label.onlineOrdersText} ({onlineOrdersCount})</button>
+                                    </div>
+                                    <div if:false={showOnlineOrdersTab} class="slds-col slds-size_1-of-2">
+                                        <button class={tab1class} data-tab="online-orders" style="cursor: not-allowed; opacity: 0.5;">{label.onlineOrdersText} ({onlineOrdersCount})</button>
+                                    </div>
+                                    <div if:true={showAllOrdersTab}  class="slds-col slds-size_1-of-2 slds-m-bottom_large">
+                                        <button class={tab2class} onclick={handleTabChange} data-tab="all-orders">{label.offlineOrdersText} ({allOrdersCount})</button>
+                                    </div>
+                                    <div if:false={showAllOrdersTab}  class="slds-col slds-size_1-of-2 slds-m-bottom_large">
+                                        <button class={tab2class} data-tab="all-orders" style="cursor: not-allowed; opacity: 0.5;">{label.offlineOrdersText} ({allOrdersCount})</button>
+                                    </div>
+                                </template>
+                                <div if:true={orderHistoryEmpty}>
+                                    <div if:true={isOrderHistoryPage} class="ecom_order-hist-count m-top-16">
+                                        0 Orders in Order History
+                                    </div>
+                                    <span>You haven’t made any purchases yet. Browse our catalog of products and
+                                        services.</span>
+                                    <span if:false={isOrderHistoryPage} class="ecom-brand-purple"><a
+                                            href="javascript:void(0)" onclick={handleShopNow}> Shop Now</a></span>
+                                    <div if:true={isOrderHistoryPage} class="">
+                                        <button class="ecom-shop-now-btn slds-m-top_medium" onclick={handleShopNow}>
+                                            <span>Shop Now</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- RWPS-4881 -->
+                            </div>
+                            <!-- RWPS-4881 -->
+                            <div if:true={sfOrder} if:false={combinedOrders}>
+                                <template if:true={isOrderHistoryPage}>
+                                    <div class="slds-grid slds-wrap sort-combobox-align m-top-24">
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_9-of-12 slds-m-top_small">
+                                            <span if:true={totalOrders} class="order-count-summary"><span
+                                                    if:true={fromRecords}>{fromRecords}-</span>{toRecords} out of
+                                                {totalOrders} orders</span>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 m-bottom-gap2">
+                                            <span>
+                                                <lightning-combobox
+                                                name="Sort"
+                                                label="Sort"
+                                                value={sortValue}
+                                                placeholder="Sort"
+                                                options={sortOption}
+                                                variant="label-hidden"
+                                                onchange={handleSortChange}>
+                                                </lightning-combobox>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- RWPS-5286 start -->
+                                    <div lwc:if={showAdvancedSearchInListing} class="advance-search-tool-text">
+                                        {label.advanceSearchToolText}<a href={selfServiceHomeLink} target="_blank">{label.advanceSearchToolLink}</a>
+                                    </div>
+                                    <!-- RWPS-5286 end -->
+                                </template>
+                                <template if:false={device.isMobile}>
+                                    <div if:true={showOrders}>
+                                        <template for:each={ordersToDisplay} for:item="order" for:index="index">
+                                            <div key={order.Id} class="ecom-grayBorder order-history-item-card">
+                                                <div class="slds-grid slds-wrap ecom-mb-24 grid-gap-ipad"> <!--RWPS-3339-->
+                                                    <div
+                                                        class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_5-of-12 order-number-ipad"> <!--RWPS-3339-->
+                                                        <div class="ecom-ordernr-label">
+                                                            <span><img src={order.iconStyle} alt="Image"
+                                                            class="slds-button__icon order-icon slds-button__icon_left" /></span>
+                                                            <span>Order Number: </span><span><c-ecom_highlighted-text text={order.OrderNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286--></span>
+                                                        </div>
+                                                        <div class="ecom-mt-8" if:true={order.poNumber}>
+                                                            <span class="ecom-order-hd-label">PO number: </span><span
+                                                                class="ecom-order-hd-details"><c-ecom_highlighted-text text={order.poNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286--></span>
+                                                        </div>
+                                                    </div>
+                                                    <div if:true={order.isAllDiscontinuedProducts} class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_0-of-12 desktop-spacer">
+                                                    </div>
+                                                    <div if:false={order.isAllDiscontinuedProducts} class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_0-of-12 width-auto-ipad"> <!--RWPS-3339, RWPS-5625-->
+                                                        <div>
+                                                            <button class="slds-button order-again-btn slds-float_right"
+                                                                onclick={handleOrderAgain} data-id={order.Id} data-source={order.isWebOrder}
+                                                                role="button" tabindex="0" aria-label="Order again"
+                                                                onkeydown={handleEnterKeyPress}><!--RWPS-3764-->
+                                                                <img src={images.orderagain} alt="Image" class="slds-button__icon reorder-utility-icon slds-button__icon_left" />
+                                                                <span class="slds-button__label ecom-order-agn-label">Order again</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_4-of-12 width-auto-ipad"> <!--RWPS-3339-->
+                                                        <button class="slds-button order-details-btn slds-float_right" onclick={handleViewOrderDetails} data-id={order.Id}>
+                                                            <span class="slds-button__label ecom-view-order-label">View order details</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-grid slds-wrap">
+
+                                                    <div class="slds-col slds-size_9-of-12 slds-large-size_9-of-12 order-info-ipad"> <!--RWPS-3339-->
+                                                        <div class="slds-grid slds-wrap">
+                                                            <div
+                                                                class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                <span class="ecom-order-hd-label">Date Ordered</span>
+                                                                <div class="ecom-order-hd-details">
+                                                                    <lightning-formatted-date-time time-zone="UTC"
+                                                                        value={order.OrderedDate} year="numeric"
+                                                                        month="2-digit" day="2-digit">
+                                                                    </lightning-formatted-date-time>
+                                                                </div>
+                                                            </div>
+
+                                                            <div
+                                                                class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                <span class="ecom-order-hd-label">Order Status</span>
+                                                                <div class="ecom-order-hd-details">{order.Status}</div>
+                                                            </div>
+
+                                                            <div
+                                                                class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                <span class="ecom-order-hd-label">Order Total</span>
+                                                                <div class="ecom-order-hd-details ecom-pr-22">
+                                                                    <lightning-formatted-number
+                                                                        value={order.GrandTotalAmount}
+                                                                        format-style="currency"
+                                                                        minimum-fraction-digits="2"
+                                                                        currency-code={order.currencyIsoCode}
+                                                                        currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                                </div>
+                                                            </div>
+
+                                                            <div
+                                                                class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                <span class="ecom-order-hd-label">Items</span>
+                                                                <div class="ecom-order-hd-details">
+                                                                    {order.OrderProductLineCount}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div if:true={order.InvoiceCount}
+                                                        class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-align-middle width-auto-ipad"> <!--RWPS-3339-->
+                                                        <a class="invoice-details-link" data-id={order.Id}
+                                                            title="View invoice details"
+                                                            onclick={handleViewInvoiceDetails}
+                                                            href="javascript:void(0);"><!--RWPS-4087-->
+                                                            View invoice details <svg data-id={order.Id}
+                                                                data-icon={order.Id} xmlns="http://www.w3.org/2000/svg"
+                                                                class="chevron-icon" viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M12 15.586L6.707 10.293a1 1 0 00-1.414 1.414l6 6a1 1 0 001.414 0l6-6a1 1 0 00-1.414-1.414L12 15.586z"
+                                                                    onclick={handleViewInvoiceDetails} />
+                                                            </svg>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <!--Invoice details-->
+                                                <div class="doNotDisplay" data-invoice={order.Id}>
+                                                    <template for:each={order.invoices} for:item="invoice"
+                                                        for:index="index">
+                                                        <div key={invoice.Id} class="slds-grid slds-wrap">
+                                                            <div
+                                                                class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                                                                <hr class="hr-line">
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_9-of-12 slds-large-size_9-of-12 order-info-ipad"> <!--RWPS-3339-->
+                                                                <div class="slds-grid slds-wrap">
+                                                                    <div
+                                                                        class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                        <span class="ecom-order-hd-label">Invoice
+                                                                            Number</span>
+
+                                                                        <div class="ecom-order-hd-details">
+                                                                            <span
+                                                                                if:true={invoice.ERP_Invoice_Number__c}>
+                                                                                {invoice.ERP_Invoice_Number__c}
+                                                                            </span>
+                                                                            <span
+                                                                                if:false={invoice.ERP_Invoice_Number__c}>
+                                                                                {invoice.Name}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div
+                                                                        class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                        <span class="ecom-order-hd-label">Date of
+                                                                            invoice</span>
+                                                                        <!-- <span><b>Order Total</b></span><br/> -->
+                                                                        <div class="ecom-order-hd-details">
+                                                                            <lightning-formatted-date-time
+                                                                                time-zone="UTC"
+                                                                                value={invoice.ECOM_Invoice_Date__c}
+                                                                                year="numeric" month="2-digit"
+                                                                                day="2-digit">
+                                                                            </lightning-formatted-date-time>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div
+                                                                        class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                        <span class="ecom-order-hd-label">Invoice
+                                                                            total</span>
+                                                                        <!-- <span><b>Items</b></span><br/> -->
+                                                                        <div class="ecom-order-hd-details ecom-pr-22">
+                                                                            <lightning-formatted-number
+                                                                                value={invoice.ECOM_Total__c}
+                                                                                format-style="currency"
+                                                                                minimum-fraction-digits="2"
+                                                                                currency-code={invoice.CurrencyIsoCode}
+                                                                                currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div
+                                                                        class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                        <span class="ecom-order-hd-label">Items</span>
+                                                                        <!-- <span><b>Items</b></span><br/> -->
+                                                                        <div class="ecom-order-hd-details">
+                                                                            {invoice.ECOM_Total_Items__c}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-align-middle width-auto-ipad margin-top-ipad "> <!--RWPS-3339-->
+                                                                <button
+                                                                    class="slds-button order-again-btn slds-float_right"
+                                                                    data-id={invoice.Id} data-order={order.Id}
+                                                                    onclick={goToInvoiceDetailPage}>
+                                                                    <span
+                                                                        class="slds-button__label ecom-order-agn-label">View
+                                                                        invoice</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template if:true={isLoadMoreEnabled}>
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                                                    <c-ecom_paginator ongotopage={pageChanged}
+                                                        page-size={defaultListSize}
+                                                        current-page-number={currentPageNumber}
+                                                        total-records={totalOrders}></c-ecom_paginator>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <!-- Mobile UI changes -->
+                                <template if:true={device.isMobile}>
+                                    <div if:true={showOrders}>
+                                        <template for:each={ordersToDisplay} for:item="order" for:index="index">
+                                            <div key={order.Id} class="ecom-grayBorder ecom-order-item-card-md">
+                                                <div class="">
+                                                    <div class="ecom-ordernr-label-md">
+                                                        <span><img src={order.iconStyle} alt="Image"
+                                                            class="slds-button__icon order-icon slds-button__icon_left" /></span>
+                                                        <span>Order Number: </span><span><c-ecom_highlighted-text text={order.OrderNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286--></span>
+                                                    </div>
+                                                    <div class="ecom-mt-8" if:true={order.poNumber}>
+                                                        <span class="ecom-order-hd-label">PO number </span><span
+                                                            class="ecom-order-hd-details"><c-ecom_highlighted-text text={order.poNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286--></span>
+                                                    </div>
+                                                </div>
+                                                <div class="ecom-mt-32 ecom-mb-32">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            <div>
+                                                                <div class="ecom-order-hd-label">Date Ordered</div>
+                                                                <div class="ecom-order-hd-details-md ecom-mt-8">
+                                                                    <lightning-formatted-date-time time-zone="UTC"
+                                                                        value={order.OrderedDate} year="numeric"
+                                                                        month="2-digit" day="2-digit">
+                                                                    </lightning-formatted-date-time>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_2-of-12 ecom-w-60 "></div>
+                                                        <div class="slds-col slds-size_5-of-12">
+                                                            <div>
+                                                                <div class="ecom-order-hd-label">Order Status</div>
+                                                                <div class="ecom-order-hd-details-md ecom-mt-8">
+                                                                    {order.Status}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-grid slds-wrap ecom-mt-24">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            <div>
+                                                                <div class="ecom-order-hd-label">Order Total</div>
+                                                                <div class="ecom-order-hd-details-md ecom-mt-8">
+                                                                    <lightning-formatted-number
+                                                                        value={order.GrandTotalAmount}
+                                                                        format-style="currency"
+                                                                        minimum-fraction-digits="2"
+                                                                        currency-code={order.currencyIsoCode}
+                                                                        currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_2-of-12 ecom-w-60"></div>
+                                                        <div class="slds-col slds-size_5-of-12">
+                                                            <div>
+                                                                <div class="ecom-order-hd-label">Items</div>
+                                                                <div class="ecom-order-hd-details-md ecom-mt-8">
+                                                                    {order.OrderProductLineCount}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ecom-mb-8">
+                                                    <center><a if:true={order.InvoiceCount}
+                                                            class="invoice-details-link-md" data-id={order.Id}
+                                                            title="View invoice details"
+                                                            onclick={handleViewInvoiceDetails}
+                                                            href="javascript:void(0);"><!--RWPS-4087-->
+                                                            View invoice details <svg data-id={order.Id}
+                                                                data-icon={order.Id} xmlns="http://www.w3.org/2000/svg"
+                                                                class="chevron-icon" viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M12 15.586L6.707 10.293a1 1 0 00-1.414 1.414l6 6a1 1 0 001.414 0l6-6a1 1 0 00-1.414-1.414L12 15.586z"
+                                                                    onclick={handleViewInvoiceDetails} />
+                                                            </svg>
+                                                        </a>
+                                                    </center>
+                                                </div>
+                                                <div class="ecom-mb-14">
+                                                    <button class="slds-button order-details-btn sort-combobox-align"
+                                                        onclick={handleViewOrderDetails} data-id={order.Id}>
+                                                        <span class="slds-button__label ecom-view-order-label">View
+                                                            order details</span>
+                                                    </button>
+                                                </div>
+                                                <div class="ecom-mb-8">
+                                                    <!-- RWPS-4621 : Added if:false={order.isAllDiscontinuedProducts} -->
+                                                    <button if:false={order.isAllDiscontinuedProducts}
+                                                        class="slds-button order-again-btn sort-combobox-align"
+                                                        onclick={handleOrderAgain} data-id={order.Id} data-source={order.isWebOrder}>
+                                                        <img src={images.orderagain} alt="Image"
+                                                            class="slds-button__icon reorder-utility-icon slds-button__icon_left" />
+                                                        <span class="slds-button__label ecom-order-agn-label">Order
+                                                            again</span>
+                                                    </button>
+                                                </div>
+                                                <!--Invoice details - Mobile-->
+                                                <div data-invoice={order.Id} class="doNotDisplay">
+                                                    <template for:each={order.invoices} for:item="invoice"
+                                                        for:index="index">
+                                                        <div key={invoice.Id}>
+                                                            <hr class="hr-line">
+                                                            <div class="slds-grid slds-wrap">
+                                                                <div class="slds-col slds-size_4-of-12">
+                                                                    <div>
+                                                                        <span class="ecom-order-hd-label">Invoice
+                                                                            Number</span>
+                                                                        <div class="ecom-order-hd-details">
+                                                                            <span
+                                                                                if:true={invoice.ERP_Invoice_Number__c}>
+                                                                                {invoice.ERP_Invoice_Number__c}
+                                                                            </span>
+                                                                            <span
+                                                                                if:false={invoice.ERP_Invoice_Number__c}>
+                                                                                {invoice.Name}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_2-of-12 ecom-w-60 ">
+                                                                </div>
+                                                                <div class="slds-col slds-size_5-of-12">
+                                                                    <div class="">
+                                                                        <span class="ecom-order-hd-label">Date of
+                                                                            invoice</span>
+                                                                        <!-- <span><b>Order Total</b></span><br/> -->
+                                                                        <div class="ecom-order-hd-details">
+                                                                            <lightning-formatted-date-time
+                                                                                time-zone="UTC"
+                                                                                value={invoice.ECOM_Invoice_Date__c}
+                                                                                year="numeric" month="2-digit"
+                                                                                day="2-digit">
+                                                                            </lightning-formatted-date-time>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="slds-grid slds-wrap ecom-mt-24">
+                                                                <div class="slds-col slds-size_4-of-12">
+                                                                    <div>
+                                                                        <span class="ecom-order-hd-label">Invoice
+                                                                            total</span>
+                                                                        <!-- <span><b>Items</b></span><br/> -->
+                                                                        <div class="ecom-order-hd-details">
+                                                                            <lightning-formatted-number
+                                                                                value={invoice.ECOM_Total__c}
+                                                                                format-style="currency"
+                                                                                minimum-fraction-digits="2"
+                                                                                currency-code={invoice.CurrencyIsoCode}
+                                                                                currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_2-of-12 ecom-w-60"></div>
+                                                                <div class="slds-col slds-size_5-of-12">
+                                                                    <div>
+                                                                        <span class="ecom-order-hd-label">Items</span>
+                                                                        <div class="ecom-order-hd-details">
+                                                                            {invoice.ECOM_Total_Items__c}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="slds-grid slds-wrap ecom-mt-24">
+                                                                <div class="slds-col slds-size_4-of-12">
+                                                                    <button class="slds-button order-again-btn"
+                                                                        data-id={invoice.Id} data-order={order.Id}
+                                                                        onclick={goToInvoiceDetailPage}>
+                                                                        <span
+                                                                            class="slds-button__label ecom-order-agn-label">View
+                                                                            invoice</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template if:true={isLoadMoreEnabled}>
+
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                                                    <c-ecom_paginator ongotopage={pageChanged}
+                                                        page-size={defaultListSize}
+                                                        current-page-number={currentPageNumber}
+                                                        total-records={totalOrders}></c-ecom_paginator>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <!-- Mobile UI changes end -->
+                            </div>
+                            <!-- RWPS-4881 -->
+                            <div if:true={sapOrder} if:false={combinedOrders}>
+                                <c-ecom_sap-order-history-list order-data={offlineOrders} sap-order={sapOrder}
+                                    onorderdetails={orderDetailsData} onoperateloading={handleOperateLoader} search-term={searchTerm}></c-ecom_sap-order-history-list> <!--RWPS-5286-->
+                            </div>
+
+                            <!-- RWPS-4881 -->
+                            <div if:true={combinedOrders}>
+                                <template if:true={isOrderHistoryPage}>
+                                    <div class="slds-grid slds-wrap sort-combobox-align m-top-24">
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_9-of-12 slds-m-top_small">
+                                            <span if:true={totalOrders} class="order-count-summary"><span
+                                                    if:true={fromRecords}>{fromRecords}-</span>{toRecords} out of
+                                                {totalOrders} orders</span>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 m-bottom-gap2">
+                                            <span>
+                                                <lightning-combobox name="Sort" label="Sort" value={sortValue}
+                                                    placeholder="Sort" options={sortOption} variant="label-hidden"
+                                                    onchange={handleSortChange}></lightning-combobox>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- RWPS-5286 start -->
+                                    <div lwc:if={showAdvancedSearchInListing} class="advance-search-tool-text">
+                                        {label.advanceSearchToolText}<a href={selfServiceHomeLink} target="_blank">{label.advanceSearchToolLink}</a>
+                                    </div>
+                                    <!-- RWPS-5286 end -->
+                                </template>
+                                <template if:false={device.isMobile}>
+                                    <div if:true={showOrders}>
+                                        <template for:each={ordersToDisplay} for:item="order" for:index="index">
+                                            <div key={order.Id} class="ecom-grayBorder order-history-item-card">
+                                                <div class="slds-grid slds-wrap ecom-mb-24 grid-gap-ipad"> <!--RWPS-3339-->
+                                                    <div
+                                                        class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_5-of-12 order-number-ipad"> <!--RWPS-3339-->
+                                                        <div class="ecom-ordernr-label">
+                                                            <span><img src={order.iconStyle} alt="Image"
+                                                            class="slds-button__icon order-icon slds-button__icon_left" /></span>
+                                                           <span>Order Number: </span><span><c-ecom_highlighted-text text={order.OrderNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286--></span>
+                                                        </div>
+                                                        <div class="ecom-mt-8" if:true={order.poNumber}>
+                                                            <span class="ecom-order-hd-label">PO number: </span><span
+                                                                class="ecom-order-hd-details"><c-ecom_highlighted-text text={order.poNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286--></span>
+                                                        </div>
+                                                    </div>
+                                                    <div if:true={order.isAllDiscontinuedProducts} class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_0-of-12 desktop-spacer">
+                                                    </div>
+                                                    <div if:false={order.isAllDiscontinuedProducts} class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_0-of-12 width-auto-ipad"> <!--RWPS-3339, RWPS-5625-->
+                                                        <div>
+                                                            <!-- RWPS-4621 : Added if:false={order.isAllDiscontinuedProducts} -->
+                                                            <button class="slds-button order-again-btn slds-float_right"
+                                                                onclick={handleOrderAgain} data-id={order.Id} data-source={order.isWebOrder}
+                                                                role="button" tabindex="0" aria-label="Order again"
+                                                                onkeydown={handleEnterKeyPress}><!--RWPS-3764-->
+                                                                <img src={images.orderagain} alt="Image"
+                                                                    class="slds-button__icon reorder-utility-icon slds-button__icon_left" />
+                                                                <span
+                                                                    class="slds-button__label ecom-order-agn-label">Order
+                                                                    again</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_4-of-12 width-auto-ipad"> <!--RWPS-3339-->
+                                                        <button class="slds-button order-details-btn slds-float_right"
+                                                            onclick={handleViewOrderDetails} data-id={order.Id}>
+                                                            <span class="slds-button__label ecom-view-order-label">View
+                                                                order details</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-grid slds-wrap">
+                                                    <div class="slds-col slds-size_9-of-12 slds-large-size_9-of-12 order-info-ipad"> <!--RWPS-3339-->
+                                                        <div class="slds-grid slds-wrap">
+                                                            <div
+                                                                class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                <span class="ecom-order-hd-label">Date Ordered</span>
+                                                                <div class="ecom-order-hd-details">
+                                                                    <lightning-formatted-date-time time-zone="UTC"
+                                                                        value={order.OrderedDate} year="numeric"
+                                                                        month="2-digit" day="2-digit">
+                                                                    </lightning-formatted-date-time>
+                                                                </div>
+                                                            </div>
+
+                                                            <div
+                                                                class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                <span class="ecom-order-hd-label">Order Status</span>
+                                                                <div class="ecom-order-hd-details">{order.Status}</div>
+                                                            </div>
+
+                                                            <div
+                                                                class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                <span class="ecom-order-hd-label">Order Total</span>
+                                                                <div class="ecom-order-hd-details ecom-pr-22">
+                                                                    <lightning-formatted-number
+                                                                        value={order.GrandTotalAmount}
+                                                                        format-style="currency"
+                                                                        minimum-fraction-digits="2"
+                                                                        currency-code={order.currencyIsoCode}
+                                                                        currency-display-as={currencyDisplayAs}>
+                                                                    </lightning-formatted-number>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                <span class="ecom-order-hd-label">Items</span>
+                                                                <div class="ecom-order-hd-details">
+                                                                    {order.OrderProductLineCount}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+
+                                                        <div if:true={order.InvoiceCount}
+                                                            class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-align-middle width-auto-ipad"> <!--RWPS-3339-->
+                                                            <a class="invoice-details-link" data-id={order.Id}
+                                                                title="View invoice details"
+                                                                onclick={handleViewInvoiceDetails}
+                                                                href="javascript:void(0);"><!--RWPS-4087-->
+                                                                View invoice details <svg data-id={order.Id}
+                                                                    data-icon={order.Id}
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    class="chevron-icon" viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M12 15.586L6.707 10.293a1 1 0 00-1.414 1.414l6 6a1 1 0 001.414 0l6-6a1 1 0 00-1.414-1.414L12 15.586z"
+                                                                        onclick={handleViewInvoiceDetails} />
+                                                                </svg>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--Invoice details-->
+                                                    <div class="doNotDisplay" data-invoice={order.Id}>
+                                                        <template for:each={order.invoices} for:item="invoice"
+                                                            for:index="index">
+                                                            <div key={invoice.Id} class="slds-grid slds-wrap">
+                                                                <div
+                                                                    class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                                                                    <hr class="hr-line">
+                                                                </div>
+                                                                <div
+                                                                    class="slds-col slds-size_9-of-12 slds-large-size_9-of-12 order-info-ipad"> <!--RWPS-3339-->
+                                                                    <div class="slds-grid slds-wrap">
+                                                                        <div
+                                                                            class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                            <span class="ecom-order-hd-label">Invoice
+                                                                                Number</span>
+
+                                                                            <div class="ecom-order-hd-details">
+                                                                                <span
+                                                                                    if:true={invoice.ERP_Invoice_Number__c}>
+                                                                                    {invoice.ERP_Invoice_Number__c}
+                                                                                </span>
+                                                                                <span
+                                                                                    if:false={invoice.ERP_Invoice_Number__c}>
+                                                                                    {invoice.Name}
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div
+                                                                            class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                            <span class="ecom-order-hd-label">Date of
+                                                                                invoice</span>
+                                                                            <!-- <span><b>Order Total</b></span><br/> -->
+                                                                            <div class="ecom-order-hd-details">
+                                                                                <lightning-formatted-date-time
+                                                                                    time-zone="UTC"
+                                                                                    value={invoice.ECOM_Invoice_Date__c}
+                                                                                    year="numeric" month="2-digit"
+                                                                                    day="2-digit">
+                                                                                </lightning-formatted-date-time>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div
+                                                                            class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                            <span class="ecom-order-hd-label">Invoice
+                                                                                total</span>
+                                                                            <!-- <span><b>Items</b></span><br/> -->
+                                                                            <div
+                                                                                class="ecom-order-hd-details ecom-pr-22">
+                                                                                <lightning-formatted-number
+                                                                                    value={invoice.ECOM_Total__c}
+                                                                                    format-style="currency"
+                                                                                    minimum-fraction-digits="2"
+                                                                                    currency-code={invoice.CurrencyIsoCode}
+                                                                                    currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div
+                                                                            class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                            <span
+                                                                                class="ecom-order-hd-label">Items</span>
+                                                                            <!-- <span><b>Items</b></span><br/> -->
+                                                                            <div class="ecom-order-hd-details">
+                                                                                {invoice.ECOM_Total_Items__c}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="slds-col slds-size_3-of-12 slds-large-size_3-of-12 slds-align-middle width-auto-ipad margin-top-ipad "> <!--RWPS-3339-->
+                                                                    <button
+                                                                        class="slds-button order-again-btn slds-float_right"
+                                                                        data-id={invoice.Id} data-order={order.Id}
+                                                                        onclick={goToInvoiceDetailPage}>
+                                                                        <span
+                                                                            class="slds-button__label ecom-order-agn-label">View
+                                                                            invoice</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                        </template>
+                                        <template if:true={isLoadMoreEnabled}>
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                                                    <c-ecom_paginator ongotopage={pageChanged}
+                                                        page-size={defaultListSize}
+                                                        current-page-number={currentPageNumber}
+                                                        total-records={totalOrders}></c-ecom_paginator>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <!-- Mobile UI changes -->
+                                <template if:true={device.isMobile}>
+                                    <div if:true={showOrders}>
+                                        <template for:each={ordersToDisplay} for:item="order" for:index="index">
+                                            <div key={order.Id} class="ecom-grayBorder ecom-order-item-card-md">
+                                                <div class="">
+                                                    <div class="ecom-ordernr-label-md">
+                                                        <span><img src={order.iconStyle} alt="Image"
+                                                            class="slds-button__icon order-icon slds-button__icon_left" /></span>
+                                                        <span>Order Number: </span><span><c-ecom_highlighted-text text={order.OrderNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286--></span>
+                                                    </div>
+                                                    <div class="ecom-mt-8" if:true={order.poNumber}>
+                                                        <span class="ecom-order-hd-label">PO number </span><span
+                                                            class="ecom-order-hd-details"><c-ecom_highlighted-text text={order.poNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286--></span>
+                                                    </div>
+                                                </div>
+                                                <div class="ecom-mt-32 ecom-mb-32">
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            <div>
+                                                                <div class="ecom-order-hd-label">Date Ordered</div>
+                                                                <div class="ecom-order-hd-details-md ecom-mt-8">
+                                                                    <lightning-formatted-date-time time-zone="UTC"
+                                                                        value={order.OrderedDate} year="numeric"
+                                                                        month="2-digit" day="2-digit">
+                                                                    </lightning-formatted-date-time>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_2-of-12 ecom-w-60 "></div>
+                                                        <div class="slds-col slds-size_5-of-12">
+                                                            <div>
+                                                                <div class="ecom-order-hd-label">Order Status</div>
+                                                                <div class="ecom-order-hd-details-md ecom-mt-8">
+                                                                    {order.Status}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-grid slds-wrap ecom-mt-24">
+                                                        <div class="slds-col slds-size_4-of-12">
+                                                            <div>
+                                                                <div class="ecom-order-hd-label">Order Total</div>
+                                                                <div class="ecom-order-hd-details-md ecom-mt-8">
+                                                                    <lightning-formatted-number
+                                                                        value={order.GrandTotalAmount}
+                                                                        format-style="currency"
+                                                                        minimum-fraction-digits="2"
+                                                                        currency-code={order.currencyIsoCode}
+                                                                        currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_2-of-12 ecom-w-60"></div>
+                                                        <div class="slds-col slds-size_5-of-12">
+                                                            <div>
+                                                                <div class="ecom-order-hd-label">Items</div>
+                                                                <div class="ecom-order-hd-details-md ecom-mt-8">
+                                                                    {order.OrderProductLineCount}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ecom-mb-8">
+                                                    <center><a if:true={order.InvoiceCount}
+                                                            class="invoice-details-link-md" data-id={order.Id}
+                                                            title="View invoice details"
+                                                            onclick={handleViewInvoiceDetails}
+                                                            href="javascript:void(0);"><!--RWPS-4087-->
+                                                            View invoice details <svg data-id={order.Id}
+                                                                data-icon={order.Id} xmlns="http://www.w3.org/2000/svg"
+                                                                class="chevron-icon" viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M12 15.586L6.707 10.293a1 1 0 00-1.414 1.414l6 6a1 1 0 001.414 0l6-6a1 1 0 00-1.414-1.414L12 15.586z"
+                                                                    onclick={handleViewInvoiceDetails} />
+                                                            </svg>
+                                                        </a>
+                                                    </center>
+                                                </div>
+                                                <div class="ecom-mb-14">
+                                                    <button class="slds-button order-details-btn sort-combobox-align"
+                                                        onclick={handleViewOrderDetails} data-id={order.Id}>
+                                                        <span class="slds-button__label ecom-view-order-label">View
+                                                            order details</span>
+                                                    </button>
+                                                </div>
+                                                <div class="ecom-mb-8">
+                                                    <!-- RWPS-4621 : Added if:false={order.isAllDiscontinuedProducts} -->
+                                                    <button if:false={order.isAllDiscontinuedProducts}
+                                                        class="slds-button order-again-btn sort-combobox-align"
+                                                        onclick={handleOrderAgain} data-id={order.Id} data-source={order.isWebOrder}>
+                                                        <img src={images.orderagain} alt="Image"
+                                                            class="slds-button__icon reorder-utility-icon slds-button__icon_left" />
+                                                        <span class="slds-button__label ecom-order-agn-label">Order
+                                                            again</span>
+                                                    </button>
+                                                </div>
+                                                <!--Invoice details - Mobile-->
+                                                <div data-invoice={order.Id} class="doNotDisplay">
+                                                    <template for:each={order.invoices} for:item="invoice"
+                                                        for:index="index">
+                                                        <div key={invoice.Id}>
+                                                            <hr class="hr-line">
+                                                            <div class="slds-grid slds-wrap">
+                                                                <div class="slds-col slds-size_4-of-12">
+                                                                    <div>
+                                                                        <span class="ecom-order-hd-label">Invoice
+                                                                            Number</span>
+                                                                        <div class="ecom-order-hd-details">
+                                                                            <span
+                                                                                if:true={invoice.ERP_Invoice_Number__c}>
+                                                                                {invoice.ERP_Invoice_Number__c}
+                                                                            </span>
+                                                                            <span
+                                                                                if:false={invoice.ERP_Invoice_Number__c}>
+                                                                                {invoice.Name}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_2-of-12 ecom-w-60 ">
+                                                                </div>
+                                                                <div class="slds-col slds-size_5-of-12">
+                                                                    <div class="">
+                                                                        <span class="ecom-order-hd-label">Date of
+                                                                            invoice</span>
+                                                                        <!-- <span><b>Order Total</b></span><br/> -->
+                                                                        <div class="ecom-order-hd-details">
+                                                                            <lightning-formatted-date-time
+                                                                                time-zone="UTC"
+                                                                                value={invoice.ECOM_Invoice_Date__c}
+                                                                                year="numeric" month="2-digit"
+                                                                                day="2-digit">
+                                                                            </lightning-formatted-date-time>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="slds-grid slds-wrap ecom-mt-24">
+                                                                <div class="slds-col slds-size_4-of-12">
+                                                                    <div>
+                                                                        <span class="ecom-order-hd-label">Invoice
+                                                                            total</span>
+                                                                        <!-- <span><b>Items</b></span><br/> -->
+                                                                        <div class="ecom-order-hd-details">
+                                                                            <lightning-formatted-number
+                                                                                value={invoice.ECOM_Total__c}
+                                                                                format-style="currency"
+                                                                                minimum-fraction-digits="2"
+                                                                                currency-code={invoice.CurrencyIsoCode}
+                                                                                currency-display-as={currencyDisplayAs}></lightning-formatted-number>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_2-of-12 ecom-w-60"></div>
+                                                                <div class="slds-col slds-size_5-of-12">
+                                                                    <div>
+                                                                        <span class="ecom-order-hd-label">Items</span>
+                                                                        <div class="ecom-order-hd-details">
+                                                                            {invoice.ECOM_Total_Items__c}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="slds-grid slds-wrap ecom-mt-24">
+                                                                <div class="slds-col slds-size_4-of-12">
+                                                                    <button class="slds-button order-again-btn"
+                                                                        data-id={invoice.Id} data-order={order.Id}
+                                                                        onclick={goToInvoiceDetailPage}>
+                                                                        <span
+                                                                            class="slds-button__label ecom-order-agn-label">View
+                                                                            invoice</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template if:true={isLoadMoreEnabled}>
+
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                                                    <c-ecom_paginator ongotopage={pageChanged}
+                                                        page-size={defaultListSize}
+                                                        current-page-number={currentPageNumber}
+                                                        total-records={totalOrders}></c-ecom_paginator>
+                                                    <!-- <button class="order-load-more slds-align_absolute-center" onclick={handleLoadMoreOrders}>Load More</button> -->
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <!-- Mobile UI changes end -->
+                            </div>
+
+                            <!-- RWPS-4881 -->
+                            <template if:true={ordersNotFound}>
+                                <div if:false={orderHistoryEmpty}
+                                    class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-small-size_12-of-12">
+                                    <div class="slds-grid slds-wrap order-not-found-container">
+                                        <span class="order-not-found-text-styling">
+                                            {label.noResultFoundText}
+                                        </span>
+                                    </div>
+                                </div>
+                            </template>
+                            <!-- RWPS-4881 -->
+                            <!-- modal start -->
+                            <template if:true={isShowModal}>
+                                <section role="dialog" tabindex="0" aria-labelledby="modal-heading-01" aria-modal="true"
+                                    aria-describedby="modal-content-id-1"
+                                    class="slds-modal slds-modal_full slds-fade-in-open" data-id="find-order-modal"
+                                    onkeydown={handleModalKeyDown}><!--RWPS-3764-->
+                                    <div class="slds-modal__container ecom-fo-modal">
+                                        <header class="slds-modal__header ecom-fo-header">
+                                            <button class="ecom-modal-close-btn" title="Close" onclick={hideModalBox}>
+
+                                                <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}> -->
+                                                <lightning-icon icon-name="utility:close" alternative-text="close"
+                                                    variant="inverse" size="small"></lightning-icon>
+                                                <span class="slds-assistive-text">Close</span>
+                                            </button>
+                                            <span id="modal-heading-01" class="ecom-fo-label">Find an Order</span>
+                                        </header>
+                                        <!--Model Body-->
+                                        <div class="ecom-outer-box">
+                                            <!-- <div class="slds-modal__content" id="modal-content-id-1"> -->
+                                            <div class="" id="modal-content-id-1">
+                                                <div if:true={showErrorMsg} class="error-msg">
+                                                    Order not found, please input a valid combination.
+                                                </div>
+                                                <div class="ecom-input-card">
+                                                    <lightning-input class="ecom-input-size"
+                                                        label="Order Number or Purchase Order Number" name="orderNumber"
+                                                        value={orderNumber} required="true"
+                                                        onchange={handleOrderNumberChange}></lightning-input>
+                                                </div>
+                                                <div class="ecom-input-card">
+                                                    <lightning-input class="ecom-input-size" label="Shipping Zip Code"
+                                                        name="zipcode" value={shippingZip} onchange={handleZipChange}
+                                                        required="true"></lightning-input>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--footer start-->
+                                        <footer class="ecom-fo-footer">
+                                            <div if:false={device.isMobile} class="ecom-fo-footer-align">
+                                                <button class="order-load-more " onclick={hideModalBox}>Cancel</button>
+                                                <button if:true={isFindOrderDisabled} class="order-again-btn-disabled"
+                                                    disabled={isFindOrderDisabled}>Find Order</button>
+                                                <button if:false={isFindOrderDisabled} class="order-again-btn-active"
+                                                    onclick={handleFindOrder} disabled={isFindOrderDisabled}>Find
+                                                    Order</button>
+                                            </div>
+                                            <div if:true={device.isMobile} class="slds-grid slds-grid_vertical">
+                                                <div
+                                                    class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                                                    <button if:true={isFindOrderDisabled}
+                                                        class="order-again-btn-disabled"
+                                                        disabled={isFindOrderDisabled}>Find Order</button>
+                                                    <button if:false={isFindOrderDisabled}
+                                                        class="order-again-btn-active" onclick={handleFindOrder}
+                                                        disabled={isFindOrderDisabled}>Find Order</button>
+                                                </div>
+                                                <div
+                                                    class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                                                    <button class="order-load-more "
+                                                        onclick={hideModalBox}>Cancel</button>
+                                                </div>
+                                            </div>
+                                        </footer>
+
+                                    </div>
+                                </section>
+                                <div class="slds-backdrop slds-backdrop_open"></div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template if:true={showMessagePage}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class={modalSize} data-id="view-order-details"><!--RWPS-3764-->
+            <div class="slds-modal__container success-failure-modal">
+
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content success-failure-modal slds-p-around_medium ecom-sf-border-top"
+                    id="modal-content-id-2">
+                    <button
+                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-normal slds-float_right"
+                        title="Close" onclick={handleMessageScreenClose}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="normal"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div if:true={showSuccessParts} class="slds-m-around_small slds-p-bottom_xx-small slds-p-top_large">
+                        <span class="ecom-qo-label slds-p-bottom_large slds-align_absolute-center">Successful Cart
+                            Additions</span>
+                        <div class="slds-grid slds-wrap slds-p-around_small slds-m-top_large ecom-qo-card">
+                            <template for:each={successfulParts} for:item="item">
+
+                                <div key={item.partNumber}
+                                    class="ecom-qo-details slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-text-align_left">
+                                    <span>Part Number</span>
+                                </div>
+                                <div key={item.partNumber}
+                                    class="ecom-qo-details slds-col slds-size_8-of-12  slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-text-align_left">
+                                    <span>{item.partNumber}</span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div if:true={showErrorParts} class="slds-m-around_small slds-p-bottom_large slds-p-top_large">
+                        <span class="ecom-qo-label slds-p-bottom_large slds-align_absolute-center">Failed Cart
+                            Additions</span>
+                        <div
+                            class="slds-grid slds-wrap slds-p-around_small slds-m-top_x-small slds-m-bottom_large ecom-qo-card">
+                            <div
+                                class="ecom-qo-failed-label slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-text-align_left">
+                                <span>Part Number</span>
+                            </div>
+                            <div
+                                class="ecom-qo-failed-label slds-col slds-size_8-of-12  slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-text-align_left">
+                                <span>Reason</span>
+                            </div>
+                            <template for:each={erroneousPartsToDisplay} for:item="item">
+
+                                <div key={item.partNumber}
+                                    class="ecom-qo-details slds-p-top_x-small slds-col slds-size_4-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_4-of-12 slds-text-align_left">
+                                    <span>{item.partNumber}</span>
+                                </div>
+                                <div key={item.partNumber}
+                                    class="ecom-qo-details slds-p-top_x-small slds-col slds-size_8-of-12  slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-size_8-of-12 slds-text-align_left">
+                                    <span>{item.reason}</span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="slds-modal__footer ecom-sf-border-bottom">
+                    <div class="slds-grid slds-wrap">
+                        <div
+                            class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12">
+                            <button class="ecom_btn-qorder2 slds-m-left_medium slds-m-bottom_small slds-m-right_medium"
+                                onclick={handleMessageScreenClose}>
+                                <span>Close</span>
+                            </button>
+                        </div>
+                        <div
+                            class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12">
+                            <button class="ecom_btn-qorder2" onclick={handleMessageScreenRedirectToCart}>
+                                <span>Go to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <div if:true={showSpinner} class="backdrop">
+        <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading"></lightning-spinner>
+    </div>
+    </main><!--RWPS-5284-->
+</template>

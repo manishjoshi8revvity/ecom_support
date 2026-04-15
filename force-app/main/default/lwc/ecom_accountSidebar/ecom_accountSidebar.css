@@ -1,0 +1,191 @@
+/* Sidebar css classes */
+.ecom-account-sidebar-box {
+	/* padding: 40px 16px 40px 16px;
+	border: 1px solid #E3E3E3;
+	margin: 32px;
+	display: flex;
+	padding: 40px 16px;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 32px;
+	flex-shrink: 0; */
+
+	display: flex;
+    /* width: 305px; */
+    padding: 40px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    border-radius: 0px;
+    border: 1px solid #E3E3E3;
+    background-color: #FBFBFB;
+}
+
+.ecom-closebtn{
+    margin-left: 102%;
+}
+
+.ecom-mt-64{
+	margin-top: 64px;
+  }
+  .ecom-dashboard-box{
+	display: inline-flex;
+    width: 100%;
+    padding: 0px;
+    align-items: flex-start;
+    /* gap: var(--radius-lg, 16px); */
+    padding-bottom: 32px;
+  }
+.ecom-acc-inner-box {
+	padding: 0px 16px 0px 40px;
+	margin: 32px;
+
+}
+
+.ecom-sp-instructions-box{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: black;
+    /* margin-top:-5rem; */
+}
+
+.ecom-account-sb-icon {
+	width: 24px;
+	height: 24px;
+	/* padding: 3px; */
+	margin-right: 16px;
+}
+
+.ecom-account-sb-label {
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+	letter-spacing: 0em;
+	text-align: left;
+	cursor: pointer;
+	margin-top: 32px;
+}
+
+.ecom-sidebar-label{
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+	letter-spacing: 0em;
+	text-align: left;
+	cursor: pointer;
+}
+
+.ecom-mr-16{
+	margin-right: 16px;
+}
+.ecom-pt-32{
+	padding-top: 32px;
+}
+.ecom-pb-32{
+	padding-bottom: 32px;
+}
+.ecom-inline-display{
+	display: inline-flex;
+}
+.ecom-account-db-label {
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 26px;
+	letter-spacing: 0em;
+	text-align: left;
+	cursor: pointer;
+}
+.ecom-account-options-box{
+	padding: 0px 16px 0px 40px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    align-self: stretch;
+}
+
+.ecom-mt-32{
+	margin-top: 32px;
+}
+.ecom-full-width{
+	width: 100%;
+}
+.dashboard-menu-font {
+	color: #000000;
+}
+
+.dashboard-hover-font{
+	color: #7F03B0;
+}
+
+.dashboard-menu-font.brand {
+	color: #5A027D;
+}
+
+.ecom-brand-font {
+	color: #5A027D;
+}
+
+.ecom-purple-font {
+	color: #7F03B0;
+	;
+}
+
+.ecom-gray-border-b {
+	border-bottom: 1px solid #E3E3E3;
+}
+
+.ecom-gray-border-t {
+	border-top: 1px solid #E3E3E3;
+}
+@media screen and  (min-width:760px) and (max-width : 1024px){
+	.ecom-account-sidebar-box {
+		padding: 40px 16px 40px 16px;
+		border: 1px solid #E3E3E3;
+		margin: 32px 32px 32px 0px;
+		display: flex;
+		/* width: 305px; */
+		padding: 40px 16px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 32px;
+		flex-shrink: 0;
+	}
+}
+@media screen and (max-width:760px) {
+	.registerSection{
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+}
+/* RWPS-3764 */
+.no-underline {
+	text-decoration: none;
+  }
+
+.no-underline:hover,
+.no-underline:focus {
+	text-decoration: none;
+}
+.sidebar-link {
+	display: block;
+	color: #000 !important; 
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus {
+	color: #7F03B0; 
+	text-decoration: none;
+}
+.sidebar-link.ecom-brand-font {
+	color: #7F03B0 !important;
+}
+.sidebar-link:not(.ecom-brand-font) {
+	color: #000 !important;
+}
+  /* RWPS-3764 */

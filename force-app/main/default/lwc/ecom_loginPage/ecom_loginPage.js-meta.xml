@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>ECOM Login Page</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="pageToRedirectLoggedInUser" description="The page a logged in user needs to be redirected, if they reach login page" label="Page Redirect For Logged In User" type="String" default="/dashboard" />
+            <property name="isAutoRedirectToDashboardIfLoggedIn" description="Flag to indicate if user should be redirected to dashboard if not a guest user" label="Should Redirect Logged In User To Dashboard" type="Boolean" default="true"/>
+            <property name="createAccountPage" type="String" description="Path to redirect to registration page" default="SelfRegister" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

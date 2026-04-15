@@ -1,0 +1,7 @@
+<template>
+    <div class="product-rec-outer">
+      <template for:each={recommendationsData} for:item="recType">
+        <c-ecom_product-carousel key={recType.key} title={recType.title} products={recType.data} pricing={pricingData} medium-screen="1266" small-screen="900"></c-ecom_product-carousel>
+      </template>
+    </div>
+</template>

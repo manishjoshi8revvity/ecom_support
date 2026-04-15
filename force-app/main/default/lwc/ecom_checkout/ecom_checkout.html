@@ -1,0 +1,242 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 06-24-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <main id="main-content"><!--RWPS-5284-->
+    <template lwc:if={showSpinner}>
+        <div class="backdrop">
+            <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+            </lightning-spinner>
+        </div>
+    </template>
+    <div lwc:if={cartItemCount} class="background">
+        <div class="container slds-align_absolute-center">
+            <div class=" body">
+    <div class="slds-grid slds-wrap ecom-vgap-outer">
+        <div class="slds-col slds-large-size_8-of-12 slds-medium-size_12-of-12 slds-size_12-of-12" if:true={cartSummary}>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col">
+                   <c-ecom_inline-message type={type} message={message} show={show} timespan={timeSpan} onmessageaction={handleUpdateMessage}></c-ecom_inline-message>
+                </div>
+            </div>
+            <div class="ecom-checkout-card">
+                <span class="ecom-checkout-label">{labels.ECOM_Checkout} ({cartItemCount} {labels.ECOM_Items})</span>
+                <div class="ecom-vh8"></div>
+                <span class="ecom-total-cost-label">Total Cost: <lightning-formatted-number value={cartSummary.grandTotalAmount} format-style="currency" currency-code={cartSummary.currencyIsoCode} currency-display-as={currencyDisplayAs}></lightning-formatted-number></span>
+            </div>
+
+            <div class="ecom-gray-border">
+                <div class="slds-grid slds-wrap ecom-h-spacing">
+                    <div if:true={isAccontReadMode} class="ecom-shipping-label ecom-mb-24 slds-col slds-size_10-of-12 ecom-active-acn-label slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-size_10-of-12 slds-text-align_left">
+                        {labels.ECOM_ShippingAndBilling} 
+                    </div> 
+                    <div if:false={isAccontReadMode} class="ecom-shipping-label ecom-mb-14 slds-col slds-size_10-of-12 ecom-active-acn-label slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-size_10-of-12 slds-text-align_left">
+                        {labels.ECOM_ShippingAndBilling} 
+                    </div> 
+                    <div if:true={isAccontReadMode} class="ecom-shipping-label slds-col slds-size_2-of-12 ecom-active-acn-label slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
+                        <span class="ecom-align-right">
+                            <a href="javascript:void(0)" onclick={handleAccountEdit}><img class="ecom-edit-icon" src={images.edit}><span class="ecom-edit-label">{labels.ECOM_Edit}</span> </a>
+                        </span>
+                    </div>
+                </div>
+                <div if:true={effectiveAccountId} class="ecom-h-spacing">
+                    <!-- RWPS-1285 onlargepackpropertyevent added for large pack -->
+                     <!-- RWPS-1882- onsetinvoiceemailevent -->
+                       <!-- RWPS-6394 onsetinvoicecustidevent -->
+                    <c-ecom_checkout_shipping-Details onsetinvoiceemailevent={setInvoiceEmailEvent} onsetinvoicecustidevent={setInvoiceCustIdEvent} onlargepackpropertyevent={setLargePackPropertyEvent}  onbillingaddress={setBillingAddress} effective-account-id={effectiveAccountId} cart-id={cartId} onshowreviewsection={handleShowReviewSection}  is-accont-read-mode={isAccontReadMode} is-account-edit-mode={isAccountEditMode} is-testing-user={isTestingUser} org-details={orgDetails} configuration-details={configurationDetails}></c-ecom_checkout_shipping-Details> <!--RWPS-5436-->
+                </div>
+            </div>
+            <div  class="ecom-gray-border">
+                <!-- <span class="ecom-shipping-label">Email Notifications</span> -->
+                <div class="slds-grid slds-wrap ecom-mt-40 ecom-h-spacing">
+                    <div class="ecom-shipping-label slds-col slds-size_10-of-12 ecom-active-acn-label slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-size_10-of-12 slds-text-align_left">
+                        {labels.ECOM_EmailNotifications}
+                    </div> 
+                    <div if:true={isReviewReadMode} class="ecom-shipping-label slds-col slds-size_2-of-12 ecom-active-acn-label slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
+                        <span class="ecom-align-right">
+                            <a href="javascript:void(0)" onclick={handleReviewEdit}><img class="ecom-edit-icon" src={images.edit}><span class="ecom-edit-label">{labels.ECOM_Edit}</span></a>
+                        </span>
+                    </div>
+                </div>
+                <div if:true={effectiveAccountId} class="ecom-h-spacing ecom-mb-40">
+                    <c-ecom_checkout-review-order effective-account-id={effectiveAccountId} cart-id={cartId} onshowinvoicesection={handleShowInvoiceSection} paymet-data-map={paymetDataMap} is-review-read-mode={isReviewReadMode} is-review-edit-mode={isReviewEditMode} is-testing-user={isTestingUser} org-details={orgDetails} configuration-details={configurationDetails}></c-ecom_checkout-review-order> <!--RWPS-5436-->
+                </div>
+            </div>
+            <!--Changes done for ECOM-1947 by sathiya-->
+            <div  class="ecom-gray-border" if:true={isEInvoiceAvailable}>
+                <div class="slds-grid slds-wrap ecom-mt-40 ecom-h-spacing">
+                    <div class="ecom-shipping-label slds-col slds-size_10-of-12 ecom-active-acn-label slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-size_10-of-12 slds-text-align_left">
+                        {labels.ECOM_E_Invoice_Requirements}
+                    </div> 
+                    <div if:true={isInvoiceReadMode} class="ecom-shipping-label slds-col slds-size_2-of-12 ecom-active-acn-label slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
+                        <span class="ecom-align-right">
+                            <a href="javascript:void(0)" onclick={handleInvoiceEdit}><img class="ecom-edit-icon" src={images.edit}><span class="ecom-edit-label">{labels.ECOM_Edit}</span></a>
+                        </span>
+                    </div>
+                </div>
+                <div if:true={effectiveAccountId} class="ecom-h-spacing ecom-mb-40">
+                    <c-ecom_checkout_einvoice-details 
+                    effective-account-id={effectiveAccountId} 
+                    cart-id={cartId} 
+                    onshowpaymentsection={handleShowPaymentSection} 
+                    paymet-data-map={paymetDataMap} 
+                    is-invoice-read-mode={isInvoiceReadMode} 
+                    is-invoice-edit-mode={isInvoiceEditMode}
+                    is-invoice-order-mode={isInvoiceOrderMode}
+                    validate-fields={invoiceValidationFields}
+                    >
+                    </c-ecom_checkout_einvoice-details>
+                </div>
+            </div>
+            <!--Changes End-->
+            <div  if:true={isTaxExemptUser} class="ecom-gray-border">
+                <div class="slds-grid slds-wrap ecom-mt-40 ecom-h-spacing">
+                    <div class="ecom-shipping-label slds-col slds-size_10-of-12 ecom-active-acn-label slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-size_10-of-12 slds-text-align_left">
+                        VAT Information
+                    </div> 
+                    <div if:true={isTaxExemptReadMode} class="ecom-shipping-label slds-col slds-size_2-of-12 ecom-active-acn-label slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_2-of-12">
+                        <span class="ecom-align-right">
+                            <a href="javascript:void(0)" onclick={handleTaxExemptEdit}><img class="ecom-edit-icon" src={images.edit}><span class="ecom-edit-label">{labels.ECOM_Edit}</span></a>
+                        </span>
+                    </div>
+                    
+                </div>
+                <div  if:true={effectiveAccountId} class="ecom-h-spacing ecom-mb-40">
+                    <c-ecom_checkout-tax-exempt effective-account-id={effectiveAccountId} cart-id={cartId} is-tax-exempt-read-mode={isTaxExemptReadMode} onshowpaymentsectionaftertaxexempt={handleShowPaymentSectionAfterTaxExempt} is-tax-exempt-edit-mode={isTaxExemptEditMode}></c-ecom_checkout-tax-exempt>
+                </div>
+                
+            </div>
+            <div class="ecom-gray-border">
+                <div class="slds-grid slds-wrap  ecom-mt-40 ecom-h-spacing">
+                    <div class="ecom-shipping-label slds-col slds-size_10-of-12 ecom-active-acn-label slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-size_10-of-12 slds-text-align_left">
+                        {labels.ECOM_PaymentInformation}
+                    </div> 
+                    <!-- <div if:true={isPaymentReadMode} class="ecom-shipping-label slds-col slds-size_2-of-12 ecom-active-acn-label slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_2-of-12 slds-p-left_xx-large">
+                        <span>
+                            <a href="javascript:void(0)" onclick={handlePaymentEdit}><img class="ecom-edit-icon" src={images.edit}><span class="ecom-edit-label">Edit</span></a>
+                        </span>
+                    </div> -->
+                </div>
+                <div if:true={effectiveAccountId} class="ecom-h-spacing ecom-mb-40">
+                    <c-ecom_payment-Information 
+                    billing-address={billingAddress}  
+                    contact-info={contactInfo}
+                    cart-items={cartItems} 
+                    total-saving={totalSaving} 
+                    cart-summary={cartSummary}  
+                    effective-account-id={effectiveAccountId} 
+                    cart-id={cartId}  
+                    is-payment-read-mode={isPaymentReadMode}  
+                    paymet-data-map={paymetDataMap}
+                    payment-mdt-map={paymentMdtMap}
+                    is-payment-edit-mode={isPaymentEditMode}
+                    show-credit-card={showCreditCard}
+                    approval-needed={approvalNeeded}
+                    promo-code={promoCode}
+                    is-product-tnc={isProductTnC}
+                    product-tnc={productTnC}
+                    is-product-tnc_-r-u-o={isProductTnC_RUO}
+                    product-tnc_-r-u-o={productTnC_RUO}
+                    default-ship-to-s-a-p-number={defaultShipToSAPNumber}
+                    onpaymenterror={handlePaymentError}
+                    onupdatecartsummary={handleUpdateCartSummary}
+                    end-user-for-trade-checked={endUserForTradeChecked}
+                    selected-date={selectedDate}
+                    end-user-details={endUserDetails}
+                    invoice-email-id={invoiceEmailId}
+                    invoice-cust-id={invoiceCustId}
+                    is-testing-user={isTestingUser}
+                    org-details={orgDetails}
+                    configuration-details={configurationDetails}
+                    ></c-ecom_payment-Information> <!--RWPS-5436-->
+                     <!--RWPS-1285 Added Parameter endUserDetails,endUserForTradeChecked and selectedDate -->
+                    <!--RWPS-6394 Added Parameter invoiceCustId -->
+                
+                </div>
+            </div>
+           
+        </div>
+        <!--div class="slds-col slds-large-size_5-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 ecom-h-spacing  ecom-mt-40"-->
+        <!--RWPS-3026 Added Parameter tariffSurchargeTotal-->
+        <div class="slds-col slds-large-size_4-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 ecom-h-spacing">
+            <c-ecom_checkout-cart-summary 
+            cart-items={cartItems}
+            cart-summary={cartSummary}
+            total-saving={totalSaving}
+            tariff-surcharge-total={tariffSurchargeTotal}
+            cart-item-count={cartItemCount}
+            > </c-ecom_checkout-cart-summary>
+        </div>
+    </div>
+    </div>
+        </div></div>
+    <div if:true={showPrompt} class="demo-only" style="height:24rem">
+        <section role="dialog" tabindex="0" aria-modal="true" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt">
+            <div class="slds-modal__container">
+            <div class="slds-modal__header slds-theme_error slds-theme_alert-texture">
+                <h1 class="slds-text-heading_medium" id="prompt-heading-id">{labels.ECOM_Error}</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+                <p>{promptMsg}</p>
+            </div>
+            <!--RWPS-2786 START-->
+            <div class="slds-modal__footer slds-theme_default">
+                <template if:true={isProductDeleted}>
+                    <button onclick={handleClosePrompt} class="slds-button slds-button_neutral">OK</button>
+                </template>
+            </div>
+             <!--RWPS-2786 END-->
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
+    <!--RWPS-1548 start-->
+    <template if:true={showErrormodal}>
+        <div class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header ecom-modal-background">
+                    <h2 class="slds-text-heading_medium ecom-modal-font">Error</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>{addAddressError}</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral slds-align_absolute-center" onclick={closeAddressErrorModal}>
+                        <span>Close</span>
+                    </button>
+                </footer>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={showNoBillingShippingPrompt}>
+        <div id="modal" class="slds-modal slds-fade-in-open custom-modal">
+            <div class="custom-slds__modalcontainer">
+                <button id="closeModal" class="slds-modal__close" onclick={handleCloseModal}>
+                    <img src={images.close}  alt={labels.ECOM_Close}  class="close-icon" />
+                </button>
+                <div class="custom-image-container">
+                    <img src={images.warning} alt={labels.ECOM_Warning} class="custom-image">
+                </div>
+                <div class="address-missing-text">
+                    <p>{labels.ECOM_Addressmissing}</p>
+                </div>
+                <div>
+                    <p class="add-address-error-text">{labels.newAddressesNotRegisteredError}</p>
+                </div>
+                <footer class="custom-footer" style="padding:10px">
+                    <button class="slds-button slds-button_neutral slds-align_absolute-center custom-add-address-button" onclick={closeAddressErrorModal}>
+                        <span style="line-height: 24px">{labels.ECOM_AddAddreses}</span>
+                    </button>
+                </footer>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--RWPS-1548 end-->
+    </main><!--RWPS-5284-->
+</template>

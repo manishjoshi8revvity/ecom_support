@@ -1,0 +1,246 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 06-18-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+   <div class="slds-m-top--small">
+      <c-ecom_inline-message type={type} message={message} show={show} timespan={timeSpan}></c-ecom_inline-message>
+   </div>
+   <template lwc:if={showSpinner}>
+      <div class="backdrop">
+          <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+          </lightning-spinner>
+      </div>
+  </template>
+    <div class="">
+       <div if:true={isPaymentEditMode}>
+          <div class="ecom-mt-16">
+             <div class="ecom-pinfo-label slds-text-align_left">
+                <template if:false={promoCode}>
+                   <span class="ecom-pinfo-label slds-text-align_left ecom-brand-purple">
+                    <a href="javascript:void(0)" onclick={openPromoCodeModal}>Add Promo Code</a></span><br>
+                </template>
+                <template if:true={promoCode}>
+                   <span class="ecom-pinfo-label slds-text-align_left ecom-pc-available">Promo Code:</span>
+                   <span class="ecom-pc-value slds-m-left_large">{promoCode}</span>
+                   <span class="slds-m-left_large ecom-change-link ecom-brand-purple">
+                   <a href="javascript:void(0)" onclick={openPromoCodeModal}>Change</a>
+                   </span>
+                   <br>
+                </template>
+                <c-ecom_add-promo-code promo-code={promoCode} onpromocodeupdated={handlePromoCodeUpdated}></c-ecom_add-promo-code>
+             </div>
+             <div class="ecom-mt-16">
+                <template if:false={quoteNumber}>
+                   <span class="ecom-pinfo-label slds-text-align_left ecom-brand-purple">
+                    <a href="javascript:void(0)" onclick={openQuoteModal}>Add Quote Number</a></span><br>
+                </template>
+                <template if:true={quoteNumber}>
+                   <span class="ecom-pinfo-label slds-text-align_left ecom-pc-available">Quote Number:</span>
+                   <span class="ecom-pc-value slds-m-left_large">{quoteNumber}</span>
+                   <span class="slds-m-left_large ecom-change-link ecom-brand-purple">
+                   <a href="javascript:void(0)" onclick={openQuoteModal}>Change</a>
+                   </span>
+                   <br>
+                </template>
+                <c-ecom_quote-number quote-number={quoteNumber} onquotenumberupdated={handleQuoteNumberUpdated}></c-ecom_quote-number>
+             </div>
+          </div>
+          <div class={headerMargin32}>
+             <span class={shippingLabelClass}>Select Payment Method</span>
+             <div class={headerMargin16}>
+                <fieldset class="slds-form-element">
+                   <div class="slds-form-element__control">
+                      <!-- <span class="slds-radio"> -->
+                        <div class={paymentCard} if:true={showCreditCard}><!--div class="ecom-c-card"-->
+                            <div class="ecom-sa-details-box">
+                              <div class="slds-grid">
+                                 <div class="slds-size_1-of-12">
+                               <!-- <span class="slds-radio"> -->
+                                 <label class="container">
+                                  <input type="radio" id="radio-61" checked={isCreditCardChecked} name="default" onchange={handleCardDetailsChange}/>
+                                  </label>
+                               <!-- </span> -->
+                                 </div>
+                                 <div class="slds-size_11-of-12">
+                                  <label class="slds-radio__label" for="radio-61">
+                                     <span class="slds-radio_faux"></span>
+                                     <span class="slds-form-element__label ecom-address-label">Credit Card</span><br>
+                                     <div class="ecom-address-details ecom-mt-4 ecom-gray-font">Pay with a Credit Card in the next step</div>
+                                     <!-- <br> -->
+                                     <template if:true={isCreditCardChecked}>
+                                       <div id="dvsnappay_hppform">
+                                          <!-- HTML is dynamically placed here -->
+                                          </div>
+                                          <input id="snappayhppform_response" type="hidden" name="snappayhppform_response" />
+                                        <span if:false={creditCardDetailsAvailable} class="ecom-address-details ecom-gray-font">Add your Credit Card information <br></span>
+                                        <!-- <span if:true={creditCardDetailsAvailable} class="ecom-address-details slds-m-left_x-large ecom-gray-font">
+                                        <img class="slds-m-right_small" src={images.visaimg}>
+                                        x1234<br>
+                                       </span> -->
+                                        <!-- <span if:true={creditCardDetailsAvailable} class="ecom-address-details slds-m-left_x-large ecom-brand-purple">Change Credit Card <br> </span>
+                                        <span if:false={creditCardDetailsAvailable} class="ecom-address-details slds-m-left_x-large ecom-brand-purple">Pay with Credit Card <br> </span>  -->
+                                     </template>
+                                     <template if:true={isCreditCardChecked}>
+                                        <!-- <span class="ecom-address-details slds-m-left_x-large ecom-gray-font">Add your credit card information</span><br> -->
+                                         <div class="ecom-mt-16">    <!-- slds-form-element  -->
+                                             <div class="slds-form-element__control">
+                                                <!-- <div class="slds-checkbox"> -->
+                                                   <div class="slds-checkbox">
+                                                      <input type="checkbox" name="options" id="checkbox-unique-id-80" checked={isCcTcChecked} onchange={handleCcTcChange}/>
+                                                      <label class="slds-checkbox__label" for="checkbox-unique-id-80">
+                                                         <span class="slds-checkbox_faux"></span>
+                                                         <!--span class="slds-form-element__label ecom-add-email-label slds-m-left_small">I agree to Revvity’s <span class="ecom-brand-purple">Terms & Conditions</span> </span-->
+                                                         <span class="slds-form-element__label ecom-add-email-label">I agree to Revvity’s
+                                                            </span>
+                                                      </label>
+                                                      <span class="ecom-brand-purple " onclick={handleTermAndConditionClick} tabindex="0" onkeypress={handleTermAndConditionEnter}>Terms & Conditions</span><!--RWPS-3826-->
+                                                </div>
+                                             </div>
+                                             <div class="slds-form-element ecom-mt-24" if:true={isProductTnc}>
+                                                <div class="slds-form-element__control">
+                                                   <div class="slds-checkbox">
+                                                      <input type="checkbox" name="options" id="checkbox-unique-id-91" checked={isProductCcTcChecked} data-type="cc" onchange={handleProductTcChange}/>
+                                                      <label class="slds-checkbox__label" for="checkbox-unique-id-91">
+                                                            <span class="slds-checkbox_faux"></span>
+                                                            <span class="slds-form-element__label ecom-add-email-label">{labels.ECOM_agreeTo} {productTnc}
+                                                            </span>
+                                                         </label>
+                                                         <span class="ecom-brand-purple " onclick={handleProductTncClick}>{labels.ECOM_termsNConditions}</span>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="slds-form-element ecom-mt-24" if:true={isProductTnc_RUO}>
+                                                <div class="slds-form-element__control">
+                                                      <div class="slds-checkbox">
+                                                         <input type="checkbox" name="options" id="checkbox-unique-id-96" checked={isProductCcTcRUOChecked} data-type="cc_RUO" onchange={handleProductTcChange}/>
+                                                         <label class="slds-checkbox__label" for="checkbox-unique-id-96">
+                                                               <span class="slds-checkbox_faux"></span>
+                                                               <span class="slds-form-element__label ecom-add-email-label">{getTermsLabelRUO}
+                                                               </span>
+                                                            </label>
+                                                      </div>
+                                                </div>
+                                                <div class="ecom-italic-font slds-p-top--small slds-p-left--large">
+                                                   {labels.ECOM_productTermsRUOCheckbox}
+                                                </div>
+                                              </div>
+                                          </div>
+                                          <div>
+                                             <button class="ecom-payment-btn ecom-mt-24" onclick={handleMakePayment} disabled={isMakePaymentBtnDisabled}>
+                                                <span>Make Payment </span>
+                                              </button>
+                                          </div>
+                                     </template>
+                                  </label>
+                                 </div>
+                                 </div>
+                               <!-- </span> -->
+                            </div>
+                         </div>
+                         <!-- Updated code -->
+                         <div class={POCard} ><!--div class="ecom-c-card ecom-mt-16" --><!--div class="ecom-c-card ecom-mt-24" -->
+                           <div class="ecom-sa-details-box">
+                              <div class="slds-grid">
+                                 <div class={poClass}>
+                               <!-- <span class="slds-radio"> -->
+                                 <label class="container">
+                                  <input type="radio" id="radio-63" checked={isPurchaseOrderChecked} name="default" onchange={handlePurchaseOrderChange}/>
+                                  </label>
+                               <!-- </span> -->
+                                 </div>
+                                 <div class="slds-size_11-of-12">
+                              <!-- <span class="slds-radio">
+                                 <input type="radio" id="radio-63" checked={isPurchaseOrderChecked} name="default" onchange={handlePurchaseOrderChange}/> -->
+                                 <label class="slds-radio__label" for="radio-63">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label ecom-address-label">{labels.ECOM_Purchase_Order_Value}</span><br> <!-- RWPS-4823 -->
+                                    <div class="ecom-address-details ecom-mt-4 ecom-gray-font">{labels.ECOM_Purchase_Order_Sub_Title}</div> <!-- RWPS-4823 -->
+                                    <template if:false={isPurchaseOrderChecked}>
+                                       <span class="ecom-address-details ecom-gray-font ecom-line-height">Add your Purchase Order Number</span> <!-- RWPS-4823 -->
+                                    </template>
+                                    <template if:true={isPurchaseOrderChecked}>
+                                       <lightning-input type="text" max-length="35" style="width:85%;margin-bottom:auto" class="ecom-additional-info-label ecom-mt-16" data-id="purchase-order-nr" variant="label-hidden" value={poNumber} onblur={handlePoChange} onchange={handleChange}></lightning-input>
+                                       <div class="message-container slds-grid slds-wrap">
+                                          <div if:true={poAlreadyExist} class="slds-notify slds-notify_alert slds-alert_warning slds-text-align_center slds-m-bottom--small" role="alert">
+                                             <h2>
+                                                <lightning-icon icon-name="utility:warning" size="small" class="slds-m-horizontal--x-small">
+                                                </lightning-icon>
+                                                Note: This Purchase Order number has already been used. Please confirm the number is correct before placing your order.
+                                             </h2>
+                                          </div>
+                                       </div>
+                                       <div class="slds-form-element ecom-mt-24">
+                                         <div class="slds-form-element__control">
+                                             <div class="slds-checkbox">
+                                                 <input type="checkbox" name="options" id="checkbox-unique-id-90" checked={isPoTcChecked} onchange={handlePoTcChange}/>
+                                                 <label class="slds-checkbox__label" for="checkbox-unique-id-90">
+                                                     <span class="slds-checkbox_faux"></span>
+                                                     <!--span class="slds-form-element__label ecom-add-email-label slds-m-left_small">I agree to Revvity’s <span class="ecom-brand-purple">Terms & Conditions</span> </span-->
+                                                     <span class="slds-form-element__label ecom-add-email-label">I agree to Revvity’s
+                                                     </span>
+                                                   </label>
+                                                   <span class="ecom-brand-purple " tabindex="0" onkeypress={handleTermAndConditionEnter} onclick={handleTermAndConditionClick}>Terms & Conditions</span><!--RWPS-3826-->
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="slds-form-element ecom-mt-24" if:true={isProductTnc}>
+                                          <div class="slds-form-element__control">
+                                             <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-92" checked={isProductPoTcChecked} data-type="po" onchange={handleProductTcChange}/>
+                                                <label class="slds-checkbox__label" for="checkbox-unique-id-92">
+                                                      <span class="slds-checkbox_faux"></span>
+                                                      <span class="slds-form-element__label ecom-add-email-label">{labels.ECOM_agreeTo} {productTnc}
+                                                      </span>
+                                                   </label>
+                                                   <span class="ecom-brand-purple " onclick={handleProductTncClick}>{labels.ECOM_termsNConditions}</span>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="slds-form-element ecom-mt-24" if:true={isProductTnc_RUO}>
+                                       <div class="slds-form-element__control">
+                                             <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-95" checked={isProductPoTcRUOChecked} data-type="po_RUO" onchange={handleProductTcChange}/>
+                                                <label class="slds-checkbox__label" for="checkbox-unique-id-95">
+                                                      <span class="slds-checkbox_faux"></span>
+                                                      <span class="slds-form-element__label ecom-add-email-label">{getTermsLabelRUO}
+                                                      </span>
+                                                   </label>
+                                             </div>
+                                       </div>
+                                       <div class="ecom-italic-font slds-p-top--small slds-p-left--large">
+                                          {labels.ECOM_productTermsRUOCheckbox}
+                                       </div>
+                                     </div>
+                                       <div>
+                                         <button class="ecom-payment-btn ecom-mt-24" onclick={handleSubmitOrder} disabled={isSubmitOrderBtnDisabled} if:false={approvalNeeded}>
+                                            <span>Submit Order </span>
+                                          </button>
+                                          <button class="ecom-payment-btn ecom-mt-24" onclick={handleSubmitOrder} disabled={isSubmitOrderBtnDisabled} if:true={approvalNeeded}>
+                                             <span>{labels.SubmitForApproval}</span>
+                                          </button>
+                                      </div>
+                                    </template>
+                                 </label>
+                              <!-- </span> -->
+                           </div>
+                         </div>
+                           </div>
+                        </div>
+                        <div class="ecom-red-font ecom-mt-24" if:true={showCSRMsg}>
+                           {labels.ECOM_CSR_Checkout_Message}
+                        </div>
+                         <!-- Updated code ends -->
+                         <!-- Previous code -->
+
+                   </div>
+                </fieldset>
+             </div>
+          </div>
+
+       </div>
+    </div>
+ </template>

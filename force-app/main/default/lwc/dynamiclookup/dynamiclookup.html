@@ -1,0 +1,35 @@
+<template>
+    <div class="slds-form-element">
+        <div class="slds-form-element__control">
+          <div class="slds-combobox_container">
+            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+              <!-- <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none"> -->
+                <lightning-input type="text" value={usersearchkey} name="searching.." variant="label-hidden" onchange={searchinguser}     aria-activedescendant="option1" aria-autocomplete="list" aria-controls="listbox-id-12" autocomplete="off" role="textbox" placeholder="Search records..." ></lightning-input>
+              <!-- </div> -->
+              <div id="listbox-id-12" class="slds-dropdown_length-5 slds-dropdown_fluid slds-scrollable_y"  role="listbox">
+                <ul class="slds-listbox slds-listbox_vertical slds-is-fixed" style="Z-index:5; max-height: 250px; overflow:auto;" role="presentation">
+                <!--  <ul class="slds-listbox slds-listbox_vertical slds-scrollable_y slds-is-fixed" style="Z-index:5;" role="presentation"> -->
+                <template if:true={allUsersFinal}>
+                       <template  for:each={allUsersFinal} for:item="singleRec">
+                  <li role="presentation" class="slds-listbox__item" onclick={selectuser} key={singleRec.Id} data-value={singleRec.Id}>
+                    <div aria-selected="true" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-has-focus" role="option">
+                      <span class="slds-media__figure slds-listbox__option-icon">
+                      <span class="slds-icon_container">
+                        <lightning-icon icon-name="standard:user" class="slds-icon slds-icon_small" size="small" alternative-text="icon"></lightning-icon>
+                       </span>
+                      </span>
+                      <span class="slds-media__body">
+                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">{singleRec.Name} : {singleRec.Owned_by_Company__c}</span>
+                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">{singleRec.Username} {singleRec.Owned_by_Company}</span>
+                      </span>
+                    </div>
+                  </li>
+                  </template>
+                 </template>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+</template>

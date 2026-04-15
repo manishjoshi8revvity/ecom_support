@@ -1,0 +1,6 @@
+<template>
+  <template for:each={textArray} for:item="textItem">
+    <mark style={markStyle} key={textItem.key} lwc:if={textItem.isHighlighted}>{textItem.text}</mark>
+    <span key={textItem.key} lwc:else>{textItem.text}</span>
+  </template>
+</template>

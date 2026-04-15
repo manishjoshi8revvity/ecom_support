@@ -1,0 +1,15 @@
+<!--
+  @description       : lwc_colproc_deduperecords -Pass in a list if record collection and String De Duped Filed (Field API) and returns a  collection of de duped record collection corresponding to that de duped field.
+                       Based on De Duped field provided it'll output a collection of record with Unique value in De Duped Field provided.
+  @author            : SS
+  @Source            : OM-211
+  @last modified on  : 10-12-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Related Apex      : 
+-->
+<template>
+    <lightning-tabset>
+        <span hidden><lightning-formatted-text value={inputValueList} onchange={handleOnChange}></lightning-formatted-text></span>
+        <span hidden><lightning-formatted-text value={fieldToDedupeOn} onchange={handleOnChange}></lightning-formatted-text></span>
+    </lightning-tabset>    
+</template>

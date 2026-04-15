@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+      </targets>
+      <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <propertyType name="O" extends="SObject" label="Input Type" description="Generic sObjects data type used for output sObject properties" />
+		    <property name="inputcollection" type="{O[]}" label="input Sobject List" role="inputOnly"  />
+            <property name="fieldname" type="String" label="Field Name" role="inputOnly" />
+            <property name="fieldvalue" type="String" label="field value" role="inputOnly" />
+            <property name="totalnumber" type="String" label="total Number" role="outputOnly" />
+            <property name="matchednumber" type="String" label="Matched Number" role="outputOnly" />
+         </targetConfig>
+      </targetConfigs>
+</LightningComponentBundle>

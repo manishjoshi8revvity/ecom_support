@@ -1,0 +1,6 @@
+@import 'c/ecom_cssLibrary';
+
+.ecom-border{
+    border: 2px solid var(--var-brand-revvity-grays-dark-grey);
+    /**height: 500px;*/
+}

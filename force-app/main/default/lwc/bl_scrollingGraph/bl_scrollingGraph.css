@@ -1,0 +1,7 @@
+.scroll-bar {
+  width: 8px;
+}
+
+.scroller {
+  transition: 0.5s;
+}

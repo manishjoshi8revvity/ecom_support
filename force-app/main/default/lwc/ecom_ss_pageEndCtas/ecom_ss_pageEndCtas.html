@@ -1,0 +1,34 @@
+<template>
+  <div class="ecom-ss-page-end-section-outer">
+    <div class="ecom-ss-boxed-container">
+      <div class="ecom-ss-page-end-section-inner">
+        <div class="ecom-ss-page-end-section-content">
+          <div class="ecom-ss-page-end-section-line"></div>
+          <!--RWPS-4134 added div-->
+          <div class="ecom-ss-page-end-section-heading">
+            {componentTitle}
+            <br />
+            <span>{componentSubTitle}</span>
+          </div>
+
+          <div class="ecom-ss-page-end-section-cta-outer">
+            <template
+              for:each={ctaData}
+              for:item="currentCta"
+              for:index="index"
+            >
+              <c-ecom_ss_button
+                lwc:if={currentCta.show}
+                label={currentCta.label}
+                attributes={currentCta.attributes}
+                tag="a"
+                icon={currentCta.icon}
+                key={currentCta.key}
+              ></c-ecom_ss_button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

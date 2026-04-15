@@ -1,0 +1,207 @@
+<template>
+  <div class="popup-top-parent" lwc:ref="popupParent" style={topParentStyle} onfocusout={handleFocusOut}>
+    <svg
+      width="32"
+      height="30"
+      viewBox="0 0 32 30"
+      fill="none"
+      class="popup-pointer"
+    >
+      <path
+        d="M12.4857 2.08992C14.0002 -0.696243 17.9998 -0.696238 19.5143 2.08992L30.9737 23.1705C32.4225 25.8358 30.493 29.0808 27.4593 29.0808H4.54066C1.50695 29.0808 -0.422545 25.8358 1.02634 23.1705L12.4857 2.08992Z"
+        fill="white"
+      />
+    </svg>
+
+    <div class="pop-content">
+      <div class="pop-over-discontinued-banner">
+        <div class="pop-over-discontinued-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <g clip-path="url(#clip0_48814_355000)">
+              <path d="M2.34465 13.6566C1.58057 12.9187 0.97111 12.0359 0.551838 11.0599C0.132566 10.0839 -0.0881237 9.03409 -0.0973542 7.97186C-0.106585 6.90962 0.0958289 5.85619 0.498076 4.87302C0.900323 3.88985 1.49435 2.99663 2.24549 2.24549C2.99663 1.49435 3.88985 0.900323 4.87302 0.498076C5.85619 0.0958289 6.90962 -0.106585 7.97186 -0.0973542C9.03409 -0.0881237 10.0839 0.132566 11.0599 0.551838C12.0359 0.97111 12.9187 1.58057 13.6566 2.34465C15.1139 3.85347 15.9203 5.87428 15.902 7.97186C15.8838 10.0694 15.0425 12.0759 13.5592 13.5592C12.0759 15.0425 10.0694 15.8838 7.97186 15.902C5.87428 15.9203 3.85347 15.1139 2.34465 13.6566ZM12.5286 12.5286C13.7295 11.3277 14.4042 9.69898 14.4042 8.00065C14.4042 6.30232 13.7295 4.67355 12.5286 3.47265C11.3277 2.27175 9.69898 1.59709 8.00065 1.59709C6.30232 1.59709 4.67355 2.27175 3.47265 3.47265C2.27175 4.67355 1.59709 6.30232 1.59709 8.00065C1.59709 9.69898 2.27175 11.3277 3.47265 12.5286C4.67355 13.7295 6.30232 14.4042 8.00065 14.4042C9.69898 14.4042 11.3277 13.7295 12.5286 12.5286ZM7.20065 4.00065H8.80065V8.80065H7.20065V4.00065ZM7.20065 10.4006H8.80065V12.0006H7.20065V10.4006Z" fill="#DC0101"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_48814_355000">
+                <rect width="16" height="16" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+
+        <div class="pop-over-discontinued-text">
+          {LABELS.discontinuedText}
+        </div>
+      </div>
+      <!--RWPS-4777 Start-->
+      <div if:false={showSlider} class="pop-upper-text">{LABELS.replacementText}:</div>
+      <div if:true={showSlider} class="pop-upper-text">{LABELS.replacementAlternativeText}:</div>
+      <!--RWPS-4777 End-->
+      <div class="carousel-msg-container" lwc:if={showMsg} data-status={messageType}>
+        <div class="carousel-msg">
+          <lightning-formatted-rich-text value={message}>
+          </lightning-formatted-rich-text>
+        </div>
+        <div>
+          <button class="msg-close-btn" onclick={closeMessageBox}>
+            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            </svg>
+        </button>
+        </div>
+      </div>
+
+      <div class="popup-carousel-section">
+        <div if:true={showSpinner} class="carousel-spinner">
+          <lightning-spinner>
+          </lightning-spinner>
+        </div>
+
+        <div class="product-carousel">
+          <div class="product-carousel-inner" style={carouselTranslate}>
+
+            <template for:each={productData} for:item="product">
+              <div key={product.Id} class="carousel-item-outer">
+                <div class="carousel-item">
+                  <div class="carousel-item-img">
+                    <a href="javascript: void(0);" data-url={product.DisplayUrl} onclick={navigateToPDP} tabindex={product.tabIndex}>
+                      <img
+                        src={product.ECOM_Product_Media_URI__c}
+                        alt="Product Image"
+                      />
+                    </a>
+                  </div>
+
+                  <div class="carousel-item-info">
+                    <div class="carousel-item-info-data">
+                      <div class="carousel-item-data-lhs">
+                        <div class="carousel-item-name">
+                          <a href="javascript: void(0);" data-url={product.DisplayUrl} onclick={navigateToPDP} tabindex={product.tabIndex}>
+                            <span lwc:if={product.Product_Display_Name__c}>
+                              <lightning-formatted-rich-text value={product.Product_Display_Name__c}>
+                              </lightning-formatted-rich-text>
+                            </span>
+                            <span lwc:else>
+                              <lightning-formatted-rich-text value={product.Name}>
+                              </lightning-formatted-rich-text>
+                            </span>
+                          </a>
+                        </div>
+
+                        <div class="carousel-item-pn">
+                          <span class="carousel-item-pn-label">
+                            Part number:
+                          </span>
+                          <span class="carousel-item-pn-value">
+                            {product.Part_Number__c}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="carousel-item-data-rhs" lwc:if={product.price}>
+                        <div class="carousel-item-price-label">
+                          Price:
+                        </div>
+                        <div class="carousel-item-price-value">
+                          {product.price}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="carousel-item-actions">
+                      <button
+                        aria-label="View Details"
+                        class="carousel-item-action-button carousel-item-action-button-secondary"
+                        data-url={product.DisplayUrl}
+                        onclick={navigateToPDP}
+                        tabindex={product.tabIndex}
+                      >
+                        View details
+                      </button>
+
+                      <button
+                        aria-label="View Details"
+                        class="carousel-item-action-button carousel-item-action-button-primary"
+                        data-id={product.Id}
+                        data-pn={product.Part_Number__c}
+                        onclick={handleAddToCart}
+                      >
+                        {labels.ECOM_AddToCart}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+          </div>
+        </div>
+
+        <div class="product-carousel-controls" lwc:if={showSlider}>
+          <button
+            class="product-carousel-control-button"
+            aria-label="Backward"
+            disabled={leftControlDisabled}
+            onclick={handlePrevious}
+          >
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M16 31.5C7.43959 31.5 0.5 24.5604 0.5 16C0.5 7.43959 7.43959 0.5 16 0.5C24.5604 0.5 31.5 7.43959 31.5 16C31.5 24.5604 24.5604 31.5 16 31.5Z"
+                fill="white"
+              />
+              <path
+                d="M16 31.5C7.43959 31.5 0.5 24.5604 0.5 16C0.5 7.43959 7.43959 0.5 16 0.5C24.5604 0.5 31.5 7.43959 31.5 16C31.5 24.5604 24.5604 31.5 16 31.5Z"
+                stroke="black"
+              />
+              <path
+                d="M18 11L13 16L18 21"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <span>{currentSlide} of {productData.length}</span>
+
+          <button
+            class="product-carousel-control-button"
+            aria-label="Forward"
+            disabled={rightControlDisabled}
+            onclick={handleNext}
+          >
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M16 0.5C24.5604 0.5 31.5 7.43959 31.5 16C31.5 24.5604 24.5604 31.5 16 31.5C7.43959 31.5 0.5 24.5604 0.5 16C0.5 7.43959 7.43959 0.5 16 0.5Z"
+                fill="white"
+              />
+              <path
+                d="M16 0.5C24.5604 0.5 31.5 7.43959 31.5 16C31.5 24.5604 24.5604 31.5 16 31.5C7.43959 31.5 0.5 24.5604 0.5 16C0.5 7.43959 7.43959 0.5 16 0.5Z"
+                stroke="black"
+              />
+              <path
+                d="M14 21L19 16L14 11"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

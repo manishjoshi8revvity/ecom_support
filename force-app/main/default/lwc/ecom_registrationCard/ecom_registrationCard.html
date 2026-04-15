@@ -1,0 +1,184 @@
+<template>
+    <!-- <div class="slds-show_medium"> -->
+       <div class="ecom-card">
+           <div lwc:if={showSpinner}>
+               <lightning-spinner alternative-text="Loading" size="large" class="ecom-fixed-spinner"></lightning-spinner>
+           </div>
+           <div lwc:if={displayErrorMessage} lwc:ref="errormessage">
+               <div class="ecom-error-message-block">
+                   <div>{errorMessageText}</div>
+                   <span class="ecom-close-button"><img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.closeIcon} onclick={closePrompt}></span>
+               </div>
+           </div>
+           <!-- <div class="slds-show_medium"> -->
+               <div>
+                   <div class="ecom-text-size-24 ecom-text-weight-500 ecom-margin-bottom-32 ecom-line-height-32">
+                       {labels.ECOM_LBL_CONTACTINFORMATION}
+                   </div>
+               </div>
+
+           <!-- </div> -->
+           <!-- <div class="slds-hide_medium slds-show_small">
+               <div>
+                   <div class="ecom-font-size-36 ecom-margin-bottom-24 ecom-line-height-44">
+                       {labels.ECOM_LBL_CONTACTINFORMATION}
+                   </div>
+               </div>
+           </div>
+           <div class="slds-hide_small">
+               <div>
+                   <div class="ecom-font-size-36 ecom-margin-bottom-24 ecom-line-height-44">
+                       {labels.ECOM_LBL_CONTACTINFORMATION}
+                   </div>
+               </div>
+           </div> -->
+           <!-- <lightning-input
+                   type="text" >
+           </lightning-input> -->
+           <div>
+               <!--FirstName-->
+               <div class="ecom-padding-bottom-32 ecom-font-weight-400">
+                   <div>
+                       <!-- RWPS-3826 -->
+                       <label class="ecom-text-size-18 ecom-margin-bottom-4" for="firstname-input">{labels.ECOM_LBL_FIRSTNAME} *</label>
+                   </div>
+                   <div>
+                       <!-- RWPS-3826 -->
+                       <input type="text" id="firstname-input" data-id="firstname" lwc:ref="firstname" required class='slds-input' onfocusout={validateInput}></input>
+                       <div lwc:if={validationMap.firstname.isError} class="ecom-error-text">{validationMap.firstname.errorMessage}</div>
+                   </div>
+               </div>
+
+               <!--LastName-->
+               <div class="ecom-padding-bottom-32 ecom-font-weight-400">
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <label class="ecom-text-size-18 ecom-margin-bottom-4" for="lastname-input">{labels.ECOM_LBL_LASTNAME} *</label>
+                   </div>
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <input type="text" id="lastname-input" data-id="lastname" lwc:ref="lastname" required class='slds-input' onfocusout={validateInput} ></input>
+                       <div lwc:if={updatedValidationMap.lastname.isError} class="ecom-error-text">{updatedValidationMap.lastname.errorMessage}</div>
+                   </div>
+               </div>
+
+               <!--CompanyName-->
+               <div class="ecom-padding-bottom-32 ecom-font-weight-400">
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <label class="ecom-text-size-18 ecom-margin-bottom-4" for="companyname-input">{labels.ECOM_LBL_COMPANYNAME} *</label>
+                   </div>
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <input type="text" id="companyname-input" data-id="companyname" lwc:ref="companyname" required class='slds-input' onfocusout={validateInput} ></input>
+                       <div lwc:if={updatedValidationMap.companyname.isError} class="ecom-error-text">{updatedValidationMap.companyname.errorMessage}</div>
+                   </div>
+               </div>
+
+               <!--Business Email Address-->
+               <div class="ecom-padding-bottom-32 ecom-font-weight-400">
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <label class="ecom-text-size-18 ecom-margin-bottom-4" for="businessemailaddress-input">{labels.ECOM_LBL_BUSINESSEMAILADDRESS} *</label>
+                   </div>
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <input type="text" id="businessemailaddress-input" data-id="businessemailaddress" lwc:ref="businessemailaddress" required class='slds-input' onfocusout={validateInput} ></input>
+                       <div lwc:if={updatedValidationMap.businessemailaddress.isError} class="ecom-error-text">{updatedValidationMap.businessemailaddress.errorMessage}</div>
+                       <div lwc:if={updatedValidationMap.businessemailaddress.isEmailValidationFailed} class="ecom-error-text">{labels.ECOM_LBL_EMAILADDRESSISNOTVALID}</div>
+                   </div>
+                   <div class="ecom-inline-help-text ecom-font-weight-400">
+                       <c-ecom_tooltip-popover  tooltip-label={labels.ECOM_LBL_THISMUSTBEYOURBUSINESSEMAIL} tooltip-image={images.question} tooltip-text={labels.ECOM_LBL_ACCOUNTEMAILTOOLTIPTEXT} is-left-aligned="true"></c-ecom_tooltip-popover>
+                   </div>
+               </div>
+
+               <!--Country-->
+               <div class="ecom-padding-bottom-32 ecom-font-weight-400">
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <label class="ecom-text-size-18 ecom-margin-bottom-4" for="country-input">{labels.ECOM_LBL_COUNTRY} *</label>
+                   </div>
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <input type="text" id="country-input" data-id="country" lwc:ref="country" disabled value="United States" required class='slds-input' onfocusout={validateInput} ></input>
+                       <div lwc:if={updatedValidationMap.country.isError} class="ecom-error-text">{updatedValidationMap.country.errorMessage}</div>
+                   </div>
+                    <!--RWPS-3660-->
+                    <div class="ecom-inline-help-text ecom-font-weight-400">
+                       {labels.ECOM_LBL_COUNTRYTOOLTIP}
+                    </div>
+               </div>
+
+               <!--Phone Number-->
+               <div class="ecom-padding-bottom-32 ecom-font-weight-400">
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <label class="ecom-text-size-18 ecom-margin-bottom-4" for="phonenumber-input">{labels.ECOM_LBL_PHONENUMBER} *</label>
+                   </div>
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <input type="tel" id="phonenumber-input" data-id="phonenumber" lwc:ref="phonenumber"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required class='slds-input' onkeyup={validatePhoneNumber} onfocusout={validateInput} ></input>
+                       <div lwc:if={updatedValidationMap.phonenumber.isError} class="ecom-error-text">{updatedValidationMap.phonenumber.errorMessage}</div>
+                   </div>
+               </div>
+
+               <!--Account Number Optional-->
+               <div class="ecom-padding-bottom-32 ecom-font-weight-400">
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <label class="ecom-text-size-18 ecom-margin-bottom-4" for="accountnumber-input">{labels.ECOM_LBL_ACCOUNTNUMBEROPTIONAL} </label>
+                   </div>
+                   <div>
+                        <!-- RWPS-3826 -->
+                       <input type="text" id="accountnumber-input" data-id="accountnumber" lwc:ref="accountnumber" required class='slds-input'  ></input>
+                       <!-- <div lwc:if={updatedValidationMap.accountnumber.isError} class="ecom-error-text">{updatedValidationMap.accountnumber.errorMessage}</div>  -->
+                   </div>
+                   <div class="ecom-inline-help-text ecom-font-weight-400">
+                       <c-ecom_tooltip-popover tooltip-label={labels.ECOM_LBL_ACCOUNTNUMBERISANUMERICVALUE} tooltip-image={images.question} tooltip-text={labels.ECOM_LBL_ACCOUNTNUMBERTOOLTIPTEXT} is-right-aligned="true"></c-ecom_tooltip-popover>
+                   </div>
+
+               </div>
+
+               <div class="ecom-margin-bottom-32 ecom-registration-terms-responsive">
+                   <p class="ecom-line-height-24 ecom-font-weight-400">
+                       <lightning-formatted-rich-text value={labels.ECOM_LBL_REGISTRATIONTERMSANDCONDITIONS}></lightning-formatted-rich-text>
+                   </p>
+                   <div >
+                       <a href={privacyNotice} class="ecom-text-weight-600 ecom-link-styling ecom-text-decoration-underline">{labels.ECOM_LBL_AVAILABLEHERE}</a>
+                   </div>
+               </div>
+
+               <div class="ecom-margin-bottom-32 ecom-font-weight-400 ecom-text-size-18"> <!--<lightning-input type="checkbox" class="" name="" ></lightning-input>-->
+                   <div class="ecom-display-flex">
+                       <div>
+                            <!-- RWPS-3826 -->
+                           <lightning-input aria-label="Terms and Conditions" lwc:ref="termsandcondition" type="checkbox" onclick={handleAcceptTermsAndConditions} ></lightning-input>
+                       </div>
+                       <div>
+                           {labels.ECOM_LBL_IAGREETOREVVITY} <a href={termsAndConditionsLink} class="ecom-link-styling ecom-text-decoration-underline ecom-text-weight-600" >{labels.ECOM_LBL_TERMSANDCONDITIONS}</a>
+                       </div>
+                   </div>
+
+                   <div lwc:if={isTermsAndConditionsError}>
+                       <p class="ecom-error-text ecom-error-text-margin-left-36">{labels.ECOM_LBL_IAGREETOTERMSANDCONDITIONSREQUIRED}</p>
+                   </div>
+               </div>
+
+               <div class="ecom-margin-bottom-32 ">
+                   <!--Fix for RWPS-2037-->
+                   <button lwc:ref="registerBtn" class="ecom-register-button" onclick={validateFormAndHandleRegistration}>
+                       <span>{labels.ECOM_LBL_REGISTER}</span>
+                   </button>
+                   <!--Fix end-->
+               </div>
+
+               <div class="ecom-padding-bottom-32 ecom-text-size-18 ecom-font-weight-400 ecom-line-height-28 ecom-border-bottom-solid-grey">
+                   <p>{labels.ECOM_LBL_REQUIREDFIELDS}</p>
+               </div>
+               <div class="ecom-margin-top-32 ecom-text-brand-color ecom-font-weight-400 ecom-text-size-18">
+                    <!-- RWPS-3826 --> <!-- RWPS-5367 --> 
+                   {labels.ECOM_LBL_ALREADYHAVEANACCOUNT} <a href={loginPage.loginURL} class="ecom-text-decoration-underline ecom-text-weight-600 ecom-login-link" onclick={navigateToLoginPage}>{labels.ECOM_LBL_LOGIN}</a>
+               </div>
+           </div>
+       </div>
+</template>

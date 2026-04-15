@@ -1,0 +1,75 @@
+<!--
+  @description       : 
+  @author            : 
+  @group             : 
+  @last modified on  : 11-16-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <template if:true={showSpinner}>
+        <div class="backdrop">
+            <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+            </lightning-spinner>
+        </div>
+    </template>
+    <div if:true={isReviewReadMode}>
+        <div class=""> 
+            <div class="ecom-co-rev-card">
+                <div class="ecom-address-label">{labels.ECOM_EmailAddresses}</div>
+                <!-- <br> -->
+                <div class="ecom-vh-16"></div>
+                <span class="ecom-address-details ecom-gray-font">{emailIdList}</span>
+                <br>
+                <div class="ecom-address-label ecom-mt-32">{labels.ECOM_AdditionalEmailAddresses}</div>
+                <!-- <div class="ecom-vh-16"></div> -->
+                <div if:true={isNewUserListAvailable} class="ecom-mtop-16">
+                    <template for:each={formattedEmails} for:item   ="item">
+                        <div class="ecom-mt-8" key={item.id}>
+                            <span class="ecom-newuser-email">{item.email} </span> : <span class="ecom-newuser-notification-label ecom-ml-20">{item.notificationTypes}</span> 
+                            <br>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div if:true={isReviewEditMode}>
+        <div class=""> 
+            <!-- <span>Please review all information on this page before placing your order.</span> -->
+            <div class="ecom-co-rev-card">
+                <!-- <span class="ecom-address-label">Email Notifications ({emailCount})</span><br> -->
+                <div lwc:if={emailIdList}>
+                    <div class="ecom-address-label">{labels.ECOM_EmailAddresses}</div>
+                    <div class="ecom-vh-16"></div>
+                    <span class="ecom-address-details ecom-gray-font">{emailIdList}</span>
+                    <br>
+                </div>
+                <div lwc:if={emailIdList} class="ecom-mt-32"></div>
+                <div class="ecom-address-label ecom-mb-32">{labels.ECOM_AdditionalEmailAddresses}
+                        <!-- <div class="ecom-vh-16"></div> -->
+                        <div lwc:if={isNewUserListAvailable} class="ecom-mtop-16">
+                            <template for:each={formattedEmails} for:item="item" for:index="index">
+                                <div class="ecom-mt-8" key={item.id}>
+                                    <span class="ecom-newuser-email">{item.email} </span> : <span class="ecom-newuser-notification-label ecom-ml-20">{item.notificationTypes}</span> 
+                                    <span  if:false={device.isMobile} class="ecom-change-link ecom-brand-purple ecom-ml-20"><a href="javascript:void(0)" data-id={item.id} data-rowindex={item.emailPrefRowindex} data-index={index} onclick={handleRemoveEmailPref}>{labels.ECOM_Remove}</a></span>
+                                    <br>
+                                    <div if:true={device.isMobile} class="ecom-change-link ecom-brand-purple"><a href="javascript:void(0)" data-id={item.id} data-rowindex={item.emailPrefRowindex} data-index={index} onclick={handleRemoveEmailPref}>{labels.ECOM_Remove}</a></div>
+                                </div>
+                            </template>
+                        </div>
+                </div>
+                
+                <div class="ecom-add-email-label ecom-brand-purple">
+                    <a href="javascript:void(0)" onclick={handleAddEmail}>{labels.ECOM_AddAnotherEmailAddress}</a>
+                    <c-ecom_checkout-email-notification-modal email-pref-update={emailPrefUpdate} is-update={isUpdate} onemailpreferencesadded={handleEmailPreferencesAdded} onemailpreferencesupdated={handleEmailPreferencesUpdated} existing-emails={existingEmailAddressRows}></c-ecom_checkout-email-notification-modal>
+                    <!-- <div if:true={renderModal}>
+                        <c-ecom_checkout-email-notification-modal email-pref-update={emailPrefUpdate} is-update={isUpdate} onemailpreferencesadded={handleEmailPreferencesAdded} onemailpreferencesupdated={handleEmailPreferencesUpdated}></c-ecom_checkout-email-notification-modal>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <button class="ecom-placeorder-btn slds-m-top_medium" onclick={handleSaveEmailPref} >
+        <span>{labels.ECOM_SaveAndContinue} </span>
+        </button>
+    </div>
+</template>

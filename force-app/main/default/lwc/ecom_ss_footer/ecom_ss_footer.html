@@ -1,0 +1,19 @@
+<template>
+  <div class="ecom-ss-footer-outer-black">
+    <div class="ecom-ss-boxed-container">
+      <div class="ecom-ss-footer-inner-black">
+        <div class="ecom-ss-footer-black-lhs">
+          <template for:each={links} for:item="link">
+            <div class="ecom-ss-footer-links" key={link.key}>
+              <a href={link.url}>{link.text}</a>
+            </div>
+          </template>
+        </div>
+
+        <div class="ecom-ss-footer-black-rhs">
+          © {year} Revvity - All rights reserved
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

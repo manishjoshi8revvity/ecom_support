@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Self Service Heading</masterLabel>
+
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="headingText" label="Heading text" type="String" default=""
+                required="true" />
+            <property name="headingElement" label="Heading element" type="String"
+                datasource="h1,h2,h3,h4,h5" required="true" />
+            <property name="textAlign" label="Text alignment" type="String" exposedTo="css"
+                screenResponsive="true" datasource="left,center,right,justified" default="left"
+                required="true" />
+            <property name="textColor" label="Text color" type="Color" default="#000"
+                required="true" />
+            <property name="fontSize" label="Font size (pixels) [Leave blank to use default]"
+                type="Integer" exposedTo="css"
+                screenResponsive="true" />
+            <property name="lineHeight" label="Line height (pixels) [Leave blank to use default]"
+                type="Integer" exposedTo="css"
+                screenResponsive="true" />
+            <property name="fontWeight" label="Font weight [Leave blank to use default]"
+                type="String" exposedTo="css"
+                screenResponsive="true" />
+            <!-- boolean to check for container -->
+            <property name="containerAround" label="Add boxed container around" type="Boolean"
+                default="true" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

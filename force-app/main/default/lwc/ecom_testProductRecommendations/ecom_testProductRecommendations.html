@@ -1,0 +1,91 @@
+<template>
+  <div lwc:if={hideUI}></div>
+
+  <div lwc:else class="component-wrapper slds-p-around--x-small">
+    <h2><b>PR (testing) [{sourceDataset}]</b></h2>
+    <div class="form">
+      <div>
+        <lightning-record-picker
+          object-api-name="Product2"
+          label="Select product"
+          display-info={displayInfo}
+          matching-info={matchingInfo}
+          lwc:ref="productPicker"
+        >
+        </lightning-record-picker>
+      </div>
+
+      <div class="slds-m-top--x-small slds-m-bottom_small">
+        <lightning-button
+          variant="brand"
+          label="Get Recommendations"
+          title="Get Recommendations"
+          onclick={updateRecommendations}
+          disabled={loading}
+        ></lightning-button>
+      </div>
+    </div>
+
+    <div lwc:if={loading} class="loading">
+      <lightning-spinner variant="brand" size="large"> </lightning-spinner>
+    </div>
+
+    <div lwc:else>
+      <div lwc:if={initialState}>Please select a product.</div>
+      <div lwc:elseif={errorMessage} class="text-error">Error: {errorMessage}</div>
+
+      <div lwc:elseif={recs.length}>
+        <div class="slds-m-bottom_small">Recommendations for part number <b>{productPn}</b>:</div>
+
+        <lightning-accordion allow-multiple-sections-open>
+          <template for:each={recs} for:item="rec">
+              <lightning-accordion-section key={rec.prodId} name={rec.prodId} label={rec.title}>
+                <div>
+                  Score: {rec.score} <br />
+                  Count: {rec.count} <br />
+                  Recency: {rec.recency}
+                  <div lwc:if={rec.sameOrderCount}>Same order count: {rec.sameOrderCount}</div>
+                </div>
+              </lightning-accordion-section>
+          </template>
+        </lightning-accordion>
+
+        <div>
+          Parameters:<br />
+          Recency Factor: {_recencyFactor} <br />
+          Steepness Factor: {_steepnessFactor} <br />
+          Max Recommendations: {_maxRecs} <br />
+          Sampleset Size: {_samplesetSize} <br />
+          Same Order Bonus: {_sameOrderBoost} <br />
+          Disable Multi-Product SOB: {_disableMultiProductSOB } <br />
+          Start Date: {_startDate} <br />
+          End Date: {_endDate} <br />
+          <template lwc:if={salesOrg}>
+            Sales Org: {salesOrg} <br />
+          </template>
+        </div>
+      </div>
+
+      <div lwc:else>No recommendation for the part number: {productPn}</div>
+    </div>
+
+    <div class="dev-form">
+      <lightning-accordion allow-multiple-sections-open>
+        <lightning-accordion-section name="A" label="Dev parameters">
+          <lightning-input lwc:ref="salesOrg" type="text" label="Sales org" ></lightning-input>
+          <lightning-input lwc:ref="recencyFactor" type="number" label="Recency factor" value={recencyFactor} ></lightning-input>
+          <lightning-input lwc:ref="steepnessFactor" type="number" label="Steepness factor" value={steepnessFactor}></lightning-input>
+          <lightning-input lwc:ref="maxRecs" type="number" step="1" min="1" label="Max recommendations" value={maxRecs}></lightning-input>
+          <lightning-input lwc:ref="samplesetSize" type="number" step="1" min="1" label="Sampleset size" value={samplesetSize}></lightning-input>
+          <lightning-input lwc:ref="sameOrderBoost" type="number" step="1" min="0" label="Same order boost (SOB)" value={sameOrderBoost}></lightning-input>
+          <lightning-input lwc:ref="disableMultiProductSOB" type="checkbox" label="Disable multi-product SOB" checked={disableMultiProductSOB}></lightning-input>
+          <lightning-input lwc:ref="startDate" type="datetime" label="Start date" value={startDate}></lightning-input>
+          <lightning-input lwc:ref="endDate" type="datetime" label="End date" value={endDate} ></lightning-input>
+
+          <lightning-input lwc:ref="toggleTest" type="checkbox" label="Test toggle. Do not switch" onchange={handleTest}></lightning-input>
+          <lightning-input lwc:ref="toggleTest" type="checkbox" label="Test toggle 2. Do not switch" onchange={handleTest2}></lightning-input>
+        </lightning-accordion-section>
+      </lightning-accordion>
+    </div>
+  </div>
+</template>

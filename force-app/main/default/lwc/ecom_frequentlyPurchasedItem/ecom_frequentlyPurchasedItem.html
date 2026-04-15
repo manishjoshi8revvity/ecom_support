@@ -1,0 +1,198 @@
+<!--
+  @description       : component to diplay detail of each frequently purchased product
+  @author            : vramachandran@rafter.io
+  @group             : punchout 
+  @last modified on  : 30-Nov-2023
+  @last modified by  : vramachandran@rafter.io
+-->
+<template >
+    <div if:false={device.isMobile}>
+        <div class="ecom-mb-24">
+            <c-ecom_inline-message type={type} message={message} show={show}
+            onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message>
+        </div>
+        <div class="cart-item-card ecom-mb-24">
+            <div class="slds-grid slds-wrap ecom-mb-24">
+                    <div class="ecom-mr-24">
+                        <div class="ecom-prod-img">
+                        <img class="ecom-prod-img" onclick={navigateToPDP} src={displayUrl}>
+                    </div>
+                </div>
+                    <div class="slds-large-size_7-of-12">
+                    <div class="ecom-prod-name ecom-mb-16" onclick={navigateToPDP}>{frequentlypurchasedproduct.productName}</div>
+                        <div class="ecom-prod-desc">
+                            <template for:each={updatedFields} for:item="field">
+                                <div  key={field.name} if:true={field.value} class="ecom-mb-4">
+                                    <span class="cart-product-details" >{field.name}: </span>
+                                    <span class="cart-product-details" >{field.value}</span>
+                                </div>
+                            </template>
+                            <div>
+                                <div>
+                                    <span class="vl"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ecom-price-card">
+                        <div class="ecom-prod-pricebox">
+                            <div class="">
+                                <div class="slds-form-element__control ecom-qty-ctr-border">
+                                    <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement" title="Decrement counter" onclick={handleQuantityDecrement} >
+                                        <svg class="slds-button__icon" aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text">Decrement counter</span>
+                                    </button>
+                                    <input type="number" id="1" placeholder="1" value={quantity} min={minQuantity} max={maxQuantity} class="slds-input slds-input_counter" onkeyup={handleQuantityChange}/>
+                                    <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment" title="Increment counter" onclick={handleQuantityIncrement}>
+                                        <svg class="slds-button__icon" aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text">Increment counter</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="slds-grid slds-wrap ecom-cart-product-border radiun-top prod-btn-ht">
+                    <div class="ecom-mr-24">
+                        <div class="ecom-prod-placeholder">
+                    </div>
+                    </div>
+                    <div class="slds-large-size_7-of-12">
+                        <template lwc:if={isProductWishListed}>
+                            <div class="ecom-rem-fav-card">
+                                <button class="slds-button" aria-live="assertive" aria-pressed="true" data-name={frequentlypurchasedproduct.productName} data-id={frequentlypurchasedproduct.productId} data-actionname="remove" data-wishlist={currentWishlistItem.WishlistId} data-wishlistitem={currentWishlistItem.Id} onclick={handleAddRemoveFromWishlist}>
+                                    <div class="ecom-display-inline">
+                                        <img class="ecom-favourite-icon ecom-mr-8" aria-hidden="true" src={images.deleteimg}>
+                                        <!-- <div class="ecom-favourites-label">Remove from Favorites</div>  -->
+                                        <div class="ecom-favourites-label">{system_labels.REMOVE_FROM_FAVORITES}</div>
+                                    </div>
+                                </button>
+                            </div>
+                            
+                        </template>
+                        <template lwc:else>
+                            <div class="ecom-rem-fav-card">
+                                <button class="slds-button" aria-live="assertive" aria-pressed="true" data-name={frequentlypurchasedproduct.productName} data-id={frequentlypurchasedproduct.productId} data-actionname="add" data-wishlist={currentWishlistItem.WishlistId} data-wishlistitem={currentWishlistItem.Id} onclick={handleAddRemoveFromWishlist}>
+                                    <div class="ecom-display-inline">
+                                        <img class="ecom-favourite-icon ecom-mr-8" aria-hidden="true" src={images.favoriteimg}>
+                                        <div class="ecom-favourites-label">{system_labels.SAVE_TO_FAVORITES}</div> 
+                                    </div>
+                                </button>
+                            </div>
+                        </template>
+                        
+                    </div>
+                        <div class="ecom-price-card">
+                        <div class="ecom-prod-pricebox">
+                            <div class="">
+                                <div class="slds-form-element__control">
+                                    <button class="ecom-addtocart-btn" data-name={frequentlypurchasedproduct.productName} data-id={frequentlypurchasedproduct.productId} onclick={handleAddToCart} > <!-- disabled={isPlaceOrderBtnDisabled} -->
+                                        <span>{system_labels.ADD_TO_CART}</span>
+                                    </button>
+                                </div>
+                                </div>
+                        </div>
+                        </div>
+                </div>
+        </div>
+        <c-ecom_show-toast></c-ecom_show-toast>
+    </div>
+<!-- Mobile UI changes -->
+<!-- class="ecom-pl-16 ecom-pr-16" -->
+    <div if:true={device.isMobile} >
+        <div class="ecom-mb-24">
+            <c-ecom_inline-message type={type} message={message} show={show}
+            onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message>
+        </div>
+        <div class="cart-item-card-md ecom-mb-24">
+            <div class="slds-grid slds-wrap ecom-cart-product-border radiun-top">
+                <div class=" slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                    <div class="ecom-prod-img-md">
+                        <img src={displayUrl}>
+                    </div>
+                </div>
+                <div class="slds-size_10-of-12 slds-large-size_7-of-12 slds-medium-size_7-of-12 slds-small-size_8-of-12">
+                    <div class="ecom-prod-name-md slds-m-left_small">{frequentlypurchasedproduct.productName}</div>
+                        <div class="ecom-prod-desc ecom-mt-16 slds-m-left_small">
+                            <template for:each={updatedFields} for:item="field" >
+                                <div  key={field.name} if:true={field.value} class="ecom-mb-8">
+                                    <span class="cart-product-details" >{field.name}: </span>
+                                    <span class="cart-product-details">{field.value}</span>
+                                </div>
+                            </template>
+                            <div class="ecom-prod-pricebox ecom-mt-24"></div>
+                            <!-- <div class="ecom-prod-pricebox ecom-mt-24">
+            
+                                <div class="ecom-mb-24 ecom-mt-16 ecom-cart-prod-qty-ctr-md">
+                                    <div class="slds-form-element__control ecom-qty-ctr-border-md">
+                                        <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement" title="Decrement counter" onclick={handleQuantityDecrement} >
+                                            <svg class="slds-button__icon" aria-hidden="true">
+                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text">Decrement counter</span>
+                                        </button>
+                                        <input type="number" id="2"   placeholder="1" value={quantity} min={minQuantity} max={maxQuantity} class="slds-input slds-input_counter" onkeyup={handleQuantityChange} />
+                                        <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment" title="Increment counter" onclick={handleQuantityIncrement}>
+                                            <svg class="slds-button__icon" aria-hidden="true">
+                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text">Increment counter</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div>
+                                <!-- </br> -->
+                                <div class="ecom-cart-product-border radiun-top">
+                                    <div class="">
+                                        <div class="ecom-prod-pricebox">
+                                            <div class="">
+                                                <div class="slds-form-element__control">
+                                                    <button class="ecom-addtocart-btn" data-name={frequentlypurchasedproduct.productName} data-id={frequentlypurchasedproduct.productId} onclick={handleAddToCart} > <!-- disabled={isPlaceOrderBtnDisabled} -->
+                                                        <!-- <span>Add to Cart</span> -->
+                                                        <span>{system_labels.ADD_TO_CART}</span>
+                                                    </button>
+                                                </div>
+                                                </div>
+                                        </div>
+                                        </div>
+                                    <div class="ecom-mt-16">
+                                        <template lwc:if={isProductWishListed}>
+                                            <div class="ecom-rem-fav-card">
+                                                <button class="slds-button" aria-live="assertive" aria-pressed="true" data-name={frequentlypurchasedproduct.productName} data-id={frequentlypurchasedproduct.productId} data-actionname="remove" data-wishlist={currentWishlistItem.WishlistId} data-wishlistitem={currentWishlistItem.Id} onclick={handleAddRemoveFromWishlist}>
+                                                    <div class="slds-text-selected slds-align_absolute-center ecom-display-inline">
+                                                        <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-favourite-icon ecom-mr-8" aria-hidden="true" src={images.deleteimg}>
+                                                        <div class="ecom-favourites-label">{system_labels.REMOVE_FROM_FAVORITES}</div>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </template>
+                                        <template lwc:else>
+                                            
+                                            <div class="ecom-rem-fav-card">
+                                                <button class="slds-button" aria-live="assertive" aria-pressed="true" data-name={frequentlypurchasedproduct.productName} data-id={frequentlypurchasedproduct.productId} data-actionname="add" data-wishlist={currentWishlistItem.WishlistId} data-wishlistitem={currentWishlistItem.Id} onclick={handleAddRemoveFromWishlist}>
+                                                    <div class="ecom-display-inline">
+                                                        <img class="ecom-favourite-icon ecom-mr-8" aria-hidden="true" src={images.favoriteimg}>
+                                                        <div class="ecom-favourites-label">{system_labels.SAVE_TO_FAVORITES}</div> 
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="vl"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <c-ecom_show-toast></c-ecom_show-toast>
+    </div>
+</template>

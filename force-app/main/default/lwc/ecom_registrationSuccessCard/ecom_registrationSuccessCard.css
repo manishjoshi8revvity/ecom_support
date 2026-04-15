@@ -1,0 +1,23 @@
+@import 'c/ecom_cssLibrary';
+
+.ecom-text-black{
+    color: #000!important;
+}
+
+.ecom-inner-text-styling .ecom-rt-inner-text{
+    color: var(--var-brand-revvity-black);
+    font-weight: 500;
+}
+
+.ecom-rt-inner-text  {
+    color: var(--var-brand-revvity-black);
+    font-weight: 600;
+}
+
+.ecom-max-width-528 {
+    max-width: 528px;
+}
+
+.ecom-top-160 {
+    top: 160px;
+}

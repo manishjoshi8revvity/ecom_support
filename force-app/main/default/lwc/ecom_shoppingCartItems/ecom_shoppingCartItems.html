@@ -1,0 +1,169 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 08-22-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <div class="cart-item-card">
+        <div class="slds-grid slds-wrap ecom-cart-product-border radiun-top">
+            <div class=" slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+              <span class="ecom-prod-img">
+                <img if:true={itemImage} src={itemImage}>
+              </span>
+            </div>
+            <div class="slds-size_7-of-12slds-large-size_7-of-12 slds-medium-size_7-of-12 slds-small-size_8-of-12">
+              <div class="ecom-prod-name">{item.productDetails.name}</div>
+              <div class="ecom-prod-desc">
+                <template for:each={fields} for:item="field">
+                    <div  key={field.name} if:true={field.value}>
+                        <span class="cart-product-details" key={field.name}>{field.name}: </span>
+                        <span class="cart-product-details" key={field.name}>{field.value}</span>
+                    </div>
+                </template>
+              <div>
+                </br>
+            <div>
+            <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={handleDeleteCartItem}>
+                <span class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.deleteimg}>
+                    {labels.ECOM_Remove}</span>
+            </button>
+                <span class="vl"></span>
+                <button class="slds-button" aria-live="assertive" aria-pressed="true" onclick={handleAddToFavourite}>
+                    <span class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                        <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.favoriteimg}>
+                        {labels.ECOM_Save_favorites}</span>
+                </button>
+            </div>
+              </div>
+              </div>
+            </div>
+            <div class="slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_12-of-12" style="text-align: end;">
+                <div class="ecom-prod-pricebox">
+                    <span class="cart-product-price">
+                        <lightning-formatted-number value={item.totalPrice}
+                        format-style="currency" minimum-fraction-digits="2">
+                    </lightning-formatted-number>
+                    </span>
+                    </br>
+                    <span class="cart-product-price">
+                        <lightning-formatted-number value={item.salesPrice}
+                        format-style="currency" minimum-fraction-digits="2">
+                </lightning-formatted-number> /each
+                    </span>
+    
+                    <div class="slds-form-element ecom-cart-prod-qty-ctr">
+                        <div class="slds-form-element__control ecom-qty-ctr-border">
+                            <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement" title="Decrement counter" onclick={handleQuantityDecrement}  disabled={isCartDisabled}>
+                                <svg class="slds-button__icon" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Decrement counter</span>
+                            </button>
+                            <input type="number" id={item.cartItemId}  disabled={isCartDisabled} placeholder="1" value={quantity} class="slds-input slds-input_counter" onchange={handleQuantityChange} />
+                            <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment" title="Increment counter" onclick={handleQuantityIncrement}>
+                            <svg class="slds-button__icon" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Increment counter</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+
+        <div class="radiun-bottom" style="background-color:#FBFBFB; border: 1px solid #E3E3E3">
+            <div class="slds-grid slds-wrap handlepadding">
+                <div class="slds-col slds-size_2-of-12" if:false={device.isMobile}></div>
+                <div class="slds-col cart-shipping-box"> 
+                        <label class="container">   
+                            <input if:false={itemShippingDates.selectedDate} type="radio" checked id="Earliest"  disabled={isCartDisabled} name={item.cartItemId} value="Earliest" />
+                            <input if:true={itemShippingDates.selectedDate} type="radio"  id="Earliest2" disabled={isCartDisabled} name={item.cartItemId} value="Earliest" />
+                            <label class="cart-shipping-label" for="Earliest">{labels.ECOM_ShipEarlyDate}</label>
+                            <br>
+                            <span class="cart-shipping-label-date" if:true={itemShippingDates.earliest}>Est. to ship by &nbsp;
+                            <lightning-formatted-date-time value={itemShippingDates.earliest}></lightning-formatted-date-time>
+                            </span>
+                            <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="slds-col cart-shipping-box">
+                    <label class="container">   
+                    <input if:true={itemShippingDates.selectedDate} type="radio" id="Specific" checked disabled={isCartDisabled} name={item.cartItemId} value="Specific"  />
+                    <input if:false={itemShippingDates.selectedDate} type="radio" id="Specific2"  disabled={isCartDisabled} name={item.cartItemId} value="Specific"  />
+                    <label class="cart-shipping-label" for="Specific">Lock in specific ship date</label>
+                </br>
+                <lightning-formatted-date-time value={itemShippingDates.selectedDate} class="cart-product-details"></lightning-formatted-date-time>&nbsp;
+                    <button class="slds-button" data-id={item.cartItemId} aria-live="assertive" aria-pressed="true" onclick={handleOpenDateSelector}>
+                        <span class="cart-shipping-label-date ecom-brand-color" if:true={itemShippingDates.selectedDate}> 
+                            {labels.ECOM_Change_Date}
+                        </span>
+                        <span class="cart-shipping-label-date ecom-brand-color" if:false={itemShippingDates.selectedDate}> 
+                            {labels.ECOM_Select_Date}
+                        </span>
+                    </button>
+                    <span class="checkmark"></span>
+                </label>
+                </div>
+            </div> 
+            <span>
+                <span class="ecom-cart-help">
+                    <span class="slds-text-selected cart-redirect-icon-color">
+                        <div class="ellipse-container slds-m-top_medium slds-m-bottom_medium slds-m-left_xx-large" style="margin-left: 19%">
+                            <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.helpimg} alt="Help Icon" onclick={openModal}>
+                            <span onclick={openDeliveryModal}>{labels.ECOM_Product_Receive_Message}
+                            </span>
+                            <c-ecom_delivery-time-modal if:true={isModalOpen}></c-ecom_delivery-time-modal>
+                            </div>
+                    </span> 
+                </span>
+            </span>
+        </div>
+    </div>
+    <template if:true={isDateSelectorOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            
+            <div class="slds-modal__container">
+                
+                <div class="slds-modal__header ecom-height">
+                    <div>   
+                <button class="slds-button slds-button_icon ecom-closebtn" onclick={handleCloseDateSelector}>
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                </button>
+            </div>
+            <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{labels.ECOM_Change_Shipping_Date}</h1>                
+            </div>
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large ecom-no-border" id="1">
+                    <div> 
+                        <span class="slds-modal__content" id="2">
+                            <p class="ecom_modal_note slds-m-bottom--large">
+                              {labels.ECOM_DateNote_Message}                  
+                            </p>
+                        </span> 
+                        <div class="slds-align_absolute-center">
+                            <c-ecom_date-picker cart-item-id={selectedItemId} ondatechanged={handleDateSelected}></c-ecom_date-picker>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="ecom_btn-inverse slds-m-left_medium" onclick={handleCloseDateSelector}>
+                        <span>{labels.ECOM_Cancel}</span>
+                    </button>
+                    <button class="ecom_btn-brand slds-m-left_medium" onclick={handleApplyDateSelector}>
+                    <span>{labels.ECOM_Apply}</span>
+                </button>
+                </div> 
+        </div>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -1,0 +1,80 @@
+ul.pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+/* ul.pagination li {display: inline;} */
+
+ul.pagination li a {
+    color: black;
+    float: left;
+    text-decoration: none;
+    font-style: normal;
+}
+
+ul.pagination li a.active {
+    color: #7F03B0;
+    border: 1px solid #7F03B0;
+    border-radius: 4px;
+}
+
+ul.pagination li a.pagenumber:hover:not(.active) {
+    border-bottom: 4px solid #7F03B0;
+}
+
+
+  /* Media Query for Mobile Devices */ 
+  @media (max-width: 480px) { 
+    ul.pagination li a{
+        padding: 0px 8px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px; 
+    }
+} 
+  
+/* Media Query for low resolution  Tablets, Ipads */ 
+@media (min-width: 481px) and (max-width: 767px) { 
+    ul.pagination li a{
+        padding: 2px 10px;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 32px; 
+    }
+} 
+  
+/* Media Query for Tablets Ipads portrait mode */ 
+@media (min-width: 768px) and (max-width: 1024px){ 
+    ul.pagination li a{
+        padding: 2px 10px;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 32px; 
+    }
+} 
+  
+/* Media Query for Laptops and Desktops */ 
+@media (min-width: 1025px) and (max-width: 1280px){ 
+    ul.pagination li a{
+        padding: 2px 10px;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 32px; 
+    }
+} 
+
+
+/* Media Query for Large screens */ 
+@media (min-width: 1281px) { 
+    ul.pagination li a{
+        padding: 2px 10px;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; 
+    }
+}

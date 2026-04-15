@@ -1,0 +1,42 @@
+<template>
+  <div class="ecom-ss-header">
+    <div class="ecom-ss-header-inner">
+      <div class="ecom-ss-header-lhs">
+        <a lwc:if={backToSite.show} href={backToSite.url}>{backToSite.text}</a>
+      </div>
+
+      <div class="ecom-ss-header-logo">
+        <a href={backToSite.logoLink}>
+          <img src={logoUrl} alt="Revvity Logo" />
+        </a>
+      </div>
+
+      <div class="ecom-ss-header-rhs">
+
+        <div lwc:if={userLoggedIn} onclick={handleLogOut} class="ecom-ss-header-user-indicator" title="Click to logout!">
+          <div lwc:if={userInitials} class="ecom-ss-header-user-initials">{userInitials}</div>
+          <svg lwc:else width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.06189 21.5C3.55399 17.5537 6.92038 14.5 11 14.5H13C17.0796 14.5 20.446 17.5537 20.9381 21.5H3.06189Z" stroke="black" stroke-width="2"/>
+            <path d="M12 11.5C14.7614 11.5 17 9.26142 17 6.5C17 3.73858 14.7614 1.5 12 1.5C9.23858 1.5 7 3.73858 7 6.5C7 9.26142 9.23858 11.5 12 11.5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+
+    <svg
+      fill="#fff"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={lineViewBox}
+      class="ecom-ss-header-line"
+    >
+      <path
+        stroke="black"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d={linePath}
+      ></path>
+    </svg>
+  </div>
+</template>

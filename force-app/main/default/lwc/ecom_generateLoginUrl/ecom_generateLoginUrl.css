@@ -1,0 +1,117 @@
+:host{
+    /** color variables*/
+    --clr-btn-primary : #0C0282;
+    --clr-btn-hover: #021382;
+    --clr-text-primary: #333333;
+    --slds-c-textarea-sizing-min-height:150px;
+
+}
+
+/**  margin styling */
+.ecom-margin-auto{
+    margin: auto;
+}
+
+.ecom-margin-top-10{
+    margin-top: 10px;
+}
+
+/** padding styles */
+.ecom-padding-10{
+    padding: 10px;
+}
+
+/**  text styling */
+.ecom-text-42{
+    font-size: 42px;
+}
+
+.ecom-text-24{
+    font-size: 24px;
+}
+
+/** Text align styling*/
+.ecom-text-align-right{
+    text-align: right;
+}
+.ecom-text-align-left{
+    text-align: left;
+}
+
+/** Text color styling*/
+.ecom-text-color-primary{
+    color: var(--clr-text-primary);
+}
+
+/**  height styling */
+
+.ecom-full-height{
+    height: 100%;
+}
+
+.ecom-height-300{
+    height: 300px;
+}
+
+/* RWPS-6863 start - changed fixed height to min height */
+.ecom-min-height-200{
+    min-height: 200px;
+}
+/* RWPS-6863 end */
+
+.ecom-height-30{
+    height: 30px;
+}
+
+.ecom-height-20{
+    height: 20px;
+}
+
+.ecom-height-5{
+    height: 5px;
+}
+
+/**  Line height styling */
+.ecom-line-height-85{
+    line-height: 85px;
+}
+
+/**  width styling */
+.ecom-full-width{
+    width: 100%;
+}
+
+.ecom-width-300{
+    width: 300;
+}
+
+/** color styling */
+.ecom-fill-primary{
+    background-color: var(--clr-btn-primary);
+}
+
+
+/** card styling */
+.ecom-primary-card{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 0px 0px 14px 14px;
+}
+
+/** general button styling*/
+.ecom-primary-btn{
+    --sds-c-button-brand-color-background: var(--clr-btn-primary);
+    --sds-c-button-color-background-hover : var(--clr-btn-hover);
+}
+
+.slds-button--brand{
+    background-color: var(--clr-btn-primary);
+}
+
+/** element positioning*/
+.ecom-position-relative{
+    position: relative;
+}
+
+.ecom-align-self-center{
+    align-self: center;
+}

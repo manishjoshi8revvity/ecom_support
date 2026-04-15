@@ -1,0 +1,90 @@
+<!-- <template>
+    <div class="">
+        <table class="" role="grid" aria-describedby="orderHistory__table__info">
+            
+            <tbody class="">
+                <template for:each={myOrders} for:item="order" for:index="index">	
+          		<tr class="slds-box" key={order.Id}>
+                      <td class="slds-p-around_small"><p class="">Order Number</p><p class="">{order.OrderNumber}</p></td>
+                      <td class="slds-p-around_small"><p class="">Date Ordered</p><p class="">{order.ActivatedDate}</p></td>
+                      <td class="slds-p-around_small"><p class="">Items</p><p class="">_ _</p></td>
+                      <td class="slds-p-around_small"><p class="">Order Total</p><p class="">{order.TotalAmount}</p></td>
+                      <td class="slds-p-around_small"><p class="">Order Status</p><p class="">{order.Status}</p></td>
+                      <td class="slds-p-around_small"><lightning-button value={order.OrderSummaries} variant="neutral" label="View Order Details" title="View Order Details" onclick={handleClick}></lightning-button></td>
+                </tr>
+                </template>
+            </tbody> 
+                  
+        </table>
+    </div>
+
+</template> -->
+<template>
+    <div class="slds-grid slds-m-around_small slds-wrap ecom-cart-m24">
+        <div class="slds-col slds-size_1-of-1 ecom-cart-border">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_1-of-1 slds-large-size_9-of-12">
+                    <span class="ecom-cart-label">
+                        {totalOrders} out of {totalOrders} Orders
+                    </span>
+                </div>
+                <!-- <div class="slds-size_1-of-1 slds-large-size_3-of-12">
+                    <div class="cart-redirect-button">
+                        <div class="cart-redirect-container">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control" style="float: right;">
+                                    <div class="slds-combobox_container slds-size_small">
+                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click">
+                                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                                <div role="combobox" tabindex="0" class="slds-input_faux slds-combobox__input" aria-labelledby="combobox-label-id-28 combobox-id-1-selected-value" id="combobox-id-1-selected-value" aria-controls="listbox-id-1" aria-expanded="false" aria-haspopup="listbox">
+                                                    <span class="slds-truncate" id="combobox-value-id-34">Sort</span>
+                                                </div>
+                                                <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                                    <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox" aria-label="Placeholder for Dropdown Items" tabindex="0" aria-busy="false">
+                                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                    <li role="presentation" class="slds-listbox__item">
+                                                        <div id="option73" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                                            <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                                            <span class="slds-media__body">
+                                                                <span class="slds-truncate" title="Option A">Ascending</span>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                    <li role="presentation" class="slds-listbox__item">
+                                                        <div id="option74" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                                            <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                                            <span class="slds-media__body">
+                                                                <span class="slds-truncate" title="Option B">Descending</span>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>   
+                    </div>
+                </div> -->
+            </div>
+        <div>
+          
+        </div>
+           
+        </div>
+        
+    </div>
+    <div if:true={myOrders}>
+        <template for:each={myOrders} for:item="order" for:index="index">
+            <c-ecom_order-history-list key={order.Id}
+            order={order}>
+            </c-ecom_order-history-list>
+        </template>
+    </div>
+   </template>

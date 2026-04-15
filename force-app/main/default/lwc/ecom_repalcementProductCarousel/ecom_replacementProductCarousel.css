@@ -1,0 +1,102 @@
+.carousel-container {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 380px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.discontinued-banner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #dc0101;
+  margin-bottom: 8px;
+}
+
+.section-heading {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.product-card {
+  text-align: left;
+}
+
+.product-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 8px 0 4px;
+}
+
+.product-part {
+  font-size: 12px;
+  color: #666;
+}
+
+.product-price {
+  font-size: 13px;
+  margin: 6px 0;
+}
+
+.product-online {
+  font-size: 12px;
+  color: #6b46c1;
+}
+
+.product-online span {
+  background: #e6f7e6;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.buttons {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn-secondary {
+  border: 2px solid #6b46c1;
+  color: #6b46c1;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  border: none;
+  background: #6b46c1;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.carousel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  gap: 12px;
+}
+
+.nav-btn {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.page-info {
+  font-size: 13px;
+  color: #444;
+}

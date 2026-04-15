@@ -1,0 +1,6 @@
+<apex:page standardController="Lead">
+    <!-- commented as part of ITSFDC-3899
+         <apex:iframe src="https://login.eloqua.com/apps/salesTools/profiler?emailAddress={!lead.email}"/>
+    -->    
+    <apex:iframe src="https://login.eloqua.com/apps/embed/salesTools/profiler?emailAddress={!lead.email}"/>
+</apex:page>

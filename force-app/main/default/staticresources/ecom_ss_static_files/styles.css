@@ -1,0 +1,223 @@
+/*
+ * Your global styles here
+ */
+
+:root {
+	--rvty-color-purple: #7f03b0;
+	--dxp-c-spinner-color-foreground: var(--rvty-color-purple);
+	--dxp-s-button-font-family: 'Hanken Grotesk';
+}
+
+html,
+body {
+	height: 100%;
+}
+
+html {
+	background: white;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Hanken Grotesk', sans-serif;
+}
+
+body * {
+	box-sizing: border-box;
+}
+
+.ecom-ss-boxed-container {
+	max-width: 1280px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+@media (max-width: 1440px) {
+	.ecom-ss-boxed-container {
+		max-width: 1080px;
+	}
+}
+
+@media (max-width: 1217px) {
+	.ecom-ss-boxed-container {
+		max-width: 968px;
+	}
+}
+
+@media (max-width: 1103px) {
+	.ecom-ss-boxed-container {
+		max-width: 900px;
+	}
+}
+
+@media (max-width: 1000px) {
+	.ecom-ss-boxed-container {
+		max-width: 650px;
+	}
+}
+
+@media (max-width: 719px) {
+	.ecom-ss-boxed-container {
+		max-width: 545px;
+	}
+}
+
+@media (max-width: 576px) {
+	.ecom-ss-boxed-container {
+		max-width: calc(100% - 32px);
+	}
+}
+
+community_layout-hidden-region {
+	display: none;
+}
+
+h1 {
+	font-size: 56px;
+	line-height: 64px;
+	font-weight: 300;
+}
+
+h2 {
+	font-size: 48px;
+	line-height: 56px;
+	font-weight: 300;
+}
+
+h3 {
+	font-size: 40px;
+	line-height: 48px;
+	font-weight: 300;
+}
+
+h4 {
+	font-size: 32px;
+	line-height: 40px;
+	font-weight: 500;
+}
+
+h5 {
+	font-size: 24px;
+	line-height: 32px;
+	font-weight: 500;
+}
+
+h6 {
+	font-size: 18px;
+	line-height: 24px;
+}
+
+@media (max-width: 1103px) {
+	h1 {
+		font-size: 40px;
+		line-height: 48px;
+	}
+
+	h2 {
+		font-size: 32px;
+		line-height: 40px;
+	}
+
+	h3 {
+		font-size: 28px;
+		line-height: 32px;
+	}
+
+	h4 {
+		font-size: 24px;
+		line-height: 32px;
+	}
+
+	h5 {
+		font-size: 20px;
+		line-height: 30px;
+	}
+
+	h6 {
+		font-size: 16px;
+		line-height: 24px;
+	}
+}
+
+header[data-f6-region] {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+}
+
+.ecom-ss-full-width-table-outer {
+	width: 100%;
+	height: auto;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.ecom-ss-full-width-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.ecom-ss-full-width-table th,
+.ecom-ss-full-width-table td {
+	font-size: 16px;
+	line-height: 22px;
+	padding: 12px 8px;
+	border: solid 1px #e3e3e3;
+	border-style: none solid solid none;
+}
+
+.ecom-ss-full-width-table th {
+	font-weight: 500;
+	background: #fbfbfb;
+}
+
+.ecom-ss-full-width-table td {
+	font-weight: 400;
+	background: #fff;
+}
+
+.ecom-ss-full-width-table tr:first-child td:first-child,
+.ecom-ss-full-width-table tr:first-child th:first-child {
+	border-top-left-radius: 8px;
+}
+
+.ecom-ss-full-width-table tr:first-child td:last-child,
+.ecom-ss-full-width-table tr:first-child th:last-child {
+	border-top-right-radius: 8px;
+}
+
+.ecom-ss-full-width-table tr:last-child td:first-child,
+.ecom-ss-full-width-table tr:last-child th:first-child {
+	border-bottom-left-radius: 8px;
+}
+
+.ecom-ss-full-width-table tr:last-child td:last-child,
+.ecom-ss-full-width-table tr:last-child th:last-child {
+	border-bottom-right-radius: 8px;
+}
+
+.ecom-ss-full-width-table tr:first-child td,
+.ecom-ss-full-width-table tr:first-child th {
+	border-top-style: solid;
+}
+
+.ecom-ss-full-width-table tr td:first-child,
+.ecom-ss-full-width-table tr th:first-child {
+	border-left-style: solid;
+}
+
+lightning-formatted-rich-text.slds-rich-text-editor__output {
+	line-height: inherit;
+}
+
+.ecom-ss-loader {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 101;
+	position: fixed;
+}

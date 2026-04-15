@@ -1,0 +1,19 @@
+@import 'c/ecom_cssLibrary';
+
+/** border styling */
+.ecom-border-top-blue{
+    border-top: 3px solid var(--var-brand-revvity-orchid);
+}
+
+.ecom-text-align-left{
+    text-align: left;
+}
+
+/** slds styling */
+.slds-th__action {
+    color: var(--var-brand-revvity-orchid);
+}
+
+.ecom-margin-top-17{
+    margin-top: 17px;
+}

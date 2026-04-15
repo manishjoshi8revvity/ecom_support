@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Self Service Two Column (Image | Description and CTA)</masterLabel>
+
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="imageUrl" type="String"
+                label="Image URL/image path in Self Service image resource"
+                required="true" />
+            <property name="imageAlt" type="String" label="Image ALT" />
+            <property name="componentTitle" type="String" label="Component Title" />
+            <property name="componentDescription" type="String" label="Component Description" />
+            <property name="buttonLabel" type="String" label="Button Label" />
+            <property name="buttonUrl" type="String" label="Button URL" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

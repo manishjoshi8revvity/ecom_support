@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Self Service Page end Section with CTAs</masterLabel>
+
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="componentTitle" type="String" label="Component Title" />
+            <property name="componentSubTitle" type="String" label="Component Sub-title" />
+
+            <property name="cta1Label" type="String" label="CTA 1 Label" />
+            <property name="cta1Icon" type="String"
+                label="CTA 1 Icon URL/Path in self service static image resource" />
+            <property name="cta1Url" type="String" label="CTA 1 URL" />
+
+            <property name="cta2Label" type="String" label="CTA 2 Label" />
+            <property name="cta2Icon" type="String"
+                label="CTA 2 Icon URL/Path in self service static image resource" />
+            <property name="cta2Url" type="String" label="CTA 2 URL" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

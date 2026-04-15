@@ -1,0 +1,73 @@
+.ecom-ss-button-primary,
+.ecom-ss-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  user-select: none;
+  transition: 0.3s;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  border-radius: 40px;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.ecom-ss-button-primary:hover,
+.ecom-ss-button-secondary:hover {
+  text-decoration: none;
+}
+
+.ecom-ss-button-primary img,
+.ecom-ss-button-secondary img {
+  height: 24px;
+}
+
+.ecom-ss-button-primary {
+  padding: 12px 20px;
+  background: #7f03b0;
+  color: #fff;
+  border: none;
+}
+
+.ecom-ss-button-primary:hover:not([disabled]),
+.ecom-ss-button-primary:active:not([disabled]) {
+  background: #5a027d;
+}
+
+.ecom-ss-button-primary[disabled] {
+  background: #a8a8a8;
+  cursor: not-allowed;
+}
+
+.ecom-ss-button-secondary {
+  padding: 8px 16px;
+  background: #fff;
+  color: #7f03b0;
+  border: 2px solid #7f03b0;
+}
+
+.ecom-ss-button-secondary:hover:not([disabled]) {
+  background: #7f03b0;
+  color: #fff;
+}
+
+.ecom-ss-button-secondary:active:not([disabled]) {
+  background: #5a027d;
+  border-color: #5a027d;
+}
+
+.ecom-ss-button-secondary[disabled] {
+  background: #fff;
+  color: #a8a8a8;
+  border-color: #a8a8a8;
+  cursor: not-allowed;
+}
+
+.ecom-ss-button-primary:focus:not([disabled]),
+.ecom-ss-button-secondary:focus:not([disabled]) {
+  outline: 2px solid #418fd3;
+  outline-offset: 2px;
+}

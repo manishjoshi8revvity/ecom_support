@@ -1,0 +1,36 @@
+<aura:component implements="lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="contactOverrideNewButtonController" >
+	    <aura:attribute name="legacyCreatePermission" type="boolean" default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12">
+        <lightning:card>
+            <lightning:flow aura:id="flowData" />
+         </lightning:card>
+    </div>
+        <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12">
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+        </div>
+         <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12">
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
+        </div>
+    </div>
+</aura:component>

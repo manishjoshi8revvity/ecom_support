@@ -1,0 +1,144 @@
+<!--
+@description       : This component provides a dialog to view POOM and POSR logs
+@author            : vramachandran@rafter.one
+@group             : Punchout module
+@last modified on  : 05-Dec-2023
+@last modified by  : vramachandran@rafter.one
+-->
+<template>
+    <div lwc:if={showLoader} class="ecom-spinner-style">
+        <lightning-spinner></lightning-spinner>
+    </div>
+    <div>
+        <lightning-card>
+            <div class="slds-m-around_small">
+                <!-- Header-->
+                <div class="ecom-text-32 ecom-text-color-black">
+                    {system_labels.LOG_VIEWER_HEADER}
+                </div>
+    
+                <!-- Search Div-->
+                <div class="ecom-border-top-blue">
+                    <div class="slds-p-around_medium">
+                        <lightning-layout multiple-rows="false">
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                <div class="slds-p-around_small">
+                                    <div class="ecom-text-24 ecom-text-color-black">
+                                        {system_labels.SEARCH_SETTINGS}
+                                    </div>
+                                    <div >
+                                        <!-- <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" class="ecom-text-align-left" str>
+                                                <div><lightning-combobox label="Method Type" options={pickListValues.data}></lightning-combobox></div>
+                                            </lightning-layout-item>
+                                        </lightning-layout> -->
+                                    </div>
+                                    <div class="slds-p-top_large">
+                                        <lightning-layout multiple-rows="true" horizontal-align="spread">
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" large-device-size="2">
+                                                <lightning-combobox
+                                                    name="search setting"
+                                                    label={system_labels.VIEW_LOGS}
+                                                    value={selectedRadioValue}
+                                                    placeholder={system_labels.SELECT_SEARCH_SETTING}
+                                                    options={radioOptions}
+                                                    onchange={handleSearchChange} ></lightning-combobox>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                    <div lwc:if={isDisplayDateFields} class="slds-p-top_large">
+                                        <lightning-layout multiple-rows="true" horizontal-align="spread">
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" large-device-size="2">
+                                                <div>
+                                                    <lightning-input type="date" lwc:ref="from_date" name="from_date" label={system_labels.SELECT_START_DATE} placeholder={system_labels.SELECT_START_DATE}></lightning-input>
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="10" large-device-size="10">
+                                            </lightning-layout-item>
+
+                                            <lightning-layout-item size="12"  small-device-size="12" medium-device-size="2" large-device-size="2" class="slds-p-top_medium">
+                                                <div>
+                                                    <lightning-input type="date" lwc:ref="to_date" name="to_date" label={system_labels.SELECT_END_DATE} placeholder={system_labels.SELECT_END_DATE}></lightning-input>
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="10" large-device-size="10">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="12"  small-device-size="12" medium-device-size="4" large-device-size="4" class="slds-p-top_medium">
+                                                <div >
+                                                    <lightning-button variant="brand" label={system_labels.SEARCH}  onclick={searchLogs}></lightning-button>
+                                                </div>
+                                            </lightning-layout-item>
+                                            
+                                        </lightning-layout>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+    
+                <!-- Result Div-->
+                <div>   
+                    <div lwc:if={currentDataTable} class="slds-p-left_medium slds-p-bottom-medium">
+                        <lightning-layout multiple-rows="false">
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" large-device-size="2">
+                                <div class="slds-p-left_small slds-p-bottom_large ">
+                                    <lightning-input type="text" lwc:ref="searchBox" placeholder={system_labels.SEARCH} value={searchValue} onchange={handleSearchFilter}></lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="10" large-device-size="10">
+                                <!-- spacer -->
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12"  small-device-size="12" medium-device-size="2" large-device-size="2" >
+                                <div class="slds-p-left_xx-small slds-p-bottom_large ">
+                                    <lightning-button variant="brand" label={system_labels.REFRESH}  onclick={refreshLogs} class="slds-m-left_x-small"></lightning-button>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="8">
+                                <div class="slds-p-left_small slds-p-bottom_large">
+                                    
+                                </div>
+                            </lightning-layout-item>
+                            
+                            
+                        </lightning-layout>
+                        <lightning-layout multiple-rows="false">
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                <div class="slds-p-around_small">
+                                    <lightning-datatable 
+                                    hide-checkbox-column 
+                                    key-field="id" 
+                                    data={currentDataTableData} 
+                                    sorted-by={sortBy}
+                                    sorted-direction={sortDirection}
+                                    onsort={doSorting} 
+                                    columns={dataTableColumns} 
+                                    onrowaction={openJsonDataModal}></lightning-datatable>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <div lwc:if={isDisplayNoRecords} class="slds-p-top_medium slds-align_absolute-center">
+                        <span class="ecom-text-18 ecom-text-color-dark-grey">{system_labels.NO_RECORDS_TO_DISPLAY}</span>
+                    </div>
+                    <div class="slds-m-top_large">
+                        <!--<c-pagination pagination-records={currentFilteredList} records-per-page={recordsPerPage} onpageselect={handleCurrentPage}></c-pagination>-->
+                    </div>
+                    <div class="slds-p-top_large">
+                        <div if:true={showPagination} class="slds-grid slds-wrap slds-m-top_small slds-m-bottom_small">
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                                <c-ecom_paginator
+                                ongotopage={handleCustomPagination} 
+                                page-size={recordsToDisplay}
+                                current-page-number={currentPage} 
+                                total-records={totalRecordCount}
+                                ></c-ecom_paginator>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lightning-card>
+    </div>
+</template>

@@ -1,0 +1,68 @@
+<!--
+  @description       : 
+  @author            : Manish Kumar
+  @group             : 
+  @last modified on  : 07-30-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <div class="message-container slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-2">
+            <c-ecom_inline-message type={type} message={message} show={show} onmessageaction={handleUpdateMessage}></c-ecom_inline-message>
+        </div>
+      </div>
+    <div if:true={userData} class="slds-form slds-form_horizontal slds-grid slds-wrap">
+       
+        <div class="slds-col slds-size_1-of-2">
+            <div class="">
+                Profile Info
+            </div>
+            <div class="">
+                <lightning-input type="text" data-id="fName-Id" label="First Name" value={userData.FirstName} onchange={handleonChange}></lightning-input>
+            </div>
+            <div class="">
+                <lightning-input type="text" data-id="lName-Id" label="Last Name" value={userData.LastName} onchange={handleonChange}></lightning-input>
+            </div>
+            <div class="">
+                Company Info
+            </div>
+            <div class="">
+                <lightning-input type="text" data-id="country-Id" label="Country" value={userData.Country} onchange={handleonChange} required></lightning-input>
+            </div>
+            <div class="">
+                <lightning-input type="text" data-id="acctNumber-Id" label="Account Number" value={userData.AccountId} onchange={handleonChange}></lightning-input>
+            </div>
+            <div class="">
+                <lightning-input type="text" data-id="company-Id" label="Company" value={userData.CompanyName} onchange={handleonChange} required></lightning-input>
+            </div>
+            <div class="">
+                <lightning-input type="text" data-id="street-Id" label="Street" value={userData.Street} onchange={handleonChange} required></lightning-input>
+            </div>
+            <!-- <div class="">
+                <lightning-input type="text" data-id="Address2-Id" label="Address 2" value={userData.Address} onchange={handleonChange}></lightning-input>
+            </div> -->
+            <div class="">
+                <lightning-input type="text" data-id="city-Id" label="City / Town" value={userData.City} onchange={handleonChange} required></lightning-input>
+            </div>
+            <div class="">
+                <lightning-input type="text" data-id="state-Id" label="State" value={userData.State} onchange={handleonChange} required></lightning-input>
+            </div>
+            <div class="">
+                <lightning-input type="text" data-id="zipcode-Id" label="Zipcode" value={userData.PostalCode} onchange={handleonChange} required></lightning-input>
+            </div>
+            <div class="">
+                <lightning-input type="tel" data-id="mobilephone-Id" label="Telephone" value={userData.MobilePhone} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" onchange={handleonChange}></lightning-input>
+            </div>
+            <div class="">
+                <lightning-input type="text" data-id="fax-Id" label="Fax" value={userData.Fax} onchange={handleonChange}></lightning-input>
+            </div>
+            <div if:true={showErrorMsg} class="slds-text-color_error slds-text-heading_small">
+                all the * marked fields can not be blank.
+            </div>
+            <div class="">
+                <lightning-button variant="brand" label="Save Changes" title="Save Changes" onclick={handleSaveChanges} class=""></lightning-button>
+            </div>
+
+        </div>
+    </div>
+</template>

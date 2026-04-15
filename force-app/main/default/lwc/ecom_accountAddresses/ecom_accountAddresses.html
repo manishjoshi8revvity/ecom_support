@@ -1,0 +1,527 @@
+<!--
+  @description       : 
+  @author            : Vipul Goyal
+  @group             : 
+  @last modified on  : 01-24-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+   <div class="background">
+      <div class="container slds-align_absolute-center">
+          <div class=" body">
+    <div class="slds-grid slds-wrap">
+       <div class={sidebarCSS}>
+            <c-ecom_account-sidebar></c-ecom_account-sidebar>
+       </div>
+       <div if:false={device.isMobile} class={middleSpaceCSS}></div>
+       <div class={mainSectionCSS}>
+         <!--VRa change to capture account selection issue: Begin | Jun 6 2024-->
+         <!-- <template lwc:if={isAccountSelected}>
+            <div class="ecom-mt-64 ecom-pb-24 ecom-gray-border-b">
+               <button class="slds-button slds-button_icon  ecom-brand-font" onclick={handleChangeAccountNumber}>
+               <span class=""><img src={images.back} class="ecom-back-icon"> </span>
+               <span class=" ecom-account-sb-label ecom-purple-font">{labels.ECOM_BackToAccountList}</span>
+               </button>
+            </div>
+         </template> -->
+         <!-- <template lwc:else> -->
+            <div class="ecom-mt-64 ecom-pb-24 ecom-gray-border-b">
+               <button class="slds-button slds-button_icon  ecom-brand-font" onclick={goBackToAccounts}>
+               <span class=""><img src={images.back} class="ecom-back-icon" alt="Back"> </span><!--RWPS-3764-->
+               <span class=" ecom-account-sb-label ecom-purple-font">{labels.ECOM_BackToAccountList}</span>
+               </button>
+            </div>
+         <!-- </template> -->
+         <!--VRa change to capture account selection issue: End-->
+         <div class="slds-col">
+            <c-ecom_inline-message type={mainType} message={messageAccount} show={showMessage} timespan={timeSpan}></c-ecom_inline-message>
+         </div>
+
+         <div if:true={showProvideAddressError}>
+            <div class="slds-region_narrow m-top-msg">
+               <div class="slds-is-relative ecom-notify_container_error">
+                  <div class="slds-grid slds-wrap">
+                     <div class={colsize}>
+                        <div class="ecom-notify ecom-notify_toast" role="status">
+                           <span class="slds-assistive-text"></span>
+                           <div class="ecom-notify__content">
+                              <!-- RWPS-4776 Start-->
+                              <span if:true={isDisabledAccountError}>{labels.Ecom_ProvideAccountAddressError}</span>
+                              <span if:false={isDisabledAccountError}>{labels.ECOM_ProvideAddressError1} <a href="javascript:void(0)" onclick={navigateToAddAddressPage}>{labels.ECOM_ProvideAddressError2} </a>{labels.ECOM_ProvideAddressError3}</span>
+                              <!-- RWPS-4776 END-->
+                           </div>
+                        </div>
+                     </div>
+                     <div class="slds-col slds-size_1-of-12 slds-align_absolute-center">
+                           <span>
+                              <button class={btnCloseSize} onclick={closeMessageBox}>
+                                 <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                       <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                 </svg>
+                              </button>
+                           </span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- When contact registration value is Populate ST & BT -->
+
+         <template lwc:if={showSelectAccounts}>
+            <div if:true={isAccountSelected}>
+               <div class="slds-col slds-large-size_7-of-12 slds-medium-size_7-of-12 slds-small-size_1-of-1 slds-size_12-of-12">
+
+               <div class="ecom-mt-40 ecom-mb-40">
+                  <span class="ecom-acn-label">{labels.ECOM_AccountNumber}</span> 
+               </div>
+               <!-- <br> -->
+               <span class="ecom-acn-details">
+               {labels.ECOM_AccountNumberExist} 
+               </span>
+               <!-- <br> -->
+               <div class="ecom-acn-nr-box ecom-mt-32">
+                  {labels.ECOM_AccountNumber}: {selectedAccountNumber} 
+               </div>
+               <!--RWPS-3764-->
+               <div class="slds-p-top_large slds-p-bottom_large ecom-purple-font ecom-gray-border-b slds-m-right_medium" >
+                  <span class="ecom-cursor" onclick={handleChangeAccountNumber} aria-label="Add Account Number"  role="button" tabindex="0" onkeydown={handleAddAccountNumberKeydown}>
+                     {labels.ECOM_ChangeAccountNumber}
+                  </span>
+               </div>
+            </div>
+</div>
+
+            <div if:false={isAccountSelected}>
+               <div class="slds-large-size_7-of-12 slds-medium-size_7-of-12 slds-small-size_1-of-1 slds-size_12-of-12">
+
+               <div>
+                  <span class="ecom-acn-label">{labels.ECOM_ChooseShippingAddress}</span> 
+               </div>
+               <br>
+
+               <div class="slds-p-bottom_medium">
+                  <template for:each={allAddress} for:item="soldTo">
+                     <div key={allAddress.accountId} class="ecom-address-card">
+                        <lightning-layout vertical-align="center" class="">
+                           <lightning-layout-item flexibility="auto" padding="around-small" >
+                              <div class="slds-text-align_left ecom-sa-details-box">
+                                 <label class="container">   
+                                    <!-- RWPS-3764-->
+                                    <input type="radio" 
+                                    aria-label="SoldToAddress"
+                                     checked={soldTo.soldToAddress.isSelected} 
+                                     data-account-id={soldTo.accountId}
+                                     data-sold-to-id={soldTo.soldToAddress.id}
+                                     data-value={soldTo.addressType}
+                                     onchange={handleSoldToChange}/>
+                                     <!-- name="mainSoldToAddress" -->
+                                 </label>
+                                    <span class="ecom-address-label slds-m-left_x-small">{soldTo.externalId}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{soldTo.erpAccountName}</span><br>
+                                    <span lwc:if={soldTo.showSapName} class="ecom-address-details slds-m-left_large">{soldTo.sapName}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{soldTo.soldToAddress.street}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{soldTo.soldToAddress.city}, {soldTo.soldToAddress.state} {soldTo.soldToAddress.postalCode}</span><br>
+                                    <span class="ecom-address-details slds-m-left_large">{soldTo.soldToAddress.country}</span>   
+                              </div>
+                           </lightning-layout-item>
+                           <!-- </template> -->
+                        </lightning-layout>
+                     </div>
+                  </template>
+                  <!-- RWPS-3764: Add Account Number span accessible -->
+                  <div class="slds-p-top_large slds-p-bottom_large ecom-purple-font ecom-gray-border-b slds-m-right_medium" style="text-align:right;">
+                     <span class="ecom-cursor" onclick={handleAddAccountNumber}  role="button" tabindex="0" aria-label="Add Account Number" onkeydown={handleAddAccountNumberKeydown}>
+                        {addAccountNumber}
+                     </span>
+                  </div>
+
+                  <div>
+                     <button class="ecom-submit-btn slds-m-top_medium" onclick={saveSoldToAddress} >
+                        <span>{labels.ECOM_Save}</span>
+                     </button>
+                  </div>
+
+               </div>
+               </div>
+            </div>
+         </template>
+         <template lwc:if={showAddAccountNumber}>
+            <div class="slds-grid slds-wrap">
+               <div class="slds-col slds-large-size_7-of-12 slds-medium-size_7-of-12 slds-small-size_1-of-1 slds-size_1-of-1">
+                  <div class="slds-col">
+                     <br/>
+                     <c-ecom_inline-message type={type} message={addAccountNumberMessage} show={showAddAccountNumberError} timespan={timeSpan}></c-ecom_inline-message>
+                     <br/>
+                  </div>
+
+                   <div>
+                     <span class="ecom-acn-label">{labels.ECOM_AccountNumber}</span> 
+                   </div>
+                   <div class="ecom-mt-40">
+                       <span class="ecom-acn-details">
+                           {labels.ECOM_AccountNumberExist} 
+                       </span>
+      
+                       <lightning-input type="text" 
+                        class="ecom-acctnumb-label ecom-mt-32 ecom-accnum-mb" 
+                        label="Account Number" required="true" 
+                        data-id="account-number-id" 
+                        value={enteredAccountNumber} 
+                        onchange={handleBillingChange}>
+                      </lightning-input>
+                       <div style="position:relative" class="slds-p-bottom_xx-small">
+                           <span class="ecom-detail-text-18">{labels.ECOM_AccountNumberStart}&nbsp;&nbsp;&nbsp;</span> 
+                           <button class="slds-button  slds-button_icon slds-input__icon slds-input__icon_right" aria-describedby="help" aria-disabled="true" onmouseenter={showPopover} onmouseleave={hidePopover} onfocus={showPopover}> <!--RWPS-3764-->             
+                              <span class="" data-id="helptextparent" aria-describedby="help" aria-disabled="true">       
+                                 <img class="ecom-help-icon" src={images.helpimg}>
+                              </span>
+                           </button>
+                           <div class={popoverClass} role="tooltip" id="helptext">
+                              <div class="slds-popover__body ecom-popover-body">{labels.ECOM_AccountNumberInfo}</div>
+                           </div>
+                        </div>
+                        <button if:true={showBack} class="ecom-back-btn ecom-mt-32" style="margin-right:20px;" onclick={handleAddAddressBack}>
+                           <span>{labels.ECOM_Back}</span>
+                        </button>
+                       <button class="ecom-submit-btn ecom-mt-32" disabled={disabledSubmit} onclick={handleAddAddressSubmit}>
+                          <span>{labels.ECOM_Submit}</span>
+                       </button>
+                       <div class="ecom-mt-32">
+                          <span class="ecom-note-text">* = {labels.ECOM_RequiredField} </span>
+                       </div>
+                       <div class="ecom-mt-32 ecom-vh-40">
+                       
+                        <span class="ecom-acctnumb-label"> {labels.ECOM_AccountNotExist}</span>
+                           <!-- <span class="ecom-acctnumb-label">Don't see my address?</span> -->
+                           <span class="ecom-purple-font ecom-underline">
+                              <a href="javascript:void(0)" onclick={navigateToAddAddressPage}> {labels.ECOM_AddYourAddress}</a>
+                           </span>
+                       </div>
+                   </div>
+               </div>
+            </div>
+         </template>
+         <template lwc:if={showAllAccounts}>
+            <div class="slds-col slds-large-size_7-of-12 slds-medium-size_7-of-12 slds-small-size_1-of-1 slds-size_12-of-12">
+
+            <div class="ecom-pt-40 ecom-gray-border-t">
+
+               <span class="ecom-addresses-label">{labels.ECOM_Addresses}</span>
+               <!-- <br><br> -->
+               <div class="ecom-addr-text ecom-mt-24">
+                  <span if:true={isInvoiceMailingAddress}>{labels.ECOM_SelectActiveShippingBillingInvoiceAddress}</span>
+                  <span if:false={isInvoiceMailingAddress}>{labels.ECOM_SelectActiveShippingBillingAddress}</span>
+               </div>
+               <!-- <br> -->
+            </div>
+            <div class="ecom-pb-40 ecom-mt-40">
+               <span class="ecom-addresstype-label">{labels.ECOM_ShippingAddress} </span>
+               <div class="message-container slds-grid slds-wrap">
+                  <div class="slds-col">
+                     <c-ecom_inline-message type={type} message={messageShipping} show={shippingError} timespan={timeSpan}></c-ecom_inline-message>
+                  </div>
+               </div>
+
+               <template for:each={shippingAddress} for:item="shipping">
+                  <div key={shipping.id} class="ecom-address-card ecom-mt-16">
+                    <lightning-layout vertical-align="center" class="">
+                      <lightning-layout-item flexibility="auto"  >
+                        <div class="slds-text-align_left ecom-sa-details-box">
+                          <!-- RWPS-3764 added aria-label -->
+                           <!--RWPS-4087 Added name attribute-->
+                          <label class="container">
+                            <input type="radio"  name="shippingERPAddress" checked={shipping.isSelected} value={shipping.id} data-value={shipping.addressType} onchange={handleShippingERPAddress} aria-label="shippingERPAddress" />
+                             <!-- name="shippingERPAddress" -->
+                          </label>
+                          <span class="ecom-address-label slds-m-left_xx-small">{shipping.externalId}</span>
+                          <div class="ecom-address-details slds-m-left_x-large">{shipping.erpAccountName}</div>
+                          <div lwc:if={shipping.showSapName} class="ecom-address-details slds-m-left_x-large">{shipping.sapName}</div>
+                          <div class="ecom-address-details slds-m-left_x-large">{shipping.street}</div>
+                          <div class="ecom-address-details slds-m-left_x-large">{shipping.city}, {shipping.state} {shipping.postalCode}</div>
+                          <div class="ecom-address-details slds-m-left_x-large">{shipping.country}</div>   
+                    </div>
+                 </lightning-layout-item>
+              </lightning-layout>
+           </div>
+        </template>
+            </div>
+            <!--Render Billing ERP Address conditionally if shipping slected then show billing address based on shipping -->
+            <div class="ecom-pb-40 ecom-pt-40 ecom-gray-border-t" lwc:if={isShippingERPAddressSelected}>
+               <span class="ecom-addresstype-label">{labels.ECOM_BillingAddress} </span>
+               <div class="message-container slds-grid slds-wrap">
+                  <div class="slds-col">
+                     <c-ecom_inline-message type={type} message={messageBilling} show={billingError} timespan={timeSpan}></c-ecom_inline-message>
+                  </div>
+               </div>
+               <template for:each={billingAddress} for:item="billing">
+                  <div key={billing.id} class="ecom-address-card ecom-mt-16">
+                     <lightning-layout vertical-align="center" class="">
+                        <lightning-layout-item flexibility="auto"  >
+                           <div class="slds-text-align_left ecom-sa-details-box">
+                              <!--RWPS-3764 Added  aria-label-->
+                              <!--RWPS-4087 Added name attribute-->
+                              <label class="container">   
+                                 <input type="radio"
+                                 aria-label="billingERPAddress" name="billingERPAddress"
+                                  checked={billing.isSelected} value={billing.id}
+                                  data-value={billing.addressType} data-addresstype="billing" onchange={handleBillingERPAddress}/>
+                                  <!--name="billingERPAddress" -->
+                              </label>
+                              <template lwc:if={billing.externalId}>
+                                 <span class="ecom-address-label slds-m-left_xx-small" >{billing.externalId}</span>
+                                 <div class="ecom-address-details slds-m-left_x-large">{billing.erpAccountName}</div>
+                              </template>
+                              <template lwc:else>
+                                 <span class="ecom-address-label slds-m-left_xx-small">{billing.erpAccountName}</span>
+                              </template>
+                              <div lwc:if={billing.showSapName} class="ecom-address-details slds-m-left_x-large">{billing.sapName}</div>
+                              <div class="ecom-address-details slds-m-left_x-large">{billing.street}</div>
+                              <div class="ecom-address-details slds-m-left_x-large">{billing.city}, {billing.state} {billing.postalCode}</div>
+                              <div class="ecom-address-details slds-m-left_x-large">{billing.country}</div> 
+                              <!--Changes done by sathiya for ECOM-1933--> 
+                              <template if:true={billing.isValidatedFields} for:each={billing.validationFields} for:item="field">
+                                 <div if:true={field.isReadOnly} key={field.label} class="slds-m-left_x-large ecom-mt-16">
+                                     <div class=" ecom-addresstype-label ">{field.label}</div>
+                                     <span class="ecom-address-details">{field.value}</span> 
+                                 </div>
+                             </template> 
+                             <!--Changes End-->
+                           </div>
+                        </lightning-layout-item>
+                     </lightning-layout>
+                  </div>
+               </template>
+               <div if:true={showAddModifyText} class="ecom-mt-40 ecom-purple-font" style="text-align:right;">
+                  <!--RWPS-3764-->
+                  <span class="ecom-cursor" data-addresstype="billing" onclick={addNewBillingERPAddress} role="button" tabindex="0" aria-label="Add An Address" onkeydown={handleAddAddressKeydown}>
+                     {addBillingText}
+                  </span>
+               </div>
+            </div>
+            <!--Changes added for ECOM-1939 by sathiya-->
+            <!--Render Billing ERP Address conditionally if shipping slected then show billing address based on shipping -->
+            <div if:true={isInvoiceMailingAddress}>
+               <div class="ecom-pb-40 ecom-pt-40 ecom-gray-border-t" lwc:if={isShippingERPAddressSelected}>
+                  <span class="ecom-addresstype-label">{labels.ECOM_InvoiceMailingAddress} </span>
+                  <div class="message-container slds-grid slds-wrap">
+                     <div class="slds-col">
+                        <c-ecom_inline-message type={invoiceErrorType} message={messageInvoice} show={isInvoiceError} timespan={timeSpan}></c-ecom_inline-message>
+                     </div>
+                  </div>
+                  <template for:each={invoiceMailingAddress} for:item="invoice">
+                     <div key={invoice.id} class="ecom-address-card ecom-mt-16">
+                        <lightning-layout vertical-align="center" class="">
+                           <lightning-layout-item flexibility="auto"  >
+                              <div class="slds-text-align_left ecom-sa-details-box">
+                                 <!--RWPS-3764-->
+                                 <label class="container">   
+                                    <input type="radio"
+                                    aria-label="InvoiceAddress"
+                                     checked={invoice.isSelected} value={invoice.id}
+                                     data-value={invoice.addressType} data-addresstype="invoice" onchange={handleBillingERPAddress}/>
+                                 </label>
+                                 <template lwc:if={invoice.externalId}>
+                                    <span class="ecom-address-label slds-m-left_xx-small" >{invoice.externalId}</span>
+                                    <div class="ecom-address-details slds-m-left_x-large">{invoice.erpAccountName}</div>
+                                 </template>
+                                 <template lwc:else>
+                                    <span class="ecom-address-label slds-m-left_xx-small">{invoice.erpAccountName}</span>
+                                 </template>
+                                 <div lwc:if={invoice.showSapName} class="ecom-address-details slds-m-left_x-large">{invoice.sapName}</div>
+                                 <div class="ecom-address-details slds-m-left_x-large">{invoice.street}</div>
+                                 <div class="ecom-address-details slds-m-left_x-large">{invoice.city}, {invoice.state} {invoice.postalCode}</div>
+                                 <div class="ecom-address-details slds-m-left_x-large">{invoice.country}</div> 
+                              </div>
+                           </lightning-layout-item>
+                        </lightning-layout>
+                     </div>
+                  </template>
+                  <div if:true={showInvoiceAddModifyText} class="ecom-mt-40 ecom-purple-font" style="text-align:right;">
+                      <!--RWPS-3764-->
+                     <span class="ecom-cursor" data-addresstype="invoice" onclick={addNewBillingERPAddress} role="button" tabindex="0" aria-label="Add An invoice" onkeydown={handleAddAddressKeydown}>
+                        {addInvoiceText}
+                     </span>
+                  </div>
+               </div>
+            </div>
+            <!--Changes End-->
+            <!-- Add Shipping Information Section-->
+            <div class="ecom-pt-40 ecom-gray-border-t">
+               <span class="ecom-addresses-label">{labels.ECOM_AddShippingInformation}</span>
+               <!-- <br><br> -->
+               <div  class="ecom-note-label ecom-mt-24">{labels.ECOM_ShippingDisplayNote}</div>
+               <!--<div class="ecom-note-label ecom-mt-24">{labels.ECOM_EuropeVAT}</div>-->
+               <!-- <br><br> -->
+               <!-- value={attentionRecipient} onchange={handleChange} -->
+                <!-- RWPS-4824 START -->
+               <lightning-input type="text" max-length="40" class="ecom-addr-text ecom-gray-font ecom-gap-40 attention-Recipient" lwc:ref="attention"  label={labels.recipientTitle} data-id="attention-recipient-id" value={attentionRecipient} onchange={handleRecipientValue}></lightning-input>
+               <div>
+               <!-- RWPS-4824 END -->
+                  <!-- <div class="slds-form-element slds-m-top_large">
+                     <div class="slds-form-element__control"> -->
+                        <!--<div class="slds-checkbox">
+                           <input type="checkbox" name="options" id="checkbox-unique-id-80" value="checkbox-unique-id-80" />
+                           <label class="slds-checkbox__label" for="checkbox-unique-id-80">
+                           <span class="slds-checkbox_faux"></span>
+                           <span class="slds-form-element__label ecom-checkbox-label slds-m-left_x-small">Make Active Account</span>
+                           </label>
+                        </div>-->
+                     <!-- </div>
+                  </div> -->
+                  <button class="ecom-submit-btn ecom-gap-40" onclick={handleUpdateShippingAndBillingAddress} >
+                     <!-- disabled={isPlaceOrderBtnDisabled} -->
+                     <span>{labels.ECOM_Submit}</span>
+                  </button>
+               </div>
+            </div>
+         </div></template>
+         </div>
+      </div>
+   </div>
+   </div>
+   </div>
+    <div lwc:if={showSpinner} class="ecom-spinner-style">
+      <lightning-spinner></lightning-spinner>
+    </div>
+
+
+    <template lwc:if={showModal}>
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+          aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+          
+          <div class="slds-modal__container">
+              
+              <div class="slds-modal__header ecom-qo-noborder">
+                  <div>   
+              <button class="slds-button slds-button_icon ecom-qo-closebtn" onclick={closeModal}>
+                  <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  </svg>
+                  <span class="slds-assistive-text">{labels.ECOM_Close}</span>
+              </button>
+          </div>
+                  <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate slds-m-top_large">{modalAddressLabel}</h1>
+                  <div style="padding-top:10px;padding-bottom:10px;" class="slds-col">
+                     <c-ecom_inline-message type={type} message={messageAddBillingCPA} show={showAddressError} timespan={timeSpan}></c-ecom_inline-message>
+                  </div>
+              
+          </div>
+              <!-- modal body start -->
+          <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large ecom-no-border" id="1">
+
+            <lightning-input 
+               type="text" 
+               class="ecom-address-label slds-m-top_large" 
+               label="Company Name" 
+               required="true" 
+               data-id="billing-company-name-id" 
+               value={newBillingERPAddress.erpAccountName} 
+               onchange={handleBillingChange}>
+            </lightning-input>
+             <lightning-combobox
+                name="progress"
+                label="Country"
+                data-id="billing-country-id"
+                required="true"
+                class="ecom-address-label slds-m-top_x-large"
+                value={selectedCountry}
+                placeholder="Select Country"
+                options={countries}
+                onchange={handleBillingChange} 
+                disabled="true"
+                >
+             </lightning-combobox>
+             <lightning-input 
+               type="text" 
+               class="ecom-addr-text slds-m-top_x-large" 
+               label="Street" 
+               required="true" 
+               data-id="billing-address-line-1" 
+               value={newBillingERPAddress.street} 
+               onchange={handleBillingChange}>
+            </lightning-input>
+             <!--<lightning-input type="text" class="ecom-addr-text slds-m-top_x-large" label="Address Line 2" data-id="billing-address-line-2" value={billingAddress2} onchange={handleBillingChange}></lightning-input>-->
+             <lightning-input 
+               type="text" 
+               class="ecom-addr-text slds-m-top_x-large" 
+               label="City / Town" 
+               required="true" 
+               data-id="billing-city-id" 
+               value={newBillingERPAddress.city} 
+               onchange={handleBillingChange}>
+            </lightning-input>
+             <lightning-combobox
+                name="state"
+                label="State"
+                data-id="billing-state-id"
+                required="true"
+                class="ecom-address-label slds-m-top_x-large"
+                value={selectedBillingState}
+                placeholder="Select State"
+                options={states}
+                onchange={handleBillingChange} >
+             </lightning-combobox>
+             <lightning-input 
+               type="text" 
+               class="ecom-addr-text slds-m-top_x-large" 
+               label="Zip or Postal Code" 
+               required="true" 
+               data-id="billing-zip-id" 
+               value={newBillingERPAddress.postalCode} 
+               onchange={handleBillingChange}
+               > <!-- RWPS-3813--> <!--RWPS-4911-->
+            </lightning-input>
+            <!--Changes for Add or new Billing Address by sathiya on 2024/04/29-->
+            <template if:true={newBillingERPAddress.isValidatedFields} for:each={newBillingERPAddress.validationFields} for:item="field">
+               <div key={field.fieldName} class="ecom-mt-8">
+                  <lightning-input 
+                     type="text" 
+                     class="ecom-addr-text ecom-mt-32 billing-input" 
+                     label={field.label}  
+                     field-level-help={field.helpText}
+                     max-length={field.validation.max}
+                     required={field.isRequired} 
+                     data-id={field.fieldName} 
+                     data-validate="true"
+                     pattern={field.validation.regex}
+                     message-when-pattern-mismatch={field.validation.errorMessage}
+                     value={field.value}
+                     onchange={handleBillingChange}
+                     onmouseleave={handleValidation}>
+                  </lightning-input>
+               </div>
+            </template>
+            <!--Changes End-->
+            <!-- To Do , not clear yet -->
+            <!---
+             <lightning-input 
+               type="tel" 
+               class="ecom-addr-text slds-m-top_x-large" label="Telephone" 
+               required="true" 
+               pattern="[0-9]{10}"
+               message-when-pattern-mismatch="Please ensure you enter a valid phone number." 
+               data-id="billing-phone-id" value=""
+               onchange={handleBillingChange}>
+            </lightning-input>
+             <span class="ecom-phone-helptext">Please include country code. For USA it is 1+</span>
+             <lightning-input 
+               type="text" 
+               class="ecom-addr-text slds-m-top_x-large" 
+               label="Extn." data-id="billing-extn-id" 
+               value="" onchange={handleBillingChange}>
+            </lightning-input>-->
+            
+          </div>
+          <div class="slds-modal__footer">
+              <button class="ecom_btn-qorder slds-m-left_medium" onclick={saveNewBillingERPAddress}>
+                  <span>{labels.ECOM_Save}</span>
+              </button>
+          </div> 
+      </div>
+      </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+      
+  </template>
+  
+ </template>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+<targets>
+    <target>lightning__FlowScreen</target>
+</targets>
+<targetConfigs>
+    <targetConfig targets="lightning__FlowScreen">
+        <propertyType name="ChildObjectType" extends="SObject" label="Child SObject" description="Child SObject Type" />
+        <property name="Parentfieldapi" type="String" label="Parent Field API (On Child Object)" role="inputOnly" required="true" default="Parent Field API"/>
+        <property name="ChildFields" type="String" label="Child Field API (Comma Seperated Values)" role="inputOnly" required="true" default="Child Field API"/>
+        <property name="FilterCriteria" type="String" label="Filter Criteria" role="inputOnly" required="false"/>
+        <property name="ParentrecordId" type="String" label="Parent Record Id" role="inputOnly" required="true" default="Parent Record Id"/>
+        <property name="ChildObjectAPI" type="String" label="Child Object API" role="inputOnly" required="true" default="Child Object API"/>
+        
+        <!--<property name="inputValue" type="{ChildObjectType}" label="input value" /> -->
+        <property name="childrecordlist" type="{ChildObjectType[]}" label="Output Child Record List" role="outputOnly"/>
+    </targetConfig>
+</targetConfigs>
+</LightningComponentBundle>

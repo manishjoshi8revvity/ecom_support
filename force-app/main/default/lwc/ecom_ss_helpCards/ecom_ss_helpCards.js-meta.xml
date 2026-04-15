@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Self Service Help Cards</masterLabel>
+
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="componentTitle" type="String" label="Component Title" required="true" />
+
+            <property name="card1ImageUrl" type="String"
+                label="Card 1 image URL/image path in Self Service image resource"
+                required="true" />
+            <property name="card1ImageAlt" type="String" label="Card 1 Image ALT text" />
+            <property name="card1Title" type="String" label="Card 1 Title" required="true" />
+            <property name="card1Description" type="String" label="Card 1 Description" />
+            <property name="card1ButtonLabel" type="String" label="Card 1 Button Label" />
+            <property name="card1ButtonUrl" type="String" label="Card 1 Button URL" />
+
+            <property name="card2ImageUrl" type="String"
+                label="Card 2 image URL/image path in Self Service image resource"
+                required="true" />
+            <property name="card2ImageAlt" type="String" label="Card 2 Image ALT text" />
+            <property name="card2Title" type="String" label="Card 2 Title" required="true" />
+            <property name="card2Description" type="String" label="Card 2 Description" />
+            <property name="card2ButtonLabel" type="String" label="Card 2 Button Label" />
+            <property name="card2ButtonUrl" type="String" label="Card 2 Button URL" />
+
+            <property name="card3ImageUrl" type="String"
+                label="Card 3 image URL/image path in Self Service image resource"
+                required="true" />
+            <property name="card3ImageAlt" type="String" label="Card 3 Image ALT text" />
+            <property name="card3Title" type="String" label="Card 3 Title" required="true" />
+            <property name="card3Description" type="String" label="Card 3 Description" />
+            <property name="card3ButtonLabel" type="String" label="Card 3 Button Label" />
+            <property name="card3ButtonUrl" type="String" label="Card 3 Button URL" />
+
+            <property name="card4ImageUrl" type="String"
+                label="Card 4 image URL/image path in Self Service image resource" />
+            <property name="card4ImageAlt" type="String" label="Card 4 Image ALT text" />
+            <property name="card4Title" type="String" label="Card 4 Title" />
+            <property name="card4Description" type="String" label="Card 4 Description" />
+            <property name="card4ButtonLabel" type="String" label="Card 4 Button Label" />
+            <property name="card4ButtonUrl" type="String" label="Card 4 Button URL" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

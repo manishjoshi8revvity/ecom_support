@@ -1,0 +1,200 @@
+.background{
+    max-width: 100%;
+    min-width: 360px;
+    background-color: black;
+}
+
+.container{
+    /* max-width:1440px;
+    min-width:360px; */
+    max-width: 80rem;
+    margin: 0 auto;
+    background-color:black;
+
+}
+
+.body{
+    width: 100%;
+}
+.pointer{
+    cursor: pointer;
+}
+.text-color{
+    color: white;
+}
+.footer-box{
+    width: 100%;
+    position: relative; /**VRa changed May 16*/
+    bottom: 0px;/**VRa changed May 16*/
+    left: 0px;/**VRa changed May 16*/
+    /* top: 1137px; */  /**VRa changed May 16*/
+    /* left: 741px; */  /**VRa changed May 16*/
+    padding: 40px 180px 40px 180px;
+    justify-content: space-between;
+}
+
+.footer-box-tab{
+    width: 100%;
+    top: 1137px;
+    left: 741px;
+    padding: 40px 50px 40px 50px;
+    justify-content: space-between;
+    }
+
+.ecom-footer-label-two{
+    /* font-size: 18px; */
+    font-size: 18px; /*UI Fix - Gaurang - 11 July 2024*/
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.ecom-text-align-end{
+    text-align: end;
+}
+.ecom-text-align-left{
+    text-align: left;
+}
+
+.grid-left{
+    text-align: left;
+}
+
+.grid-right{
+    text-align: right;
+}
+
+.inline{
+    display: inline-block;
+}
+/* Mobile specific css */
+.footer-box-md{
+    width: 100%;
+    height: 168px;
+    top: 1137px;
+    left: 2269px;
+    /* padding: 40px 180px 40px 180px;
+    margin: 40px */
+}
+.ecom-footer-label-md{
+    /* font-size: 14px; */
+    /* font-size: 14px; UI Fix - Gaurang - 11 July 2024 */
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px; /*UI Fix - VRa - 22 July 2024 */
+    letter-spacing: 0em;
+}
+
+.ecom-footer-label{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+
+    }
+.ecom-text-align-center{
+    text-align: center;
+}
+/* @media (min-width:800px) and (max-width:2060px){ */
+@media screen and (min-width:1025px) {
+    .container{
+        max-width: 1440px;
+        margin:0 auto;
+    }
+}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+}
+@media screen and (max-width: 767px) {
+
+    .footer-box{
+        padding: 0px 20px 0px 20px;
+    }
+}
+/* } */
+/* @media (min-width:450px) and (max-width:800px){
+    .container{
+        max-width: 1440px;
+        margin:0 auto;
+    }
+}*/
+@media (min-width:200px) and (max-width:450px){
+    .ecom-footer-label{
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0em;
+
+        }
+        .ecom-footer-label-two{
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+            text-align: left;
+            }
+
+    .ecom-footer-label-md{
+        font-size: 16px!important;
+    }
+
+}
+
+.ecom-padding-top-bottom-20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.ecom-background-black{
+    background:  black;
+}
+
+
+.ecom-footer-extended{
+    display: block;
+}
+
+.ecom-footer-condensed{
+    display: none;
+}
+
+@media screen and (max-width: 1104px) {
+    .ecom-footer-extended{
+        display: none;
+    }
+
+    .ecom-footer-condensed{
+        display: block;
+    }
+}
+
+.ecom-font-size-16{
+    font-size: 16px;
+}
+
+/* RWPS-4086 start */
+.footer-link-focus:focus-visible {
+    outline: 1px solid #fff;
+    outline-offset: 1px;
+}
+/* RWPS-4086 end */
+
+
+/*RWPS-3339 Start*/
+/* All iPad (landscape + portrait) */
+@media only screen and (min-width: 768px) {
+    .footer-box { padding: 28px 80px; }
+    .ecom-div-grid, .slds-grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+    .slds-col, .grid-left, .grid-right, .ecom-text-align-left, .ecom-text-align-end {
+        width: auto !important;
+        text-align: inherit !important;
+    }
+    .slds-align_absolute-center, .ecom-text-align-center {
+        justify-content: inherit !important;
+    }
+}
+/*RWPS-3339 End*/

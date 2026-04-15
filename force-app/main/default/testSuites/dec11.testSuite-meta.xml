@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexTestSuite xmlns="http://soap.sforce.com/2006/04/metadata">
+    <testClassName>ECOM_CartController_Test</testClassName>
+    <testClassName>ECOM_CartService_Test</testClassName>
+    <testClassName>ECOM_CartUtil_Test</testClassName>
+    <testClassName>ECOM_CheckoutController_Test</testClassName>
+    <testClassName>Ecom_ContactInfoController_Test</testClassName>
+    <testClassName>ECOM_OrderCreateAPIUtilTest</testClassName>
+    <testClassName>ECOM_OrderHistoryController_Test</testClassName>
+    <testClassName>ECOM_OrderRepo_Test</testClassName>
+    <testClassName>ECOM_OrderService_Test</testClassName>
+    <testClassName>ECOM_OrderUtil_Test</testClassName>
+    <testClassName>ECOM_ProductRecommendationsCtrler_Test</testClassName>
+    <testClassName>ECOM_ProductRecommendationsRepo_Test</testClassName>
+    <testClassName>ECOM_ProductRecommendationsService_Test</testClassName>
+    <testClassName>ECOM_ProductRecommendationsUtil_Test</testClassName>
+    <testClassName>ECOM_SAPOrderSummaryRepo_Test</testClassName>
+</ApexTestSuite>

@@ -1,0 +1,84 @@
+<template>
+    <div class="carousel-container">
+      <div class="carousel">
+  
+       
+        <div class="discontinued-banner">
+          <span>This product has been discontinued</span>
+        </div>
+  
+      
+        <template if:true={isDirectType}>
+          <span class="section-heading">Replacement available:</span>
+        </template>
+        <template if:true={isAlternativeType}>
+          <span class="section-heading">Recommended alternatives:</span>
+        </template>
+        <template if:true={pricedProducts}>
+            <!-- <template for:each={pricedProducts} for:item="currentProduct"> -->
+            <div class="carousel-item">
+              <div class="product-card">
+                <a
+                   data-sfid={currentProduct.fields.Id}
+                   data-sku={currentProduct.fields.Part_Number__c}
+                   href={currentProduct.DisplayUrl}
+                   target="_self">
+                  <img src={currentProduct.fields.ECOM_Product_Media_URI__c}
+                       alt="Product image"/>
+                </a>
+    
+                <h3 class="product-title">{currentProduct.fields.Name}</h3>
+                <p class="product-part">Part Number: {currentProduct.fields.Part_Number__c}</p>
+    
+                <div class="product-price">
+                  <template if:true={currentProduct.price}>
+                    Price:  
+                    <lightning-formatted-number value={currentProduct.price}
+                            format-style="currency" minimum-fraction-digits="2"
+                            maximum-fraction-digits="20"
+                            currency-code={currencyCode}
+                            currency-display-as={currencyDisplayAs}
+                            >
+                        </lightning-formatted-number>
+                  </template>
+                </div>
+    
+                <div class="buttons">
+       
+                    <a class="btn-secondary"
+                       onclick={handlePDPNavigation}
+                       data-sfid={currentProduct.fields.Id}
+                       data-sku={currentProduct.fields.Part_Number__c}
+                       href={currentProduct.DisplayUrl}>
+                      View details
+                    </a>
+                  
+                    <!-- Keep button for add to cart -->
+                    <button class="btn-primary" 
+                           
+                            data-pricing={currentProduct.price}
+                            data-sfid={currentProduct.fields.Id}
+                            data-sku={currentProduct.fields.Part_Number__c}
+                            data-name={currentProduct.fields.Product_Display_Name__c}>
+                      Add to cart
+                    </button>
+                  </div>
+                  
+              </div>
+            </div>
+            
+          </template>
+      
+     
+  
+      <!-- Pagination -->
+      <div class="carousel-footer">
+        <button class="nav-btn" onclick={handlePrev}>&#8592;</button>
+        <span class="page-info">{currentIndex} of {totalCount}</span>
+        <button class="nav-btn" onclick={handleNext}>&#8594;</button>
+      </div>
+      </div>
+      </div>
+
+  
+  </template>

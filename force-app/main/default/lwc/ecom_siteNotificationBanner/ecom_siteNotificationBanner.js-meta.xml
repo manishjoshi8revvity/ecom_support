@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>ECOM Site Notification Banner</masterLabel>
+
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="bannerCodes" type="String" label="Banner codes (comma separated)" />
+            <property name="fallback" type="Boolean" label="Fallback to generic" default="true" />
+
+            <property name="cancellable" type="Boolean" label="Cancellable banner" default="true" />
+            <property name="permanentScroll" type="Boolean" label="Scroll permanently" />
+            <property name="bannerTheme" type="String" label="Banner theme" datasource="Purple,Grey"
+                default="Purple" required="true" />
+
+            <property name="showForLoggedIn" type="Boolean" label="DEPRECATED FIELD (DO NOT USE)" />
+            <property name="showForPunchout" type="Boolean" label="DEPRECATED FIELD (DO NOT USE)" />
+            <property name="showForGuest" type="Boolean" label="DEPRECATED FIELD (DO NOT USE)" />
+            <property name="overrideValue" type="String" label="DEPRECATED FIELD (DO NOT USE)" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

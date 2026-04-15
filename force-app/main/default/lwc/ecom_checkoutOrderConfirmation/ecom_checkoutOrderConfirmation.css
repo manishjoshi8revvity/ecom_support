@@ -1,0 +1,795 @@
+.ecom_order_box{
+/* border: 1px solid #E3E3E3; */
+/* padding: 16px;
+border-radius: 4px; */
+/* margin: 10px; */
+/* background-color: linear-gradient(0deg, #FBFBFB, #FBFBFB); */
+/* display: flex; */
+padding: 16px;
+align-items: flex-start;
+gap: 10px;
+/* align-self: stretch; */
+border-radius: 4px;
+border: 1px solid #E3E3E3;
+background: #FBFBFB;
+}
+.ecom-box-shadow{
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.20);
+}
+.ecom-address-label{
+    /* font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left; */
+
+font-size: 14px;
+font-weight: 700;
+line-height: 24px;
+letter-spacing: 0.04em;
+text-align: left;
+
+}
+.ecom-mtop-24{
+    margin-top: 24px;
+}
+.ecom-e-address-label{
+    color:#000000;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 133.333% */
+    letter-spacing: 0em;
+    text-align: left;
+}
+.ecom-e-address-details{
+    color:#000000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: 0em;
+    text-align: left;
+}
+/* .ecom-shipping-label{
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    letter-spacing: 0em;
+    text-align: left;
+    color:#000000;
+} */
+
+.ecom-h-spacing{
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.ecom-ship-bill-card{
+    /* padding: 16px; */
+    border-radius: 8px;
+    border: 1px;
+    /* border: 1px solid #E3E3E3 */
+}
+.ecom-gray-border{
+    border-bottom: 2px solid #E3E3E3
+}
+.ecom-active-acn-label{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    color: #000000;
+}
+.ecom-account-details{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 34px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
+}
+.ecom-brand-purple{
+    color:#7F03B0;
+}
+
+.ecom-total-cost-label{
+font-size: 14px;
+font-weight: 400;
+line-height: 20px;
+letter-spacing: 0em;
+text-align: left;
+color: #525252;
+
+}
+
+
+.ecom-address-details{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
+    word-break: break-word; /*RWPS-3339*/
+}
+.ecom-gray-font{
+    color: #525252;
+}
+.ecom-edit-label{
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: right;
+color:#7F03B0
+}
+.ecom-edit-icon{
+    width: 16px;
+height: 16px
+
+}
+.ecom-prod-desc{
+font-size: 14px;
+font-weight: 400;
+line-height: 20px;
+letter-spacing: 0em;
+text-align: left;
+color: #525252;
+}
+
+.ecom-favourites-label{
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color:#7F03B0;
+}
+.ecom-favourite-icon{
+width: 18px;
+height: 18px;
+}
+.ecom-price-specific{
+font-size: 16px;
+font-weight: 400;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: right;
+line-break: anywhere;
+}
+.ecom-black-font{
+    color:#000000
+}
+
+.ecom-red-font{
+    color: #ff0000;
+}
+.ecom-black-font{
+    color: #000000;
+}
+.ecom-strikethrough-price{
+text-decoration: line-through;
+}
+.ecom-order-summary-label{
+font-size: 18px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+}
+.ecom-pt-24{
+    padding-top: 24px;
+}
+.ecom-order-summary-details{
+font-size: 16px;
+font-weight: 400;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: left;
+
+}
+.ecom-order-summary-box{
+padding: 24px;
+border-radius: 16px;
+/* border: 2px 2px 0px 2px ; */
+border: 1px solid #E3E3E3;
+/* margin:10px */
+background:#FFFFFF;
+
+/* drop shadow - md */
+box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.20);
+}
+.ecom-summary-card{
+    /* display: flex; */
+    /* width: 341px; */
+    padding: 24px;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    border-radius: 16px 16px 0px 0px;
+    border-top: 1px solid #E3E3E3;
+    border-right: 1px solid #E3E3E3;
+    border-left: 1px solid #E3E3E3;
+    background: #FFFFFF;
+    /* box-shadow: 0px 16px 32px 0px rgba(0, 0, 0, 0.20); */
+}
+.ecom-contact-gap{
+    margin-top: 24px;
+}
+.ecom-align-right{
+    text-align: end !important;
+}
+.ecom-print-icon{
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+.ecom-vh8{
+    height: 8px;
+    width: auto;
+}
+.ecom-vh16{
+    height: 16px;
+    width: auto;
+}
+.ecom-print-label{
+font-size: 18px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color:#7F03B0 !important;
+
+
+}
+.ecom-yellow-bg{
+    background-color:#FFEB0F !important;
+}
+.ecom-white-bg{
+    background-color:#FFFFFF !important;
+}
+.ecom-mt-32{
+    margin-top: 32px;
+}
+
+.ecom-mb-32{
+    margin-bottom: 32px;
+}
+.ecom-mt-40{
+    margin-top: 40px;
+}
+.ecom-mr-8{
+    margin-right: 8px;
+}
+
+.ecom-mb-40{
+    margin-bottom: 40px;
+}
+.ecom-mt-16{
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+.ecom-mt-8{
+    margin-top: 8px;
+}
+.ecom-ml-20{
+    margin-left: 20px;
+}
+.ecom-mb-15{
+    margin-bottom: 15px;
+}
+.ecom-vh4{
+    height:4px;
+}
+.ecom-pr-16{
+    padding-right: 16px;
+}
+.ecom-pl-16{
+    padding-left: 16px;
+}
+.ecom-acn-card-md{
+    /* display: flex; */
+width: 358px;
+padding: 32px 16px;
+flex-direction: column;
+align-items: flex-start;
+gap: 8px;
+border-radius: 0px;
+border-right: 1px solid #E3E3E3;
+border-left: 1px solid #E3E3E3;
+background: #FBFBFB;
+}
+.ecom-hyperlink span:hover {
+    text-decoration: underline;
+    color: #5A027D;
+  }
+.ecom-box-shadow{
+    box-shadow: 0px 16px 32px 0px rgba(0, 0, 0, 0.20);
+}
+.ecom-newuser-email{
+    color: #000000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 171.429% */
+    letter-spacing: 0.56px;
+}
+.ecom-newuser-notification-label{
+    color: #000000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 137.5% */
+}
+.ecom-pb-24{
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E3E3E3;
+}
+.ecom-mb-p-8{
+    margin-bottom: 8px;
+}
+.ecom-mt-p-8{
+    margin-top: 8px;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 767px) {
+    .ecom-h-spacing{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    /* RWPS-3191  Start*/
+    .ecom-mt-17{
+        margin-left:66px /* RWPS-3191 */
+     }
+     .ecom-favourite-icon{
+        margin-left: 61px;
+        
+    }
+     /* RWPS-3191  End*/
+    .ecom-shipping-label{
+        color: #000000;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 30px; /* 150% */      
+        letter-spacing: 0em;
+        text-align: left;
+    }
+    .ecom_thankyou_label{
+        letter-spacing: 0em;
+        text-align: left;
+        color: #000000;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 40px; /* 125% */
+        }
+        .ecom_thankyou_text{
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 22px;
+            letter-spacing: 0em;
+            text-align: left;
+            font-style: normal;
+            }
+            .ecom-gap-t-32{
+                margin-top: 24px;
+            }
+            .ecom-gap-b-32{
+                margin-bottom: 24px;
+            }
+            .ecom-mr-25{
+                margin-right: auto;
+            }
+            .ecom_order_details{
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 22px;
+                letter-spacing: 0em;
+                text-align: left;
+                color: #000000;
+            }
+            .ecom-vp-ro{
+                margin-top: 16px;
+            }
+            .ecom-pb-32{
+                padding-bottom:24px ;
+            }
+            .ecom-product-box{
+                border-radius: 8px;
+                border: 1px solid #E3E3E3;
+                padding: 16px;
+                border-radius: 8px;
+                background: #FFFFFF;
+               }
+               .ecom-prod-gap{
+                margin-top: 24px;
+               }
+               .ecom-prod-img{
+                width: 53px;
+                height: 62px;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+            .ecom-prod-name{
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 22px;
+                letter-spacing: 0em;
+                text-align: left;
+                color: #000000;
+                cursor: pointer;
+                }
+                .ecom-price-details{
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 22px;
+                    letter-spacing: 0em;
+                    }
+                    .ecom-strike-price{
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 24px;
+                        letter-spacing: 0em;
+                        text-align: right;
+                        
+                        }
+                        .ecom-mt-24{
+                            margin-top: 16px;
+                        }
+                        .ecom-m-top-32{
+                            margin-top: 24px;
+                        }
+                        .ecom-mb-16{
+                            margin-bottom: 8px;
+                        }
+
+}
+@media only screen and (min-width: 768px) {
+    .ecom-mb-16{
+        margin-bottom: 16px;
+    }
+    .ecom-m-top-32{
+        margin-top: 32px;
+    }
+    .ecom-shipping-label{
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 32px; /* 133.333% */
+        letter-spacing: 0em;
+        text-align: left;
+        color:#000000;
+    }
+    .ecom_thankyou_label{
+        font-size: 48px;
+        font-weight: 300;
+        line-height: 56px;
+        letter-spacing: 0em;
+        text-align: left;
+        letter-spacing: 0em;
+        font-style: normal;
+        color: #000000;
+        }
+        .ecom_thankyou_text{
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: 0em;
+            text-align: left;
+            font-style: normal;
+            }
+        .ecom-gap-t-32{
+            margin-top: 32px;
+        }
+        .ecom-gap-b-32{
+            margin-bottom: 32px;
+        }
+        .ecom-pb-32{
+            padding-bottom:32px ;
+        }
+        .ecom-mr-25{
+            margin-right: 25px;
+        }
+        .ecom_order_details{
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: #000000;
+        }
+        .ecom-vp-ro{
+            margin-top: 24px;
+        }
+        .ecom-product-box{
+            border-radius: 8px;
+            border: 1px solid #E3E3E3;
+            padding: 16px;
+            border-radius: 8px;
+            background: #FFFFFF;
+           }
+           .ecom-prod-gap{
+            margin-top: 32px;
+           }
+           .ecom-prod-img{
+            width: 62px;
+            height: 68px;
+            border-radius: 8px;
+            /* margin:10px */
+            cursor: pointer;
+        }
+        .ecom-prod-name{
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: #000000;
+            cursor: pointer;
+            }
+            .ecom-price-details{
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px;
+                letter-spacing: 0em;
+                text-align: right;
+                }
+                .ecom-strike-price{
+                    font-size: 18px;
+                    font-weight: 500;
+                    line-height: 28px;
+                    letter-spacing: 0em;
+                    text-align: right;
+                    
+                    }
+                    .ecom-mt-24{
+                        margin-top: 24px;
+                    }
+            
+}
+/*RWPS-2124*/
+@media screen and  (min-width:1080px){
+
+    .background{
+      max-width: 100%;
+      min-width: 360px;
+      background-color: #FFEB0F !important;
+    }
+    
+    .container{
+      max-width:1440px;
+      min-width:360px;
+      /* background-color:white; */
+      background-color:#FFEB0F !important;;
+    }
+    
+    .body{
+      width: 100%;
+    }
+    }
+    @media screen and  (max-width:1439px){
+    
+      .background{
+        max-width: 100%;
+        min-width: 300px;
+        background-color: #FFEB0F !important;
+      }
+      
+      .container{
+        max-width:1440px;
+        min-width:300px;
+        /* background-color:white; */
+        background-color:#FFEB0F !important;
+      }
+      
+      .body{
+        width: 100%;
+      }
+      }
+.ecom-print-box{
+    display: flex;
+    height: 93px;
+    padding: 24px 16px;
+    /* flex-direction: column;
+    align-items: flex-start; */
+    gap: 10px;
+    /* align-self: stretch; */
+    border-radius: 0px 0px 16px 16px;
+    border: 1px solid #E3E3E3;
+    background:  #FFFFFF;
+    /* drop shadow - lg */
+    /* box-shadow: 0px 16px 32px 0px rgba(0, 0, 0, 0.20); */
+    width: -webkit-fill-available;
+}
+.ecom-mb-40{
+    margin-bottom: 40px;
+}
+.ecom-active-acc-card-md{
+    display: flex;
+    /* width: 358px; */
+    padding: 32px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    border-radius: 0px;
+    /* border-right: 1px solid #E3E3E3;
+    border-left: 1px solid #E3E3E3; */
+    background: #FBFBFB;
+    border: 1px solid #E3E3E3;
+}
+.ecom-active-account-label-md{
+    color: #000000;
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: 24px; /* 133.333% */
+}
+.ecom-full-width{
+    width: 100%;
+}
+.ecom-web-fill{
+    width: -webkit-fill-available;
+}
+.ecom-summary-box{
+display: flex;
+/* width: 341px; */
+padding: 24px;
+flex-direction: column;
+align-items: center;
+gap: 32px;
+border-radius:16px 16px 0px 0px;
+border-top: 1px solid #E3E3E3;
+border-right: 1px solid #E3E3E3;
+border-left: 1px solid #E3E3E3;
+background: #FFFFFF;
+
+/* drop shadow - lg */
+/* box-shadow: 0px 16px 32px 0px rgba(0, 0, 0, 0.20); */
+}
+.ecom-border-r{
+    border-radius: 16px;
+}
+
+/* RWPS-3811 start*/
+.free-item-label-outer {
+text-align: right;
+margin-bottom: 18px;
+}
+.free-item-label {
+display: inline-block;
+color: #000000;
+background: #FFEB0F;
+padding: 6px 12px;
+border-radius: 24px;
+line-height: 24px;
+font-size: 16px;
+}
+/* RWPS-3811 end*/
+
+/*RWPS-3339 Start*/
+/* iPad Mini Landscape */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .ipad-bill-col-width{ 
+        width: 70% !important;
+    }
+
+    .ipad-ship-col-width{ 
+        width: 30% !important;
+    }
+
+    .box-pad{
+        padding: 16px 4px !important;
+    }
+
+    .price-col-width {
+    width: auto !important;
+    min-width: 35% !important;
+    padding-left: 8px;
+    }
+
+    .content-col-width {
+    width: 50% !important;
+    }
+}
+
+/* iPad Mini Portrait */
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .ipad-bill-col-width{ 
+        width: 70% !important;
+    }
+
+    .ipad-ship-col-width{ 
+        width: 30% !important;
+    }
+}
+
+/* iPad Air Landscape */
+@media only screen and (min-width: 1025px) and (max-width: 1194px) and (orientation: landscape) {
+    .ipad-bill-col-width{ 
+        width: 70% !important;
+    }
+
+    .ipad-ship-col-width{ 
+        width: 30% !important;
+    }
+
+    .box-pad{
+        padding: 16px 4px !important;
+    }
+
+    .price-col-width {
+    width: auto !important;
+    min-width: 35% !important;
+    padding-left: 8px;
+    }
+
+    .content-col-width {
+    width: 50% !important;
+    }
+}
+
+/* iPad Air Portrait */
+@media only screen and (min-width: 1025px) and (max-width: 1194px) and (orientation: portrait) {
+    .ipad-bill-col-width{ 
+        width: 70% !important;
+    }
+
+    .ipad-ship-col-width{ 
+        width: 30% !important;
+    }
+}
+
+/* iPad Pro Landscape */
+@media only screen and (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
+    .ipad-bill-col-width{ 
+        width: 70% !important;
+    }
+
+    .ipad-ship-col-width{ 
+        width: 30% !important;
+    }
+}
+
+/* iPad Pro Portrait */
+@media only screen and (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) {
+    .ipad-bill-col-width{ 
+        width: 70% !important;
+    }
+
+    .ipad-ship-col-width{ 
+        width: 30% !important;
+    }
+
+    .box-pad{
+        padding: 16px 4px !important;
+    }
+
+    .price-col-width {
+    width: auto !important;
+    min-width: 35% !important;
+    padding-left: 8px;
+    }
+
+    .content-col-width {
+    width: 50% !important;
+    }
+}
+/*RWPS-3339 End*/
+/*RWPS-4200 Start*/
+.ecom-spinner-style {
+            z-index: 10000 !important;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+/*RWPS-4200 End*/

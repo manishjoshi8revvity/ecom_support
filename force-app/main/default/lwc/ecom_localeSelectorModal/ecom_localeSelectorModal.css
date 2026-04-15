@@ -1,0 +1,5 @@
+@import 'c/ecom_cssLibrary';
+.ecom-card-sizing {
+    height: 500px;
+    width: 600px;
+}

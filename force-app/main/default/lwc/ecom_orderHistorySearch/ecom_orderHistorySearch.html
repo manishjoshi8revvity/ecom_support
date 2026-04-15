@@ -1,0 +1,41 @@
+<template>
+    <!-- RWPS-4881 - Search Box Implementation - Start -->
+    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-small-size_12-of-12 search-box-container">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_10-of-12 slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-small-size_10-of-12 search-box-header">
+                <p> {labels.searchOrderHeader} </p>
+            </div>
+            <div class="slds-col slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_2-of-12 search-box-header">
+                <div class="iconContainer" onmouseenter={handleVisibleToolTip} onclick={handleVisibleToolTip}>
+                    <img src={images.questionMarkIcon} alt="Image" class="slds-button__icon reorder-utility-icon question-mark-icon" />
+                </div>
+                <div class={helptextStyling}>
+                    <span class="toolTipText">{questionMarkHelpText}
+                        <a class="advanced-search-text-styling" onclick={handleSelfServiceRedirection}>{questionMarkHelpSubText}</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-small-size_12-of-12 search-box-subheader">
+            <p> {labels.searchOrderSubHeader} </p>
+        </div>
+        <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-small-size_12-of-12 search-bar-outer">
+            <!--RWPS-5284-->
+            <input type="text" value={searchString} class={searchBoxStyling} oninput={handleInput} aria-label="Search"></input>
+        </div>
+        <template if:true={orderNotFound}>
+            <div class="slds-grid slds-wrap order-not-found-container">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-small-size_12-of-12 slds-m-top_small">
+                    <span class="order-not-found-text-styling">
+                        {labels.noResultFoundText}
+                    </span>
+                    <span class="try-again-text-styling">
+                        {labels.noResultFoundSubText}
+                        <span class="advanced-search-text-styling" onclick={handleRedirection}>{labels.noResultFoundAdvanceSearchText}</span>
+                    </span>
+                </div>
+            </div>
+        </template>
+    </div>
+    <!-- RWPS-4881 - Search Box Implementation - End -->
+</template>

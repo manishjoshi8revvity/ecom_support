@@ -1,0 +1,374 @@
+<template>
+  <div class="ecom-ss-loader" lwc:if={componentState.loader}><!--RWPS-3834-->
+    <lightning-spinner
+      alternative-text="Loading"
+      size="large"
+    ></lightning-spinner>
+  </div>
+
+  <div class="ecom-ss-boxed-container" lwc:elseif={componentState.data}>
+    <div>
+      <div class="ecom-ss-order-result-top-order-number">
+        <!--RWPS-4134 changed h4 to div tag-->
+        <div class="ecom-ss-order-details">{orderFinalData.orderNumberLabel}: {orderFinalData.orderNumber}</div>
+        <div class="ecom-ss-order-details" lwc:if={orderFinalData.poNumber}>PO number: {orderFinalData.poNumber}</div>
+      </div>
+
+      <div class="ecom-ss-order-result-top-date-disclaimer">
+        <svg
+          width="24"
+          height="32"
+          viewBox="0 -4 24 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clip-path="url(#clip0_6765_5416)">
+            <path
+              d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z"
+              stroke="black"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 11V17"
+              stroke="black"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 8C12.5523 8 13 7.55228 13 7C13 6.44772 12.5523 6 12 6C11.4477 6 11 6.44772 11 7C11 7.55228 11.4477 8 12 8Z"
+              fill="black"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_6765_5416">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+        <span>All dates are in mm/dd/yyyy format</span>
+      </div>
+
+      <div
+        class="slds-grid slds-wrap slds-gutters ecom-ss-order-result-top-order-overview"
+      >
+        <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12" lwc:if={orderFinalData.orderDate}>
+          <p class="ecom-ss-order-result-section-sub-heading">Order Date:</p>
+          <p class="ecom-ss-order-result-top-order-overview-text">{orderFinalData.orderDate}</p>
+        </div>
+
+        <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12" lwc:if={orderFinalData.orderTotal}>
+          <p class="ecom-ss-order-result-section-sub-heading">Order total (Net):</p>
+          <p class="ecom-ss-order-result-top-order-overview-text">
+            {orderFinalData.orderCurrency} {orderFinalData.orderTotal}
+          </p>
+        </div>
+
+        <div class="slds-col slds-large-size_3-of-12 slds-show_large" lwc:if={orderFinalData.itemsCount}>
+          <p class="ecom-ss-order-result-section-sub-heading">Items:</p>
+          <p class="ecom-ss-order-result-top-order-overview-text">{orderFinalData.itemsCount}</p>
+        </div>
+
+        <div class="slds-col slds-size_6-of-12 slds-large-size_3-of-12" lwc:if={orderFinalData.overallStatus}>
+          <p class="ecom-ss-order-result-section-sub-heading">Order Status:</p>
+          <p class="ecom-ss-order-result-top-order-overview-text">
+            {orderFinalData.overallStatus}
+          </p>
+        </div>
+      </div>
+      <!--RWPS-4134-->
+      <div class="ecom-ss-order-result-section-heading">
+        Order summary
+      </div>
+
+      <div
+        class="slds-grid slds-wrap slds-gutters ecom-ss-order-result-summary-outer"
+      >
+
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+          <p class="ecom-ss-order-result-section-sub-heading">
+            Attention / recipient
+          </p>
+          <p class="ecom-ss-order-result-summary-text" lwc:if={orderFinalData.recipient}>{orderFinalData.recipient}</p>
+          <p class="ecom-ss-order-result-summary-text" lwc:else>
+            -
+          </p>
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+          <p class="ecom-ss-order-result-section-sub-heading">Active account name</p>
+          <p class="ecom-ss-order-result-summary-text" lwc:if={orderFinalData.accountName}>
+            {orderFinalData.accountName}
+          </p>
+          <p class="ecom-ss-order-result-summary-text" lwc:else>
+            -
+          </p>
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+          <p class="ecom-ss-order-result-section-sub-heading">Active account number</p>
+          <p class="ecom-ss-order-result-summary-text" lwc:if={orderFinalData.accountNumber}>
+            {orderFinalData.accountNumber}
+          </p>
+          <p class="ecom-ss-order-result-summary-text" lwc:else>
+            -
+          </p>
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" lwc:if={orderFinalData.shippingAddress}>
+          <p class="ecom-ss-order-result-section-sub-heading">Shipping</p>
+          <p class="ecom-ss-order-result-summary-text">
+            {orderFinalData.shippingAddress}
+          </p>
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" lwc:if={orderFinalData.billingAddress}>
+          <p class="ecom-ss-order-result-section-sub-heading">Billing</p>
+          <p class="ecom-ss-order-result-summary-text">
+           {orderFinalData.billingAddress}
+          </p>
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" lwc:if={orderFinalData.paymentTerms}>
+          <p class="ecom-ss-order-result-section-sub-heading">Payment terms</p>
+          <p class="ecom-ss-order-result-summary-text">
+           {orderFinalData.paymentTerms}
+          </p>
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" lwc:if={orderFinalData.incoTerms}>
+          <p class="ecom-ss-order-result-section-sub-heading">INCO terms</p>
+          <p class="ecom-ss-order-result-summary-text">
+           {orderFinalData.incoTerms}
+          </p>
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" lwc:if={orderFinalData.ultimateDestination}>
+          <p class="ecom-ss-order-result-section-sub-heading">Ultimate Destination</p>
+          <p class="ecom-ss-order-result-summary-text">
+           {orderFinalData.ultimateDestination}
+          </p>
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" lwc:if={orderFinalData.deliveryData1}>
+          <p class="ecom-ss-order-result-section-sub-heading">Details</p>
+          <p class="ecom-ss-order-result-summary-text">
+            Customer will Accept Date: {orderFinalData.customerWillAccept}
+            <br>
+            Credit status: {orderFinalData.creditStatus}
+            <br>
+            Delivery block: {orderFinalData.deliveryBlock}
+            <span lwc:if={orderFinalData.deliveryBlockDescription}>
+              <br>
+              Delivery block description: {orderFinalData.deliveryBlockDescription}
+            </span>
+          </p>
+        </div>
+      </div>
+      <!--RWPS-4134-->
+      <div class="ecom-ss-order-result-section-heading">Order details</div>
+
+      <div class="ecom-ss-full-width-table-outer" lwc:if={isLargeScreen}>
+        <table class="ecom-ss-full-width-table">
+          <tr>
+            <th>Product #</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Qty Shipped</th>
+            <th>Scheduled Ship Date</th>
+            <th>Shipped from Production Site</th>
+            <th>Carrier</th>
+            <th>Tracking #</th>
+          </tr>
+
+          <template for:each={orderFinalData.orderItems} for:item="currentItem" for:index="index">
+            <tr key={currentItem.key}>
+              <th>
+                {currentItem.partNumber}
+              </th>
+
+              <td>
+                {currentItem.description}
+              </td>
+
+              <td class="ecom-ss-order-result-status" lwc:if={currentItem.status}>
+                <span type={currentItem.statusType} title={currentItem.statusTitle}>
+                  <span>{currentItem.status}</span>
+                  &nbsp;
+                  <span class="ecom-ss-order-result-status-info" lwc:if={currentItem.statusInfo}>ℹ</span>
+                </span>
+              </td>
+              <td lwc:else>
+                -
+              </td>
+
+              <td>
+                {currentItem.qtyData}
+              </td>
+
+              <td>
+                {currentItem.expectedShipDate}
+              </td>
+
+              <td>
+                {currentItem.actualShipDate}
+              </td>
+
+              <td>
+                <div lwc:if={currentItem.trackingData.length}>
+                  <template for:each={currentItem.trackingData} for:item="trackingData">
+                    <div key={trackingData.key}>
+                      <span>
+                        {trackingData.carrierName}
+                      </span>
+                    </div>
+                  </template>
+                </div>
+                <div lwc:elseif={currentItem.notIntegratedFlag}>{notIntegratedValue}</div>
+                <div lwc:else>-</div>
+              </td>
+
+              <td class="ecom-ss-order-result-tracking-url">
+                <div lwc:if={currentItem.trackingData.length}>
+                  <template for:each={currentItem.trackingData} for:item="trackingData">
+                    <div key={trackingData.key}>
+                      <a target="_blank" href={trackingData.trackingUrl}>{trackingData.trackingId}</a>
+                    </div>
+                  </template>
+                </div>
+                <div lwc:else>-</div>
+              </td>
+            </tr>
+          </template>
+        </table>
+      </div>
+
+      <div class="ecom-ss-full-width-accordion-outer" lwc:else>
+        <template for:each={orderFinalData.orderItems} for:item="currentItem" for:index="index">
+          <div class="ecom-ss-full-width-accordion" key={currentItem.key}>
+            <div
+              class="ecom-ss-full-width-accordion-heading"
+              onclick={handleAccordionToggle}
+            >
+              <span>{currentItem.partNumber}</span>
+              <img src={accordionIcons.expand} alt="" />
+              <img src={accordionIcons.collapse} alt="" />
+            </div>
+
+            <div class="ecom-ss-full-width-accordion-content-outer">
+              <div class="ecom-ss-full-width-accordion-content">
+                <div class="ecom-ss-full-width-accordion-content-section">
+                  <div class="ecom-ss-full-width-accordion-content-section-lhs">
+                    Description
+                  </div>
+                  <div class="ecom-ss-full-width-accordion-content-section-rhs">
+                    {currentItem.description}
+                  </div>
+                </div>
+
+                <div class="ecom-ss-full-width-accordion-content-section">
+                  <div class="ecom-ss-full-width-accordion-content-section-lhs">
+                    Status
+                  </div>
+
+                  <div
+                    class="ecom-ss-full-width-accordion-content-section-rhs ecom-ss-order-result-status"
+                    lwc:if={currentItem.status}
+                  >
+                    <span type={currentItem.statusType}>{currentItem.status}</span>
+                  </div>
+                  <div
+                    class="ecom-ss-full-width-accordion-content-section-rhs"
+                    lwc:else
+                  >
+                    -
+                  </div>
+                </div>
+
+                <div class="ecom-ss-full-width-accordion-content-section">
+                  <div class="ecom-ss-full-width-accordion-content-section-lhs">
+                    Qty Shipped
+                  </div>
+                  <div class="ecom-ss-full-width-accordion-content-section-rhs">
+                    {currentItem.qtyData}
+                  </div>
+                </div>
+
+                <div class="ecom-ss-full-width-accordion-content-section">
+                  <div class="ecom-ss-full-width-accordion-content-section-lhs">
+                    Scheduled Ship Date
+                  </div>
+                  <div class="ecom-ss-full-width-accordion-content-section-rhs">
+                    -
+                  </div>
+                </div>
+
+                <div class="ecom-ss-full-width-accordion-content-section">
+                  <div class="ecom-ss-full-width-accordion-content-section-lhs">
+                    Shipped from Production Site
+                  </div>
+                  <div class="ecom-ss-full-width-accordion-content-section-rhs">
+                    -
+                  </div>
+                </div>
+
+                <div class="ecom-ss-full-width-accordion-content-section">
+                  <div class="ecom-ss-full-width-accordion-content-section-lhs">
+                    Carrier
+                  </div>
+                  <div class="ecom-ss-full-width-accordion-content-section-rhs">
+                    <div lwc:if={currentItem.trackingData}>
+                      <template for:each={currentItem.trackingData} for:item="trackingData">
+                        <div key={trackingData.key}>
+                          <span>
+                            {trackingData.carrierName}
+                          </span>
+                        </div>
+                      </template>
+                    </div>
+                    <div lwc:elseif={currentItem.nonIntegratedCarrier}>{notIntegratedValue}</div>
+                    <div lwc:else>-</div>
+                  </div>
+                </div>
+
+                <div class="ecom-ss-full-width-accordion-content-section">
+                  <div class="ecom-ss-full-width-accordion-content-section-lhs">
+                    Tracking #
+                  </div>
+
+                  <div
+                    class="ecom-ss-full-width-accordion-content-section-rhs ecom-ss-order-result-tracking-url"
+                  >
+                    <div lwc:if={currentItem.trackingData}>
+                      <template for:each={currentItem.trackingData} for:item="trackingData">
+                        <div key={trackingData.key}>
+                          <a target="_blank" href={trackingData.trackingUrl}>{trackingData.trackingId}</a>
+                        </div>
+                      </template>
+                    </div>
+                    <div lwc:else>-</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+
+  <div lwc:else>
+    <div class="ecom-ss-boxed-container">
+      <h3 lwc:if={componentState.error}>{componentState.error}</h3>
+      <h3 lwc:elseif={componentState.loginIssue}>Login session expired</h3>
+      <h3 lwc:else>Could not find your order!</h3>
+      <h4>Please try again...</h4>
+    </div>
+    <div class="ecom-ss-order-result-portal">
+      <c-ecom_ss_self-service-portal></c-ecom_ss_self-service-portal> <!--RWPS-3834-->
+    </div>
+  </div>
+</template>

@@ -1,0 +1,291 @@
+<!--
+  @description       : 
+  @author            : Vipul Goyal
+  @group             : 
+  @last modified on  : 06-19-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <main id="main-content"><!-- RWPS-5284 -->
+        <div if:true={renderDashboard}> <!-- RWPS-4196 -->
+            <!-- <div class="message-container slds-grid slds-wrap">
+                <div class="slds-col">
+                <c-ecom_inline-message type={type} message={message} show={showError} timespan={timeSpan}></c-ecom_inline-message>
+                </div>
+            </div> -->
+            <div class="background">
+                <div class="container slds-align_absolute-center">
+                    <div class=" body">
+                        <div if:false={device.isMobile}>
+                        <template if:true={isDashboardView}>
+                            <!-- <div class="message-container slds-grid slds-wrap">
+                                <div class="slds-col">
+                                <c-ecom_inline-message type={type} message={message} show={showError} timespan={timeSpan}></c-ecom_inline-message>
+                                </div>
+                            </div> -->
+                        <div class="slds-grid slds-wrap">
+                            <div class={sidebarCSS}>
+                                <c-ecom_account-sidebar></c-ecom_account-sidebar>
+                            </div>  
+                            <div class={middleSpaceCSS}></div>
+                            <div class={mainSectionCSS}>
+                                <div class="message-container slds-grid slds-wrap">
+                                    <div class="slds-col">
+                                    <c-ecom_inline-message type={type} message={message} show={showError} timespan={timeSpan}></c-ecom_inline-message>
+                                    </div>
+                                </div>
+                                <!-- <div if:false={device.isMobile}> -->
+                                    <!-- <template if:true={isDashboardView}> -->
+                                        <div class="ecom-mt-64 ecom-mb-64">
+                                            <span class="ecom-name-label">
+                                            {labels.ECOM_WelcomeBack} {currentFirstName}!
+                                            </span>
+                                        </div>
+                                        <div class="slds-m-right_x-large">
+                                            <div class=" row slds-grid ecom-mb-64">
+                                                <div class="col slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds ecom-mr-24">
+                                                    <div class="ecom-col-width">
+                                                        <div class="">
+                                                            <div class="slds-grid slds-wrap ecom-col-action-label">
+                                                                <div class="slds-col slds-size_9-of-12 slds-large-size_9-of-12">
+                                                                    <div class="ecom-profile-label">
+                                                                        {labels.Ecom_Profile_Settings}                                
+                                                                    </div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                    <div class=" ecom-edit-label">
+                                                                        <span slot="actions"><a class="link" href="javascript:void(0)" role="button" aria-label="Edit Profile and Settings" onclick={handleProfileandSettingEdit}>{labels.ECOM_Edit}</a> <!-- RWPS-3764 -->
+                                                                        <span><img class="ecom-edit-icon" src={images.rightarrow} alt="Right arrow"></span> <!-- RWPS-3764 -->
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ecom-line-break">
+                                                                <div class="ecom-db-detail-label">{labels.ECOM_Profile}</div>
+                                                                <div class="ecom-db-detail ecom-mb-24">{profileInfo.name}</div>
+                                                                <!-- <br/> -->
+                                                                <div class="ecom-db-detail-label">{labels.ECOM_EmailAddress}</div>
+                                                                <div class="ecom-db-detail ecom-mb-24">{profileInfo.email}</div>
+                                                                <!-- <br/> -->
+                                                                <div class="ecom-db-detail-label">{labels.Ecom_Phone_Number}</div>
+                                                                <div class="ecom-db-detail ecom-mb-24">{profileInfo.phone} <template if:true={profileInfo.ext}>Extn. {profileInfo.ext}</template> </div>
+                                                                <!-- <br/> -->
+                                                                <div class="ecom-db-detail-label">{labels.ECOM_EmailAddresses}</div>
+                                                                <div class="ecom-db-detail ecom-mb-24">
+                                                                <lightning-formatted-text value={otherEmails} class="ecom-db-detail ecom-mb-24"></lightning-formatted-text>
+                                                                </div>
+                                                                <!-- <br/> -->
+                                                                
+                                                                <div class="ecom-db-detail-label">Attention Line</div> <!-- {labels.ECOM_ShippingInformation}-->
+                                                                <span class="ecom-db-detail">{labels.ECOM_AttentionRecipient} {profileInfo.receipient} </span>
+                                                                <br/>
+                                                                <!-- <span class="ecom-db-detail">{labels.ECOM_SpecialInstructions} {profileInfo.specialInst} </span>
+                                                                <br/>
+                                                                <span class="ecom-db-detail">{labels.ECOM_SpecialInstructionsToProcessOrder} {profileInfo.deliveryInfo} </span>
+                                                                <br/> -->
+                                                                <p></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col slds-col slds-size_1-of-1 slds-large-size_6-of-12">
+                                                    <div class="ecom-col-width">
+                                                        <!-- <div class=""> -->
+                                                            <div class="slds-grid slds-wrap ecom-col-action-label">
+                                                                <div class="slds-col slds-size_9-of-12 slds-large-size_9-of-12">
+                                                                    <div class="ecom-profile-label">
+                                                                        {labels.ECOM_Accounts}                                 
+                                                                    </div>
+                                                                </div>
+                                                                <div class="slds-col slds-size_3-of-12 slds-large-size_3-of-12">
+                                                                    <div class=" ecom-edit-label">
+                                                                        <span slot="actions"><a href="javascript:void(0)" class="link" role="button" aria-label="Edit Account" onclick={handleAccountEditClick}>{labels.ECOM_Edit}</a><!--RWPS-3764-->
+                                                                            <span><img class="ecom-edit-icon" src={images.rightarrow} alt="Right arrow"></span><!--RWPS-3764-->
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <!-- </div> -->
+                                                        <div class="ecom-line-break">
+                                                                <div lwc:if={showAccountNumber} class=" ecom-mb-24">                                    
+                                                                    <span class="ecom-db-detail-label">{labels.ECOM_ActiveAccountNumber} </span><span class="ecom-db-detail-label">{accountInfo.sapAccountNumber}</span>
+                                                                </div>
+                                                                <span class="ecom-db-detail-label  ecom-mb-24" lwc:if={showAccountName}>{labels.ECOM_CompanyName}  <span class="ecom-db-detail-label">{accountInfo.name}</span></span> <!--RWPS-3339-->
+                                                                <!-- <br/> -->
+                                                                <div class=" ecom-db-address-label ecom-mt-24">{labels.ECOM_ShippingAddress}: </div> <!--RWPS-3339-->
+                                                                <div class="ecom-db-address  ecom-mb-24">                           
+                                                                    <lightning-formatted-text value={userShippingAddress}></lightning-formatted-text>
+                                                                </div>
+                                                                <!-- <br/> -->
+                                                                <div class=" ecom-db-address-label">{labels.ECOM_BillingAddress}</div>
+                                                                <span class="ecom-db-address ">
+                                                                    <lightning-formatted-text value={userBillingAddress}></lightning-formatted-text>
+                                                                </span>
+                                                                <!--Change By Sathiya on 2024/04/29-->
+                                                                <template if:true={billingErpAddress.isValidatedFields} for:each={billingErpAddress.validationFields} for:item="field">
+                                                                    <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-24">
+                                                                        <div class=" ecom-db-address-label ">{field.label}</div>
+                                                                        <span class="ecom-db-address">{field.value}</span> 
+                                                                    </div>
+                                                                </template>
+                                                                <!-- <br/> -->
+                                                                <!--Invoice Mailing Address Section-->
+                                                                <!--Changes done by sathiya on 2024/05/13 for ECOM-1939-->
+                                                                <div if:true={isInvoiceMailingAddress} class="ecom-mt-24">
+                                                                    <div class=" ecom-db-address-label ">{labels.ECOM_InvoiceMailingAddress}</div>
+                                                                    <span class="ecom-db-address ">
+                                                                        <lightning-formatted-text value={userInvoiceMailingAddress}></lightning-formatted-text>
+                                                                    </span>
+                                                                </div>
+                                                                <!--Changes End-->
+                                                            </div>
+                                                        </div>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1 ecom-mb-40">
+                                                <c-ecom_order-history-list></c-ecom_order-history-list>
+                                            </div>
+
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1 ecom-mb-64">
+                                                <c-ecom_favorites records-to-display={recordsToDisplay} fields-to-show={fieldsToShow}></c-ecom_favorites>
+                                            </div>
+                                        </div> 
+                                    <!-- </template> -->
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                        </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile UI changes start -->
+            <div if:true={device.isMobile}>
+                <template if:true={isDashboardView}>
+                    <c-ecom_account-sidebar></c-ecom_account-sidebar>
+                    <div class="ecom-mt-32 ecom-mb-32">
+                        <span class="ecom-name-label-md">
+                            {labels.ECOM_WelcomeBack} {currentFirstName}!
+                        </span>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <div class="slds-card">
+                                <div class="ecom-ship-bill-card-md">
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_9-of-12">
+                                            <div class="ecom-profile-label-md">
+                                                {labels.Ecom_Profile_Settings}                                
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_3-of-12">
+                                            <div class=" ecom-edit-label">
+                                                <span slot="actions"><a class="link" onclick={handleProfileandSettingEdit}>{labels.ECOM_Edit}</a><!--RWPS-3764-->
+                                                <span><img class="ecom-edit-icon" src={images.rightarrow} alt="Right arrow"></span><!--RWPS-3764-->
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ecom-line-break">
+                                        <div class="ecom-db-detail-label-md">{labels.ECOM_Profile}</div>
+                                        <span class="ecom-db-detail">{profileInfo.name}</span>
+                                        <div class="ecom-db-detail-label-md">{labels.ECOM_EmailAddress}</div>
+                                        <span class="ecom-db-detail">{profileInfo.email}</span>
+                                        <div class="ecom-db-detail-label-md ">{labels.Ecom_Phone_Number}</div>
+                                        <span class="ecom-db-detail">{profileInfo.phone} <template if:true={profileInfo.ext}>Extn. {profileInfo.ext}</template> </span>
+                                        <div class="ecom-db-detail-label-md">{labels.ECOM_EmailAddresses}</div>
+                                        <lightning-formatted-text value={otherEmails}></lightning-formatted-text>
+                                        
+                                        <div class="ecom-db-detail-label-md">{labels.ECOM_ShippingInformation}</div>
+                                        <span class="ecom-db-detail">{labels.ECOM_AttentionRecipient} {profileInfo.receipient} </span>
+                                        <br/>
+                                        <!-- <span class="ecom-db-detail">{labels.ECOM_SpecialInstructions} {profileInfo.specialInst} </span>
+                                        <br/> -->
+                                        <span class="ecom-db-detail">{labels.ECOM_SpecialInstructionsToProcessOrder} {profileInfo.deliveryInfo} </span>
+                                        <br/>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ecom-mt-24 ecom-mb-24">
+                            <div class="slds-card ">
+                                <div class="ecom-ship-bill-card-md">
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_9-of-12">
+                                            <div class="ecom-profile-label-md">
+                                                {labels.ECOM_Accounts}                                 
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_3-of-12">
+                                            <div class=" ecom-edit-label">
+                                                <span slot="actions"><a href="javascript:void(0)" role="button" aria-label="Edit Profile and Settings" class="link" onclick={handleAccountEditClick}>{labels.ECOM_Edit} </a><!--RWPS-3764-->
+                                                    <span><img class="ecom-edit-icon" src={images.rightarrow} alt="Right arrow"></span><!--RWPS-3764-->
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="ecom-mt-24 ecom-line-break">
+                                        <div class="ecom-db-acn-detail-label-md">{labels.ECOM_ActiveAccountNumber} {accountInfo.sapAccountNumber}</div>
+                                        <div class="ecom-db-acn-detail-label-md ecom-mt-24">{labels.ECOM_CompanyName}  {accountInfo.name}</div>
+                                        <!-- <br/> -->
+                                        <div class=" ecom-db-address-label ecom-mt-24 ecom-mb-8">{labels.ECOM_ShippingAddress}: </div>
+                                        <span class="ecom-db-address">                           
+                                            <lightning-formatted-text value={userShippingAddress}></lightning-formatted-text>
+                                        </span>
+                                        <div class=" ecom-db-address-label ecom-mt-24 ecom-mb-8">{labels.ECOM_BillingAddress}</div>
+                                        <span class="ecom-db-address">
+                                            <lightning-formatted-text value={userBillingAddress}></lightning-formatted-text>
+                                        </span>
+                                        <!-- <br/> -->
+                                        <!--Change By Sathiya on 2024/04/29-->
+                                        <template if:true={billingErpAddress.isValidatedFields} for:each={billingErpAddress.validationFields} for:item="field">
+                                            <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-24">
+                                                <div class=" ecom-db-address-label ">{field.label}</div>
+                                                <span class="ecom-db-address">{field.value}</span> 
+                                            </div>
+                                        </template>
+                                        <!-- <br/> -->
+                                        <!--Invoice Mailing Address Section-->
+                                        <!--Changes done by sathiya on 2024/05/13 for ECOM-1939-->
+                                        <div if:true={userInvoiceMailingAddress} class="ecom-mt-24">
+                                            <div class=" ecom-db-address-label ">{labels.ECOM_InvoiceMailingAddress}</div>
+                                            <span class="ecom-db-address ">
+                                                <lightning-formatted-text value={userInvoiceMailingAddress}></lightning-formatted-text>
+                                            </span>
+                                        </div>
+                                        <!--Changes End-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                            <c-ecom_order-history-list></c-ecom_order-history-list>
+                        </div>
+
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                            <c-ecom_favorites records-to-display={recordsToDisplay} fields-to-show={fieldsToShow}></c-ecom_favorites>
+                        </div>
+                    </div> 
+                </template>
+            </div>
+            <!-- Mobile UI changes end -->
+            <div if:true={isAccountEdit}>
+                <c-ecom_account-dashboard-edit is-account-edit="false" contact-name={userDetails.Name} contact-id={activeContactId} account-id={activeAccountId} onaddressevent={handleAddressEvent}></c-ecom_account-dashboard-edit>
+            </div>
+
+            <div if:true={isAddAddress}> 
+                <c-ecom_account-add-address redirect-u-r-l={redirectUrl} onaddressevent={handleAddressEvent}></c-ecom_account-add-address>
+            </div>
+
+            <div if:true={isSelectAddress}> 
+                <c-ecom_account-addresses redirect-u-r-l={redirectUrl} onaddressevent={handleAddressEvent}></c-ecom_account-addresses>
+            </div>
+
+            <div if:true={showSpinner} class="ecom-spinner-style">
+                <lightning-spinner ></lightning-spinner>
+            </div>
+        </div> 
+ </main><!-- RWPS-5284 -->
+</template>

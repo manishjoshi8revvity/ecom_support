@@ -1,0 +1,380 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 06-19-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+   <div lwc:if={showLoader} class="ecom-spinner-style">
+      <lightning-spinner></lightning-spinner>
+   </div>
+   <div class="background">
+      <div class="container slds-align_absolute-center">
+         <div class=" body">
+            <div class="slds-grid slds-wrap">
+
+               <div class={sidebarCSS}>
+                  <c-ecom_account-sidebar></c-ecom_account-sidebar>
+              </div> 
+              <div if:false={device.isMobile} class={middleSpaceCSS}></div>
+               <div class={mainSectionCSS}>
+                  <div class="ecom-gray-border-b ecom-pb-24">
+                     <button class="slds-button slds-button_icon  ecom-brand-font" onclick={goBackToAccounts}>
+                        <span class><img src={images.back} class="ecom-back-icon"> </span>
+                        <span class=" ecom-account-sb-label ecom-purple-font">
+                           {labels.ECOM_BackToAccountList}
+                        </span>
+                     </button>
+                  </div>
+                  <div class="slds-grid slds-wrap">
+                     <div class="slds-col slds-large-size_7-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                        <!-- <div class="ecom-gray-border-b">
+                           <button class="slds-button slds-button_icon  ecom-brand-font" onclick={goBackToAccounts}>
+                              <span class><img src={images.back} class="ecom-back-icon"> </span>
+                              <span class=" ecom-account-sb-label ecom-purple-font">
+                                 Back to Accounts List
+                              </span>
+                           </button>
+                        </div> -->
+                        <!-- <br> -->
+                        <div class="ecom-mt-40 ecom-mb-40">
+                           <span class="ecom-acn-label">{labels.ECOM_AddAddress}</span>
+                        </div>
+                        <!-- shipping Address -->
+                        <div class="ecom-gray-border-b ecom-pb-32">
+                           <div class="message-container slds-grid slds-wrap">
+                              <div class="slds-col">
+                                 <c-ecom_inline-message type={type} message={message} show={show}
+                                    onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message>
+                              </div>
+                           </div>
+                           <div class="ecom-addresses-label">{labels.ECOM_ShippingInformation}</div>
+                           <lightning-input type="text" class="ecom-address-label ecom-mt-32" label="Company Name *"
+                              data-id="shipping-company-name-id" value={accNameProvided}
+                              onchange={handleShippingChange} onblur={handleShippingCompValidation}></lightning-input><!--RWPS-1506 Removed disabled attribute by Poonam on 2025/03/10--><!-- pattern="^\S.*\S$" message-when-pattern-mismatch="space not allowed at first and last" --><!-- RWPS-2722 -->
+                           <lightning-combobox name="country" label="Country" data-id="shipping-country-id"
+                              required="true" class="ecom-address-label ecom-mt-32" value={selectedCountry}
+                              placeholder="Select Country" options={countries} onchange={handleShippingChange}
+                              disabled="true">
+                           </lightning-combobox>
+                           <!-- value ={shippingAddressInfo.country} -->
+                           <!-- <lightning-input type="text" class="ecom-addr-text slds-m-top_x-large" label="Address Line 1" required="true" data-id="attention-recipient-id" ></lightning-input> -->
+                           <!-- RWPS-2722 START -->
+                           <c-ecom_custom-input
+                              label="Street *"
+                              name="shipping-address-line-1"
+                              unique-identifier="shipping-address-line-1"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleShippingInputChange}
+                              onblur={handleBlur}
+                              max-length="255"
+                              address-type=""
+                              required="true">
+                           </c-ecom_custom-input> 
+                            <!-- RWPS-2722 END -->
+                           <!-- <lightning-input type="text" class="ecom-addr-text slds-m-top_x-large" label="Address Line 2" data-id="shipping-address-line-2" value={shippingAddressInfo.Address2} onchange={handleShippingChange}></lightning-input> -->
+                           <!-- RWPS-2722 START-->
+                            <c-ecom_custom-input
+                              label="City / Town *"
+                              name="shipping-city-id"
+                              unique-identifier="shipping-city-id"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleShippingInputChange}
+                              onblur={handleBlur}
+                              max-length="40"
+                              address-type=""
+                              required="true">
+                           </c-ecom_custom-input>
+                           <!-- RWPS-2722 END-->
+                        <lightning-combobox name="state" label="State *" data-id="shipping-state-id"
+                           class="ecom-address-label ecom-mt-32" value={selectedShippingState}
+                           placeholder="Select State" options={states} onchange={handleShippingChange} onblur={handleComboBlur}>  <!-- RWPS-2722 -->
+                        </lightning-combobox>
+                            
+                           <!-- value={shippingAddressInfo.state}  -->
+                            <!-- RWPS-2722 START-->
+                              <c-ecom_custom-input
+                              label="Zip or Postal Code *"
+                              name="shipping-zip-id"
+                              unique-identifier="shipping-zip-id"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleShippingInputChange}
+                              max-length="16"
+                              address-type=""
+                              required="true"
+                              error-msg={zipCodeErrorMsg}> <!--RWPS-3813 -->
+                           </c-ecom_custom-input> 
+                           <!--RWPS-4914 fixed postal code max length to 16 -->
+                           <!-- RWPS-2722 end-->
+                           <!--<lightning-input type="tel" class="ecom-addr-text slds-m-top_x-large" label="Telephone"
+                              required="true" pattern="[0-9]{10}"
+                              message-when-pattern-mismatch="Please ensure you enter a valid phone number."
+                              data-id="shipping-phone-id" value={shippingAddressInfo.phone}
+                              onchange={handleShippingChange}></lightning-input>
+                           <span class="ecom-phone-helptext">Please include
+                              country code. For USA it is 1+</span>
+                           <lightning-input type="text" class="ecom-addr-text slds-m-top_x-large" label="Extn."
+                              data-id="shipping-extn-id" value={shippingAddressInfo.extn}
+                              onchange={handleShippingChange}></lightning-input>-->
+                        </div>
+                        <!-- Billing Address -->
+                        <div class="ecom-mt-32 ecom-pb-32 ecom-gray-border-b">
+                           <span class="ecom-addresses-label">{labels.ECOM_BillingInformation}</span>
+                           <!-- RWPS-3773 -->
+                           <span if:true={isBillAddrExist}><lightning-input type="checkbox" label={labels.ECOM_ExistingBillingAddress}
+                              class="ecom-mt-32"
+                              onchange={handleFetchBillingAddress} aria-describedby="billing-info-help" onkeydown={handleFetchBillingCheckboxKeydown} ></lightning-input><!-- RWPS-3773--> 
+                           </span>
+                           <span if:false={isFetchBillingAddressSelected}>
+                              <lightning-input type="checkbox" label={labels.ECOM_SameBillingAndShipping}
+                              class="ecom-mt-32"
+                              onchange={handleCheckboxChange} aria-describedby="billing-info-help"  onkeydown={handleBillingCheckboxKeydown}  ></lightning-input><!-- RWPS-3764--> 
+                           </span>
+                           <div class="ecom-pb-40 ecom-pt-40 ecom-gray-border-t" lwc:if={isFetchBillingAddressSelected}>
+                              <template for:each={existingBillingAddress} for:item="billing">
+                                 <div key={billing.id} class="ecom-address-card ecom-mt-16">
+                                    <lightning-layout vertical-align="center" class="">
+                                       <lightning-layout-item flexibility="auto"  >
+                                          <div class="slds-text-align_left ecom-sa-details-box">
+                                             <!--RWPS-3764 Added  aria-label-->
+                                             <!--RWPS-4087 Added name attribute-->
+                                             <label class="container">   
+                                                <input type="radio"
+                                                aria-label="billingERPAddress" name="billingERPAddress"
+                                                checked={billing.isSelected} value={billing.id}
+                                                data-value={billing.addressType} data-addresstype="billing" onchange={handleBillingERPAddress}/>
+                                             </label>
+                                             <template lwc:if={billing.externalId}>
+                                                <span class="ecom-address-label slds-m-left_xx-small" >{billing.externalId}</span>
+                                                <div class="ecom-address-details slds-m-left_x-large">{billing.erpAccountName}</div>
+                                             </template>
+                                             <template lwc:else>
+                                                <span class="ecom-address-label slds-m-left_xx-small">{billing.erpAccountName}</span>
+                                             </template>
+                                             <div lwc:if={billing.showSapName} class="ecom-address-details slds-m-left_x-large">{billing.sapName}</div>
+                                             <div class="ecom-address-details slds-m-left_x-large">{billing.street}</div>
+                                             <div class="ecom-address-details slds-m-left_x-large">{billing.city}, {billing.state} {billing.postalCode}</div>
+                                             <div class="ecom-address-details slds-m-left_x-large">{billing.country}</div> 
+                                          </div>
+                                       </lightning-layout-item>
+                                    </lightning-layout>
+                                 </div>
+                              </template>
+                           </div> 
+                         <!-- RWPS-3773-->   
+                        <div lwc:else>
+                            <!-- RWPS-2722 START-->  
+                           <c-ecom_custom-input
+                              label="Company Name"
+                              name="billing-company-name-id"
+                              unique-identifier="billing-company-name-id"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleBillingInputChange}
+                              onblur={handleBlur}
+                              max-length=""
+                              address-type=""
+                              required="true">
+                           </c-ecom_custom-input>
+                           <!-- RWPS-2722 END-->
+                           <lightning-combobox name="progress" label="Country" data-id="billing-country-id"
+                              required="true" class="ecom-address-label ecom-mt-32" value={selectedCountry}
+                              placeholder="Select Country" options={countries} onchange={handleBillingChange}
+                              disabled="true">
+                           </lightning-combobox>
+                            <!-- RWPS-2722 START-->
+                           <c-ecom_custom-input
+                              label="Street *"
+                              name="billing-address-line-1"
+                              unique-identifier="billing-address-line-1"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleBillingInputChange}
+                              onblur={handleBlur}
+                              max-length="255"
+                              address-type=""
+                              required="true">
+                           </c-ecom_custom-input>
+                           <!-- RWPS-2722 END-->
+                           <!-- <lightning-input type="text" class="ecom-addr-text slds-m-top_x-large" label="Address Line 2" data-id="billing-address-line-2" value={billingAddressInfo.Address2} onchange={handleBillingChange}></lightning-input> -->
+                            <!-- RWPS-2722 START-->
+                              <c-ecom_custom-input
+                              label="City / Town *"
+                              name="billing-city-id"
+                              unique-identifier="billing-city-id"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleBillingInputChange}
+                              onblur={handleBlur}
+                              max-length="40"
+                              address-type=""
+                              required="true">
+                          </c-ecom_custom-input>
+                          <!-- RWPS-2722 END-->
+                           <lightning-combobox name="state" label="State *" data-id="billing-state-id" 
+                              class="ecom-address-label ecom-mt-32" value={selectedBillingState}
+                              placeholder="Select State" options={states} onchange={handleBillingChange} onblur={handleComboBlur}>  <!-- RWPS-2722 -->
+                           </lightning-combobox>
+                           <!-- RWPS-2722 START-->
+                           <c-ecom_custom-input
+                              label="Zip or Postal Code *"
+                              name="billing-zip-id"
+                              unique-identifier="billing-zip-id"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleBillingInputChange}
+                              max-length="16"
+                              address-type=""
+                              required="true"
+                              error-msg={zipCodeErrorMsg}> <!--RWPS-3813 -->
+                          </c-ecom_custom-input>
+                          <!--RWPS-4914 fixed postal code max length to 16 -->
+                          <!-- RWPS-2722 END-->
+                              <!--Changes for Add or new Billing Address by sathiya on 2024/04/29-->
+                              <!-- RWPS-2722 Start changed label, required to data-required, onmouseleave to onblur-->
+                           <template if:true={billingERPAddress.isValidatedFields} for:each={billingERPAddress.validationFields} for:item="field">
+                              <div key={field.fieldName} class="ecom-mt-8">
+                                 <lightning-input 
+                                    type="text" 
+                                    class="ecom-addr-text ecom-mt-32 billing-input" 
+                                    label={field.labelWithAsterisk}  
+                                    field-level-help={field.helpText}
+                                    max-length={field.validation.max}
+                                    data-required={field.isRequired} 
+                                    data-id={field.fieldName} 
+                                    data-validate="true"
+                                    pattern={field.validation.regex}
+                                    message-when-pattern-mismatch={field.validation.errorMessage}
+                                    value={field.value}
+                                    onchange={handleBillingChange}
+                                    onblur={handleValidation}>
+                                 </lightning-input>
+                              </div>
+                        </template>
+                     </div>   
+                        <!-- RWPS-2722 end -->
+                        <!--Changes End-->
+                           <!-- <lightning-input type="tel" class="ecom-addr-text slds-m-top_x-large" label="Telephone"
+                              required="true" pattern="[0-9]{10}"
+                              message-when-pattern-mismatch="Please ensure you enter a valid phone number."
+                              data-id="billing-phone-id" value={billingERPAddress.phone}
+                              onchange={handleBillingChange}></lightning-input>
+                           <span class="ecom-phone-helptext">Please include
+                              country code. For USA it is 1+</span>
+                           <lightning-input type="text" class="ecom-addr-text slds-m-top_x-large" label="Extn."
+                              data-id="billing-extn-id" value={billingAddressInfo.extn}
+                              onchange={handleBillingChange}></lightning-input> -->
+                        </div>
+                        <!-- Invoice Section Address -->
+                        <!--Changes done by sathiya for ECOM-1939 adding invoice section on 2024/05/13-->
+                        <div class="ecom-mt-32 ecom-pb-32 ecom-gray-border-b" if:true={isInvoiceMailingAddress}>
+                           <span class="ecom-addresses-label">{labels.ECOM_InvoiceMailingInformation}</span>
+                           <lightning-input lwc:ref="invoiceCheck" type="checkbox" label={labels.ECOM_SameInvoiceAddressAsBilling}
+                              class="ecom-mt-32" name
+                              onchange={handleInvoiceCheckboxChange}  onkeydown={handleInvoiceCheckboxKeydown} ></lightning-input><!-- RWPS-3764--> 
+                           <!-- RWPS-2722 START-->
+                           <c-ecom_custom-input
+                              label="Company Name *"
+                              name="erpAccountName"
+                              unique-identifier="erpAccountName"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleInvoiceInputChange}
+                              onblur={handleBlur}
+                              max-length=""
+                              address-type="invoice"
+                              required="true">
+                          </c-ecom_custom-input>  
+                          <!-- RWPS-2722 END--> 
+                           <lightning-combobox name="progress" label="Country" data-id="country" data-addresstype="invoice"
+                              required="true" class="ecom-address-label ecom-mt-32" value={selectedCountry}
+                              placeholder="Select Country" options={countries} onchange={handleInvoiceChange}
+                              disabled="true">
+                           </lightning-combobox>
+                           <!-- RWPS-2722 START-->
+                           <c-ecom_custom-input
+                              label="Street *"
+                              name="street"
+                              unique-identifier="street"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleInvoiceInputChange}
+                              onblur={handleBlur}
+                              max-length="255"
+                              address-type="invoice"
+                              required="true">
+                          </c-ecom_custom-input>
+                          <!-- RWPS-2722 END-->
+                           <!-- <lightning-input type="text" class="ecom-addr-text slds-m-top_x-large" label="Address Line 2" data-id="billing-address-line-2" value={billingAddressInfo.Address2} onchange={handleBillingChange}></lightning-input> -->
+                           <!-- RWPS-2722 START-->
+                           <c-ecom_custom-input
+                              label="City / Town *"
+                              name="city"
+                              unique-identifier="city"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleInvoiceInputChange}
+                              onblur={handleBlur}
+                              max-length="40"
+                              address-type="invoice"
+                              required="true">
+                          </c-ecom_custom-input>
+                          <!-- RWPS-2722 END-->
+                           <lightning-combobox name="state" label="State *" data-id="state" data-addresstype="invoice" 
+                              class="ecom-address-label ecom-mt-32" value={selectedInvoiceState} 
+                              placeholder="Select State" options={states} onchange={handleInvoiceChange} onblur={handleComboBlur}> <!-- RWPS-2722 -->
+                           </lightning-combobox>
+                           <!-- RWPS-2722 START-->
+                           <c-ecom_custom-input
+                              label="Zip or Postal Code *"
+                              name="postalCode"
+                              unique-identifier="postalCode"
+                              form-fields={formFields}
+                              field-errors={fieldErrors}
+                              onvaluechange={handleInvoiceInputChange}
+                              max-length="16"
+                              address-type="invoice"
+                              required="true"
+                              error-msg={zipCodeErrorMsg}> <!--RWPS-3813 -->
+                          </c-ecom_custom-input>
+                          <!--RWPS-4914 fixed postal code max length to 16 -->
+                              <!-- RWPS-2722 END-->
+                        </div>
+                        <!--Changes End-->
+                        <!-- Add Shipping Information -->
+                        <div class="ecom-pb-32 ecom-mt-32 ecom-gray-border-b">
+                           <span class="ecom-addresses-label">{labels.ECOM_AddShippingInformation}</span>
+                           
+                           <div class="ecom-note-label ecom-mt-16">{labels.ECOM_ShippingDisplayNote}</div>
+                           <!--<div class="ecom-note-label ecom-mt-16">{labels.ECOM_EuropeVAT}</div>-->
+                           <!-- RWPS-4824 START -->
+                           <lightning-input type="text" max-length="40" class="ecom-addr-text ecom-gray-font ecom-mt-32 "
+                              label={labels.recipientTitle} data-id="attention-recipient-id" value={attentionRecipient}
+                              onchange={handleRecipientChange}></lightning-input>
+                           <div>
+                           <!-- RWPS-4824 END -->
+                              <button class="ecom-submit-btn ecom-mt-32" onclick={handleSaveAddress} onkeydown={handleAddressKeyDown}><!--RWPS-4087-->
+                                 <!-- disabled={isPlaceOrderBtnDisabled} -->
+                                 <span>Save Address</span>
+                              </button>
+                              <br>
+                              <div class="ecom-mt-32">
+                                 <span class="ecom-note-text">* = {labels.ECOM_RequiredField}
+                                 </span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="slds-col slds-large-size_7-of-12 slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1">
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</template>

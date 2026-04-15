@@ -1,0 +1,794 @@
+<!--
+  @description       :
+  @author            : Vipul Goyal
+  @group             :
+  @last modified on  : 05-06-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <div if:true={showSpinner} class="ecom-spinner-style">
+        <lightning-spinner>
+
+        </lightning-spinner>
+    </div>
+    <div class="slds-m-bottom--large">
+        <c-ecom_inline-message type={type} message={msg} show={show} onmessageaction={handleUpdateMessage} timespan={timeSpan}></c-ecom_inline-message><!--RWPS-2786-->
+    </div>
+    <div if:false={device.isMobile} class="cart-item-card slds-p-bottom--x-large">
+        <div class={cardClass}>
+            <div class="slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_2-of-12">
+                <span class="ecom-prod-img">
+                    <!-- RWPS-3826 start -->
+                    <img alt="product image" if:true={itemImages.imgUrl} onclick={navigateToPDP} src={itemImages.imgUrl} tabindex="0" onkeydown={navigateToPDPEnter}><!--RWPS-4087-->
+                    <img alt="product image" if:false={itemImages.imgUrl}  onclick={navigateToPDP}  src={images.placeholderimg} tabindex="0" onkeydown={navigateToPDPEnter}><!--RWPS-4087-->
+                    <!-- RWPS-3826 end -->
+                </span>
+            </div>
+            <div class="slds-size_7-of-12 slds-large-size_7-of-12 slds-medium-size_7-of-12 slds-small-size_8-of-12">
+                <!--RWPS-2270 START-->
+                <!--RWPS-4087 added tabIndex, onkeydown-->
+                <lightning-formatted-rich-text value={item.product.name} onclick={navigateToPDP} onkeydown={navigateToPDPEnter} class="ecom-prod-name slds-m-bottom--medium" tabindex="0">
+                </lightning-formatted-rich-text>
+                <!--RWPS-2270 END-->
+                <div class="ecom-prod-desc product-text"> <!--RWPS-5625-->
+                    <div if:true={item.product.partNumber}>
+                        <span class="cart-product-details">{labels.ECOM_PartNumber}: </span>
+                        <span class="cart-product-details">
+                            <c-ecom_highlighted-text text={item.product.partNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286-->
+                        </span>
+                    </div>
+                    <div if:true={item.product.unitSize}>
+                        <span class="cart-product-details">{labels.ECOM_Unit_Size}: </span>
+                        <span class="cart-product-details">{item.product.unitSize}</span>
+                    </div>
+                    <div if:true={item.earliestShippingDate}>
+                        <div if:false={hideShipDate}>
+                            <div if:true={orderItemStatus}>
+                                <div if:false={itemShipped}>
+                                    <div if:false={isLargePackOrder}>
+                                        <span class="cart-product-details">{labels.ECOM_Shipment_Date}: </span>
+                                        <span if:true={item.selectedShippingDate} class="cart-product-details">Ship at selected date -
+                                            <lightning-formatted-date-time time-zone="UTC" value={item.selectedShippingDate} >
+                                            </lightning-formatted-date-time>
+                                        </span>
+                                        <span if:false={item.selectedShippingDate} class="cart-product-details">Ship at earliest date -
+                                            <lightning-formatted-date-time time-zone="UTC" value={item.earliestShippingDate} >
+                                            </lightning-formatted-date-time>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div if:true={itemShipped}>
+                                    <div if:true={itemTracking}>
+                                        <template for:each={itemTracking} for:item="track">
+                                            <span key={track.trackingNumber} class="cart-product-details">{labels.ECOM_Shipment_Date}: </span>
+                                            <span key={track.trackingNumber} if:true={track.trackingDate} class="cart-product-details">Shipped date -
+                                                <lightning-formatted-date-time time-zone="UTC" value={track.trackingDate} >
+                                                </lightning-formatted-date-time>
+                                            </span>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- RWPS-3026 4896 start-->
+                    <template if:false={item.isTrainingProduct}>
+                        <div if:true={item.showTariffSurcharge}>
+                            <span class="cart-product-details">{labels.ECOM_Tariff_Surcharge}: </span>
+                            <span class="cart-product-details">
+                                <lightning-formatted-number value={item.tariffSurcharge}
+                                                            format-style="currency" minimum-fraction-digits="2" currency-code={orderCurrencyCode} currency-display-as={currencyDisplayAs}>
+                                </lightning-formatted-number>
+                            </span>
+                        </div>
+                    </template>
+                    <!-- RWPS-3026 4896 end-->
+                    <!--RWPS- 4602 START-->
+                    <div if:true={showReplacements}>
+                        <div class="card-discontinued-label-outer" onmouseenter={handleDiscontinuedMouseEnter} onmouseleave={handleDiscontinuedMouseLeave}>
+                            <div onclick={handleDiscontinuedLabelClick} class="card-discontinued-label">
+                                <span>
+                                    <svg lwc:ref="discontinuedSVG" onfocus={handleDiscontinuedFocus} onblur={handleDiscontinuedBlur} tabindex="0" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                                        <path
+                                            d="M2.59465 13.6566C1.83057 12.9187 1.22111 12.0359 0.801838 11.0599C0.382566 10.0839 0.161876 9.03409 0.152646 7.97186C0.143415 6.90962 0.345829 5.85619 0.748076 4.87302C1.15032 3.88985 1.74435 2.99663 2.49549 2.24549C3.24663 1.49435 4.13985 0.900323 5.12302 0.498076C6.10619 0.0958289 7.15962 -0.106585 8.22186 -0.0973542C9.28409 -0.0881237 10.3339 0.132566 11.3099 0.551838C12.2859 0.97111 13.1687 1.58057 13.9066 2.34465C15.3639 3.85347 16.1703 5.87428 16.152 7.97186C16.1338 10.0694 15.2925 12.0759 13.8092 13.5592C12.3259 15.0425 10.3194 15.8838 8.22186 15.902C6.12428 15.9203 4.10347 15.1139 2.59465 13.6566ZM12.7786 12.5286C13.9795 11.3277 14.6542 9.69898 14.6542 8.00065C14.6542 6.30232 13.9795 4.67355 12.7786 3.47265C11.5777 2.27175 9.94898 1.59709 8.25065 1.59709C6.55232 1.59709 4.92355 2.27175 3.72265 3.47265C2.52175 4.67355 1.84709 6.30232 1.84709 8.00065C1.84709 9.69898 2.52175 11.3277 3.72265 12.5286C4.92355 13.7295 6.55232 14.4042 8.25065 14.4042C9.94898 14.4042 11.5777 13.7295 12.7786 12.5286ZM7.45065 4.00065H9.05065V8.80065H7.45065V4.00065ZM7.45065 10.4006H9.05065V12.0006H7.45065V10.4006Z"
+                                            fill="#DC0101"
+                                        />
+                                    </svg>
+                                </span>
+                                <i lwc:if={item.isDiscontinuedProduct} class="card-discontinued-label">{labels.discontinuedText}</i>
+                            </div>
+
+                            <c-ecom_popup-product-carousel lwc:ref="popupCarousel" lwc:if={showReplacements} parent-rect={discontinuedIconRect} products={replacementData} pricing={replacementPriceMap} effective-account-id={effectiveAccountId} onrequestnewrect={handlePopupRequestNewRect} onpopupfocusout={handleDiscontinuedBlur}></c-ecom_popup-product-carousel>
+                        </div>
+                    </div>
+                    <div if:false={showReplacements}>
+                        <div if:true={item.isDiscontinuedProduct} onmouseenter={handleDiscontinuedMouseEnter} onmouseleave={handleDiscontinuedMouseLeave}>
+                            <div if:false={item.isNonSellableProduct} class="card-discontinued-label-outer" title={labels.discontinuedTooltipText}>
+                                <div onclick={handleDiscontinuedLabelClick} class="card-discontinued-label">
+                                    <span if:false={showReplacements} onmouseenter={handleDiscontinuedMouseEnter} onmouseleave={handleDiscontinuedMouseLeave}>
+                                        <svg if:true={item.isDiscontinuedProduct} if:false={item.isNonSellableProduct} lwc:ref="discontinuedSVG" onfocus={handleDiscontinuedFocus} onblur={handleDiscontinuedBlur} tabindex="0" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                                            <path
+                                                d="M2.59465 13.6566C1.83057 12.9187 1.22111 12.0359 0.801838 11.0599C0.382566 10.0839 0.161876 9.03409 0.152646 7.97186C0.143415 6.90962 0.345829 5.85619 0.748076 4.87302C1.15032 3.88985 1.74435 2.99663 2.49549 2.24549C3.24663 1.49435 4.13985 0.900323 5.12302 0.498076C6.10619 0.0958289 7.15962 -0.106585 8.22186 -0.0973542C9.28409 -0.0881237 10.3339 0.132566 11.3099 0.551838C12.2859 0.97111 13.1687 1.58057 13.9066 2.34465C15.3639 3.85347 16.1703 5.87428 16.152 7.97186C16.1338 10.0694 15.2925 12.0759 13.8092 13.5592C12.3259 15.0425 10.3194 15.8838 8.22186 15.902C6.12428 15.9203 4.10347 15.1139 2.59465 13.6566ZM12.7786 12.5286C13.9795 11.3277 14.6542 9.69898 14.6542 8.00065C14.6542 6.30232 13.9795 4.67355 12.7786 3.47265C11.5777 2.27175 9.94898 1.59709 8.25065 1.59709C6.55232 1.59709 4.92355 2.27175 3.72265 3.47265C2.52175 4.67355 1.84709 6.30232 1.84709 8.00065C1.84709 9.69898 2.52175 11.3277 3.72265 12.5286C4.92355 13.7295 6.55232 14.4042 8.25065 14.4042C9.94898 14.4042 11.5777 13.7295 12.7786 12.5286ZM7.45065 4.00065H9.05065V8.80065H7.45065V4.00065ZM7.45065 10.4006H9.05065V12.0006H7.45065V10.4006Z"
+                                                fill="#DC0101"
+                                            />
+                                        </svg>
+                                    </span>
+                                    <i lwc:if={item.isDiscontinuedProduct} class="card-discontinued-label">{labels.discontinuedText}</i>
+                                </div>
+
+                                <c-ecom_popup-product-carousel lwc:ref="popupCarousel" lwc:if={showReplacements} parent-rect={discontinuedIconRect} products={replacementData} pricing={replacementPriceMap} effective-account-id={effectiveAccountId} onrequestnewrect={handlePopupRequestNewRect} onpopupfocusout={handleDiscontinuedBlur}></c-ecom_popup-product-carousel>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- RWPS - 4602 ENDS-->
+                    <div>
+                        </br>
+                    </div>
+                </div>
+                <div class="slds-grid slds-no-print content-col-ipad"> <!--RWPS-3339-->
+                    <!-- RWPS:4602 : if:false={item.isNonSellableOrDiscontinuedProduct} -->
+                    <template if:false={item.isTrainingProduct}> <!--RWPS-4896 START-->
+                        <template if:false={item.isExcludedProduct}><!--RWPS-6880-->
+                        <div if:false={item.isNonSellableOrDiscontinuedProduct}
+                            class="slds-col slds-size_2-of-12 slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-small-size_4-of-12 btn-col-ipad"> <!--RWPS-3339-->
+                            <button class="slds-button" aria-live="assertive" aria-pressed="true"
+                                onclick={handleAddToCart}>
+                                <span
+                                    class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon ecom-icon-size"
+                                        aria-hidden="true" src={images.carticon}>
+                                    {labels.ECOM_AddToCart}
+                                </span>
+                            </button>
+                            <!--RWPS-5149 start-->
+                            <span if:false={isFavorite} class="vl vl-ipad"></span> <!--RWPS-3339-->
+                            <span if:true={isFavorite} class="vl vl-ipad"></span> <!--RWPS-3339-->
+                            <!--RWPS-5149 end-->
+                        </div>
+                        </template>
+                    </template>  <!--RWPS-6880-->
+                  
+                    <!-- RWPS:4602 : if:false={item.isNonSellableOrDiscontinuedProduct} -->
+                    <template if:false={item.isNonSellableOrDiscontinuedProduct}> <!--RWPS-2786-->
+                        <!-- RWPS-4896 START -->
+                        <template if:false={item.isTrainingProduct}>
+                            <div if:false={isFavorite} class="slds-col slds-size_2-of-12 slds-large-size_5-of-12 slds-medium-size_5-of-12 slds-small-size_4-of-12 btn-col-ipad"> <!--RWPS-3339-->
+                                <button class="slds-button" aria-live="assertive"
+                                    aria-pressed="true" onclick={handleAddToFavourite}>
+                                    <span
+                                        class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                        <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon ecom-icon-size"
+                                            aria-hidden="true" src={images.favoriteimg}>
+                                        {labels.ECOM_Save_favorites}
+                                    </span>
+                                </button>
+
+                                <span if:false={isSapOrder} class="vl vl-ipad"></span>  <!--RWPS-5149 --> <!--RWPS-3339-->
+                            </div>
+                        </template>
+                        <!-- RWPS-4896 END -->
+                    </template> <!--RWPS-2786-->
+                     <!-- RWPS-4896 START -->
+                    <template if:false={item.isTrainingProduct}>
+                        <div if:true={isFavorite} class="slds-col slds-size_2-of-12 slds-large-size_6-of-12 slds-medium-size_5-of-12 slds-small-size_4-of-12 btn-col-ipad"> <!--RWPS-3339-->
+                            <button class="slds-button" aria-live="assertive"
+                                aria-pressed="true" onclick={handleRemoveFromFavourite}>
+                                <span
+                                    class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon ecom-icon-size"
+                                        aria-hidden="true" src={images.deleteimg}>
+                                    {labels.ECOM_Remove_Favorites}
+                                </span>
+                            </button>
+                            <span if:false={isSapOrder} class="vl vl-ipad"></span><!--RWPS-5149, RWPS-3339 -->
+                        </div>
+                    </template>
+                    <!-- RWPS-4896 END -->
+                    <div if:false={isSapOrder} class="slds-col slds-size_2-of-12 slds-large-size_6-of-12 slds-medium-size_7-of-12 slds-small-size_4-of-12 btn-col-ipad"> <!--RWPS-3339-->
+                        <button class="slds-button" aria-live="assertive" aria-pressed="true" data-id={item.id}
+                            onclick={handleOpenHelpModal}>
+                            <span
+                                class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                <img src={images.needhelpicon} class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon ecom-icon-size"
+                                    aria-hidden="true">
+                                <span>{labels.ECOM_Help}</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!--RWPS-3811 START-->
+             <div if:true={item.parentItem} class="slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_2-of-12" style="text-align: end;">
+                 <div class="free-item-label-outer"><span class="free-item-label">{labels.ECOM_Free_Item}</span></div>
+                 <div>{labels.ECOM_Qty}: {item.quantity}</div>
+             </div>
+            <div if:false={item.parentItem} class="slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_2-of-12"
+                style="text-align: end;">
+                <!--RWPS-3811 END-->
+                <div if:false={isSapOrder} class="ecom-prod-pricebox">
+                    <span class="cart-product-price">
+                        <lightning-formatted-number value={item.totalPrice} format-style="currency"
+                            minimum-fraction-digits="2" currency-code={orderCurrencyCode} currency-display-as={currencyDisplayAs}>
+                        </lightning-formatted-number>
+                    </span>
+                    </br>
+                    <span class="cart-product-unit-price">
+                        <div class="slds-m-vertical--small">
+                            <lightning-formatted-number value={item.unitPrice} format-style="currency"
+                                minimum-fraction-digits="2" currency-code={orderCurrencyCode} currency-display-as={currencyDisplayAs}>
+                            </lightning-formatted-number> <span class="each">/each</span>
+                        </div>
+                    </span>
+                    <span if:true={showStrikePrice} class="cart-product-unit-price strike-price">
+                        <div class="slds-m-vertical--small">
+                            <lightning-formatted-number value={item.listPrice} format-style="currency"
+                                minimum-fraction-digits="2" currency-code={orderCurrencyCode} currency-display-as={currencyDisplayAs}>
+                            </lightning-formatted-number> <span class="each">/each</span>
+                        </div>
+                    </span>
+                    <div>
+                        {labels.ECOM_Qty}: {item.quantity}
+                    </div>
+                </div>
+                <div if:true={isSapOrder} class="ecom-prod-pricebox">
+                    <span class="cart-product-price">
+                        <lightning-formatted-number value={item.totalPrice} format-style="currency"
+                            minimum-fraction-digits="2" currency-code={orderCurrencyCode} currency-display-as={currencyDisplayAs}>
+                        </lightning-formatted-number>
+                    </span>
+                    </br>
+                    <span class="cart-product-unit-price">
+                        <div if:true={sapUnitPrice} class="slds-m-vertical--small">
+                            <lightning-formatted-number value={sapUnitPrice} format-style="currency"
+                                minimum-fraction-digits="2" currency-code={orderCurrencyCode} currency-display-as={currencyDisplayAs}>
+                            </lightning-formatted-number> <span class="each">/each</span>
+                        </div>
+                    </span>
+                    <div>
+                        {labels.ECOM_Qty}: {item.quantity}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RWPS-5181 - Start -->
+        <div if:true={orderItemStatus} class={applicableTrackingClass}>
+            <template if:false={isOrderCancelled}>
+                <div if:true={showTrackingTimeline} class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-12 slds-large-size_1-of-12 slds-medium-size_1-of-12 slds-small-size_1-of-12"></div>
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-small-size_8-of-12">
+                        <div class="stepper-wrapper">
+                            <template for:each={progressBarCollection} for:item='step'>
+                                <div key={step.stepNumber} class="stepper-item">
+                                    <div if:false={step.isComplete} class={step.stepStyling}></div>
+                                    <img if:true={step.isComplete} class="completed" aria-hidden="true" src={images.stepcomplete}>
+                                    <div class="step-name">{step.displayLabel}</div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div if:true={itemTracking} class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_3-of-12">
+                        <div class="tracking-container">
+                            <template for:each={itemTracking} for:item="track">
+                                <template if:true={track.isValidUrl}><!--RWPS-3258-->
+                                    <span key={track.trackingNumber}>{labels.ECOM_Track_Shipment}</span><br key={track.trackingNumber}/>
+                                    <span key={track.trackingNumber}  class="ups">
+                                        <a href={track.trackingURL} target="_blank">{track.carrierName}: {track.trackingNumber}</a><br/>
+                                    </span>
+                                </template>
+                                <template if:false={track.isValidUrl}><!--RWPS-3258-->
+                                    <span key={track.trackingNumber}>{labels.ECOM_Track_Shipment}</span><br key={track.trackingNumber}/>
+                                    <span key={track.trackingNumber}>
+                                        <p>{track.trackingNumber}</p><br/>
+                                    </span>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div if:true={isOrderCancelled} class="slds-grid">
+                <div class="slds-col slds-size_2-of-12 slds-large-size_3-of-12 slds-medium-size_2-of-12 slds-small-size_3-of-12 slds-m-left--medium">
+                    <span class="ecom-order-cancelled-label">{labels.ECOM_Cancelled}</span>
+                </div>
+            </div>
+        </div>
+        <!-- RWPS-5181 - End -->
+
+ <!--RWPS-2554 changes end-->
+        <div if:true={isHelpModalOpen}>
+            <!--RWPS-4087-->
+            <section if:true={showHelp} role="dialog" tabindex="0" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open showHelpModal">
+                <div class="slds-modal__container">
+                    <!-- <div class="slds-modal__header ecom-height">
+                        <div>
+                            <button class="slds-button slds-button_icon ecom-closebtn" onclick={handleCloseHelpModal}>
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Cancel and close</span>
+                            </button>
+                        </div>
+                        <! <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Edit Item</h1>  -->
+                    <!-- <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Need Help with this Item?</h1>  -->
+
+
+                    <div class="slds-modal__header ecom-qo-noborder">
+                        <div>
+                            <button class="slds-button slds-button_icon ecom-qo-closebtn"
+                                onclick={handleCloseHelpModal}>
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                            </button>
+                        </div>
+                        <h1 id="modal-heading-01"
+                            class="slds-modal__title slds-hyphenate ecom-help-heading slds-m-top_large">{labels.ECOM_Help}</h1>
+
+                    </div>
+                    <!-- </div> -->
+                    <!-- modal body start -->
+                    <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large ecom-no-border modal-height slds-p-around--xx-large"
+                        id="1">
+                        <div class="align-center">
+                            <span class="slds-modal__content" id="2">
+                                <p class="ecom_modal_note slds-m-bottom--large">
+                                   {labels.ECOM_HelpReason}
+                                </p>
+                            </span>
+                        </div>
+                        <div class="combobox ecom-reason">
+                            <lightning-combobox name="progress" label={labels.ECOM_Reason} value="" placeholder="Select"
+                                options={options} onchange={handlePicklistChange} required>
+                            </lightning-combobox>
+                        </div>
+                        <div class="ecom-reason">
+                            <!-- <lightning-textarea name="input6" required value="" label="Reason for Editing" class="textAreaBody ecom-reason" onchange={handleTextChange}></lightning-textarea> -->
+                            <lightning-textarea name="input6" required value="" label={labels.ECOM_Reason_for_Needing_Help}
+                                class="textAreaBody ecom-reason" onchange={handleTextChange}></lightning-textarea>
+
+                        </div>
+                    </div>
+                    <!-- <div class="slds-modal__footer">
+                        <button class="ecom_btn-inverse slds-m-left_medium" onclick={handleCloseHelpModal}>
+                            <span>Cancel</span>
+                        </button>
+                        <button class="ecom_btn-brand slds-m-left_medium" onclick={handleSubmit}>
+                            <span>Submit</span>
+                        </button>
+                    </div>  -->
+                    <div class="slds-modal__footer ecom-f-no-border">
+                        <button class="ecom_btn-inverse slds-m-left_medium" onclick={handleCloseHelpModal}>
+                            <span>{labels.ECOM_Cancel}</span>
+                        </button>
+                        <!-- <button class="ecom_btn-brand slds-m-left_medium" onclick={handleSubmit}> -->
+                        <button class={cssClass} onclick={handleSubmit} disabled={isButtonDisabled}>
+                            <span>{labels.ECOM_Submit}</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <!--RWPS-4087-->
+            <section if:true={showResponse} role="dialog" tabindex="0" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open showResponseModal">
+                <div class="slds-modal__container">
+
+                    <div class="slds-modal__header ecom-qo-noborder">
+                        <div>
+                            <button class="slds-button slds-button_icon ecom-qo-closebtn"
+                                onclick={handleCloseHelpModal}>
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                            </button>
+                        </div>
+                        <h1 id="modal-heading-02"
+                            class="slds-modal__title slds-hyphenate ecom-help-heading slds-m-top_large">{labels.ECOM_Help}</h1>
+
+                    </div>
+
+
+                    <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large ecom-no-border modal-height slds-p-around--xx-large"
+                        id="successBlock">
+                        <div class="align-center">
+                            <span class="slds-modal__content" id="successBlock2">
+                                <p class="ecom_modal_note slds-m-bottom--large">
+                                    {message}
+                                </p>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="slds-modal__footer ecom-f-no-border">
+                        <!-- <button class="ecom_btn-inverse slds-m-left_medium" onclick={handleCloseHelpModal}> -->
+                        <button class="ecom_btn-inverse" onclick={handleCloseHelpModal}> <!--RWPS-4153-->
+                            <span>{labels.ECOM_Close}</span>
+                        </button>
+                    </div>
+
+
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </div>
+
+    <div if:true={device.isMobile} class="cart-item-card slds-p-bottom--x-large">
+        <div class={cardClass}>
+            <div class="slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                <span class="ecom-prod-img">
+                    <img if:true={itemImages.imgUrl}  onclick={navigateToPDP}  src={itemImages.imgUrl}>
+                    <img if:false={itemImages.imgUrl}  onclick={navigateToPDP}  src={images.placeholderimg}>
+                </span>
+            </div>
+            <div class="slds-size_10-of-12 slds-large-size_6-of-12 slds-medium-size_7-of-12 slds-small-size_8-of-12">
+                <!-- RWPS - 3286 Start -->
+                <lightning-formatted-rich-text value={item.product.name} onclick={navigateToPDP} class="ecom-prod-name slds-m-bottom--medium">
+                </lightning-formatted-rich-text>
+                <!-- RWPS - 3286 END -->
+                <div class="">
+                    <div if:true={item.product.partNumber}>
+                        <span class="cart-product-details">{labels.ECOM_PartNumber}: </span>
+                        <span class="cart-product-details">
+                            <c-ecom_highlighted-text text={item.product.partNumber} search={searchTerm}></c-ecom_highlighted-text><!--RWPS-5286-->
+                        </span>
+                    </div>
+                    <div if:true={item.product.unitSize}>
+                        <span class="cart-product-details">{labels.ECOM_Unit_Size}: </span>
+                        <span class="cart-product-details">{item.product.unitSize}</span>
+                    </div>
+                    <!-- RWPS-3026 4896 start-->
+                    <template if:false={item.isTrainingProduct}>
+                    <div if:true={item.showTariffSurcharge}>
+                        <span class="cart-product-details">{labels.ECOM_Tariff_Surcharge}: </span>
+                        <span class="cart-product-details">
+                            <lightning-formatted-number value={item.tariffSurcharge}
+                                                        format-style="currency" minimum-fraction-digits="2" currency-code={orderCurrencyCode} currency-display-as={currencyDisplayAs}>
+                            </lightning-formatted-number>
+                        </span>
+                    </div><!-- RWPS-3026 4896 end-->
+                    </template>
+                    <div if:true={item.earliestShippingDate}>
+                        <div if:false={hideShipDate}>
+                            <div if:true={orderItemStatus}>
+                                <div if:false={itemShipped}>
+                                    <div if:false={isLargePackOrder}>
+                                        <span class="cart-product-details">{labels.ECOM_Shipment_Date}: </span>
+                                        <span if:true={item.selectedShippingDate} class="cart-product-details">Ship at selected date -
+                                            <lightning-formatted-date-time time-zone="UTC" value={item.selectedShippingDate} >
+                                            </lightning-formatted-date-time>
+                                        </span>
+                                        <span if:false={item.selectedShippingDate} class="cart-product-details">Ship at earliest date -
+                                            <lightning-formatted-date-time time-zone="UTC" value={item.earliestShippingDate} >
+                                            </lightning-formatted-date-time>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div if:true={itemShipped}>
+                                    <div if:true={itemTracking}>
+                                        <template for:each={itemTracking} for:item="track">
+                                            <span key={track.trackingNumber} class="cart-product-details">{labels.ECOM_Shipment_Date}: </span>
+                                            <span key={track.trackingNumber} if:true={track.trackingDate} class="cart-product-details">Shipped date -
+                                                <lightning-formatted-date-time time-zone="UTC" value={track.trackingDate} >
+                                                </lightning-formatted-date-time>
+                                            </span>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--RWPS- 4602 START-->
+                    <div if:true={showReplacements} if:false={item.no}>
+                        <div class="card-discontinued-label-outer" onmouseenter={handleDiscontinuedMouseEnter} onmouseleave={handleDiscontinuedMouseLeave}>
+                            <div onclick={handleDiscontinuedLabelClick} class="card-discontinued-label">
+                                <span>
+                                    <svg lwc:ref="discontinuedSVG" onfocus={handleDiscontinuedFocus} onblur={handleDiscontinuedBlur} tabindex="0" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                                        <path
+                                            d="M2.59465 13.6566C1.83057 12.9187 1.22111 12.0359 0.801838 11.0599C0.382566 10.0839 0.161876 9.03409 0.152646 7.97186C0.143415 6.90962 0.345829 5.85619 0.748076 4.87302C1.15032 3.88985 1.74435 2.99663 2.49549 2.24549C3.24663 1.49435 4.13985 0.900323 5.12302 0.498076C6.10619 0.0958289 7.15962 -0.106585 8.22186 -0.0973542C9.28409 -0.0881237 10.3339 0.132566 11.3099 0.551838C12.2859 0.97111 13.1687 1.58057 13.9066 2.34465C15.3639 3.85347 16.1703 5.87428 16.152 7.97186C16.1338 10.0694 15.2925 12.0759 13.8092 13.5592C12.3259 15.0425 10.3194 15.8838 8.22186 15.902C6.12428 15.9203 4.10347 15.1139 2.59465 13.6566ZM12.7786 12.5286C13.9795 11.3277 14.6542 9.69898 14.6542 8.00065C14.6542 6.30232 13.9795 4.67355 12.7786 3.47265C11.5777 2.27175 9.94898 1.59709 8.25065 1.59709C6.55232 1.59709 4.92355 2.27175 3.72265 3.47265C2.52175 4.67355 1.84709 6.30232 1.84709 8.00065C1.84709 9.69898 2.52175 11.3277 3.72265 12.5286C4.92355 13.7295 6.55232 14.4042 8.25065 14.4042C9.94898 14.4042 11.5777 13.7295 12.7786 12.5286ZM7.45065 4.00065H9.05065V8.80065H7.45065V4.00065ZM7.45065 10.4006H9.05065V12.0006H7.45065V10.4006Z"
+                                            fill="#DC0101"
+                                        />
+                                    </svg>
+                                </span>
+                                <i lwc:if={item.isDiscontinuedProduct} class="card-discontinued-label">{labels.discontinuedText}</i>
+                            </div>
+
+                            <c-ecom_popup-product-carousel lwc:ref="popupCarousel" lwc:if={showReplacements} parent-rect={discontinuedIconRect} products={replacementData} pricing={replacementPriceMap} effective-account-id={effectiveAccountId} onrequestnewrect={handlePopupRequestNewRect} onpopupfocusout={handleDiscontinuedBlur}></c-ecom_popup-product-carousel>
+                        </div>
+                    </div>
+                    <div if:false={showReplacements}>
+                        <div if:true={item.isDiscontinuedProduct} onmouseenter={handleDiscontinuedMouseEnter} onmouseleave={handleDiscontinuedMouseLeave}>
+                            <div if:false={item.isNonSellableProduct} class="card-discontinued-label-outer" title={labels.discontinuedTooltipText}>
+                                <div onclick={handleDiscontinuedLabelClick} class="card-discontinued-label">
+                                    <span if:false={showReplacements} onmouseenter={handleDiscontinuedMouseEnter} onmouseleave={handleDiscontinuedMouseLeave}>
+                                        <svg if:true={item.isDiscontinuedProduct} if:false={item.isNonSellableProduct} lwc:ref="discontinuedSVG" onfocus={handleDiscontinuedFocus} onblur={handleDiscontinuedBlur} tabindex="0" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                                            <path
+                                                d="M2.59465 13.6566C1.83057 12.9187 1.22111 12.0359 0.801838 11.0599C0.382566 10.0839 0.161876 9.03409 0.152646 7.97186C0.143415 6.90962 0.345829 5.85619 0.748076 4.87302C1.15032 3.88985 1.74435 2.99663 2.49549 2.24549C3.24663 1.49435 4.13985 0.900323 5.12302 0.498076C6.10619 0.0958289 7.15962 -0.106585 8.22186 -0.0973542C9.28409 -0.0881237 10.3339 0.132566 11.3099 0.551838C12.2859 0.97111 13.1687 1.58057 13.9066 2.34465C15.3639 3.85347 16.1703 5.87428 16.152 7.97186C16.1338 10.0694 15.2925 12.0759 13.8092 13.5592C12.3259 15.0425 10.3194 15.8838 8.22186 15.902C6.12428 15.9203 4.10347 15.1139 2.59465 13.6566ZM12.7786 12.5286C13.9795 11.3277 14.6542 9.69898 14.6542 8.00065C14.6542 6.30232 13.9795 4.67355 12.7786 3.47265C11.5777 2.27175 9.94898 1.59709 8.25065 1.59709C6.55232 1.59709 4.92355 2.27175 3.72265 3.47265C2.52175 4.67355 1.84709 6.30232 1.84709 8.00065C1.84709 9.69898 2.52175 11.3277 3.72265 12.5286C4.92355 13.7295 6.55232 14.4042 8.25065 14.4042C9.94898 14.4042 11.5777 13.7295 12.7786 12.5286ZM7.45065 4.00065H9.05065V8.80065H7.45065V4.00065ZM7.45065 10.4006H9.05065V12.0006H7.45065V10.4006Z"
+                                                fill="#DC0101"
+                                            />
+                                        </svg>
+                                    </span>
+                                    <i lwc:if={item.isDiscontinuedProduct} class="card-discontinued-label">{labels.discontinuedText}</i>
+                                </div>
+
+                                <c-ecom_popup-product-carousel lwc:ref="popupCarousel" lwc:if={showReplacements} parent-rect={discontinuedIconRect} products={replacementData} pricing={replacementPriceMap} effective-account-id={effectiveAccountId} onrequestnewrect={handlePopupRequestNewRect} onpopupfocusout={handleDiscontinuedBlur}></c-ecom_popup-product-carousel>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- RWPS - 4602 ENDS-->
+                    <div>
+                        </br>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+            </div>
+            <div class="slds-size_10-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_12-of-12" >
+                 <!--RWPS-3811 START-->
+                 <div if:true={item.parentItem} class="slds-size_3-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_2-of-12 ecom-prod-pricebox">
+	                <div style="text-align: left;" class="free-item-label-outer"><span class="free-item-label">{labels.ECOM_Free_Item}</span></div>
+                      <div>
+                        {labels.ECOM_Qty}: {item.quantity}
+                    </div>
+                 </div>
+                <div if:false={item.parentItem}  class="ecom-prod-pricebox">
+                    <span class="cart-product-price">
+                          <!--RWPS-3811 END-->
+                        <lightning-formatted-number value={item.totalPrice} format-style="currency"
+                            minimum-fraction-digits="2" currency-code={orderCurrencyCode} currency-display-as={currencyDisplayAs}>
+                        </lightning-formatted-number>
+                    </span>
+                    </br>
+                    <!-- <span class="cart-product-unit-price">
+                        <div class="slds-m-vertical--small">
+                            <lightning-formatted-number value={item.unitPrice} format-style="currency"
+                                minimum-fraction-digits="2">
+                            </lightning-formatted-number> <span class="each">/each</span>
+                        </div>
+                    </span>
+                    <span if:true={showStrikePrice} class="cart-product-unit-price strike-price">
+                        <div class="slds-m-vertical--small">
+                            <lightning-formatted-number value={item.listPrice} format-style="currency"
+                                minimum-fraction-digits="2">
+                            </lightning-formatted-number> <span class="each">/each</span>
+                        </div>
+                    </span> -->
+                    <div>
+                        {labels.ECOM_Qty}: {item.quantity}
+                    </div>
+                </div>
+                <hr/>
+                <div class="slds-grid slds-grid_vertical">
+
+                    <!-- RWPS:4602 : if:false={item.isNonSellableOrDiscontinuedProduct} -->
+                      <template if:false={item.isTrainingProduct}> <!--RWPS-4896 START-->
+                        <template if:false={item.isExcludedProduct}>  <!--RWPS-6880-->
+                        <div if:false={item.isNonSellableOrDiscontinuedProduct}
+                            class="slds-col slds-size_12-of-12 slds-large-size_4-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                            <button class="slds-button" aria-live="assertive" aria-pressed="true"
+                                onclick={handleAddToCart}>
+                                <span
+                                    class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon ecom-icon-size"
+                                        aria-hidden="true" src={images.carticon}>
+                                {labels.ECOM_AddToCart}
+                                </span>
+                            </button>
+                            <!-- <span class="vl"></span> -->
+                        </div>
+                        </template>  <!--RWPS-6880-->
+                    </template> <!--RWPS-4896 END-->
+                    <template if:false={item.isTrainingProduct}> <!--RWPS-4896 START-->
+                        <div
+                            class="slds-col slds-size_12-of-12 slds-large-size_6-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                            <button if:false={isFavorite} class="slds-button" aria-live="assertive"
+                                aria-pressed="true" onclick={handleAddToFavourite}>
+                                <span
+                                    class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon ecom-icon-size"
+                                        aria-hidden="true" src={images.favoriteimg}>
+                                    {labels.ECOM_Save_favorites}
+                                </span>
+                            </button>
+                            <button if:true={isFavorite} class="slds-button" aria-live="assertive"
+                                aria-pressed="true" onclick={handleRemoveFromFavourite}>
+                                <span
+                                    class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon ecom-icon-size"
+                                        aria-hidden="true" src={images.deleteimg}>
+                                    {labels.ECOM_Remove_Favorites}
+                                </span>
+                            </button>
+                            <!-- <span class="vl"></span> -->
+                        </div>
+                    </template> <!--RWPS-4896 END-->
+                    <div if:false={isSapOrder} class="slds-col slds-size_12-of-12 slds-large-size_7-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                        <button class="slds-button" aria-live="assertive" aria-pressed="true" data-id={item.id}
+                            onclick={handleOpenHelpModal}>
+                            <span
+                                class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                <img src={images.needhelpicon} class="slds-button__icon slds-button__icon_medium slds-button__icon_left utility-icon ecom-icon-size"
+                                    aria-hidden="true">
+                                {labels.ECOM_Help}
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RWPS-5181 - Start -->
+        <div if:true={orderItemStatus} class={applicableTrackingClass}>
+            <template if:false={isOrderCancelled}>
+                <div  if:true={showTrackingTimeline} class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-12 slds-large-size_1-of-12 slds-medium-size_1-of-12 slds-small-size_1-of-12"></div>
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_8-of-12 slds-medium-size_8-of-12 slds-small-size_8-of-12">
+                        <div class="stepper-wrapper">
+                            <template for:each={progressBarCollection} for:item='step'>
+                                <div key={step.stepNumber} class="stepper-item">
+                                    <div if:false={step.isComplete} class={step.stepStyling}></div>
+                                    <img if:true={step.isComplete} class="completed" aria-hidden="true" src={images.stepcomplete}>
+                                    <div class="step-name">{step.displayLabel}</div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div if:true={itemTracking} class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_3-of-12">
+                        <div class="tracking-container">
+                            <template for:each={itemTracking} for:item="track">
+                                <template if:true={track.isValidUrl}><!--RWPS-3258-->
+                                    <span key={track.trackingNumber}>{labels.ECOM_Track_Shipment}</span><br key={track.trackingNumber}/>
+                                    <span key={track.trackingNumber}  class="ups">
+                                        <a href={track.trackingURL} target="_blank">{track.carrierName}: {track.trackingNumber}</a><br/>
+                                    </span>
+                                </template>
+                                <template if:false={track.isValidUrl}><!--RWPS-3258-->
+                                    <span key={track.trackingNumber}>{labels.ECOM_Track_Shipment}</span><br key={track.trackingNumber}/>
+                                    <span key={track.trackingNumber}>
+                                        <p>{track.trackingNumber}</p><br/>
+                                    </span>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div if:true={isOrderCancelled} class="slds-grid">
+                <div class="slds-col slds-size_2-of-12 slds-large-size_3-of-12 slds-medium-size_2-of-12 slds-small-size_3-of-12 slds-m-left--medium">
+                    <span class="ecom-order-cancelled-label">{labels.ECOM_Cancelled}</span>
+                </div>
+            </div>
+        </div>
+        <!-- RWPS-5181 - End -->
+
+        <div if:true={isHelpModalOpen}>
+            <section if:true={showHelp} role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-modal_full slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- <div class="slds-modal__header ecom-height">
+                        <div>
+                            <button class="slds-button slds-button_icon ecom-closebtn" onclick={handleCloseHelpModal}>
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Cancel and close</span>
+                            </button>
+                        </div>
+                        <! <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Edit Item</h1>  -->
+                    <!-- <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Need Help with this Item?</h1>  -->
+
+
+                    <div class="slds-modal__header ecom-qo-noborder">
+                        <div>
+                            <button class="slds-button slds-button_icon ecom-qo-closebtn"
+                                onclick={handleCloseHelpModal}>
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                            </button>
+                        </div>
+                        <h1 id="modal-heading-01-mb"
+                            class="slds-modal__title slds-hyphenate ecom-help-heading slds-m-top_large">{labels.ECOM_Help}</h1>
+
+                    </div>
+                    <!-- </div> -->
+                    <!-- modal body start -->
+                    <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large ecom-no-border modal-height slds-p-around--xx-large"
+                        id="1mb">
+                        <div class="align-center">
+                            <span class="slds-modal__content" id="2mb">
+                                <p class="ecom_modal_note slds-m-bottom--large">
+                                    {labels.ECOM_HelpReason}.
+                                </p>
+                            </span>
+                        </div>
+                        <div class="combobox ecom-reason">
+                            <lightning-combobox name="progress" label={labels.ECOM_Reason} value="" placeholder="Select"
+                                options={options} onchange={handlePicklistChange} required>
+                            </lightning-combobox>
+                        </div>
+                        <div class="ecom-reason">
+                            <!-- <lightning-textarea name="input6" required value="" label="Reason for Editing" class="textAreaBody ecom-reason" onchange={handleTextChange}></lightning-textarea> -->
+                            <lightning-textarea name="input6" required value="" label={labels.ECOM_Reason_for_Needing_Help}
+                                class="textAreaBody ecom-reason" onchange={handleTextChange}></lightning-textarea>
+
+                        </div>
+                    </div>
+                    <!-- <div class="slds-modal__footer">
+                        <button class="ecom_btn-inverse slds-m-left_medium" onclick={handleCloseHelpModal}>
+                            <span>Cancel</span>
+                        </button>
+                        <button class="ecom_btn-brand slds-m-left_medium" onclick={handleSubmit}>
+                            <span>Submit</span>
+                        </button>
+                    </div>  -->
+                    <div class="slds-modal__footer ecom-f-no-border">
+                        <div class="slds-grid slds-grid_vertical">
+                            <div class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                                <button class={cssClass} onclick={handleSubmit} disabled={isButtonDisabled}>
+                                    <span>{labels.ECOM_Submit}</span>
+                                </button>
+                            </div>
+                            <div class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 slds-medium-size_2-of-12 slds-small-size_4-of-12">
+                                <button class="ecom_btn-inverse" onclick={handleCloseHelpModal}>
+                                    <span>{labels.ECOM_Cancel}</span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- <button class="ecom_btn-brand slds-m-left_medium" onclick={handleSubmit}> -->
+                    </div>
+                </div>
+            </section>
+            <section if:true={showResponse} role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <div class="slds-modal__header ecom-qo-noborder">
+                        <div>
+                            <button class="slds-button slds-button_icon ecom-qo-closebtn"
+                                onclick={handleCloseHelpModal}>
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                            </button>
+                        </div>
+                        <h1 id="modal-heading-02mb"
+                            class="slds-modal__title slds-hyphenate ecom-help-heading slds-m-top_large">{labels.ECOM_Help}</h1>
+
+                    </div>
+
+
+                    <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large ecom-no-border modal-height slds-p-around--xx-large"
+                        id="successBlockmb">
+                        <div class="align-center">
+                            <span class="slds-modal__content" id="successBlock2mb">
+                                <p class="ecom_modal_note slds-m-bottom--large">
+                                    {message}
+                                </p>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="slds-modal__footer ecom-f-no-border">
+                        <!-- <button class="ecom_btn-inverse slds-m-left_medium" onclick={handleCloseHelpModal}> -->
+                        <button class="ecom_btn-inverse" onclick={handleCloseHelpModal}> <!--RWPS-4153-->
+                            <span>{labels.ECOM_Close}</span>
+                        </button>
+                    </div>
+
+
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </div>
+
+</template>

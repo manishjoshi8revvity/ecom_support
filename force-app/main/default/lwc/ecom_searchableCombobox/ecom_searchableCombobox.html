@@ -1,0 +1,56 @@
+<template>
+    <template lwc:if={showSpinner}>
+        <div class="backdrop">
+            <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+            </lightning-spinner>
+        </div>
+    </template>
+    <div class={classes}>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container width-95">
+                <div class={dropdownClasses} data-id="resultBox" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon slds-input-has-icon_left-right" role="none">
+                        <!-- RWPS-3826 -->
+                        <lightning-input
+                            label={label}
+                            type="search"
+                            value={value}
+                            placeholder={placeholder}
+                            onchange={handleSearch}
+                            onfocus={handleFocus}
+                            onblur={handleBlur}
+                            onkeydown={handleKeyDownInput}
+                            aria-label="Search product"
+                            lwc:ref="searchInput"
+                        ><!--RWPS-4086-->
+                        </lightning-input>
+                    </div>
+                    <div lwc:if={showMessage}>
+                        <p class="red">{message}</p>
+                    </div>
+                    <!-- Display option Results -->
+                    <div id="searchResults" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <template lwc:if={filteredOptions}>
+                                <template for:each={filteredOptions} for:item="option">
+                                    <li role="presentation" class="slds-listbox__item" key={option.Part_Number__c}>
+                                        <div tabindex="0" data-value={option.Part_Number__c} data-label={option.Part_Number__c} onclick={handleSelectOption} onkeydown={handleKeyDownOption} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta rvty-listbox-item" role="option"><!-- RWPS-3826 --><!--RWPS-4086-->
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity slds-p-around--xx-small">{option.Part_Number__c}</span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </template>
+                            <template if:true={noOptions}>
+                                <li role="presentation" class="slds-align--absolute-center slds-listbox__item">
+                                    <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity slds-p-around--xx-small">No part numbers found</span>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

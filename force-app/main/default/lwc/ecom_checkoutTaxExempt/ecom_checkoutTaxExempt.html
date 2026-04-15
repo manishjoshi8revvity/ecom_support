@@ -1,0 +1,91 @@
+<!--
+  @description       : 
+  @author            : Vipul Goyal
+  @group             : 
+  @last modified on  : 02-20-2024
+  @last modified by  : Vipul Goyal
+-->
+<template>
+  <template if:true={showSpinner}>
+     <div class="backdrop">
+         <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+         </lightning-spinner>
+     </div>
+ </template>
+
+ <div class="slds-col slds-m-vertical--medium">
+    <c-ecom_inline-message type={type} message={message} show={show} timespan={timeSpan} onmessageaction={handleUpdateMessage}></c-ecom_inline-message>
+ </div>
+ 
+   <div class="register_section">
+      <div if:true={isTaxExemptReadMode}>
+        <div class="ecom-ship-bill-card">
+            <div class="slds-grid slds-wrap">
+              <div class=" slds-size_12-of-12">
+                  <lightning-input type="checkbox" label={labels.ECOM_TaxExemptLabel} name="input2" checked={isTaxExempt} disabled onchange={handleTaxExemptChange}></lightning-input>
+              </div>
+              <div class="slds-size_12-of-12">
+                  <a href="javascript:void(0)" onclick={taxExemptPopUp}>Learn more about tax exempt status</a>
+              </div>
+              <div lwc:if={isTaxExempt} class="slds-size_12-of-12 slds-m-top--large">
+                <div class="ecom-address-label">Charity Number</div>
+                <span>{charityNumber}</span>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div if:true={isTaxExemptEditMode}>
+        <div class="ecom-ship-bill-card">
+           <div class="slds-grid slds-wrap">
+              <div class="slds-size_12-of-12">
+                  <lightning-input type="checkbox" label={labels.ECOM_TaxExemptLabel} name="input2" checked={isTaxExempt} onchange={handleTaxExemptChange}></lightning-input>
+              </div>
+              <div class="slds-size_12-of-12">
+                  <a href="javascript:void(0)" onclick={taxExemptPopUp}>Learn more about tax exempt status</a>
+              </div>
+              <div lwc:if={isTaxExempt} class="slds-size_12-of-12 slds-m-top--large">
+                <lightning-input type="text" lwc:ref="charNumber" label={labels.ECOM_CharityNumberLabel} value={charityNumber} onchange={handleCharityNumberChange}></lightning-input>
+              </div>
+            </div>
+        </div>
+        <button class="ecom-payment-btn" onclick={handleSaveAndContinueToOrderReview}>
+        <span>Save & Continue </span>
+        </button>
+      </div>
+   </div>
+   <template if:true={showTaxExemptPopUp}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        
+        <div class="slds-modal__container">
+            <div class="slds-modal__header ecom-qo-noborder">
+                <div>
+                    <button class="slds-button slds-button_icon ecom-qo-closebtn" onclick={handlePopUpClose}>
+                        <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">{labels.Ecom_Cancel_close}</span>
+                    </button>
+                </div>
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate slds-m-top_large fontCSS">Tax exempt status</h1>
+            </div>
+            <!-- modal body start -->
+            <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large pBottom" id="1">
+              <lightning-formatted-rich-text value={labels.ECOM_TaxExemptPopUpLabel}></lightning-formatted-rich-text>
+            </div><!--body ended-->
+        <div class="slds-modal__footer">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 slds-p-bottom_small">
+                </div>
+                <div class="slds-col slds-size_6-of-12 slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-small-size_6-of-12 slds-p-bottom_small">
+                    <button class="ecom_btn-brand" onclick={handlePopUpClose}>
+                        <span>Done</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

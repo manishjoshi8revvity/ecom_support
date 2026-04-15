@@ -1,0 +1,299 @@
+:host{
+    font-family: "Hanken Grotesk", sans-serif;
+    font-weight: 300;
+
+    --revvity-brand-purple: #7F03B0;
+    --revvity-error-red: #dc0101;
+    --revvity-error-background-pink: #dc010133;
+}
+.ecom-card{
+    /* max-width: 528px; */
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,.2);
+    padding: 24px;
+}
+
+.ecom-padding-24{
+    padding: 24px;
+}
+
+.ecom-line-height-32{
+    line-height: 32px;
+}
+
+.ecom-line-height-44{
+    line-height: 44px;
+}
+
+.ecom-line-height-48{
+    line-height: 48px;
+}
+
+.ecom-text-size-36{
+    font-size: 36px;
+}
+
+.ecom-text-size-40{
+    font-size: 40px;
+}
+
+.ecom-text-size-16{
+    font-size: 16px;
+}
+
+.ecom-text-brand-color{
+    color: var(--revvity-brand-purple) ;
+}
+
+.ecom-text-weight-500{
+    font-weight: 500;
+}
+
+.ecom-margin-bottom-4{
+    margin-bottom: 4px;
+}
+
+.ecom-padding-bottom-40{
+    padding-bottom: 40px;
+}
+
+.ecom-padding-bottom-32{
+    padding-bottom: 32px;
+}
+
+.ecom-margin-bottom-32{
+    margin-bottom: 32px;
+}
+
+.ecom-margin-bottom-80{
+    margin-bottom: 80px;
+}
+
+.ecom-padding-bottom-52{
+    padding-bottom: 52px;
+}
+
+.ecom-password-icon{
+	width: 3rem;
+    height: 1rem;
+}
+
+.ecom-max-width-528{
+    max-width: 528px;
+}
+
+.ecom-header{
+    /* width: 480px; */
+    margin-bottom: 32px;
+}
+
+.ecom-detail-text-18{
+    color: #000000;
+    font-size: 18px;
+    font-style: normal;
+    line-height: 22px; /* 137.5% */
+}
+
+.ecom-error-text{
+    color: var(--revvity-error-red);
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+.ecom-close-button{
+    height: 24px;
+    width: 24px;
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    transform: none;
+    text-align: center;
+    font-size: 0;
+    cursor: pointer;
+}
+
+.ecom-login{
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 0px solid var(--revvity-brand-purple);
+    background-color: var(--revvity-brand-purple);
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.ecom-email-sent{
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 0px solid var(--revvity-brand-purple);
+    background-color: var(--revvity-brand-purple);
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.ecom-error-message-block{
+    display: block;
+    background: var(--revvity-error-background-pink);
+    border: 1px solid var(--revvity-error-red);
+    box-shadow: none;
+    padding: 15px 55px 15px 15px;
+    margin-bottom: 25px;
+    position: relative;
+    color: #000000;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.ecom-success-message-block{
+    display: block;
+    background: #D3E7D4;
+    border: 1px solid black;
+    box-shadow: none;
+    padding: 15px 55px 15px 15px;
+    margin-bottom: 25px;
+    position: relative;
+    color: #000000;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.ecom-font-weight-400{
+    font-weight: 400;
+}
+
+.ecom-text-weight-600 {
+    font-weight: 600;
+}
+
+.slds-checkbox .slds-checkbox__label .slds-form-element__label  {
+    font-weight: 400 !important;
+}
+
+.ecom-text-hyperlink-style a:hover{
+    text-decoration: none !important;
+}
+
+.ecom-text-hyperlink-style a:focus {
+    color: #7F03B0;
+    text-decoration: none;
+    outline: 1px solid #5a027d;
+    outline-offset: 2px;
+}
+
+@media screen and (max-width: 1104px) {
+    .ecom-max-width-528 {
+        max-width: 100%;
+    }
+
+    .ecom-margin-left-71{
+        margin-left: 0px;
+    }
+
+    .ecom-header{
+        font-size: 28px;
+    }
+
+    .ecom-detail-text-18{
+        font-size: 16px;
+    }
+
+    .ecom-padding-bottom-32{
+        padding-bottom:24px
+    }
+
+    .ecom-login-container span{
+        font-size: 16px!important;
+    }
+
+    .ecom-email-sent-container span{
+        font-size: 16px!important;
+    }
+
+    .ecom-margin-bottom-responsive{
+        margin-bottom: 24px!important;
+    }
+
+}
+
+@media screen and (max-width: 495px) {
+    .ecom-login-container .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+        font-size: 18px !important;
+    }
+
+    .ecom-email-sent-container .slds-checkbox .slds-checkbox__label .slds-form-element__label{
+        font-size: 18px !important;
+    }
+
+    .ecom-detail-text-18 {
+        font-size: 18px!important;
+    }
+
+    .ecom-text-size-30 {
+        font-size: 18px !important;
+    }
+
+    .ecom-text-size-32 {
+        font-size: 18px !important;
+    }
+
+    .email-font-styling {
+        font-size: 16px!important;
+    }
+}
+
+.ecom-login:hover{
+    background: #5a027d;
+}
+.ecom-login:disabled {
+    background: #A8A8A8;
+    border-color: #A8A8A8;
+    pointer-events: none;
+}
+
+.ecom-svg-hover-styling:hover {
+    filter: brightness(0) saturate(100%) invert(10%) sepia(100%) saturate(7432%) hue-rotate(286deg) brightness(75%) contrast(102%);
+}
+
+.spinshow::after {
+  position: absolute;
+  content: "Loading...";
+  width: 100%;
+  text-align: center;
+  top: calc(50% + 3em);
+  color: white;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.email-font-styling {
+    font-size: 18px!important;
+    font-weight: 400!important;
+}

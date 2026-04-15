@@ -1,0 +1,22 @@
+.main-input {
+  cursor: pointer;
+}
+
+[data-visible="false"] {
+  display: none;
+}
+
+.dropdown-options {
+  max-height: 250px;
+}
+
+.dropdown-option {
+  cursor: pointer;
+}
+
+.dropdown-option:not(.dropdown-default):hover,
+.dropdown-option.highlighted:not(.dropdown-default),
+.dropdown-option.dropdown-default:hover .dropdown-default-value,
+.dropdown-option.highlighted.dropdown-default .dropdown-default-value {
+  background-color: #e9ecef;
+}

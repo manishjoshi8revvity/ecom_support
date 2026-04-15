@@ -1,0 +1,508 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 05-06-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <template if:true={showSpinner}>
+        <div class="backdrop">
+            <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+            </lightning-spinner>
+        </div>
+    </template>
+    <div class={cardSize}>
+        <div if:true={showShipment} class="slds-p-around--small split-ship">
+            Because of the quantity, this item is separated into {totalShipment} shipments
+        </div>
+        <!-- <div if:false={showShipment} class="split-ship-false"></div> -->
+        <!--RWPS-2786 START-->
+        <template if:true={isProductDiscontinued}>
+            <div class={discontinuedMain}>
+                <span class={textDiscountinue}>
+                    <svg class="ecom-svg" width="17" height="16" viewBox="0 0 17 16" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_43796_11484)">
+                            <path
+                                d="M2.84367 13.6562C2.07959 12.9182 1.47013 12.0354 1.05086 11.0594C0.63159 10.0834 0.4109 9.03361 0.401669 7.97137C0.392439 6.90914 0.594852 5.8557 0.997099 4.87253C1.39935 3.88936 1.99337 2.99614 2.74451 2.245C3.49565 1.49386 4.38887 0.899835 5.37204 0.497588C6.35521 0.0953406 7.40865 -0.107073 8.47088 -0.0978425C9.53312 -0.0886119 10.5829 0.132078 11.5589 0.55135C12.5349 0.970622 13.4177 1.58008 14.1557 2.34416C15.6129 3.85298 16.4193 5.8738 16.4011 7.97137C16.3828 10.0689 15.5415 12.0754 14.0582 13.5587C12.575 15.042 10.5685 15.8833 8.47088 15.9016C6.37331 15.9198 4.35249 15.1134 2.84367 13.6562ZM13.0277 12.5282C14.2286 11.3273 14.9032 9.69849 14.9032 8.00016C14.9032 6.30183 14.2286 4.67306 13.0277 3.47216C11.8268 2.27126 10.198 1.5966 8.49967 1.5966C6.80134 1.5966 5.17257 2.27126 3.97167 3.47216C2.77077 4.67306 2.09611 6.30183 2.09611 8.00016C2.09611 9.69849 2.77077 11.3273 3.97167 12.5282C5.17257 13.7291 6.80134 14.4037 8.49967 14.4037C10.198 14.4037 11.8268 13.7291 13.0277 12.5282ZM7.69967 4.00016H9.29967V8.80016H7.69967V4.00016ZM7.69967 10.4002H9.29967V12.0002H7.69967V10.4002Z"
+                                fill="#DC0101" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_43796_11484">
+                                <rect width="16" height="16" fill="white" transform="translate(0.5)" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span class="ecom-text-product">{labels.ECOM_Discontinued_Message} </span> <a
+                        href={labels.ECOM_Contact_Us_Url}>Contact us</a> if you need help</span>
+                <button class={btnDiscontinue} aria-live="assertive" aria-pressed="true" onclick={handleDeleteCartItem}>
+                    <span
+                        class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                        <img class="slds-button__icon slds-button__icon_large slds-button__icon_left ecom-btn-remove-icon-size"
+                            aria-hidden="true" src={images.deleteimg}>
+                        {labels.ECOM_Remove} item</span> <!--RWPS-2486-->
+                </button>
+            </div>
+        </template>
+        <!--RWPS-2786 END-->
+
+        <!-- RWPS-4896 START -->
+        <template if:true={isTrainingProduct}>
+            <!-- <div class ="traning-product-main"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" style="width: 22px;">
+            <path d="M320 576C178.6 576 64 461.4 64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576zM320 96C196.3 96 96 196.3 96 320C96 443.7 196.3 544 320 544C443.7 544 544 443.7 544 320C544 196.3 443.7 96 320 96zM403.1 230.6C408.3 223.5 418.3 221.9 425.4 227.1C432.5 232.3 434.1 242.3 428.9 249.4L300.9 425.4C298.1 429.2 293.9 431.6 289.2 431.9C284.5 432.2 279.9 430.6 276.6 427.3L212.6 363.3C206.4 357.1 206.4 346.9 212.6 340.7C218.8 334.5 229 334.5 235.2 340.7L285.9 391.4L402.9 230.6z"></path></svg></span>
+            <span class="traning-product-text">{labels.ECOM_Training_Product}</span></div> -->
+            <div class="training-product-main">
+                <div class="training-product-sub">
+                    <span style="flex-shrink: 0;"><span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+                                <!-- Green circle background -->
+                                <circle cx="12" cy="12" r="10" fill="#28a745" />
+
+                                <!-- White tick mark -->
+                                <path d="M9.5 13.5l-2.5-2.5-1.4 1.4 3.9 3.9 7-7-1.4-1.4-5.6 5.6z" fill="#ffffff" />
+                            </svg>
+                        </span></span>
+                    <div class="traning-product-text">
+                        {labels.ECOM_Training_Product}
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:true={showModal}>
+            <c-ecom_alert-modal-box oncancelremoveitem={handleTrainingProductCancel}
+                onremovetrainingproduct={handleTrainingProductsRemove}></c-ecom_alert-modal-box>
+        </template>
+
+        <!-- RWPS-4896 END -->
+
+        <div class={cardClassTop}>
+            <div class=" slds-size_3-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-small-size_3-of-12">
+                <span class="ecom-prod-img" onclick={navigateToPDP}>
+                    <img alt="Product image" if:true={itemImage} src={itemImage}><!--RWPS-3826-->
+                </span>
+            </div>
+            <div class="slds-size_9-of-12 slds-large-size_7-of-12 slds-medium-size_7-of-12 slds-small-size_9-of-12">
+                <!--<div onclick={navigateToPDP} class="ecom-prod-name">{displayName}</div>--> <!--RWPS-2270 START-->
+                <lightning-formatted-rich-text value={displayName} tabindex="0" onkeypress={navigateToPDPEnter}
+                    onclick={navigateToPDP} class="ecom-prod-name"><!--RWPS-4086-->
+                </lightning-formatted-rich-text><!--RWPS-2270 END-->
+                <div class="ecom-prod-desc">
+                    <template for:each={fields} for:item="field">
+                        <div key={field.name} if:true={field.value}>
+                            <span class="cart-product-details">{field.name}: </span>
+                            <span class="cart-product-details maxCss">{field.value}</span>
+                        </div>
+                    </template>
+                    <!--RWPS-3026 Start-->
+                    <template for:each={fields} for:item="field">
+                        <template if:false={isTrainingProduct}> <!--RWPS-4896 START-->
+                            <template if:false={isGenericTrainingProduct}> <!--RWPS-4896-->
+                                <div key={field.name} if:true={itemTariffAmount.tarriffAmount}>
+                                    <span class="cart-product-details">{labels.ECOM_Tariff_Surcharge}: </span>
+                                    <span class="cart-product-details maxCss">
+                                        <lightning-formatted-number value={itemTariffAmount.tarriffAmount}
+                                            format-style="currency" minimum-fraction-digits="2" maximum-fraction-digits="20"
+                                            currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                                        </lightning-formatted-number>
+                                    </span>
+                                </div>
+                            </template>
+                        </template><!--RWPS-4896 END-->
+                    </template>
+                    <!--RWPS-3026 End-->
+                    <div if:true={isRadProduct}>
+                        <img src={images.radIcon} />
+                    </div>
+                    <div if:true={showShipment}>
+                        <span class="cart-product-details"> Shipment : </span>
+                        <span class="cart-product-details">{index} of {totalShipment}</span>
+                    </div>
+                    <div>
+                        </br>
+                        <div if:false={device.isMobile}>
+                            <!--RWPS-3811-->
+                            <button if:false={isFreeItem} class="slds-button" aria-live="assertive" aria-pressed="true"
+                                onclick={handleDeleteCartItem}>
+                                <span
+                                    class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                    <img class="slds-button__icon slds-button__icon_large slds-button__icon_left ecom-btn-remove-icon-size"
+                                        aria-hidden="true" src={images.deleteimg}>
+                                    {labels.ECOM_Remove}</span> <!--RWPS-2486-->
+                            </button>
+
+                            <!--RWPS-2786 START-->
+                            <template if:false={isProductDiscontinued}>
+                                <!--RWPS-4896 START-->
+                                <template if:false={isTrainingProduct}><!--RWPS-4896 START-->
+                                    <template if:false={isFavorite}>
+                                        <template if:false={isGenericTrainingProduct}> <!--RWPS-4896-->
+                                            <span if:false={isFreeItem} class="vl"></span><!--RWPS-3811-->
+                                            <button class="slds-button" aria-live="assertive" aria-pressed="true"
+                                                onclick={handleAddToFavourite}>
+                                                <span
+                                                    class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                                    <img class="slds-button__icon slds-button__icon_large slds-button__icon_left ecom-btn-favorites-icon-size"
+                                                        aria-hidden="true" src={images.favoriteimg}>
+                                                    {labels.ECOM_SaveToFavorites}</span> <!--RWPS-2486-->
+                                            </button>
+                                        </template>
+                                    </template><!--RWPS-4896 END-->
+
+                                    <template if:true={isFavorite}>
+                                        <span if:false={isFreeItem} class="vl"></span> <!--RWPS-3811-->
+                                        <button class="slds-button" aria-live="assertive" aria-pressed="true"
+                                            onclick={handleRemoveFromFavourite}>
+                                            <span
+                                                class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                                <img class="slds-button__icon slds-button__icon_large slds-button__icon_left ecom-btn-favorites-icon-size"
+                                                    aria-hidden="true" src={images.filledfavorite}>
+                                                {labels.ECOM_Remove_Favorites}</span> <!--RWPS-2486-->
+                                        </button>
+                                    </template>
+                                    <!--RWPS-4896 END-->
+                                </template>
+                            </template>
+                            <!--RWP2786 END-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--RWPS-3811-->
+            <div if:false={isFreeItem} class={cartPriceBoxCSS}>
+                <template if:false={isProductDiscontinued}><!--RWPS-2786-->
+                    <div class="ecom-prod-pricebox">
+                        <span class="cart-product-price">
+                            <lightning-formatted-number value={item.totalPrice} format-style="currency"
+                                minimum-fraction-digits="2" maximum-fraction-digits="20" currency-code={currencyCode}
+                                currency-display-as={currencyDisplayAs}>
+                            </lightning-formatted-number>
+                        </span>
+                        </br>
+
+                        <div if:false={device.isMobile} class="price-format">
+                            <div if:true={promoCodeApplied} class="cart-product-strike-price">
+                                <lightning-formatted-number value={item.listPrice} maximum-fraction-digits="20"
+                                    currency-code={currencyCode} currency-display-as={currencyDisplayAs}
+                                    format-style="currency" minimum-fraction-digits="2">
+                                </lightning-formatted-number> &nbsp;/{labels.ECOM_Each} <!--RWPS-2486-->
+                            </div>
+                        </div>
+                        <div if:false={device.isMobile} class="price-format">
+                            <div class="cart-product-price-small">
+                                <lightning-formatted-number value={item.salesPrice} maximum-fraction-digits="20"
+                                    currency-code={currencyCode} format-style="currency"
+                                    currency-display-as={currencyDisplayAs} minimum-fraction-digits="2">
+                                </lightning-formatted-number>
+                                &nbsp;/{labels.ECOM_Each} <!--RWPS-2486-->
+                            </div>
+                        </div>
+                        <br>
+
+                        <!-- RWPS-4896 START -->
+                        <div class={cardQuantityCSS}>
+                            <div if:true={isGenericTrainingProduct} class="slds-form-element__control ecom-qty-ctr-border"> <!--RWPS-4896-->
+                                <!--button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement" title="Decrement counter" onclick={handleQuantityDecrement}  disabled={isCartDisabled}-->
+                                <button
+                                    class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement ecom-btn-decrement-counter"
+                                    title="Decrement counter" onclick={handleQuantityDecrement}
+                                    disabled>
+                                    <svg class="slds-button__icon" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Decrement counter</span>
+                                </button>
+                                <input type="number" id={item.cartItemId} disabled placeholder="1"
+                                    min="1" max="1" value="1"
+                                    class="slds-input slds-input_counter" onkeyup={handleQuantityChange} onblur={handleQuantityBlur} /> <!--RWPS-5852-->
+                                <!--button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment" title="Increment counter" onclick={handleQuantityIncrement}-->
+                                <button disabled
+                                    class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment ecom-btn-increment-counter"
+                                    title="Increment counter" onclick={handleQuantityIncrement}>
+                                    <svg class="slds-button__icon" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Increment counter</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- RWPS-4896 END -->
+
+                        <div class={cardQuantityCSS} if:false={isTrainingProduct}>
+                            <div if:false={isGenericTrainingProduct} class="slds-form-element__control ecom-qty-ctr-border"> <!--RWPS-4896-->
+                                <!--button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement" title="Decrement counter" onclick={handleQuantityDecrement}  disabled={isCartDisabled}-->
+                                <button
+                                    class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement ecom-btn-decrement-counter"
+                                    title="Decrement counter" onclick={handleQuantityDecrement}
+                                    disabled={isCartDisabled}>
+                                    <svg class="slds-button__icon" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Decrement counter</span>
+                                </button>
+                                <input type="number" id={item.cartItemId} disabled={isCartDisabled} placeholder="1"
+                                    min={minQuantity} max={maxQuantity} value={quantity}
+                                    class="slds-input slds-input_counter" onkeyup={handleQuantityChange} onblur={handleQuantityBlur} /> <!--RWPS-5852-->
+                                <!--button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment" title="Increment counter" onclick={handleQuantityIncrement}-->
+                                <button
+                                    class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment ecom-btn-increment-counter"
+                                    title="Increment counter" onclick={handleQuantityIncrement}>
+                                    <svg class="slds-button__icon" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Increment counter</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div if:true={device.isMobile} class="fav-padding">
+                            <button class="text-button" aria-live="assertive" aria-pressed="true"
+                                onclick={handleDeleteCartItem}>
+                                <span
+                                    class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size"
+                                        aria-hidden="true" src={images.deleteimg}>
+                                    {labels.ECOM_Remove}</span> <!--RWPS-2486-->
+                            </button>
+                            <template if:false={isTrainingProduct}><!--RWPS 4896 START-->
+                                <template if:false={isGenericTrainingProduct}> <!--RWPS-4896-->
+                                    <button if:false={isFavorite} class="text-button" aria-live="assertive"
+                                        aria-pressed="true" onclick={handleAddToFavourite}>
+                                        <span
+                                            class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                            <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size"
+                                                aria-hidden="true" src={images.favoriteimg}>
+                                            {labels.ECOM_SaveToFavorites}</span> <!--RWPS-2486-->
+                                    </button>
+                                    <button if:true={isFavorite} class="text-button" aria-live="assertive"
+                                        aria-pressed="true" onclick={handleRemoveFromFavourite}>
+                                        <span
+                                            class="slds-text-selected cart-redirect-icon-color cart-icon-color slds-align_absolute-center">
+                                            <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size"
+                                                aria-hidden="true" src={images.filledfavorite}>
+                                            {labels.ECOM_Remove_Favorites}</span> <!--RWPS-2486-->
+                                    </button>
+                                </template>
+                            </template><!--RWPS 4896 END-->
+                        </div>
+                    </div>
+                </template><!--RWPS-2786-->
+            </div>
+            <div if:true={isFreeItem} class={cartPriceBoxCSS}> <!--RWPS-3811-->
+                <div class="free-item-label-outer"><span class="free-item-label">{labels.ECOM_Free_Item}</span></div>
+                <div>QTY: {quantity}</div>
+                <!-- <input type="number" id={item.cartItemId}
+                                placeholder="1" disabled value={quantity}
+                                class="slds-input slds-input_counter free-item-disable-input" /> -->
+            </div>
+        </div>
+        <div lwc:if={isLargePackOrder} class="radiun-bottom">
+
+        </div>
+
+        <div lwc:else>
+            <div if:false={showGenericMsg} class={cardClassBottom}
+                style="background-color:#FBFBFB; border: 1px solid #E3E3E3">
+                <template if:false={isProductDiscontinued}><!--RWPS-2786-->
+                    <template if:false={isTrainingProduct}><!--RWPS-4896-->
+                        <template if:false={isGenericTrainingProduct}><!--RWPS-4896-->
+                            <div class="slds-grid slds-wrap handlepadding slds-small-size_4-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12"> <!--RWPS-4896-->
+                            <div class="slds-col slds-size_2-of-12" if:false={device.isMobile}></div>
+                            <div class={boxoneCSS} onclick={handleBoxCSS} onkeypress={enterToClick}><!--RWPS-3826-->
+                                <label class="container" onkeypress={enterToClick} tabindex="0"><!--RWPS-3826-->
+                                    <input if:false={itemShippingDates.selectedDate} type="radio" checked id="Earliest"
+                                        disabled={isCartDisabled} name={item.cartItemId} value="Earliest" />
+                                    <input if:true={itemShippingDates.selectedDate} type="radio" id="Earliest2"
+                                        disabled={isCartDisabled} name={item.cartItemId} value="Earliest" />
+                                    <label class="cart-shipping-label">{labels.ECOM_ShipEarlyDate}</label>
+                                    <!--RWPS-2486-->
+                                    <br>
+                                    <span class="cart-shipping-label-date-2"
+                                        if:true={itemShippingDates.earliest}>{labels.ECOM_EstimatedToShipBy} &nbsp;
+                                        <!--RWPS-2486-->
+                                        <lightning-formatted-date-time time-zone="UTC"
+                                            value={itemShippingDates.earliest}></lightning-formatted-date-time>
+                                    </span>
+                                    <!--RWPS-1606-Start-->
+                                    <span class="cart-shipping-label-date-2"
+                                        if:true={estimatedDeliveryDate}>{labels.ECOM_EstDeliveryDate} &nbsp;
+                                        <!--RWPS-1606-->
+                                        <lightning-formatted-date-time time-zone="UTC"
+                                            value={estimatedDeliveryDate}></lightning-formatted-date-time>
+                                        <button class="slds-button" style="color:red" aria-describedby="help"
+                                            aria-disabled="true" onfocus={showPopover} onmouseenter={showPopover}
+                                            onblur={hidePopover} onmouseleave={hidePopover}>
+                                            <lightning-icon icon-name="utility:info" alternative-text="Info"
+                                                size="xx-small"
+                                                class="slds-button__icon slds-button__icon_left"></lightning-icon>
+                                        </button>
+                                        <div class={popoverClass} style={popoverStyle} role="tooltip" id="helptext">
+                                            <div style="color:black" class="slds-popover__body ecom-popover-body">
+                                                {labels.ECOM_EstDeliveryDate_Message}</div>
+                                        </div>
+                                    </span>
+                                    <!--RWPS-1606-End-->
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class={boxtwoCSS} tabindex="0" data-id={item.cartItemId}
+                                onclick={handleOpenDateSelector} onkeypress={enterToClick}><!--RWPS-3826-->
+                                <label class="container">
+                                    <input if:true={itemShippingDates.selectedDate} type="radio" id="Specific" checked
+                                        disabled={isCartDisabled} name={item.cartItemId} value="Specific" />
+                                    <input if:false={itemShippingDates.selectedDate} type="radio" id="Specific2"
+                                        disabled={isCartDisabled} name={item.cartItemId} value="Specific" />
+                                    <label class="cart-shipping-label"
+                                        for="Specific">{labels.ECOM_LockInSpecificDate}</label> <!--RWPS-2486-->
+                                    </br>
+                                    <lightning-formatted-date-time time-zone="UTC"
+                                        value={itemShippingDates.selectedDate}
+                                        class="cart-product-details"></lightning-formatted-date-time>&nbsp;
+                                    <button class="slds-button" data-id={item.cartItemId} aria-live="assertive"
+                                        aria-pressed="true" onclick={handleOpenDateSelector}>
+                                        <span class="cart-shipping-label-date ecom-brand-color"
+                                            if:true={itemShippingDates.selectedDate}>
+                                            Change Date
+                                        </span>
+                                        <span class="cart-shipping-label-date ecom-brand-color"
+                                            if:false={itemShippingDates.selectedDate}>
+                                            {labels.ECOM_Select_Date} <!--RWPS-2486-->
+                                        </span>
+                                    </button>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="slds-p-bottom_medium"><!--RWPS-1603-->
+                            <span class="ecom-cart-help">
+                                <span class="slds-text-selected cart-redirect-icon-color">
+                                    <div
+                                        class="ellipse-container slds-m-top_medium slds-m-bottom_medium slds-m-left_xx-large">
+                                        <template if:true={estimatedDeliveryDate}> <!--RWPS-1606--><!--RWPS-1603-->
+                                            <div class="pointer ecom-display-inline ecom-hyperlink ecom-delivery-modal"
+                                                tabindex="0" onkeypress={enterToClick} onclick={openDeliveryModal}>
+                                                <!--RWPS-3826-->
+                                                <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size"
+                                                    aria-hidden="true" src={imgSrc} onmouseenter={showHoverIcon}
+                                                    onmouseleave={showOriginalIcon} alt="Help Icon">
+                                                <div class="ecom-question text">{labels.ECOM_Product_Receive_Message}
+                                                </div> <!--RWPS-2486-->
+                                                <!-- <c-ecom_delivery-time-modal></c-ecom_delivery-time-modal> -->
+                                            </div>
+                                        </template><!--RWPS-1606-->
+                                        <c-ecom_delivery-time-modal onshippingtimes={handleShippingTimes}
+                                            onshippingdays={handleShippingDays}
+                                            item={item}></c-ecom_delivery-time-modal><!--RWPS-1606-->
+                                    </div>
+                                </span>
+                            </span>
+                        </div>
+                        </template>
+                    </template><!--RWPS-4896 END-->
+                </Template><!--RWPS-2786-->
+            </div>
+
+        </div>
+
+        <div if:true={showGenericMsg} class="slds-p-around--small generic-msg">
+            You'll be notified when a shipment date is available
+        </div>
+    </div>
+    <template if:true={isDateSelectorOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class={modalCSS}>
+
+            <div class="slds-modal__container">
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large ecom-no-border modal-height"
+                    id="1">
+
+                    <div class="slds-m-top--small">
+                        <button class="slds-button slds-button_icon ecom-closebtn" onclick={handleCloseDateSelector}>
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Cancel and close</span>
+                        </button>
+                    </div>
+                    <h1 id="modal-heading-01"
+                        class="slds-modal__title slds-hyphenate slds-align--absolute-center slds-m-bottom--medium">
+                        Change Shipping Date</h1>
+
+                    <div>
+                        <span class="slds-modal__content" id="2">
+                            <p class="ecom_modal_note slds-m-bottom--large">
+                                Select an available date from the calendar click apply. Note: Business Days exclude
+                                Weekends and Holidays.
+                            </p>
+                        </span>
+                        <div class="flex">
+                            <svg height="40" width="35">
+                                <circle cx="15" cy="13" r="13" fill="#7F03B0"></circle>
+                            </svg>
+                            <p>= Item will ship this date</p>
+                        </div>
+                        <div class="slds-align_absolute-center">
+                            <c-ecom_date-picker cart-item-id={selectedItemId} minimum-date={itemShippingDates.earliest}
+                                ondatechanged={handleDateSelected}></c-ecom_date-picker>
+                        </div>
+                    </div>
+
+                    <div class="slds-m-top--large align-right">
+                        <button class="ecom_btn-inverse slds-m-left_medium" onclick={handleCloseDateSelector}>
+                            <span>Cancel</span>
+                        </button>
+                        <button class="ecom_btn-brand slds-m-left_medium" onclick={handleApplyDateSelector}>
+                            <span>Apply</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={isRemoveModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+
+            <div class="slds-modal__container">
+                <!-- modal body start -->
+                <div class="slds-modal__content ecom-no-border" id="10">
+                    <div class="ecom-closebtn slds-m-around--x-small">
+                        <button class="slds-button slds-button_icon" onclick={handleCloseRemoveModal}>
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Cancel and close</span>
+                        </button>
+                    </div>
+                    <div>
+                        <span class="slds-modal__content" id="20">
+                            <p
+                                class="slds-p-horizontal--large slds-p-bottom--x-large slds-p-top--medium ecom_modal_note">
+                                Are you sure you wish to remove this item? This will also remove the split shipments
+                                related to this item.
+                            </p>
+                        </span>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="ecom_btn-inverse slds-m-left_medium" onclick={handleCloseRemoveModal}>
+                        <span>Cancel</span>
+                    </button>
+                    <button class="ecom_btn-brand slds-m-left_medium" onclick={handleDeleteCartItemsByProduct}>
+                        <span>Yes</span>
+                    </button>
+
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <c-ecom_show-toast></c-ecom_show-toast>
+    <!--26th Nov start-->
+    <!--26th Nov end-->
+</template>

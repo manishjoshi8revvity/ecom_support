@@ -1,0 +1,121 @@
+.ecom_emptycart_text{
+font-family: Hanken Grotesk;
+font-size: 48px;
+font-weight: 300;
+line-height: 56px;
+letter-spacing: 0em;
+text-align: center;
+}
+.ecom_cart_navoptionsgrid{
+padding: 24px 16px 24px 16px;
+border-radius: 8px;
+border: 1px;
+margin: 10px
+
+}
+.ecom_cart_inline{
+    display: inline-block
+}
+.ecom_cart_emptybox{
+    width: fit-content;
+    border:1px solid #E3E3E3;
+    margin-left: auto;
+    margin-right: auto;
+    /* display: flex; */
+    padding: 24px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid#E3E3E3;
+
+}
+.ecom-d-inline{
+    display: -webkit-inline-box;
+}
+.ecom-mt-3{
+    margin-top: 2px;
+}
+.ecom-icon-size{
+    height:24px;
+    width: 24px;
+}
+.ecom-cart-label{
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    color: #7F03B0
+}
+.ecom-emptycart-icon{
+    height: 42px;
+    width: 42px;
+        /* display: flex; */
+    padding: 2.7px 2.625px 1.5px 1.505px;
+    justify-content: center;
+    align-items: center;
+}
+.ecom-emptycart-align{
+    margin-left: 45%;
+}
+.ecom-cart-label{
+    font-family: Hanken Grotesk;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 40px;
+    letter-spacing: 0em;
+    text-align: left;
+            
+}
+.cart-redirect-container{
+    height: 40px;
+    gap: 8px;
+    text-align: end;
+}
+.cart-redirect-button{
+    border-radius: 8px;
+    margin: 10px;
+}
+.cart-redirect-icon-color{
+    color:#7F03B0;
+}
+.ecom-mt77{
+    margin-top: 77px;
+}
+.ecom-pt-40{
+    padding-top: 40px;
+}
+.ecom-pb-40{
+    padding-bottom: 40px;
+}
+.ecom-ml-48{
+    margin-left: 48px;
+}
+.ecom-hyperlink a div p:hover {
+    text-decoration: underline;
+    color: #7F03B0;
+}
+@media (min-width:300px) and (max-width:600px){
+    .ecom-emptycart-align{
+        margin-left: 37%;
+    }
+    .ecom_emptycart_text{
+        font-family: Hanken Grotesk;
+        font-size: 32px;
+        font-weight: 300;
+        line-height: 40px;
+        letter-spacing: 0em;
+        text-align: center;
+        }
+        .ecom-mt77{
+            margin-top: 44px;
+        }
+        .ecom-pb-40{
+            padding-bottom: 44px;
+        }
+        .ecom-ml-48{
+            margin-left: 0px;
+        }
+
+}

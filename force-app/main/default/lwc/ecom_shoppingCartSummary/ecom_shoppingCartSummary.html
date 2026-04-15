@@ -1,0 +1,172 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 06-12-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <template if:true={showSpinner}>
+                <div class="backdrop">
+                    <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+                    </lightning-spinner>
+                </div>
+            </template>
+            <!--modal for showing error in cxml rest call-->
+            <div if:true={showPrompt} class="demo-only" style="height:24rem">
+                <section role="dialog" tabindex="0" aria-modal="true" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt">
+                  <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme_error slds-theme_alert-texture">
+                      <h1 class="slds-text-heading_medium" id="prompt-heading-id">Error</h1>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+                      <p>{promptMsg}</p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme_default">
+                      <button onclick={closeModal} class="slds-button slds-button_neutral">Close</button>
+                    </div>
+                  </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+              </div>
+
+        <div class={borderPaddingCss}>
+        <!-- <div class="slds-p-around_small box-style"> -->
+            <div class="box-style">
+
+            <h2 class="heading slds-align_absolute-left gray-border">
+                {labels.ECOM_Order_Summary}
+            </h2>
+            <div class="slds-grid slds-wrap slds-wrap slds-p-bottom_medium fv-text slds-border_bottom ecom-summary-hline ecom-summary-size"
+                if:true={cartSummary}>
+                <!--div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 order-summary-prices"-->
+                <div class={orderSummaryTextDetail}>
+                   {labels.ECOM_Subtotal} ({cartSummary.uniqueProductCount} items)
+                    <span if:true={showTotalSurcharge}>
+                    <div class="ecom-vh16"></div>
+                    {labels.ECOM_Tariff_Surcharge}<!--RWPS-3026-->
+                    </span>
+                    <div class="ecom-vh16"></div>
+                    {labels.ECOM_Estimated_Shipping}
+                    <div class="ecom-vh16"></div>
+                    {labels.ECOM_Estimated_Tax}
+                    <span if:true={showSavings}>
+                        <div class="ecom-vh16"></div>
+                            {labels.ECOM_Savings}
+                    </span>
+                </div>
+                <!--div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 order-summary-priceval"-->
+                    <div class={orderSummaryPriceDetail}>
+                    <span>
+                        <lightning-formatted-number value={cartSummary.totalProductAmount} format-style="currency"
+                            minimum-fraction-digits="2" maximum-fraction-digits="2" currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                        </lightning-formatted-number>
+                        <!--c-ecom_currency amount={cartSummary.totalProductAmount}></c-ecom_currency-->
+                    </span>
+                <!-- </br> -->
+                     <!--RWPS-3026 Start-->
+                     <span if:true={showTotalSurcharge}>
+                     <div class="ecom-vh16"></div>
+                        <lightning-formatted-number  value={tariffSurchargeTotal} format-style="currency"
+                            minimum-fraction-digits="2" maximum-fraction-digits="2" currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                        </lightning-formatted-number>
+                        <!--c-ecom_currency amount={cartSummary.totalChargeAmount}></c-ecom_currency-->
+                    </span> <div class="ecom-vh16"></div>
+                    <!--RWPS-3026 End-->
+
+                    <span>
+                        <!--RWPS-3026-->
+                        <lightning-formatted-number value={totalShippingCost} format-style="currency"
+                            minimum-fraction-digits="2" maximum-fraction-digits="2" currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                        </lightning-formatted-number>
+                        <!--c-ecom_currency amount={cartSummary.totalChargeAmount}></c-ecom_currency-->
+                    </span> <div class="ecom-vh16"></div>
+                    <span>
+                        <lightning-formatted-number value={cartSummary.totalTaxAmount} format-style="currency"
+                            minimum-fraction-digits="2" maximum-fraction-digits="2" currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                        </lightning-formatted-number>
+                        <!--c-ecom_currency amount={cartSummary.totalTaxAmount}></c-ecom_currency-->
+                    </span> <div class="ecom-vh16"></div>
+                    <span if:true={showSavings}>
+                        <lightning-formatted-number value={totalSaving} format-style="currency"
+                            minimum-fraction-digits="2" maximum-fraction-digits="2" currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                        </lightning-formatted-number>
+                        <!--c-ecom_currency amount={totalSaving}></c-ecom_currency-->
+                    </span> <div class="ecom-vh16"></div>
+                </div>
+
+                <div if:true={isTaxExemptUser} class="slds-large-size_12-of-12">
+                    <div class="ecom-vh16"></div>
+                    <span class="ecom-tax-label">{labels.ECOM_Tax_Status_Label}</span>
+
+                </div>
+
+                <hr class="slds-hr" />
+
+            </div>
+            <div class={checkoutSummaryContainerClass}>
+            <!-- <div class="slds-grid slds-wrap slds-wrap slds-p-bottom_medium fv-text slds-border_bottom ecom-summary-hline ecom-summary-size"
+                if:true={cartSummary}> -->
+                <!-- ecom-full-width -->
+                <div class="slds-grid slds-wrap slds-wrap fv-text ecom-summary-size"
+                if:true={cartSummary}>
+                <div class="slds-col slds-size_7-of-12 slds-large-size_6-of-12 cart-summary-text-total">
+                    <span>{labels.ECOM_Estimated_Total}</span>
+                </div>
+                <div
+                    class="slds-col slds-size_5-of-12 slds-large-size_6-of-12 cart-summary-text-total slds-float_right cart-align-right">
+                    <span>
+
+                        <lightning-formatted-number value={cartSummary.grandTotalAmount} format-style="currency"
+                            minimum-fraction-digits="2" maximum-fraction-digits="2" currency-code={currencyCode} currency-display-as={currencyDisplayAs}>
+                        </lightning-formatted-number>
+                    </span> </br>
+
+                </div>
+            </div>
+            <button if:false={isCartChanged} class={checkoutButtonClass}
+                disabled={isCartDisabled} onclick={handleCheckoutClick}>
+                <span>{labels.ECOM_Checkout}</span>
+            </button>
+            <button if:true={isCartChanged} class={updatePriceButtonHandler}
+                disabled={cartButtonDisabled} onclick={handleRepriceEvent}>
+                <span>{labels.ECOM_Update_Prices}</span>
+            </button>
+            </div>
+            <!-- <div class="slds-grid slds-wrap slds-wrap slds-p-bottom_medium slds-p-top_medium fv-text ecom-promotion-box"> -->
+                <div class={promocodeCssClass}>
+                <div if:false={isCouponApplied}
+                    class="slds-col slds-size_7-of-12 slds-large-size_7-of-12 cart-summary-text-total ipad-promo-input"> <!--RWPS-5625-->
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label cart-summary-promotion-label" for="text-input-id-2">
+                            <span class="cart-summary-text-total">{labels.ECOM_Promotion_Code}</span><!-- RWPS-4282-->
+                        </label>
+                        <div class="slds-form-element__control">
+                            <input type="text" id="text-input-id-2" disabled={isCartDisabled} required="" class="slds-input"
+                                   oninput={handleCouponChange} value={couponCode} pattern="^\S.*\S$" maxlength="12"/> <!--RWPS-3234 Added oninput event-->
+                        </div>
+                    </div>
+                </div>
+                <div if:false={isCouponApplied}
+                    class={applyButton}>
+                    <!-- <button class="slds-text-align_right cart-summary-apply-promotion-btn cart-summary-apply-promotion-label
+                                slds-size-medium"  disabled={isCartDisabled} onclick={handleApplyCoupon}>Apply</button> -->
+                    <button class={cssClassApplyPromotion} disabled={isCartDisabled}
+                        onclick={handleApplyCoupon}>{labels.ECOM_Apply}</button>
+                </div>
+                <div class="slds-col slds-size_10-of-12 slds-text-align_center cart-summary-text-total slds-float_right">
+                    <div class="slds-form-element slds-m-top--x-large" if:true={isCouponApplied}>
+                        <label class="slds-form-element__label cart-summary-promotion-label" for="text-input-id-2">
+                            <abbr class="cart-summary-text-total">{labels.ECOM_Applied_Promotion}</abbr></label>
+                        <span class="slds-badge slds-theme_applied slds-m-left_small">
+                            {appliedCoupon}
+                            <lightning-icon class="remove-coupon slds-m-left_small" variant="inverse"
+                                data-coupon-code={appliedCoupon} icon-name="utility:close" tabindex="0" onkeydown={removeCouponKeydown} onclick={removeCoupon}
+                                alternative-text="Remove!" size="x-small" title={labels.ECOM_Remove_coupon}></lightning-icon><!--RWPS-4086-->
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </template>

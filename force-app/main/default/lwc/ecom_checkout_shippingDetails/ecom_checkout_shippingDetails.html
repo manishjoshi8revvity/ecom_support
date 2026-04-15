@@ -1,0 +1,300 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 06-18-2024
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+   <template if:true={showSpinner}>
+      <div class="backdrop">
+          <lightning-spinner class="spinshow" size="large" variant="brand" alternative-text="Loading">
+          </lightning-spinner>
+      </div>
+  </template>
+    <div class="register_section">
+       <div class="message-container slds-grid slds-wrap">
+          <div class="slds-col">
+             <c-ecom_inline-message type={type} message={message} show={show} onmessageaction={handleUpdateMessage}></c-ecom_inline-message>
+          </div>
+       </div>
+       <div if:true={isAccontReadMode}>
+          <div class="">
+             <div class="slds-grid slds-wrap ecom-mb-8">
+                <div class="slds-col slds-size_10-of-12 ecom-active-acn-label slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-size_10-of-12 slds-text-align_left">
+                   Active Account
+                </div>
+             </div>
+             <span class="ecom-account-details">
+             Account Number: {shipToModel.externalId}
+             <div class="ecom-vh4"></div>
+             </span>
+             <div class="slds-grid slds-wrap ecom-mb-ro-card">
+                <div class="slds-col slds-size_1-of-1 ecom-active-acn-label slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-small-size_1-of-1 slds-text-align_left ecom-vp-ro">
+                   <div class="ecom-address-label">Shipping Address</div>
+                   <span class="ecom-address-details">{shippingAddress.street}</span>
+                   <div class="ecom-vh4"></div>
+                   <span class="ecom-address-details">{shippingAddress.city}, {shippingAddress.state} {shippingAddress.zip}</span>
+                   <div class="ecom-vh4"></div>
+                   <span class="ecom-address-details">{shippingAddress.country}</span>
+                </div>
+                <div class="slds-col ecom-active-acn-label slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-vp-ro">
+                   <div class="ecom-address-label">Billing Address</div>
+                   <div class="ecom-vh4"></div>
+                   <span class="ecom-address-details">{billingAddress.street}</span>
+                   <div class="ecom-vh4"></div>
+                   <span class="ecom-address-details">{billingAddress.city}, {billingAddress.state} {billingAddress.zip}</span>
+                   <div class="ecom-vh4"></div>
+                   <span class="ecom-address-details">{billingAddress.country}</span>
+                   <template if:true={isValidatedFields} for:each={validationFields} for:item="field">
+                     <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-16">
+                        <div class="ecom-vh4"></div>
+                        <div class="ecom-address-label">{field.label}</div>
+                        <div class="ecom-vh4"></div>
+                        <span class="ecom-address-details">{field.value}</span>
+                     </div>
+                   </template>
+                </div>
+                <div class="slds-col ecom-active-acn-label slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-vp-ro" if:true={isInvoiceMailingAddress}>
+                  <div class="ecom-address-label">{label.ECOM_InvoiceMailingAddress}</div>
+                  <div class="ecom-vh4"></div>
+                  <span class="ecom-address-details">{invoiceAddress.street}</span>
+                  <div class="ecom-vh4"></div>
+                  <span class="ecom-address-details">{invoiceAddress.city}, {invoiceAddress.state} {invoiceAddress.zip}</span>
+                  <div class="ecom-vh4"></div>
+                  <span class="ecom-address-details">{invoiceAddress.country}</span>
+               </div>
+            </div>
+                  <!-- RWPS-1285 start-->
+               <div if:true={isLargePackExist} >
+                     <div class="slds-line-border"> </div>
+                     <div class="slds-box-border">
+                        <div class="ecom-lp-radio">
+                              <input type="radio" lwc:ref="endUsrRadio" class="ecom-lp-radio-button"  name="endUserForTrade" disabled />   <br/>
+                        </div>
+                        <div> {label.ECOM_EndUserForTrade} </div>
+                     </div>
+                     <div class="slds-box-border">
+                        <div class="ecom-lp-radio">
+                           <input type="radio" lwc:ref="endUsrRadio2" class="ecom-lp-radio-button"  name="endUserForTrade" disabled />
+                        </div>
+                        <div class="ecom-lp-louter">
+                           <p class="ecom-lp-radio-label">{label.ECOM_EndUserOption} </p>
+                           <div if:false={endUserForTradeChecked}>
+                              <span class="ecom-address-details"> {endUserDetails} </span>
+                           </div>
+                        </div>
+                     </div>
+               </div>
+                <!-- RWPS-1285 End-->
+                  <!--RWPS-1882 start-->
+               <div if:false={isInvoiceEmailExist} class="ecom-emailinvoice-card">
+                  <div class="ecom-top-border-line"></div>
+                  <p class="ecom-address-label">{label.ECOM_EmailToInvoice}</p>
+                  <span class="ecom-address-details"> {invoiceEmailId} </span>
+               </div>
+                 <!--RWPS-1882 end-->
+                 <!--RWPS-6394 start-->
+               <div if:false={isInvoiceCustIdExist} class="ecom-emailinvoice-card">
+                  <p class="ecom-address-label">{label.ECOM_Invoice_CustId}</p>
+                  <span class="ecom-address-details"> {invoiceCustId} </span>
+               </div>
+                 <!--RWPS-6394 end-->
+            
+             <div class="slds-grid slds-wrap ecom-mb-ro-card ecom-gray-border-t">
+                <div class="slds-col ecom-active-acn-label slds-size_1-of-1 slds-large-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-vp-ro">
+                  <div class="ecom-mt-16"></div>
+                  <!-- RWPS-4824 START -->
+                  <span class="ecom-address-label">{label.recipientTitle}</span><br>
+                  <span class="ecom-address-details">{label.recipientSubTitle}</span><br>
+                  <!-- RWPS-4824 END -->
+                   <span class="ecom-address-details">{attentionRecipient}</span>
+               </div>
+
+               <!-- RWPS-1285 start -->
+               <div if:true={isLargePackExist} class="slds-col ecom-active-acn-label slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-vp-ro">
+                  <div class="ecom-mt-16"></div>
+                  <span class="ecom-address-label">{label.ECOM_CustomerAcceptDate}</span>
+                  <span class="ecom-address-details"> {selectedDate}</span>
+               </div>
+             <!-- RWPS-1285 End-->
+             </div>
+             <div class="ecom-active-acn-label slds-text-align_left ecom-mb-16">
+                   <div class="ecom-mt-16"></div>
+                   <span class="ecom-address-label">{label.ECOM_DeliveryInstruction}</span><br> <!--RWPS 4600 -->
+                  <span class="ecom-address-details">{deliveryDetails}</span>
+                  <br/>
+             </div>
+          </div>
+       </div>
+       <div if:true={isAccountEditMode}>
+          <div class="ecom-ship-bill-card">
+             <div class="slds-grid slds-wrap ecom-mb-8">
+                <div class="slds-col slds-size_10-of-12 ecom-active-acn-label slds-large-size_10-of-12 slds-medium-size_10-of-12 slds-size_10-of-12 slds-text-align_left">
+                   Active Account
+                </div>
+                <div class="slds-col ecom-active-acn-label ecom-change-label slds-size_2-of-12 slds-large-size_2-of-12 slds-medium-size_2-of-12 slds-size_2-of-12 slds-text-align_right ecom-brand-purple">
+                   <a href="javascript:void(0)" onclick={navigateToAccounts}>Change</a>
+                </div>
+             </div>
+             <div if:true={contactInfo} class="ecom-mb-16">
+               <span class="ecom-account-details">
+                  Account Number: {shipToModel.externalId}
+                  <div class="ecom-vh4"></div>
+                  </span>
+             </div>
+             <template if:true={contactInfo}>
+             <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 ecom-active-acn-label slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ship-col-width"> <!--RWPS-5625-->
+                   <div class="ecom-address-label">Shipping Address</div>
+                   <span class="ecom-address-details">{shippingAddress.street}</span>
+                   <!-- <br> --> <div class="ecom-vh4"></div>
+                   <span class="ecom-address-details">{shippingAddress.city}, {shippingAddress.state} {shippingAddress.zip}</span>
+                   <!-- <br> --><div class="ecom-vh4"></div>
+                   <span class="ecom-address-details">{shippingAddress.country}</span>
+                </div>
+                <br if:false={device.isDesktop}>
+                <div class="vh16"  if:false={device.isDesktop}></div>
+
+                <div class="slds-col ecom-active-acn-label slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left bill-col-width"> <!--RWPS-5625-->
+                   <div class="ecom-address-label">Billing Address</div>
+                   <span class="ecom-address-details">{billingAddress.street}</span>
+                   <div class="ecom-vh4"></div>
+                   <span class="ecom-address-details">{billingAddress.city}, {billingAddress.state} {billingAddress.zip}</span>
+                   <div class="ecom-vh4"></div>
+                   <span class="ecom-address-details">{billingAddress.country}</span>
+                   <template if:true={isValidatedFields} for:each={validationFields} for:item="field">
+                     <div if:true={field.isReadOnly} key={field.label} class="ecom-mt-16">
+                        <div class="ecom-vh4"></div>
+                        <div class="ecom-address-label">{field.label}</div>
+                        <div class="ecom-vh4"></div>
+                        <span class="ecom-address-details">{field.value}</span>
+                     </div>
+                   </template>
+                </div>
+                <div class="slds-col ecom-active-acn-label slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left" if:true={isInvoiceMailingAddress}>
+                  <div class="ecom-address-label">{label.ECOM_InvoiceMailingAddress}</div>
+                  <div class="ecom-vh4"></div>
+                  <span class="ecom-address-details">{invoiceAddress.street}</span>
+                  <div class="ecom-vh4"></div>
+                  <span class="ecom-address-details">{invoiceAddress.city}, {invoiceAddress.state} {invoiceAddress.zip}</span>
+                  <div class="ecom-vh4"></div>
+                  <span class="ecom-address-details">{invoiceAddress.country}</span>
+                </div>
+             </div>
+                 <!-- RWPS-1285 start-->
+                 <div if:true={isLargePackExist} >
+                  <div class="slds-line-border"> </div>
+                  <div lwc:ref="endUsrOpt" class="slds-box-border">
+                     <div class="ecom-lp-radio">
+                        <!-- RWPS-3826 -->
+                           <input type="radio" id="endUsrRadio-radio" lwc:ref="endUsrRadio" class="ecom-lp-radio-button"  name="endUserForTrade" value="true" onchange={handleEndUserTradeChange} />   <br/>
+                     </div>
+                     <!-- RWPS-3826 -->
+                     <div> <label for="endUsrRadio-radio">{label.ECOM_EndUserForTrade}</label> </div>
+                  </div>
+                  <div lwc:ref="endUsrOpt2" class="slds-box-border">
+                     <div class="ecom-lp-radio">
+                        <!-- RWPS-3826 -->
+                        <input type="radio" id="endUsrRadio2-radio" lwc:ref="endUsrRadio2" class="ecom-lp-radio-button"  name="endUserForTrade" value="false" onchange={handleEndUserTradeChange} />
+                     </div>
+                     <div class="ecom-lp-louter">
+                        <!-- RWPS-3826 -->
+                        <p class="ecom-lp-radio-label"><label for="endUsrRadio2-radio">{label.ECOM_EndUserOption}</label> </p>
+                        <div if:false={endUserForTradeChecked} class="ecom-lp-textarea">
+                           <lightning-textarea max-length="255" name="enduserTrade" lwc:ref="enduserTrade" data-id="enduser-trade-id" rows=5 variant="label-hidden" placeholder={label.ECOM_EndUserPlaceHolder} value={endUserDetails} onchange={handleChange} onblur={handleBlurForEndUserTrade}></lightning-textarea><!-- RWPS-3159-->
+                         </div>
+                     </div>
+                  </div>
+               </div>
+
+             <!-- RWPS-1285 End-->
+             <!--RWPS-1882 start-->
+               <template if:false={isInvoiceEmailExist}>
+               <div class="ecom-emailinvoice-card" data-id="invoice-container">
+                  <div class="ecom-top-border-line"></div>
+                   <!-- RWPS-4000 Start-->
+                    <lightning-input
+                      lwc:ref="invoiceEmailInput"
+                      type="email"
+                      name="invoiceEmail"
+                      data-id="invoice-email-id"
+                      label={label.ECOM_EmailToInvoice}
+                      class="ecom-email-input"
+                      value={invoiceEmailId}
+                      onchange={handleChange}
+                      onblur={validateEmail}
+                      required
+                     ></lightning-input>
+                      <!-- RWPS-4000 End-->
+               </div>
+                 <!--RWPS-1882 end-->
+               </template>
+               <!--RWPS-6394 start-->
+              <template if:false={isInvoiceCustIdExist}>
+                  <div class="ecom-emailinvoice-card" data-id="invoice-container">
+                  <div class="ecom-top-border-line"></div>   
+                  <!-- Peppol ID Field -->
+                  <div class="ecom-email-input">
+                        <label class="slds-form-element__label">
+                           <abbr if:true={enableInvoiceCustId} class="slds-required" title="required">*</abbr>
+                           {label.ECOM_Invoice_CustId}
+                        </label>
+                        <lightning-input
+                           lwc:ref="invoiceCustIdInput"
+                           type="text"
+                           name="invoiceCustId"
+                           data-id="invoice-cust-id"
+                           variant="label-hidden"
+                           value={invoiceCustId}
+                           onchange={handleChange}
+                           required={enableInvoiceCustId}>
+                        </lightning-input>
+                  </div>
+                  </div>
+               </template>
+         <!--RWPS-6394 end-->
+            </template>
+             <br if:false={device.isDesktop}>
+             <!-- <div class="vh16"  if:false={device.isDesktop}></div> -->
+          </div>
+          <div class="ecom-ship-bill-card">
+             <span class="ecom-address-label">Additional Shipping Information</span><br>
+             <div class="slds-grid slds-wrap">
+                <div class=" ecom-additional-info-label slds-col  slds-size_1-of-1 slds-large-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-mt-ar inputlabel">
+                  <!-- RWPS-4824 START -->
+                   <span class="ecom-address-label">{label.recipientTitle}</span><br>
+                   <span class="ecom-address-details">{label.recipientSubTitle}</span><br>
+                   <lightning-input style="margin-top:-16px" type="text" max-length="40" class="ecom-address-details slds-m-right_small" data-id="attention-recipient-id" value={attentionRecipient} onchange={handleChange} aria-label = "recipient-subtitle"></lightning-input><!--RWPS-5284 added aria-label-->
+                </div>
+               <!-- RWPS-4824 END -->
+                 <!-- RWPS-1285 start -->
+               <div if:true={isLargePackExist} class=" ecom-additional-info-label slds-col  slds-size_1-of-1 slds-large-size_1-of-2 slds-medium-size_1-of-1 slds-size_1-of-1 slds-text-align_left ecom-mt-ar inputlabel"> <!-- RWPS-4824-->
+                  <span class="ecom-lp-date-label" onclick={handleLPDate}>{label.ECOM_CustomerAcceptDate}</span>
+                  <div class="ecom-lp-date">
+                     <lightning-input type="date" lwc:ref="acceptanceDate" class="ecom-additional-info-label" required variant="label-hidden" name="customerAcceptedDate" value={selectedDate} min={today}  onchange={handleDateSelected}></lightning-input>
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="ecom-lp-svg-img">
+                        <path d="M22.8931 9.37332H1.10645" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M20.9998 4.12H2.98645C1.94815 4.12 1.10645 4.9617 1.10645 6V20.2667C1.10645 21.305 1.94815 22.1467 2.98645 22.1467H20.9998C22.0381 22.1467 22.8798 21.305 22.8798 20.2667V6C22.8798 4.9617 22.0381 4.12 20.9998 4.12Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6.37354 1.86667V6.37334" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17.6265 1.86667V6.37334" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                     </svg>
+                  </div>
+               </div>
+
+                <!-- RWPS-1285 End-->
+             </div>
+             <div class="ecom-mt-si">
+               <span class="ecom-address-label">{label.specialRequestTitle}</span><br><!--RWPS-4825-->
+               <span class="ecom-address-details">{label.ECOM_DeliveryInstruction}</span><br><!--RWPS-4825-->
+               <!--<span  class="ecom-additional-info-label">{label.ECOM_EuropeVAT}</span>-->
+               <lightning-textarea maxlength="255" name="input3" data-id="delivery-details-id" rows=4 variant="label-hidden" placeholder="" value={deliveryDetails} onchange={handleChange} onblur={handleBlur}></lightning-textarea><!--Added onblur event for RWPS-3087--><!--Added max length for RWPS-3160-->
+             </div>
+          </div>
+          <!-- button class="ecom-payment-btn" onclick={handleSaveAndContinueToOrderReview disabled={isSaveAndContinueDisabled}} -->
+            <button class="ecom-payment-btn" onclick={handleSaveAndContinueToOrderReview}>
+            <span>Save & Continue </span>
+          </button>
+       </div>
+    </div>
+ </template>

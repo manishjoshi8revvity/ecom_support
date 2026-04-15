@@ -1,0 +1,87 @@
+<template>
+    <div class="ecom-background-color">
+        <div class="ecom-body ecom-padding-left-12 ecom-padding-right-12 ecom-margin-bottom-80">
+            <!-- Revvity Login Header-->
+            <div class="slds-show_medium">
+                <div class="ecom-padding-sides-116">
+                    <div class="ecom-header ecom-font-size-56 ecom-font-weight-300">
+                        {labels.ECOM_LBL_CREATEAREVVITYACCOUNT}
+                    </div>
+                </div>
+            </div>
+            <div class="slds-hide_medium slds-show_small">
+                <div class="ecom-padding-sides-28 ">
+                    <div class="ecom-header ecom-font-size-36 ecom-font-weight-300">
+                        {labels.ECOM_LBL_CREATEAREVVITYACCOUNT}
+                    </div>
+                </div>
+            </div>
+            <div class="slds-hide_small">
+                <div class="ecom-padding-sides-28 ">
+                    <div class="ecom-header ecom-font-size-36 ecom-font-weight-300">
+                        {labels.ECOM_LBL_CREATEAREVVITYACCOUNT}
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <!-- Revvity Login Cards-->
+            <div class="slds-show_medium">
+                <div class="ecom-padding-sides-116 ecom-padding-top-40">
+                    <div>
+                        <lightning-layout multiple-rows="true" vertical-align="stretch">
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" padding="right-medium" flexibility="auto">
+                                <div class="ecom-margin-bottom-80 ecom-max-width-528">
+                                    <c-ecom_registration-success-card  ></c-ecom_registration-success-card>
+                                </div>
+                            </lightning-layout-item>
+                            
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" flexibility="auto">
+                                <div class="ecom-margin-left-71 ecom-max-width-464">
+                                    <c-ecom_login-description-card is-registration-page="true" is-display-create-account-button="false" is-display-account-details-card="false" is-display-contact-support-card="true"></c-ecom_login-description-card>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-hide_medium slds-show_small">
+                <div>
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12" flexibility="auto" >
+                            <div class="ecom-margin-bottom-32">
+                                <c-ecom_registration-success-card  ></c-ecom_registration-success-card>
+                            </div>
+                            
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" flexibility="auto">
+                            <div class="ecom-margin-bottom-32">
+                                <c-ecom_login-description-card is-registration-page="true" is-display-create-account-button="false" is-display-account-details-card="false" is-display-contact-support-card="true"></c-ecom_login-description-card>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </div>
+            <div class="slds-hide_small">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" >
+                        <div class="ecom-margin-bottom-32">
+                            <c-ecom_registration-success-card  ></c-ecom_registration-success-card>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" >
+                        <div class="ecom-margin-bottom-32">
+                            <c-ecom_login-description-card is-registration-page="true" is-display-create-account-button="false" is-display-account-details-card="false" is-display-contact-support-card="true"></c-ecom_login-description-card>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </div>
+
+        <!-- Revvity Logo Image-->
+        <div >
+            <img src={images.loginpagelogo} height="600" class="ecom-background-imag-full-width">
+        </div>
+    </div>
+</template>

@@ -1,0 +1,235 @@
+<!--
+  @description       : 
+  @author            : mkumar@rafter.one
+  @group             : 
+  @last modified on  : 11-23-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+    <template if:true={showModal}>
+        <!-- <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small"> -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class={isFullPageModal}>
+            
+            <div class="slds-modal__container">
+                
+                <!-- <div class="slds-modal__header ecom-noborder ecom-height-20">
+                    
+                </div> -->
+                <!-- modal body start -->
+                <div class="slds-modal__content ecom-no-border ecom-top-border-radius-16" id="1">
+                    <div class="ecom-position-static">   
+                        <lightning-layout multiple-rows="false">
+                            <lightning-layout-item size="12">
+                                <!-- <button class="slds-button slds-button_icon ecom-qo-closebtn" onclick={closeModal}>
+                                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Cancel and close</span>
+                                </button> -->
+                                <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                    title="Close"  onclick={closeAccountSwitcher}>
+                                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                    size="small"></lightning-icon>
+                                    <span class="slds-assistive-text">close</span>
+                                </button> -->
+                                <button class="slds-button slds-button_icon ecom-closebtn" onclick={closeModal}>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#2clip0_2271_24147)">
+                                            <path d="M23.1431 0.856934L0.857422 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M0.857422 0.856934L23.1431 23.1426" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="2clip0_2271_24147">
+                                                <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                    <span class="slds-assistive-text">Cancel and close</span>
+                                </button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <div if:true={isMobileView} class="ecom-mb-24"></div>
+                    <div class={pagePadding}> 
+                        <div class="">
+                            <div class="slds-show_medium">
+                                <div class="ecom-label-text-32 slds-align_absolute-center">{labels.ECOM_EmailNotifications}</div>
+                                <div class="ecom-detail-text-18 ecom-mb-32 slds-align_absolute-center">{labels.ECOM_ReflectMessage}</div>
+                            </div>
+                            <div class="slds-hide_medium slds-show_small">
+                                <div class="ecom-label-text-24 ecom-mb-24 slds-align_absolute-center">{labels.ECOM_EmailNotifications}</div>
+                                <div class="ecom-detail-text-16 ecom-mb-24 slds-align_absolute-center ecom-text-align-center">{labels.ECOM_ReflectMessage}</div>
+                            </div>
+                            <div class="slds-hide_small">
+                                <div class="ecom-label-text-24 ecom-mb-24 slds-align_absolute-center">{labels.ECOM_EmailNotifications}</div>
+                                <div class="ecom-detail-text-16 ecom-mb-24 slds-align_absolute-center ecom-text-align-center">{labels.ECOM_ReflectMessage}</div>
+                            </div>
+                        </div>
+                        <!-- <input type='checkbox' name='thing' value='valuable' id="thing1"/><label for="thing"></label> <label>get an army</label> -->
+                        <div if:true={isValidationError} class="slds-notify slds-notify_alert slds-alert_warning slds-text-align_center slds-m-bottom--small" role="alert">
+                            <h2>
+                                <lightning-icon icon-name="utility:warning" size="small" class="slds-m-horizontal--x-small">
+                                </lightning-icon>
+                                {labels.ECOM_InvalidEmailPreferencesError}     
+                            </h2>
+                        </div>
+                        <div for:each={emailAddressRows} for:item="item" key={item.index}>
+                            <div class="slds-show_medium">
+                                <div  class="ecom-detail-text-18 ecom-mt-32">{labels.ECOM_EmailAddress}</div>
+                            </div>
+                            <div class="slds-hide_medium slds-show_small">
+                                <div  class="ecom-detail-text-16 ecom-mt-24">{labels.ECOM_EmailAddress}</div>
+                            </div>
+                            <div class="slds-hide_small">
+                                <div  class="ecom-detail-text-16 ecom-mt-24">{labels.ECOM_EmailAddress}</div>
+                            </div>
+                            <!-- RWPS-2722 Start -->
+                            <!-- <lightning-input type="email" class="ecom_qo_partnumber_tb email-input" variant="label-hidden" data-index={item.index} data-label="ECOM_Email__c" value={item.ECOM_Email__c} onchange={handleEmailChanged}></lightning-input> -->
+
+                            <lightning-input type="email" 
+                                class="ecom_qo_partnumber_tb email-input" 
+                                variant="label-hidden" 
+                                data-index={item.index} 
+                                data-label="ECOM_Email__c" 
+                                value={item.ECOM_Email__c} 
+                                onchange={handleEmailChanged}
+                                onblur={validateEmail}>
+                            </lightning-input>
+                            
+                            
+                            <!-- RWPS-2722 end -->
+                            <!-- <div class="slds-grid slds-m-top_large ecom-grayBorder"> -->
+                                
+                            <div>
+                                <div class="slds-show_medium">
+                                    <div class="ecom-mt-32"></div>
+                                </div>
+                                <div class="slds-hide_medium slds-show_small">
+                                    <div class="ecom-mt-24"></div>
+                                </div>
+                                <div class="slds-hide_small">
+                                    <div class="ecom-mt-24"></div>
+                                </div>
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="5">
+                                        <div class="ecom-input-text-16 slds-form-element ecom-custom-chxbox-padding">
+                                            <div class="slds-form-element__control">
+                                                <!-- <div class="slds-checkbox">
+                                                <input type='checkbox' name='thing' value='valuable' id="thing"/>
+                                                <label class="slds-checkbox__label" for="checkbox-unique-xid-3">
+                                                <span class="slds-checkbox_faux"></span>
+                                                <span class="slds-form-element__label"></span>
+                                                </label>
+                                                </div> -->
+                                                <lightning-input type="checkbox" id={item.index} label={labels.ECOM_OrderConfirmation} class="" name="" data-index={item.index} data-label="ECOM_Order_Confirmation__c" checked={item.ECOM_Order_Confirmation__c} onchange={handleCheckboxChanged}></lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-show_medium"><div class="ecom-mr-32"></div></div>
+                                        <div class="slds-hide_medium slds-show_small"><div class="ecom-mb-16"></div></div>
+                                        <div class="slds-hide_small"><div class="ecom-mb-16"></div></div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                        <div class="ecom-input-text-16 slds-form-element ecom-custom-chxbox-padding">
+                                            <div class="slds-form-element__control">
+                                            <!-- <div class="slds-checkbox">
+                                                <input type="checkbox" name="options" id={item.index} data-index={item.index}   data-send-shipment-notification={item.sendShipmentNotification} data-label="sendShipmentNotification" value={item.sendShipmentNotification} checked={item.sendShipmentNotification} />
+                                                <label class="slds-checkbox__label" for="checkbox-unique-id-4">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">Shipment Notification</span>
+                                            </label>
+                                            </div> -->
+                                            <lightning-input type="checkbox" id={item.index} label={labels.ECOM_ShipmentNotification} class="" name="" data-index={item.index} data-label="ECOM_Shipment_Notification__c" checked={item.ECOM_Shipment_Notification__c} onchange={handleCheckboxChanged}></lightning-input>
+                                            </div>
+                                        </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                            <!-- </div> -->
+                        </div>
+                        <div class="slds-show_medium"><div class="ecom-mt-32"></div></div>
+                        <div class="slds-hide_medium slds-show_small"><div class="ecom-mt-24"></div></div>
+                        <div class="slds-hide_small"><div class="ecom-mt-24"></div></div>
+                        <div if:false={isUpdate} class="ecom-custom-btn" id="3">
+                            <!--4087 removed aria-live to make it focusable-->
+                            <button class="slds-button" aria-pressed="true" onclick={addNewRow}>
+                                <span class="slds-text-selected slds-align_absolute-left ecom_btn-addmore" >
+                                    <!-- onclick={addToList} -->
+                                    <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left ecom-icon-size" aria-hidden="true" src={images.addmore}>
+                                    {labels.ECOM_AdditionalEmailMessage}
+                                </span> 
+                                <!-- Add Another Email Address -->
+                            </button>
+                        </div>
+                </div>
+                
+            </div>
+            <div class={footerPadding}>
+                <div if:false={isMobileView}>
+                    <div class="ecom-footer-btn-padding">
+                        <lightning-layout multiple-rows="false">
+                            <lightning-layout-item alignment-bump="left">
+                                <div class="ecom-display-flex">
+                                    <div class="ecom-margin-right-16">
+                                        <button class="order-load-more  slds-align_absolute-center " onclick={closeModal}>{labels.ECOM_Cancel}</button>
+                                    </div>
+                                    <div>
+                                        <button class="ecom_btn-password-save ecom-btn-styling" onclick={handleSaveRows} disabled={isSaveBtnDisabled}><span>{labels.ECOM_Save}</span></button>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+                <div if:true={isMobileView}>
+                    <div class="ecom-footer-padding-mobile">
+                        <lightning-layout multiple-rows="false">
+                            <lightning-layout-item size="6" >
+                                <div class="ecom-margin-right-16">
+                                    <div class="">
+                                        <button class="order-load-more  slds-align_absolute-center ecom-full-width" onclick={closeModal}>{labels.ECOM_Cancel}</button>
+                                    </div>
+                                </div>
+                                <!-- <div class="ecom-display-flex">
+                                    <div class="ecom-margin-right-16">
+                                        <button class="order-load-more  slds-align_absolute-center " onclick={closeModal}>Cancel</button>
+                                    </div>
+                                    
+                                </div> -->
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6">
+                                <div class="ecom-full-width">
+                                    <button class="ecom_btn-password-save ecom-btn-styling ecom-full-width" onclick={handleSaveRows} disabled={isSaveBtnDisabled}><span>{labels.ECOM_Save}</span></button>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+                <!--Current:Begin -->
+                <!-- <button class="ecom-cancel-btn slds-m-left_medium" onclick={closeModal}>
+                    <span>Cancel</span>
+                </button>
+                <button class="ecom-save-btn slds-m-left_medium" onclick={handleSaveRows} disabled={isSaveBtnDisabled}>
+                    <span>Save</span>
+                </button> -->
+                <!--Current:End -->
+
+                <!-- <button class="ecom_btn-qorder slds-m-left_medium" variant= "Success" onclick={handleDownloadCSV}> Download Order 
+                </button>     -->
+            
+                <!-- <input type="file" id="uploadFile" style="display: none;">
+                <button class="ecom_btn-qorder slds-m-left_medium" onclick={openUpload}>
+                    <span>Upload CSV</span>
+                </button> -->
+            </div> 
+        </div>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    
+</template>
+
+<!-- modal end -->

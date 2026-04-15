@@ -1,0 +1,127 @@
+@import 'c/ecom_cssLibrary';
+
+.ecom-help-icon{
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    stroke-width: 1.5px;
+    stroke: #7F03B0;
+}
+
+.ecom-popover-body{
+    color:black
+}
+
+.ecom-popover{
+	position: relative;
+    top: -114px;
+    left: 230px;
+	float: right;
+    background: white;
+    color: black;
+    border: 1px solid #E3E3E3;
+}
+
+.ecom-medium-screen {
+    width: 457px !important;
+    text-align: left;
+    max-width: 400px !important;
+}
+
+.ecom-medium-popover-body{
+    font-size: 16px;
+    line-height: 22px;
+    padding: 16px;
+}
+
+
+.ecom-image-icon {
+    top: -3px;
+}
+.ecom-image-icon > .ecom-show-hide {
+    top: -150px;
+    left: -16px;
+    width: 250px;
+}
+
+.ecom-image-icon:hover > .ecom-show-hide, .ecom-image-icon:focus > .ecom-show-hide { /* RWPS-3826 */
+    visibility: visible;
+}
+
+.ecom-show-hide{
+    visibility: hidden;
+}
+
+.ecom-padding-top-bottom-4 {
+    padding-top:4px;
+    padding-bottom: 4px;
+}
+
+.ecom-position-absolute{
+    position: absolute;
+}
+
+.ecom-position-relative{
+    position: relative;
+}
+
+.ecom-width100 {
+    width: 100%;
+}
+
+.ecom-display-content{
+    display: contents;
+}
+
+@media only screen and (max-width: 767px) {
+    .ecom-popover{
+        left: -304px;
+    }
+    .ecom-image-icon > .ecom-show-hide {
+        top: -209px;
+        left: -16px;
+        width: 150px;
+    }
+}
+
+@media only screen and (max-width: 481px) {
+    .ecom-popover{
+        left: 16px;
+        top: -133px;
+    }
+
+    .ecom-image-icon > .ecom-show-hide{
+        top: -250px;
+        left: -160px;
+        width: 194px;
+    }
+
+    .ecom-image-icon-left > .ecom-show-hide {
+        top: -450%;
+        left: -1100%;
+        width: 206px;
+    }
+
+    .ecom-image-icon-left:hover > .ecom-show-hide {
+        visibility: visible;
+    }
+
+    .ecom-image-icon-right > .ecom-show-hide{
+        /* top: -115px;
+        left: 49px;
+        width: 194px; */
+        top: -500%;
+        left: 166%;
+        width: 206px;
+        line-height: 22px;
+    }
+
+    .ecom-image-icon-right:hover > .ecom-show-hide{
+        visibility: visible;
+    }
+
+    .ecom-text-size-16{
+        text-align: left;
+    }
+
+}

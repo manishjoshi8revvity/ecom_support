@@ -1,0 +1,124 @@
+<!--
+@description       : This component provides list of frequently purchased product 
+@author            : vramachandran@rafter.one
+@group             : Punchout: Frequently Purchased Products
+@last modified on  : 30-Nov-2023
+@last modified by  : vramachandran@rafter.one
+-->
+<template>
+    <div class="background">
+        <div class="container slds-align_absolute-center">
+            <div class=" body">
+                <!-- Loading Favorites on the Favorites page			 -->
+			    <div class="slds-grid slds-wrap">
+                    <!--if:true={displayRecords}-->
+                    <div  class="slds-size_12-of-12 slds-large-size_3-of-12 slds-medium-size_3-of-12 slds-small-size_12-of-12">
+                        <c-ecom_account-sidebar></c-ecom_account-sidebar>
+                    </div> 
+                    <div if:false={device.isMobile} class="slds-large-size_1-of-12 slds-medium-size_1-of-12"></div>
+ 
+                    <div class={gridForDashBoard}>
+
+                        <div class=""><!-- if:true={favItemCount} -->
+                            <div class="">
+                                <div if:false={device.isMobile}>
+                                    <div>
+                                        <div class="ecom-mt-64 ecom-mb-40">
+                                            <span class={headTitleCssClass}>{system_labels.FREQUENTLY_PURCHASED}</span>
+                                            <span if:true={showViewAllAction}><a class="favorite-details-link slds-m-bottom_large" onclick={handleViewAll}>View All ></a></span>
+                                        </div>
+                                        <div class="ecom-mb-24">
+                                            <div if:true={displayResults} class="ecom_fav-prod-count">
+                                                {productCount} products in {system_labels.FREQUENTLY_PURCHASED} 
+                                            </div>
+                                            <div if:true={isEmpty}>
+                                                <span>There are currently no items in your {system_labels.FREQUENTLY_PURCHASED}</span>
+                                                <span if:false={isFavoritePage} class="ecom-brand-purple"><a href="javascript:void(0)" onclick={handleShopNow}> Shop Now</a></span>
+                                                <div if:true={isFavoritePage} class="">
+                                                    <button class="ecom-shop-now-btn slds-m-top_medium" onclick={handleShopNow} >
+                                                        <span>Shop Now</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div if:true={device.isMobile}>
+                                    <!-- <div class="ecom-pl-16 ecom-pr-16"> -->
+                                    <div>
+                                    <div if:true={displayRecords}>
+                                        <div class="ecom-mt-32 ecom-mb-32">
+                                            <span class="ecom_fav-label-md">{system_labels.FREQUENTLY_PURCHASED}</span>
+                                        </div>
+                                        <div class="ecom-mb-32">
+                                            <div if:true={displayResults} class="ecom_fav-prod-count">
+                                                <span class="ecom_fav-prod-count-md">
+                                                    {productCount} products in {system_labels.FREQUENTLY_PURCHASED} 
+                                                </span>
+                                            </div>
+                                            <div if:true={isEmpty}>
+                                                <span>There are currently no items in your {system_labels.FREQUENTLY_PURCHASED}</span>
+                                                <span if:false={isFavoritePage} class="ecom-brand-purple"><a href="javascript:void(0)" onclick={handleShopNow}> Shop Now</a></span>
+                                                <div if:true={isFavoritePage} class="">
+                                                    <button class="ecom-shop-now-btn slds-m-top_medium" onclick={handleShopNow} >
+                                                        <span>Shop Now</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- <span if:false={hideActions}><a class="favorite-details-link slds-p-top_xx-small" onclick={handleViewAll}>View All ></a></span> -->
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div if:true={showViewAllAction}>
+                                        <div class="ecom-mb-32">
+                                            <span class="ecom-fav-label-dashboard">{system_labels.FREQUENTLY_PURCHASED}</span>
+                                            <span><a class="favorite-details-link slds-m-bottom_large" onclick={handleViewAll}>View All ></a></span>
+                                        </div>
+                                    </div>
+                                    
+                                </div> 
+                                <div class="ecom-mb-24">
+                                    <div class="message-container">
+                                    <c-ecom_inline-message type={type} message={message} show={show} timespan={timeSpan} onmessageaction={handleUpdateMessage}></c-ecom_inline-message>
+                                    </div>
+                                </div>
+                                <div if:true={displayRecords}>
+                                    <template for:each={displayRecords} for:item="frequentlyPurchasedProduct" for:index="index">
+                                        <c-ecom_frequently-purchased-item key={frequentlyPurchasedProduct.productId}
+                                        frequentlypurchasedproduct={frequentlyPurchasedProduct}
+                                        fieldlabelmap={fieldlabelmap}
+                                        onremovefromfav={handleRemoveFromFav}
+                                        onaddtocart={handleAddToCart}
+                                        product-data={productData}
+                                        wishlistitems={currentWishListItems}
+                                        effective-account-id={effectiveAccountId}
+                                        ></c-ecom_frequently-purchased-item>
+                                    </template>
+                                </div>
+                                <div if:true={showPagination} class="slds-grid slds-wrap slds-m-top_small slds-m-bottom_small">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-1">
+                                        <!-- <c-ecom_-pagination totalrecords={favItemCount} page-size={recordsToDisplay} onpagination={handlePagination}></c-ecom_-pagination> -->
+                                        <c-ecom_paginator 
+                                        ongotopage={pageChanged} 
+                                        page-size={recordsToDisplay}
+                                        current-page-number={currentPageNumber} 
+                                        total-records={favItemCount}
+                                        ></c-ecom_paginator>
+
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+
+    </div>
+            </div>
+            </div>
+    </div>
+    </div>
+    <div if:true={showSpinner} class="ecom-spinner-style">
+        <lightning-spinner></lightning-spinner>
+    </div>
+</template>

@@ -1,0 +1,80 @@
+<template>
+  <div class="ecom-ss-boxed-container">
+    <div>
+      <div class="slds-grid slds-wrap slds-gutters slds-is-relative">
+        <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12">
+          <form class="ecom-ss-portal-form slds-var-p-around_large" method="get" action={formAction}>
+            <div class="ecom-ss-portal-form-heading">
+              <div class="ecom-ss-portal-form-heading-text">
+                <span lwc:if={userName}>Hi {userName}.<br />Track any order</span>
+                <span lwc:else>{displayTitle}<br /></span>
+              </div>
+              <div class="ecom-ss-portal-form-heading-help">
+                <img
+                  src={helpIconUrl}
+                  alt=""
+                  onmouseover={showHelpSection}
+                  onmouseout={hideHelpSection}
+                  onfocus={showHelpSection}
+                  onblur={hideHelpSection}
+                  tabindex="0"
+                />
+              </div>
+            </div>
+
+            <div class="ecom-ss-portal-form-input-outer">
+              <label for="orderNumberInput">
+                {orderNumberInputLabel} <!--RWPS-3834-->
+              </label>
+              <input type="text" id="orderNumberInput" name="orderNumber" required />
+              <div class="ecom-ss-portal-form-help">
+                {tooltipText} <!--RWPS-3834-->
+              </div>
+            </div>
+
+            <div
+              class="ecom-ss-portal-form-input-outer"
+              lwc:if={showSecondInput}
+            >
+              <label for="poNumberOrPostalCode">
+                {poNumberOrPostalCodeInputLabel} <!--RWPS-3834-->
+              </label>
+              <input
+                type="text"
+                id="poNumberOrPostalCode"
+                name="poNumberOrPostalCode"
+                required
+              />
+            </div>
+
+            <c-ecom_ss_button
+              label={submitButtonText}
+              tag="input"
+              attributes={submitButtonAttributes}
+            ></c-ecom_ss_button>
+          </form>
+        </div>
+        <!--RWPS-4134 Added onkeydown event-->
+        <div
+          class="slds-col slds-large-size_4-of-12 ecom-ss-portal-help-section-outer"
+          style={helpSectionStyle}
+          onmouseover={showHelpSection}
+          onmouseout={hideHelpSection}
+          onfocus={showHelpSection}
+          onblur={hideHelpSection}
+          tabindex="0"
+        >
+          <div class="ecom-ss-portal-help-section slds-var-p-around_large">
+            <div class="ecom-ss-portal-help-section-text">{tooltipText}</div>
+            <img
+              src={helpImageUrl}
+              alt="self service help tooltip"
+              class="ecom-ss-portal-help-section-image"
+              lwc:if={helpImageUrl}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

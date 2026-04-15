@@ -1,0 +1,164 @@
+<!--
+  @description       :
+  @author            : mkumar@rafter.one
+  @group             :
+  @last modified on  : 11-16-2023
+  @last modified by  : mkumar@rafter.one
+-->
+<template>
+
+    <footer  class=" custom-footer footer-box" style="background-color: black;">
+        <div class="slds-show_medium">
+            <div  class="background ecom-font-size-16">
+                <div class="container slds-align_absolute-center">
+                    <div class=" body custom-header">
+                        <div class="container">
+                            <div class="slds-grid slds-wrap ecom-div-grid ">
+                                <div class={leftSectionCSS}>
+                                    <!-- RWPS-3826 start -->
+                                    <span onclick={navigateToContactUs} tabindex="0" onkeypress={contactUsEnter} class="footer-link-focus title-text ecom-footer-label-two ecom-text-align-left slds-m-right_small pointer text-color">Contact Us</span>
+                                    <span style="color: #A8A8A8">|</span>
+                                    <span onclick={navigateToPolicies} tabindex="0" onkeypress={policiesEnter} class="footer-link-focus slds-m-left_small pointer ecom-footer-label-two ecom-text-align-left text-color">Policies</span>
+                                    <!-- RWPS-3826 end -->
+                                </div>
+                                <div class={middleSectionCSS}>
+                                    <img class="ecom-header-logo slds-m-top_medium" aria-hidden="true">
+                                </div>
+                                <div class={rightSectionCSS}>
+                                    <span class="text-color ecom-footer-label-md">©{currentYear} Revvity - All rights reserved</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-hide_medium slds-show_small">
+            <div class="slds-grid slds-wrap ecom-padding-top-bottom-20  ecom-font-size-16">
+                <div class="slds-col slds-large-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1 slds-align_absolute-center ecom-text-align-center  slds-no-print">
+                    <!-- RWPS-3826 start -->
+                    <div onclick={navigateToContactUs} tabindex="0" onkeypress={contactUsEnter} class="footer-link-focus title-text ecom-footer-label-two ecom-text-align-left   pointer text-color ecom-padding-top-bottom-20">Contact Us</div>
+                    <!-- RWPS-3826 end -->
+                </div>
+                <div class="slds-col slds-large-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1 slds-align_absolute-center ecom-text-align-center  slds-no-print">
+                    <!-- RWPS-3826 start -->
+                    <div onclick={navigateToPolicies} tabindex="0" onkeypress={policiesEnter} class="footer-link-focus pointer ecom-footer-label-two ecom-text-align-left text-color ecom-padding-top-bottom-20">Policies</div>
+                    <!-- RWPS-3826 end -->
+                </div>
+                <div class="slds-col slds-large-size_1-of-1 slds-medium-size_1-of-1 slds-size_1-of-1 slds-small-size_1-of-1 ecom-div-grid slds-align_absolute-center ecom-text-align-center ">
+                    <div class="text-color ecom-footer-label-md ecom-padding-top-bottom-20">©{currentYear} Revvity - All rights reserved</div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-hide_small">
+            <div class="slds-grid slds-wrap ecom-padding-top-bottom-20  ecom-font-size-16">
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-align_absolute-center ecom-text-align-center  slds-no-print">
+                    <!-- RWPS-3826 start -->
+                    <div onclick={navigateToContactUs} tabindex="0" onkeypress={contactUsEnter} class="footer-link-focus title-text ecom-footer-label-two ecom-text-align-left   pointer text-color ecom-padding-top-bottom-20">Contact Us</div>
+                    <!-- RWPS-3826 end -->
+                </div>
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-align_absolute-center ecom-text-align-center  slds-no-print">
+                    <!-- RWPS-3826 start -->
+                    <div onclick={navigateToPolicies} tabindex="0" onkeypress={policiesEnter} class="footer-link-focus pointer ecom-footer-label-two ecom-text-align-left text-color ecom-padding-top-bottom-20">Policies</div>
+                    <!-- RWPS-3826 end -->
+                </div>
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-small-size_1-of-1 ecom-div-grid slds-align_absolute-center ecom-text-align-center ">
+                    <div class="text-color ecom-footer-label-md ecom-padding-top-bottom-20">©{currentYear} Revvity - All rights reserved</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--
+    <footer if:true={device.isDesktop} class=" custom-footer footer-box" style="background-color: black;">
+
+
+                <div  class="background">
+
+
+                    <div class="container slds-align_absolute-center">
+
+
+                        <div class=" body custom-header">
+                            <div class="container">
+                                <div class="slds-grid slds-wrap ecom-div-grid">
+                                    <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-3 slds-text-align_left slds-no-print">
+                                        <span onclick={navigateToContactUs} class="title-text ecom-footer-label-two ecom-text-align-left slds-m-right_small pointer text-color">Contact Us</span>
+                                        <span style="color: #A8A8A8">|</span>
+                                        <span onclick={navigateToPolicies} class="slds-m-left_small pointer ecom-footer-label-two ecom-text-align-left text-color">Policies</span>
+                                    </div>
+                                    <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-3 ecom-div-grid slds-m-top_medium slds-p-left_medium">
+                                        <img class="ecom-header-logo slds-m-top_medium" aria-hidden="true">
+                                    </div>
+                                    <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-3 slds-small-size_1-of-1 ecom-div-grid ecom-text-align-end">
+                                        <span class="text-color ecom-footer-label-md">©{currentYear} Revvity - All rights reserved</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    </footer>
+    <footer if:true={device.isMobile} class="custom-footer footer-box-md" style="background-color: black;">
+        <div lwc:if={isGuestUser} class="ecom-background-black">
+
+            <div class="slds-grid slds-wrap ecom-padding-top-bottom-20  ">
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-align_absolute-center ecom-text-align-center  slds-no-print">
+                    <div onclick={navigateToContactUs} class="title-text ecom-footer-label-two ecom-text-align-left   pointer text-color ecom-padding-top-bottom-20">Contact Us</div>
+                </div>
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-align_absolute-center ecom-text-align-center  slds-no-print">
+                    <div onclick={navigateToPolicies} class="pointer ecom-footer-label-two ecom-text-align-left text-color ecom-padding-top-bottom-20">Policies</div>
+                </div>
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-small-size_1-of-1 ecom-div-grid slds-align_absolute-center ecom-text-align-center ">
+                    <div class="text-color ecom-footer-label-md ecom-padding-top-bottom-20">©{currentYear} Revvity - All rights reserved</div>
+                </div>
+            </div>
+
+        </div>
+        <div lwc:else>
+            <div  class="slds-grid slds-wrap ecom-div-grid">
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 ecom-text-align-center slds-p-top_x-large slds-no-print">
+                    <span onclick={navigateToContactUs} class="title-text ecom-footer-label-two ecom-text-align-left slds-m-top_medium slds-m-right_small pointer text-color">Contact Us</span>
+                    <span style="color: #A8A8A8">|</span>
+                    <span onclick={navigateToPolicies} class="slds-m-left_small pointer ecom-footer-label-two ecom-text-align-left text-color">Policies</span>
+                </div>
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-small-size_1-of-1 ecom-div-grid ecom-text-align-center slds-p-top_x-large">
+                    <span class="text-color ecom-footer-label-md">©{currentYear} Revvity - All rights reserved</span>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <footer if:true={device.isTablet} class="custom-footer footer-box-tab" style="background-color: black;">
+        <div lwc:if={isGuestUser} class="ecom-background-black">
+            <div class="slds-grid slds-wrap ecom-padding-top-bottom-20  ">
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-align_absolute-center ecom-text-align-center  slds-no-print">
+                    <div onclick={navigateToContactUs} class="title-text ecom-footer-label-two ecom-text-align-left   pointer text-color ecom-padding-top-bottom-20">Contact Us</div>
+                </div>
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-align_absolute-center ecom-text-align-center  slds-no-print">
+                    <div onclick={navigateToPolicies} class="pointer ecom-footer-label-two ecom-text-align-left text-color ecom-padding-top-bottom-20">Policies</div>
+                </div>
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-1 slds-small-size_1-of-1 ecom-div-grid slds-align_absolute-center ecom-text-align-center ">
+                    <div class="text-color ecom-footer-label-md ecom-padding-top-bottom-20">©{currentYear} Revvity - All rights reserved</div>
+                </div>
+            </div>
+        </div>
+        <div lwc:else>
+            isTablet else
+            <div  class="slds-grid slds-wrap ecom-div-grid">
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-small-size_1-of-3 ecom-text-align-center slds-p-top_large slds-p-bottom_large slds-no-print">
+                    <span onclick={navigateToContactUs} class="title-text ecom-footer-label-two ecom-text-align-left slds-m-top_medium slds-m-right_small pointer text-color">Contact Us</span>
+                    <span style="color: #A8A8A8">|</span>
+                    <span onclick={navigateToPolicies} class="slds-m-left_small pointer ecom-footer-label-two ecom-text-align-left text-color">Policies</span>
+                </div>
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-3 ecom-text-align-center slds-p-top_large slds-p-bottom_large ">
+                </div>
+                <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-size_1-of-3 slds-small-size_1-of-1 ecom-div-grid ecom-text-align-center slds-p-top_large slds-p-bottom_large slds-p-right_large ecom-text-align-end">
+                    <span class="text-color ecom-footer-label-md">©{currentYear} Revvity - All rights reserved</span>
+                </div>
+            </div>
+        </div>
+    </footer> -->
+</template>

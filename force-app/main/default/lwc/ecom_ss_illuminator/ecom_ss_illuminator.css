@@ -1,0 +1,10 @@
+.ecom-ss-illuminator-wrapper {
+  position: relative;
+}
+
+.ecom-ss-illuminator-wrapper img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45%;
+}

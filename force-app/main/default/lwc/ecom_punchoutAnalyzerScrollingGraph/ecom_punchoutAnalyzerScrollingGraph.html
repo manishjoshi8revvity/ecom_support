@@ -1,0 +1,16 @@
+<template>
+  <div
+    class="position-relative rounded-5 bg-body-secondary top-0 start-0 h-100 scroll-bar ms-2"
+    lwc:if={showChartScroll}
+    lwc:ref="scrollBar"
+    onclick={handleScrollBarClick}
+  >
+    <div
+      class="scroller position-absolute rounded-5 bg-secondary w-100"
+      style={scrollerStyle}
+      lwc:ref="scroller"
+      onclick={handleScrollerClick}
+      onmousedown={handleScrollerMouseDown}
+    ></div>
+  </div>
+</template>

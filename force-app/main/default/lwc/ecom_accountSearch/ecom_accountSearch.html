@@ -1,0 +1,48 @@
+<template>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-large-size_3-of-12 slds-medium-size_1-of-1 slds-small-size_1-of-1 slds-size_1-of-1">
+             <c-ecom_account-sidebar></c-ecom_account-sidebar>
+        </div>
+        <div class="slds-col slds-large-size_1-of-12 slds-medium-size_1-of-1 slds-small-size_1-of-1 slds-size_1-of-1">
+        </div>
+        <div class="slds-col slds-large-size_4-of-12 slds-medium-size_1-of-1 slds-small-size_1-of-1 slds-size_1-of-1">
+            <div class="slds-m-top_x-large slds-p-bottom_medium ecom-gray-border-b">
+              <button class="slds-button slds-button_icon  ecom-brand-font" onclick={goBackToAccounts}>
+                <span class=""><img src={images.back} class="ecom-back-icon"> </span>
+                <span class=" ecom-account-sb-label ecom-purple-font">Back to Accounts</span>
+              </button>
+            </div>
+            <br>
+            <div>
+              <span class="ecom-acn-label">Account Number</span> 
+            </div>
+            <br>
+            <div>
+                <span class="ecom-acn-details">
+                    Already have an account number?  Link it to this profile for faster checkout and saved information. 
+                </span>
+                <br>
+                <lightning-input type="number" class="ecom-acctnumb-label slds-m-top_large" label="Account Number" required="true" data-id="account-number-id" value={accountNumber} onchange={handleNumberChange}></lightning-input>
+                <div>
+                    <span class="ecom-acctnum-helptext">Account number is a numeric value that starts with a '1'</span>
+                    <button class="slds-button" aria-describedby="help" aria-disabled="true"><!-- onmouseenter={showPopover} onmouseleave={hidePopover} -->
+                        <img class="slds-button__icon slds-button__icon_medium slds-button__icon_left slds-m-around_x-small" src={images.helpimg}>
+                    </button>
+                </div>
+                <!-- </div> -->
+                <!-- <div> -->
+                <button class="ecom-submit-btn slds-m-top_medium" disabled={isSubmitDisabled} onclick={handleSubmit}>
+                   <span>Submit</span>
+                </button>
+                <br>
+                <div class="slds-m-top_medium">
+                   <span class="ecom-note-text">* = required field </span>
+                </div>
+                <div class="slds-m-top_large">
+                    <span class="ecom-acctnumb-label">Don’t have an account?</span>
+                    <span class="ecom-purple-font"><a href="javascript:void(0)" onclick={navigateToAddAddressPage}> Add your Address</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

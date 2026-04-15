@@ -1,0 +1,54 @@
+<template>
+  <div class="ecom-ss-loader" lwc:if={showLoader}>
+    <lightning-spinner
+      alternative-text="Loading"
+      size="large"
+    ></lightning-spinner>
+  </div>
+
+  <div class="ecom-ss-boxed-container" lwc:elseif={orders.length}>
+    <div class="list-orders-heading">
+      <h4>{heading}</h4>
+    </div>
+
+    <div class="order-list">
+      <template for:each={orders} for:item="order">
+        <div class="order-list-item" key={order.orderNumber}>
+          <a href={order.url} class="order-list-item-inner">
+
+            <div class="order-subtext subtext-bottom-spacing">
+
+              <div class="order-subtext-inner">
+                <span class="order-subtext-label" lwc:if={orderNumberLabel}>{orderNumberLabel}</span> <span class="order-subtext-value order-number">{order.orderNumber}</span>
+              </div>
+
+              <div class="order-subtext-inner subtext-right">
+                <span class="order-subtext-label" lwc:if={orderStatusLabel}>{orderStatusLabel}</span> <span class="order-subtext-value">{order.orderStatus}</span>
+              </div>
+
+            </div>
+
+            <div class="order-subtext">
+
+              <div class="order-subtext-inner">
+                <span class="order-subtext-label" lwc:if={orderPONumberLabel}>{orderPONumberLabel}</span> <span class="order-subtext-value">{order.poNumber}</span>
+              </div>
+
+              <div class="order-subtext-inner subtext-right">
+                <span class="order-subtext-label" lwc:if={orderDateLabel}>{orderDateLabel}</span> <span class="order-subtext-value">{order.orderDate}</span>
+              </div>
+
+            </div>
+          </a>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <div class="ecom-ss-boxed-container" lwc:else>
+    <div class="list-orders-heading">
+      <h4>{orderNotFoundMessage}</h4>
+    </div>
+    <c-ecom_ss_self-service-portal></c-ecom_ss_self-service-portal>
+  </div>
+</template>

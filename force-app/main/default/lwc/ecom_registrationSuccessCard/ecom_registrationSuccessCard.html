@@ -1,0 +1,65 @@
+<template>
+    
+    <div class="ecom-card ecom-text-black">
+        <div lwc:if={showSpinner} class="ecom-contained-spinner ecom-top-160">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+        <div class="slds-show_medium ecom-generic-container">
+            <div class="ecom-max-width-528">
+                <div class="ecom-text-size-40 ecom-font-weight-300 ecom-margin-bottom-24 ecom-line-height-48">
+                    {labels.ECOM_LBL_THANKYOUFORREGISTERING}
+                </div>
+                <div class="ecom-text-size-16 ecom-font-weight-400 ecom-line-height-24 ecom-margin-bottom-24 ecom-inner-text-styling">
+                    <!-- <p><lightning-formatted-rich-text class="ecom-text-black" value={registrationSuccessTextRT}></lightning-formatted-rich-text></p> -->
+                    <p>{labels.ECOM_LBL_WESENTANEMAILTO} <span class="ecom-rt-inner-text">{currentEmail}</span> {labels.ECOM_LBL_WITHALINKTOCREATEPASSWORD}</p>
+                </div>
+                <div class=" ">
+                    <button class="ecom-register-button" onclick={handleRedirectToCMS}>
+                        <span>{labels.ECOM_LBL_BACKTOHOMEPAGE}</span>
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+        <div class="slds-hide_medium slds-show_small ecom-generic-container">
+            <div lwc:if={showSpinner} class="ecom-contained-spinner ecom-top-160">
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+            </div>
+            <div>
+                <div class="ecom-font-size-28 ecom-font-weight-300 ecom-margin-bottom-16 ecom-margin-bottom-24 ecom-line-height-44">
+                    {labels.ECOM_LBL_THANKYOUFORREGISTERING}
+                </div>
+                <div class="ecom-text-size-16 ecom-font-weight-400 ecom-line-height-24 ecom-margin-bottom-24 ecom-inner-text-styling">
+                    <!-- <p> <lightning-formatted-rich-text value={registrationSuccessTextRT}></lightning-formatted-rich-text></p> -->
+                    <p>{labels.ECOM_LBL_WESENTANEMAILTO} <span class="ecom-rt-inner-text">{currentEmail}</span> {labels.ECOM_LBL_WITHALINKTOCREATEPASSWORD}</p>
+                </div>
+                <div class="ecom-margin-bottom-32 ">
+                    <button class="ecom-register-button" onclick={handleRedirectToCMS}>
+                        <span>{labels.ECOM_LBL_BACKTOHOMEPAGE}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-hide_small ecom-generic-container">
+            <div lwc:if={showSpinner} class="ecom-contained-spinner ecom-top-160">
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+            </div>
+            <div>
+                <div class="ecom-font-size-28 ecom-font-weight-300 ecom-margin-bottom-24 ecom-line-height-44">
+                    {labels.ECOM_LBL_THANKYOUFORREGISTERING}
+                </div>
+                <div class="ecom-text-size-16 ecom-font-weight-400 ecom-line-height-24 ecom-margin-bottom-24 ecom-inner-text-styling">
+                    <!-- <p><lightning-formatted-rich-text value={registrationSuccessTextRT}></lightning-formatted-rich-text></p> -->
+                    <p>{labels.ECOM_LBL_WESENTANEMAILTO} <span class="ecom-rt-inner-text">{currentEmail}</span> {labels.ECOM_LBL_WITHALINKTOCREATEPASSWORD}</p>
+                </div>
+                <div class="ecom-margin-bottom-32">
+                    <button class="ecom-register-button" onclick={handleRedirectToCMS}>
+                        <span>{labels.ECOM_LBL_BACKTOHOMEPAGE}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</template>

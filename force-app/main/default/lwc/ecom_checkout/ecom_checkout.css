@@ -1,0 +1,395 @@
+.ecom-checkout-label{
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 40px;
+  letter-spacing: 0em;
+  text-align: left;
+  color:#000000;
+}
+.ecom-vh8{
+  height: 8px;
+}
+.ecom-mb-14{
+  margin-bottom: 14px;
+}
+.ecom-mt-40{
+  margin-top: 40px;
+}
+.ecom-mb-40{
+  margin-bottom: 40px;
+}
+.ecom-total-cost-label{
+  font-size: 18px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #525252;
+}
+
+.ecom-edit-label{
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: right;
+  color:#7F03B0
+  }
+.ecom-edit-icon{
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  }
+.ecom-align-right{
+  float: right;
+}
+.ecom-gray-border{
+      border-bottom: 2px solid #E3E3E3
+}
+@media only screen and (min-width: 390px) and (max-width: 767px) {
+  .ecom-v40{
+      margin-top: 32px;
+  }
+.ecom-vgap-outer{
+  margin-top:32px;
+  margin-bottom: 32px;
+}
+.ecom-checkout-label{
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px; /* 133.333% */
+  letter-spacing: 0em;
+  text-align: left;
+  color:#000000;
+}
+.ecom-checkout-card{
+  margin-bottom: 32px;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.ecom-shipping-label{
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px; /* 150% */
+  letter-spacing: 0em;
+  text-align: left;
+  color:#000000;
+
+}
+.ecom-h-spacing{
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.ecom-mb-24{
+  margin-bottom: 16px;
+}
+.ecom-mt-40{
+  margin-top: 40px;
+}
+}
+@media only screen and (min-width: 768px) {
+  .ecom-v40{
+      margin-top: 40px;
+  }
+  .ecom-vgap-outer{
+      margin-top:40px;
+      margin-bottom: 40px;
+  }
+  .ecom-h-spacing{
+      margin-left: auto;
+      margin-right: auto;
+  }
+  .ecom-checkout-label{
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 40px;
+      letter-spacing: 0em;
+      text-align: left;
+      color:#000000;
+  }
+  .ecom-checkout-card{
+      margin-bottom: 40px;
+  }
+  .ecom-shipping-label{
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 32px;
+      letter-spacing: 0em;
+      text-align: left;
+      color:#000000;
+  }
+  .ecom-mb-24{
+      margin-bottom: 24px;
+  }
+  .ecom-mt-32{
+      margin-top: 24px;
+  }
+  .ecom-mt-40{
+      margin-top: 32px;
+  }
+  .ecom-mb-40{
+      margin-bottom: 32px;
+  }
+}
+@media screen and  (min-width:1080px){
+
+  .background{
+    max-width: 100%;
+    min-width: 360px;
+    /* margin-left: 180px;
+    margin-right: 180px; */
+  }
+  
+  .container{
+    max-width:1440px;
+    min-width:360px;
+    background-color:white;
+  
+  }
+  
+  .body{
+    width: 100%;
+  }
+  }
+  @media screen and  (max-width:390px){
+
+      .background{
+        max-width: 100%;
+      }
+      
+      .container{
+        max-width:390px;
+        background-color:white;
+      
+      }
+      
+      .body{
+        width: 100%;
+      }
+      }
+
+.backdrop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(8, 7, 7, 0.5); /* background color while spinner onscreen */
+  z-index: 15000; /* set z-index always high */
+}
+
+.spinshow::after {
+  position: absolute;
+  content: "Loading...";
+  width: 100%;
+  text-align: center;
+  top: calc(50% + 3em);
+  color: white;
+}
+.ecom-modal-background{
+  background: red;
+}
+.ecom-modal-font{
+  font-style: normal;
+  font-weight: 500;
+  font-family: 'Hanken Grotesk';
+}
+/*RWPS-1548-Start*/
+.custom-modal {
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
+}
+.custom-slds__modalcontainer {
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+width: 759px;
+height: auto;
+padding: 62px 92px;
+background: #ffffff;
+border-radius: 20px;
+box-shadow: 6px 6px 24px rgba(0, 0, 0, 0.24);
+text-align: center;
+}
+.slds-modal__close {
+position: absolute;
+top: 24px;
+right: 27px;
+width: 24px; 
+height: 24px; 
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 24px; 
+color: #000;
+cursor: pointer;
+background: transparent;
+border: none;
+padding: 0; 
+line-height: 1; 
+}
+.close-icon {
+width: 22px;
+height: 22px;
+cursor: pointer;
+}
+.custom-image-container {
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+margin-bottom: 14px;
+}
+.custom-image {
+width: 63px;
+height: 63px;
+}
+.address-missing-text {
+width: 100%;
+max-width: 575px;
+height: auto;
+font-family: 'Hanken Grotesk', sans-serif;
+font-style: normal;
+font-weight: 500;
+font-size: 32px;
+line-height: 40px;
+text-align: center;
+color: #000000;
+margin: 0 auto;
+padding: 10px;
+}
+.add-address-error-text {
+width: 100%;
+max-width: 575px;
+height: auto;
+font-family: 'Hanken Grotesk', sans-serif;
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 24px;
+text-align: center;
+color: #000000;
+margin: 0 auto;
+padding: 10px;
+}
+.custom-add-address-button {
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 12px 20px;
+width: 142px;
+height: 48px;
+background: #7F03B0;
+border-radius: 40px;
+color: #fff;
+border: none;
+cursor: pointer;
+font-family: "Hanken Grotesk", sans-serif;
+font-size: 18px;
+font-weight: 500;
+}
+.slds-backdrop_open {
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background: rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+.custom-slds__modalcontainer {
+width: 90%;
+padding: 32px 24px;
+}
+.custom-image {
+width: 50px;
+height: 50px;
+}
+.address-missing-text {
+font-size: 28px;
+line-height: 36px;
+padding: 8px;
+}
+.add-address-error-text {
+font-size: 16px;
+line-height: 22px;
+padding: 8px;
+}
+.custom-add-address-button {
+width: 134px;
+height: 36px;
+font-size: 14px;
+}
+.custom-footer {
+padding:10px;
+}
+.slds-modal__close {
+top: 16px;
+right: 16px;
+width: 20px;
+height: 20px;
+}
+}
+
+@media (max-width: 480px) {
+.custom-slds__modalcontainer {
+width: 95%; 
+height: auto;
+padding: 24px 16px;
+max-width: 100%;
+box-sizing: border-box;
+}
+.custom-image {
+width: 40px;
+height: 40px;
+}
+.address-missing-text {
+font-size: 24px;
+line-height: 32px;
+padding: 6px;
+}
+.add-address-error-text {
+font-size: 14px;
+line-height: 20px;
+padding: 6px;
+}
+.custom-add-address-button {
+width: 110px;
+height: 32px;
+font-size: 12px;
+}
+.slds-modal__close {
+top: 8px;
+right: 8px;
+width: 18px;
+height: 18px;
+}
+.slds-backdrop_open {
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.5);
+}
+.custom-modal {
+height:100%;
+width:100%;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
+}
+}
+/*RWPS-1548-End*/

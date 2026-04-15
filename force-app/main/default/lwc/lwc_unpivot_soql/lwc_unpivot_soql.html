@@ -1,0 +1,55 @@
+<template>
+    <span hidden><lightning-formatted-text value={reactiveValue} onchange={handleOnChange}></lightning-formatted-text></span>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12">
+            
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+            <legend class="slds-form-element__legend slds-form-element__label">Select column to filter</legend>
+            <lightning-combobox
+            name="Sobject Selection"
+            label="Select column"
+            variant="label-hidden"
+            value={value}
+            placeholder="Select Column"
+            show-row-number-column =true
+            options={options}
+            onchange={handleChange} ></lightning-combobox>
+            <lightning-input
+            class="input"
+            label="Search text..."
+            type="text"
+            value={searchKey}
+            onblur={handleBlur}
+        >
+        </lightning-input>
+       
+        </div>
+      </div>
+    <div class="slds-p-around-large">
+   <lightning-card title={tablelabel} icon-name="standard:account">
+        <div class="slds-m-around_medium">
+            <template if:true={unpivotresult}>
+                <lightning-datatable class="slds-table slds-table_bordered"
+                    data={unpivotresult}
+                    columns={columns}
+                    default-sort-direction={defaultSortDirection}
+                    sorted-by={sortBy}
+                     sorted-direction={sortDirection}
+                    onsort={doSorting}
+                    key-field="id"
+                    hide-checkbox-column
+                >
+                </lightning-datatable>
+            </template>
+            <template if:true={error}>
+                {error}
+            </template>
+            <template if:true={isLoaded}>
+                <lightning-spinner alternative-text="Loading..." variant="brand"></lightning-spinner>
+           </template>
+        </div>
+    </lightning-card>
+   
+  </div>
+</template>

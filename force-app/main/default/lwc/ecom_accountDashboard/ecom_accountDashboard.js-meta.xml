@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+
+    <targetConfigs>
+
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="fieldsToShow" type="String" label="Fields to show in order confirmation" description="Fields to show in order confirmation tile" default=""/>
+            <property name="recordsToDisplay" type="Integer" label="Number of favorite items to display" description="Number of favorite items to display" default="5"/>
+        </targetConfig>
+    </targetConfigs>
+
+</LightningComponentBundle>

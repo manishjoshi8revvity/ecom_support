@@ -1,0 +1,137 @@
+<aura:component 
+                implements="force:hasRecordId,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome" 
+                controller="GenericRollupCounterController"
+                access="global"
+                >    
+    
+    <aura:attribute 
+                    name="recordId" 
+                    type="Id" />
+    <aura:attribute 
+                    name = "showSpinner"
+                    type = "Boolean"
+                    />
+    
+    <!-- attributes for list of results -->
+    <aura:attribute 
+                    name="resultantRollup" 
+                    type="List" />    
+    
+    
+    <aura:attribute
+                    name="noResults"
+                    description="used to drive 'no result' message box"
+                    type="Boolean"
+                    default="false"
+                    />
+    
+    <aura:attribute
+                    name="noResultsLabel"
+                    description="used to configure message box for no results"
+                    type="string"
+                    default="No results returned"
+                    />
+    
+    <!-- configurable search window attribute -->
+    <aura:attribute 
+                    name="mappingFor"
+                    type="String" /> 
+    
+    <aura:attribute 
+                    name="pageHeader"
+                    type="String" 
+                    default = "Rollup"/> 
+    
+    <aura:attribute 
+                    name="pageSubHeader"
+                    type="String" 
+                    default = "Counters"/> 
+    
+    
+    <aura:handler 
+                  name="init" 
+                  value="{!this}" 
+                  action="{!c.doInit}" />  
+    
+    <div class="slds-box">  
+        <aura:if isTrue="{!v.showSpinner}">
+            <lightning:spinner class="spins" size="large" variant="brand" alternativeText="Loading" />
+        </aura:if>
+        
+        <!-- PAGE HEADER -->
+        <lightning:layout class="slds-page-header slds-page-header--object-home">
+            <lightning:layoutItem >
+                <lightning:icon iconName="action:record" alternativeText="Point Values"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="horizontal-small">
+                <div class="page-section page-header">
+                    <b><h1 class="slds-text-heading--label">{!v.pageHeader}</h1></b>
+                    <h2 class="slds-text-heading--medium">{!v.pageSubHeader}</h2>
+                </div>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem alignmentBump="left">
+                
+                <lightning:buttonIcon iconName="utility:refresh" 
+                                      alternativeText="Refresh" 
+                                      title="Refresh" 
+                                      class="slds-float_right slds-m-bottom_x-small"
+                                      onclick="{!c.doInit}"
+                                      />   
+            </lightning:layoutItem>
+            
+            
+        </lightning:layout>
+        <!-- / PAGE HEADER -->
+        
+        
+        
+        <div> 
+            <div class="slds-m-around_small">                                           
+                <aura:if isTrue="{!v.resultantRollup.length > 0}">
+                    
+                    <table class="slds-table slds-table--bordered slds-table--cell-buffer" >      
+                        <thead>  
+                            <tr class="slds-text-title--caps">                   
+                                <th scope="col" class="slds-size_1-of-5" >
+                                    <div class="slds-truncate" title="CaseNumber">Object</div>
+                                </th>                                
+                                <th scope="col" class="slds-size_1-of-5">
+                                    <div class="slds-truncate" title="Status">Record Count</div>
+                                </th>                               
+                            </tr>
+                        </thead>
+                        <tbody>                          
+                            <aura:iteration items="{!v.resultantRollup}" var="res" indexVar="index">                            
+                                <tr> 
+                                    <th scope="row">
+                                        <div class="slds-truncate" title="{!res.objectName}">    
+                                            <span class="slds-box slds-box_xx-small slds-m-around_xx-small slds-theme--shade"><lightning:icon iconName="{!res.iconName}" class="slds-m-around_xx-small slds-icon slds-icon_small" size="small" alternativeText="icon"/>
+                                                {!res.objectName}
+                                            </span>
+                                        </div>
+                                    </th>                                                                            
+                                    <td>
+                                        <div class="slds-truncate" title="{!res.count}">
+                                            <span class="slds-box slds-box_xx-small slds-m-around_xx-small slds-theme--shade">
+                                                {!res.count}
+                                            </span>
+                                        </div>
+                                    </td>               
+                                </tr>                            
+                            </aura:iteration>          
+                        </tbody>                     
+                    </table>     
+                    <aura:set attribute="else">
+                        <!-- no results message box-->                            
+                        <div class="{!v.noResults ? 'slds-box slds-box_small slds-m-horizontal_small slds-align_absolute-center':'slds-hide'}">                        
+                            <div align="center" style="color:red; font-size: 15px, color:green; font-size: 15px">
+                                <b><aura:unescapedHtml value="{!v.noResultsLabel}" /></b>
+                            </div>                        
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </div>       
+        </div>   
+    </div>
+</aura:component>
